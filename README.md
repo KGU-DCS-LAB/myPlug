@@ -17,4 +17,4 @@ react-native run-android
 node server.js
 또는
 nodemon server.js
-
+ㅓㅗ
