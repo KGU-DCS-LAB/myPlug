@@ -63,7 +63,7 @@ Student.find(function(error, students){
 })
 
 // 11. 특정 아이디값 가져오기
-Student.findOne({_id:'620a7d44b4386cc156697add'}, function(error,student){
+Student.findOne({_id:'620c7d529eef6f560f6d8b0d'}, function(error,student){
     console.log('--- Read one ---');
     if(error){
         console.log(error);
@@ -73,7 +73,7 @@ Student.findOne({_id:'620a7d44b4386cc156697add'}, function(error,student){
 });
 
 // 12. 특정아이디 수정하기
-Student.findById({_id:'620a7d44b4386cc156697add'}, function(error,student){
+Student.findById({_id:'620c7d529eef6f560f6d8b0d'}, function(error,student){
     console.log('--- Update(PUT) ---');
     if(error){
         console.log(error);
@@ -90,7 +90,7 @@ Student.findById({_id:'620a7d44b4386cc156697add'}, function(error,student){
 });
 
 // 13. 삭제
-Student.remove({_id:'585b7c4371110029b0f584a2'}, function(error,output){
+Student.remove({_id:'620c7d529eef6f560f6d8b0d'}, function(error,output){
     console.log('--- Delete ---');
     if(error){
         console.log(error);
