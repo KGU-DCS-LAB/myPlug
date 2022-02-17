@@ -9,8 +9,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import static main.DataManager.dataManager;
-
 public class ReceiverDAO {
     public static ReceiverDAO getInstance() {
         return new ReceiverDAO();  // Singleton
