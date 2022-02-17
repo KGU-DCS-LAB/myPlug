@@ -22,6 +22,13 @@ public class ReceiverDAO {
     String line = null;
     String data = null;
 
+    /**
+     * response() 메소드는 request한 이후에 호출해야 정상적으로 돌아감
+     * 전달받은 데이터를 받아서 DataManager에 있는 stationData 변수에 저장해주는 역할을 함
+     * stationData는 이후에 데이터 정제 작업에서 사용하게 됩니다.
+     * RESPONSE CODE는 API 서버로부터 받아온 상태 코드로, 이상이 있으면 코드 숫자가 다른게 뜸
+     *
+     * */
     public void response() throws IOException {
         url = new URL(urlBuilder.toString());
         conn = (HttpURLConnection) url.openConnection();
