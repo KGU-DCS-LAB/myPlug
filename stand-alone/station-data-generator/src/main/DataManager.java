@@ -26,7 +26,7 @@ public class DataManager {
     public void run() throws IOException {
         Scanner scan = new Scanner(System.in);
         while (true) {
-            System.out.println("[메뉴] 숫자를 입력 후 엔터를 누르세요");
+            System.out.println("[메뉴] 숫자를 입력 후 엔터를 누르세요. (순서대로 작업해야 합니다.)");
             System.out.println("1. API로부터 데이터 수신");
             System.out.println("2. 수신받은 데이터를 정리");
             System.out.println("3. 정리된 데이터를 저장");
