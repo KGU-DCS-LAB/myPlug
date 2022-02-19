@@ -1,47 +1,36 @@
+import 'react-native-gesture-handler';
 import * as React from 'react';
-import { Button, View, Text } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Button, View } from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+
 
 function HomeScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
       <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
+        onPress={() => navigation.navigate('Notifications')}
+        title="Go to notifications"
       />
     </View>
   );
 }
 
-function DetailsScreen({ navigation }) {
+function NotificationsScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
-      <Button
-        title="Go to Details... again"
-        onPress={() => navigation.push('Details')}
-      />
-      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-      <Button
-        title="Go back to first screen in stack"
-        onPress={() => navigation.popToTop()}
-      />
+      <Button onPress={() => navigation.goBack()} title="Go back home" />
     </View>
   );
 }
 
-const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
-function Main() {
+export default function Main() {
   return (
-      <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Details" component={DetailsScreen} />
-      </Stack.Navigator>
+    <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Screen name="Home" component={HomeScreen} />
+      <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+    </Drawer.Navigator>
   );
 }
-  
-  export default Main;
-  
