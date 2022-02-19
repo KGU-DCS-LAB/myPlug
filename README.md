@@ -37,3 +37,15 @@ npm start
 node server.js
 또는
 nodemon server.js
+
+
+## 작업하다가 오류 발생 시 시도해보면 좋은 명령어
+
+서버 종료 후
+
+expo start --clear
+npm start --reset-cache
+
+둘 중 하나를 시도한다
+
+의외로 캐시 문제로 인해서 재시작이 안되는 경우가 많음
