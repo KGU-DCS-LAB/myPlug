@@ -17,7 +17,6 @@ import receiver.ReceiverController;
 import java.io.IOException;
 import java.util.Scanner;
 
-
 public class DataManager {
     public static DataManager dataManager = new DataManager();
     public static String apiType = "api is not selected";
@@ -44,7 +43,7 @@ public class DataManager {
                     System.out.println("준비중");
                     break;
                 default:
-                    System.out.println("잘못 된 입력입니다.");
+                    System.out.println("잘못된 입력입니다.");
                     break;
             }
         }

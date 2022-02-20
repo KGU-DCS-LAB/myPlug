@@ -31,6 +31,7 @@ public class ReceiverDAO {
      * */
     public void response() throws IOException {
         url = new URL(urlBuilder.toString());
+        System.out.println("url : " + url);
         conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/json");
@@ -50,6 +51,7 @@ public class ReceiverDAO {
         data = sb.toString();
 //        System.out.println(data);
         DataManager.stationData = data;
+//        DataManager.parsingURL = url;
     }
 
     public void requestKECO() throws IOException {
