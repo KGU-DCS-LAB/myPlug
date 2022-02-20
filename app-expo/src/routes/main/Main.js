@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { Button, View } from 'react-native';
+import { Button, View, Text } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeView from '../../views/main/HomeView';
@@ -9,9 +9,34 @@ import HomeView from '../../views/main/HomeView';
 function HomeScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button title="그냥 잘 뜨는지 확인해보고 싶어서 만들어본 아무 의미 없는 버튼. 이 다음 HomeView는 왜 뜨지 않을까?" />
+      <Button onPress={() =>navigation.navigate('로딩화면')} title="그냥 잘 뜨는지 확인해보고 싶어서 만들어본 아무 의미 없는 버튼. 이 다음 HomeView는 왜 뜨지 않을까?" />
       <HomeView/>
     </View>
+  );
+}
+
+function LoadingScreen({ navigation }) {
+  return (
+    <View  style={{ flex: 1, alignItems: 'center' }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text style = {{fontWeight : 'bold', fontSize : 40}}>나만의{'\n'}플러그</Text>
+      <Text style = {{ fontSize : 20}}>전기차 충전앱</Text>
+      </View>
+      
+        <Text>충전소정보 업데이트 중 ...(50%)</Text>
+      
+     
+      <Button onPress={() => navigation.goBack()} title="MyPlugHome화면으로 가기" />
+    </View>
+  );
+}
+
+function MyPlugHome({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>나만의 플러그</Text>
+    <Button onPress={() => navigation.goBack()} title="Go back home" />
+  </View>
   );
 }
 
@@ -39,6 +64,7 @@ export default function Main() {
       <Drawer.Screen name="MyPlug" component={HomeScreen} />
       <Drawer.Screen name="알림" component={NotificationsScreen} />
       <Drawer.Screen name="설정" component={SettingsScreen} />
+      <Drawer.Screen name="로딩화면" component={LoadingScreen} />
     </Drawer.Navigator>
   );
 }

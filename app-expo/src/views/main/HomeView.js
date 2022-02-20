@@ -9,7 +9,7 @@ function HomeScreen({ navigation }) {
       <Text>Home Screen</Text>
       <Button
         title="Go to Details"
-        onPress={() => navigation.navigate('wow')}
+        onPress={() => navigation.navigate('Details')}
       />
     </View>
   );
@@ -30,7 +30,6 @@ function DetailsScreen({ navigation }) {
 }
 
 const Stack = createNativeStackNavigator();
-
 
 
 function HomeView() {
