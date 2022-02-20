@@ -1,11 +1,11 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { Button, View, Text } from 'react-native';
+import { Button, View, Text, StyleSheet, Image } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeView from '../../views/main/HomeView';
 import { MaterialIcons } from '@expo/vector-icons'; 
-
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 function HomeScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -33,16 +33,105 @@ function LoadingScreen({ navigation }) {
 
 function MainScreen({ navigation }) {
   return (
-    <View  style={{ flex: 1, alignItems: 'center' }}>
+  <View  style={{ flex: 1, alignItems: 'center' }}>
+
       <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
-       <MaterialIcons name="my-location" size={24} color="black" />
-       <Text>수원시 영통구 이의동 </Text>
+          <MaterialIcons name="my-location" size={24} color="black" />
+         <Text>수원시 영통구 이의동 </Text>
        </View>
+
+       <View style={{ flex: 1, flexDirection: 'row'}}>
+         
+               <View style={styles.CardContainer}>  
+               
+               
+               <MaterialCommunityIcons name="map-marker" size={40} color="black" >
+                 <Text style={styles.CardTitle}>충전소 지도</Text></MaterialCommunityIcons> 
+               </View>
+               <View style={styles.CardContainer}>  <MaterialIcons name="electric-car" size={40} color="black" >
+                 <Text style={styles.CardTitle}>충전 기록하기</Text></MaterialIcons> </View>
+              
+        </View> 
+
+
+        <View style={{ flex: 1, flexDirection: 'colume' }}>
+             <View style={styles.CardContainer}>  <Text style={styles.CardTitle}>인근 충전소 찾기</Text></View>
+           
+                  
+        </View> 
+
+
+        <View style={{ flex: 1, flexDirection: 'row'}}>
+        <View style={styles.CardContainer}>  <Text style={styles.CardTitle}>선호하는 충전소1</Text></View>
+        <View style={styles.CardContainer}>  <Text style={styles.CardTitle}>선호하는 충전소2</Text></View>
+              
+        </View> 
+
+        <View style={{ flex: 1, flexDirection: 'row'}}>
+        <View style={styles.CardContainer}>  <Text style={styles.CardTitle}>자유게시판</Text></View>
+        <View style={styles.CardContainer}>  <Text style={styles.CardTitle}>우리 동네 게시판</Text></View>
+              
+        </View> 
+
+
+        <View style={{ flex: 1, flexDirection: 'colume' }}>
+        <View style={styles.CardContainer}>  <Text style={styles.CardTitle}>인근장소추천</Text></View>
+        
+        </View> 
+
+
+        <View style={{ flex: 1, flexDirection: 'colume' }}>
+        <View style={styles.CardContainer}>  <Text style={styles.CardTitle}>개인 충전 패턴 분석</Text></View>
+        
+        </View>
+       
+
+        <View style={{ flex: 1, flexDirection: 'colume' }}>
+        <View style={styles.CardContainer}>  <Text style={styles.CardTitle}>차종별 충전 패턴 분석</Text></View>
+       
+                  
+        </View> 
+
        <Button onPress={() => navigation.goBack()} title="Go back home" />
-     
+
     </View>
   );
 }
+const styles = StyleSheet.create({
+  CardContainer: {
+      // elevation: 5,
+      // borderRadius: 7,
+      // borderWidth: 0.5,
+      // borderColor: '#black',
+      // margin: 20,
+      // padding: 10,
+      // flex: 1,
+      // width:150,
+      // height: 150
+      flex: 1,
+    backgroundColor: 'white',
+    borderRadius: 7,
+      borderWidth: 0.5,
+      borderColor: '#black',
+      margin: 5,
+      alignItems:'stretch'
+  },
+  CardTitle: {
+      width: '100%',
+      fontWeight: 'bold',
+      fontSize: 15,
+      padding: 3
+  },
+  CardContent: {
+      width: '100%',
+      fontSize: 12,
+      padding: 3
+  },
+});
+
+
+
+
 
 function NotificationsScreen({ navigation }) {
   return (
