@@ -9,7 +9,7 @@ function HomeScreen({ navigation }) {
       <Text>Home Screen</Text>
       <Button
         title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
+        onPress={() => navigation.navigate('wow')}
       />
     </View>
   );
@@ -31,6 +31,8 @@ function DetailsScreen({ navigation }) {
 
 const Stack = createNativeStackNavigator();
 
+
+
 function HomeView() {
   return (
       <Stack.Navigator initialRouteName="Home">
@@ -39,5 +41,6 @@ function HomeView() {
       </Stack.Navigator>
   );
 }
+
 
 export default HomeView;
