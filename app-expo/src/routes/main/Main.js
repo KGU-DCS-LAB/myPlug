@@ -4,7 +4,7 @@ import { Button, View, Text } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeView from '../../views/main/HomeView';
-
+import { MaterialIcons } from '@expo/vector-icons'; 
 
 function HomeScreen({ navigation }) {
   return (
@@ -26,17 +26,21 @@ function LoadingScreen({ navigation }) {
         <Text>충전소정보 업데이트 중 ...(50%)</Text>
       
      
-      <Button onPress={() => navigation.goBack()} title="MyPlugHome화면으로 가기" />
+      <Button onPress={() => navigation.navigate('메인화면')} title="MyPlugHome화면으로 가기" />
     </View>
   );
 }
 
-function MyPlugHome({ navigation }) {
+function MainScreen({ navigation }) {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>나만의 플러그</Text>
-    <Button onPress={() => navigation.goBack()} title="Go back home" />
-  </View>
+    <View  style={{ flex: 1, alignItems: 'center' }}>
+      <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
+       <MaterialIcons name="my-location" size={24} color="black" />
+       <Text>수원시 영통구 이의동 </Text>
+       </View>
+       <Button onPress={() => navigation.goBack()} title="Go back home" />
+     
+    </View>
   );
 }
 
@@ -65,6 +69,7 @@ export default function Main() {
       <Drawer.Screen name="알림" component={NotificationsScreen} />
       <Drawer.Screen name="설정" component={SettingsScreen} />
       <Drawer.Screen name="로딩화면" component={LoadingScreen} />
+      <Drawer.Screen name="메인화면" component={MainScreen} />
     </Drawer.Navigator>
   );
 }
