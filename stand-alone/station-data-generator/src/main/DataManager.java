@@ -11,8 +11,8 @@ package main;
  * 
  * 지금은 일회성이지만, 앞으로는 자동화가 필요할 것으로 보임
  * */
-import purifier.PurifierController;
 import receiver.ReceiverController;
+//import receiver.ReceiverController;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -26,22 +26,16 @@ public class DataManager {
         Scanner scan = new Scanner(System.in);
         while (true) {
             System.out.println("[메뉴] 숫자를 입력 후 엔터를 누르세요. (순서대로 작업해야 합니다.)");
-            System.out.println("1. API로부터 데이터 수신");
-            System.out.println("2. 수신받은 데이터를 정리");
-            System.out.println("3. 정리된 데이터를 저장");
+            System.out.println("1. 데이터 수신 및 정리");
+            System.out.println("2. 정리된 데이터를 저장");
             int mode = scan.nextInt();
             switch (mode) {
                 case 1:
-                    ReceiverController rc = ReceiverController.getInstance();
-                    rc.start();
+                    ReceiverController pc = ReceiverController.getInstance();
+                    pc.start();
                     break;
                 case 2:
-                    PurifierController pc = PurifierController.getInstance();
-                    pc.start(apiType,stationData);
-                    break;
-                case 3:
                     System.out.println("준비중");
-
                     break;
                 default:
                     System.out.println("잘못된 입력입니다.");
