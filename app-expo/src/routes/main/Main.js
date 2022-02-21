@@ -10,7 +10,7 @@ import EvChargerMapView from  '../../views/ev_chrager/EvChargerMapView';
 function HomeScreen({ navigation }) {
 
   return (
-    <HomeView/>
+    <HomeView navigation={navigation} />
   );
 }
 

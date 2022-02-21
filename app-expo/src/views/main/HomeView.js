@@ -6,7 +6,7 @@ import { Button, View, Text, StyleSheet, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
-function HomeView() {
+const HomeView = (props) => {
   return (
     <View  style={{ flex: 1, alignItems: 'center' }}>
 
@@ -21,7 +21,7 @@ function HomeView() {
                     
                     <View style={styles.CardContainer}>  
                     <MaterialCommunityIcons name="map-marker" size={40} color="black" > <Text style={styles.CardTitle}>충전소 지도</Text></MaterialCommunityIcons> 
-                      
+                      <Button title='이동' onPress={() => props.navigation.navigate('EvCharger')} />
                     </View>
                     
                     
