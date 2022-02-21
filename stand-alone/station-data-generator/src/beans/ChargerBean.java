@@ -1,2 +1,4 @@
-package beans;public class ChargerBean {
+package beans;
+
+public class ChargerBean {
 }

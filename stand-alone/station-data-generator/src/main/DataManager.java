@@ -11,16 +11,19 @@ package main;
  * 
  * 지금은 일회성이지만, 앞으로는 자동화가 필요할 것으로 보임
  * */
+import beans.ChargerBean;
+import beans.StationBean;
 import receiver.ReceiverController;
 //import receiver.ReceiverController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DataManager {
     public static DataManager dataManager = new DataManager();
-    public static String apiType = "api is not selected";
-    public static String stationData="data is not received";
+    public static ArrayList<StationBean> stationList = new ArrayList<StationBean>();
+    public static ArrayList<ChargerBean> chargerList = new ArrayList<ChargerBean>();
 
     public void run() throws IOException {
         Scanner scan = new Scanner(System.in);

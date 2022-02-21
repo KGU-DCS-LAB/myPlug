@@ -1,2 +1,5 @@
-package beans;public class StationBean {
+package beans;
+
+public class StationBean {
+    
 }
