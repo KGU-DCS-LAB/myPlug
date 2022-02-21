@@ -149,6 +149,7 @@ public class PurifierController {
 
     public void purifierPUBLIC() {
         int page = 1;	// 페이지 초기값
+        System.out.println("<전기자동차 충전소 상태>");
         try{
             while(true){
                 String url = "http://api.data.go.kr/openapi/tn_pubr_public_elcty_car_chrstn_api?serviceKey=dg8oHXO5d9HkXM00ye%2Bvpwk1w16hxVZxN9UGvCFKA8kXtHQhTb6CJebWA2WZdMszfK%2B9HgoiqEYCB%2Bze2hFWMQ%3D%3D&pageNo=1&numOfRows=100&type=xml";
@@ -169,7 +170,7 @@ public class PurifierController {
                     if(nNode.getNodeType() == Node.ELEMENT_NODE){
 
                         Element eElement = (Element) nNode;
-                        System.out.println("######################");
+                        System.out.println("----------------------");
                         //System.out.println(eElement.getTextContent());
                         System.out.println("충전소명 : " + getTagValue("chrstnNm", eElement));
                         System.out.println("충전소위치상세 : " + getTagValue("chrstnLcDesc", eElement));
@@ -195,7 +196,71 @@ public class PurifierController {
                 }
                 page += 1;
                 System.out.println("page number : "+page);
-                if(page > 12){
+                if(page > 3){
+                    break;
+                }
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        System.out.println("######################");
+        System.out.println("<전기자동차 충전소 정보>");
+        page = 1;
+        try{
+            while(true){
+                String url = "http://apis.data.go.kr/B552584/EvCharger/getChargerInfo?serviceKey=dg8oHXO5d9HkXM00ye%2Bvpwk1w16hxVZxN9UGvCFKA8kXtHQhTb6CJebWA2WZdMszfK%2B9HgoiqEYCB%2Bze2hFWMQ%3D%3D&pageNo=1&numOfRows=10&zcode=11";
+                DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
+                Document doc = dBuilder.parse(url);
+
+                // root tag
+                doc.getDocumentElement().normalize();
+                System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+
+                // 파싱할 tag
+                NodeList nList = doc.getElementsByTagName("item");
+                //System.out.println("파싱할 리스트 수 : "+ nList.getLength());
+
+                for(int temp = 0; temp < nList.getLength(); temp++){
+                    Node nNode = nList.item(temp);
+                    if(nNode.getNodeType() == Node.ELEMENT_NODE){
+
+                        Element eElement = (Element) nNode;
+                        System.out.println("----------------------");
+                        System.out.println("충전소명 : " + getTagValue("statNm", eElement));
+                        System.out.println("충전소ID : " + getTagValue("statId", eElement));
+                        System.out.println("충전기ID : " + getTagValue("chgerId", eElement));
+                        System.out.println("충전기타입 : " + getTagValue("chgerType", eElement));
+                        System.out.println("주소 : " + getTagValue("addr", eElement));
+                        System.out.println("상세위치 : " + getTagValue("location", eElement));
+                        System.out.println("위도 : " + getTagValue("lat", eElement));
+                        System.out.println("경도 : " + getTagValue("lng", eElement));
+                        System.out.println("이용가능시간 : " + getTagValue("useTime", eElement));
+                        System.out.println("기관 아이디 : " + getTagValue("busiId", eElement));
+                        System.out.println("기관명 : " + getTagValue("bnm", eElement));
+                        System.out.println("운영기관명 : " + getTagValue("busiNm", eElement));
+                        System.out.println("운영기관연락처 : " + getTagValue("busiCall", eElement));
+                        System.out.println("충전기상태 : " + getTagValue("stat", eElement));
+                        System.out.println("상태갱신일시 : " + getTagValue("statUpdDt", eElement));
+                        System.out.println("마지막 충전시작일시 : " + getTagValue("lastTsdt", eElement));
+                        System.out.println("마지막 충전종료일시 : " + getTagValue("lastTedt", eElement));
+                        System.out.println("충전중 시작일시 : " + getTagValue("nowTsdt", eElement));
+                        System.out.println("충전 타입 : " + getTagValue("powerType", eElement));
+                        System.out.println("충전용량 : " + getTagValue("output", eElement));
+                        System.out.println("충전방식 : " + getTagValue("method", eElement));
+                        System.out.println("지역코드 : " + getTagValue("zcode", eElement));
+                        System.out.println("주차료무료 : " + getTagValue("parkingFree", eElement));
+                        System.out.println("충전소안내 : " + getTagValue("note", eElement));
+                        System.out.println("이용자 제한 : " + getTagValue("limitYn", eElement));
+                        System.out.println("이용제한 사유 : " + getTagValue("limitDetail", eElement));
+                        System.out.println("삭제 여부 : " + getTagValue("delYn", eElement));
+                        System.out.println("삭제 사유 : " + getTagValue("delDetail", eElement));
+                    }
+                }
+                page += 1;
+                System.out.println("page number : "+page);
+                if(page > 3){
                     break;
                 }
             }

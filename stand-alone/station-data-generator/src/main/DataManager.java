@@ -41,6 +41,7 @@ public class DataManager {
                     break;
                 case 3:
                     System.out.println("준비중");
+
                     break;
                 default:
                     System.out.println("잘못된 입력입니다.");

@@ -93,6 +93,14 @@ public class ReceiverDAO {
         urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지 번호*/
         urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("100", "UTF-8")); /*한 페이지 결과 수*/
         urlBuilder.append("&" + URLEncoder.encode("type", "UTF-8") + "=" + URLEncoder.encode("xml", "UTF-8")); /*XML/JSON 여부*/
+        response();
+
+        urlBuilder = new StringBuilder("http://apis.data.go.kr/B552584/EvCharger/getChargerInfo"); /*URL*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=dg8oHXO5d9HkXM00ye%2Bvpwk1w16hxVZxN9UGvCFKA8kXtHQhTb6CJebWA2WZdMszfK%2B9HgoiqEYCB%2Bze2hFWMQ%3D%3D"); /*Service Key*/
+        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수 (최소 10, 최대 9999)*/
+        urlBuilder.append("&" + URLEncoder.encode("zcode","UTF-8") + "=" + URLEncoder.encode("11", "UTF-8")); /*시도 코드 (행정구역코드 앞 2자리)*/
+        response();
 //                urlBuilder.append("&" + URLEncoder.encode("chrstnNm","UTF-8") + "=" + URLEncoder.encode("홈플러스 구월점", "UTF-8")); /*충전소명*/
 //                urlBuilder.append("&" + URLEncoder.encode("chrstnLcDesc","UTF-8") + "=" + URLEncoder.encode("인천광역시 남동구 예술로 198 , 지하주차장 4층 I4구역(구월동 1130)", "UTF-8")); /*충전소위치상세*/
 //                urlBuilder.append("&" + URLEncoder.encode("instlCtprvnNm","UTF-8") + "=" + URLEncoder.encode("인천광역시", "UTF-8")); /*설치시도명*/
@@ -114,6 +122,5 @@ public class ReceiverDAO {
 //                urlBuilder.append("&" + URLEncoder.encode("referenceDate","UTF-8") + "=" + URLEncoder.encode("2019-06-27", "UTF-8")); /*데이터기준일자*/
 //                urlBuilder.append("&" + URLEncoder.encode("insttCode","UTF-8") + "=" + URLEncoder.encode("3530000", "UTF-8")); /*제공기관코드*/
 //                urlBuilder.append("&" + URLEncoder.encode("insttNm","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*제공기관명*/
-        response();
     }
 }
