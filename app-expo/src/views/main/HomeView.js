@@ -11,25 +11,24 @@ const HomeView = (props) => {
     <View  style={{ flex: 1, alignItems: 'center' }}>
 
 
-          <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
-          <MaterialIcons name="my-location" size={24} color="black" />
-        <Text>수원시 영통구 이의동 </Text>
-          </View> 
+            <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
+            <MaterialIcons name="my-location" size={24} color="black" />
+            <Text>수원시 영통구 이의동 </Text>
+            </View> 
 
 
-          <View style={{ flex: 1, flexDirection: 'row'}}>
+            <View style={{ flex: 1, flexDirection: 'row'}}>
                     
-                    <View style={styles.CardContainer}>  
-                    <MaterialCommunityIcons name="map-marker" size={40} color="black" > <Text style={styles.CardTitle}>충전소 지도</Text></MaterialCommunityIcons> 
-                      <Button title='이동' onPress={() => props.navigation.navigate('EvCharger')} />
-                    </View>
+                  <View style={styles.CardContainer}>  
+                        <MaterialCommunityIcons name="map-marker" size={40} color="black" > <Text style={styles.CardTitle}>충전소 지도</Text></MaterialCommunityIcons> 
+                        <Button title='이동' onPress={() => props.navigation.navigate('EvCharger')} />
+                  </View>
                     
                     
-                    <View style={styles.CardContainer}>  
-                    <MaterialIcons name="electric-car" size={40} color="black" > <Text style={styles.CardTitle}>충전 기록하기</Text></MaterialIcons>
-                      
-                    </View>
-
+                  <View style={styles.CardContainer}>  
+                        <MaterialIcons name="electric-car" size={40} color="black" > <Text style={styles.CardTitle}>충전 기록하기</Text></MaterialIcons>
+                  </View>
+ 
               </View> 
 
 
