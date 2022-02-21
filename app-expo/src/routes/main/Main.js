@@ -4,7 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeView from  '../../views/main/HomeView';
 
+
+
 function HomeScreen({ navigation }) {
+
   return (
     <HomeView/>
   );
@@ -67,7 +70,7 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="MyPlug" component={HomeScreen} />
       {/* <Stack.Screen name="EvCharger" component={EvChargerScreen} />
       <Stack.Screen name="Community" component={CommunityScreen} />
       <Stack.Screen name="HotPlace" component={HotPlaceScreen} /> */}
