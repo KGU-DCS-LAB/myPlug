@@ -31,7 +31,9 @@ const Tab = createBottomTabNavigator();
 
 const EvChargerRoute = (props) => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{ headerShown: false }}
+    >
       <Tab.Screen name="목록보기" component={EvChargerMapScreen} />
       <Tab.Screen name="인근장소" component={TemporaryScreen} />
       <Tab.Screen
