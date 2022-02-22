@@ -23,6 +23,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.dcs.myplug", 
+      "config": { 
+        "googleMaps": { 
+          "apiKey": "AIzaSyAtSNsY_ljTEyiHpf3rd1pNEpA9VP_ylLY" 
+        } 
       }
     },
     "web": {
