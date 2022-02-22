@@ -1,16 +1,17 @@
-import * as React from 'react';
-import { Text, View } from 'react-native';
-
-function EvChargerMap() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>충전소 지도가 올 자리</Text>
-    </View>
-  );
-}
-
-export default function EvChargerMapView() {
-  return (
-    <EvChargerMap />
-  );
+import React from 'react'; 
+import MapView from 'react-native-maps';
+export default class EvChargerMapView extends React.Component { 
+  render() { 
+    return ( 
+    <MapView 
+    style={{ flex: 1 }} 
+    initialRegion={{ 
+      latitude: 37.78825, 
+      longitude: -122.4324, 
+      latitudeDelta: 0.0922, 
+      longitudeDelta: 0.0421, 
+    }} 
+    /> 
+    ); 
+  } 
 }
