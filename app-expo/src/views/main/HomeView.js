@@ -2,7 +2,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import 'react-native-gesture-handler';
-import { Button, View, Text, StyleSheet, Image } from 'react-native';
+import { Button, View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
@@ -18,11 +18,13 @@ const HomeView = (props) => {
 
 
             <View style={{ flex: 1, flexDirection: 'row'}}>
-                    
-                  <View style={styles.CardContainer}>  
+                    {/* TouchableOpacity 는 View와 동일한 역할을 합니다. 리스너 담으려고 넣음 */}
+                  <TouchableOpacity
+                        style={styles.CardContainer}
+                        onPress={() => props.navigation.navigate('EvCharger')}
+                  >
                         <MaterialCommunityIcons name="map-marker" size={40} color="black" > <Text style={styles.CardTitle}>충전소 지도</Text></MaterialCommunityIcons> 
-                        <Button title='이동' onPress={() => props.navigation.navigate('EvCharger')} />
-                  </View>
+                  </TouchableOpacity >
                     
                     
                   <View style={styles.CardContainer}>  
