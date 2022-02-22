@@ -3,12 +3,11 @@ import { Button, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeView from  '../../views/main/HomeView';
-import EvChargerMapView from  '../../views/ev_chrager/EvChargerMapView';
+import EvChargerRoute from '../ev_charger/EvChargerRoute';
 
 
 
 function HomeScreen({ navigation }) {
-
   return (
     <HomeView navigation={navigation} />
   );
@@ -16,11 +15,12 @@ function HomeScreen({ navigation }) {
 
 function EvChargerScreen({ navigation }) {
   return (
-    <EvChargerMapView/>
+    <EvChargerRoute navigation={navigation}/>
   );
 }
 
 function CommunityScreen({ navigation }) {
+  // 수정필요
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Details Screen</Text>
@@ -38,6 +38,7 @@ function CommunityScreen({ navigation }) {
   );
 }
 function HotPlaceScreen({ navigation }) {
+    // 수정필요
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Details Screen</Text>
@@ -57,7 +58,7 @@ function HotPlaceScreen({ navigation }) {
 
 const Stack = createNativeStackNavigator();
 
-function App() {
+function MainRoute() {
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen name="MyPlug" component={HomeScreen} />
@@ -68,4 +69,4 @@ function App() {
   );
 }
 
-export default App;
+export default MainRoute;
