@@ -38,7 +38,12 @@ public class DataManager {
                     pc.start();
                     break;
                 case 2:
-                    System.out.println("준비중");
+                    for (StationBean s: stationList) {
+                        System.out.println(s.getCharging_station_name());
+                        System.out.println(s.getCharging_station_location_detail());
+                        System.out.println(s.getCharging_station_location_latitude());
+                        System.out.println(s.getCharging_station_location_longitude());
+                    }
                     break;
                 default:
                     System.out.println("잘못된 입력입니다.");
