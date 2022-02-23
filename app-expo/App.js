@@ -1,15 +1,14 @@
-import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React from 'react';
 import MainRoute from './src/routes/main/MainRoute';
+import { NativeBaseProvider } from 'native-base';
+import { NavigationContainer } from '@react-navigation/native';
 
-
-function App() {
+export default function App() {
   return (
-    <NavigationContainer>
-      <MainRoute/>
-    </NavigationContainer>
+    <NativeBaseProvider>
+      <NavigationContainer>
+       <MainRoute/>
+      </NavigationContainer>
+    </NativeBaseProvider>
   );
 }
-
-
-export default App;
