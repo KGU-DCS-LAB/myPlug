@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeView from  '../../views/main/HomeView';
 import EvChargerRoute from '../ev_charger/EvChargerRoute';
+import TestRoute from '../test/TestRoute';
 
 
 
@@ -45,6 +46,12 @@ function HotPlaceScreen({ navigation }) {
     </View>
   );
 }
+function TestScreen({ navigation }) {
+  // 테스트용
+  return (
+    <TestRoute navigation={navigation} />
+  );
+}
 
 const Stack = createNativeStackNavigator();
 
@@ -58,6 +65,7 @@ function MainRoute() {
       <Stack.Screen name="EvCharger" component={EvChargerScreen} />
       {/* <Stack.Screen name="Community" component={CommunityScreen} /> */}
       {/* <Stack.Screen name="HotPlace" component={HotPlaceScreen} /> */}
+      <Stack.Screen name="Test" component={TestScreen} />
     </Stack.Navigator>
   );
 }
