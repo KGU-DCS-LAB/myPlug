@@ -9,6 +9,9 @@ export default function TestGpsView() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+
   useEffect(() => {
     (async () => {
       if (Platform.OS === 'android' && !Constants.isDevice) {
@@ -25,6 +28,8 @@ export default function TestGpsView() {
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
+      setLatitude(location.coords.latitude);
+      setLongitude(location.coords.longitude);
     })();
   }, []);
 
@@ -38,6 +43,8 @@ export default function TestGpsView() {
   return (
     <View style={styles.container}>
       <Text style={styles.paragraph}>{text}</Text>
+      <Text style={styles.paragraph}>latitude : {latitude}</Text>
+      <Text style={styles.paragraph}>longtitude : {longitude}</Text>      
     </View>
   );
 }
