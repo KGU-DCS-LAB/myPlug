@@ -1,10 +1,12 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { Button, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeView from  '../../views/main/HomeView';
 import EvChargerRoute from '../ev_charger/EvChargerRoute';
 import TestRoute from '../test/TestRoute';
+import * as Location from 'expo-location';
+
 
 
 
@@ -14,9 +16,13 @@ function HomeScreen({ navigation }) {
   );
 }
 
-function EvChargerScreen({ navigation }) {
+function EvChargerScreen({ route, navigation }) {
+  const { latitude } = route.params;
+  const { longitude } = route.params;
+  // console.log(JSON.stringify(latitude));
+  // console.log(JSON.stringify(longitude));
   return (
-    <EvChargerRoute navigation={navigation}/>
+    <EvChargerRoute navigation={navigation} latitude={latitude} longitude={longitude} />
   );
 }
 
@@ -55,14 +61,48 @@ function TestScreen({ navigation }) {
 
 const Stack = createNativeStackNavigator();
 
-function MainRoute() {
+
+
+const MainRoute = (props) => {
+ 
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+    // Get current location information 
+    useEffect(() => {
+      (async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setErrorMsg('Permission to access location was denied');
+          return;
+        }
+  
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+        setLatitude(location.coords.latitude);
+        setLongitude(location.coords.longitude);
+      })();
+    }, []);
+  
+    let text = 'Waiting..';
+    if (errorMsg) {
+      text = errorMsg;
+    } else if (location) {
+      text = JSON.stringify(location);
+      // console.log('[LOG] current location : ' + text);
+    }
+
+    // console.log(latitude + ' ' + longitude)
+
   return (
     <Stack.Navigator
      initialRouteName="Home"
      screenOptions={{ headerShown: false }} 
     >
       <Stack.Screen name="MyPlug" component={HomeScreen} />
-      <Stack.Screen name="EvCharger" component={EvChargerScreen} />
+      <Stack.Screen name="EvCharger" component={EvChargerScreen} initialParams={{latitude:latitude, longitude:longitude}} />
       {/* <Stack.Screen name="Community" component={CommunityScreen} /> */}
       {/* <Stack.Screen name="HotPlace" component={HotPlaceScreen} /> */}
       <Stack.Screen name="Test" component={TestScreen} />
