@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'; 
-import { StyleSheet } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { StyleSheet, View } from "react-native";
+import MapView, {Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
+
 
 const EvChargerMapView = (props) => { 
 
@@ -12,7 +13,8 @@ const EvChargerMapView = (props) => {
     setMapWidth('100%')
   }
 
-    return ( 
+  return (
+    <View style={styles.container}>
       <MapView
         initialRegion={{
           latitude: props.latitude,
@@ -20,23 +22,44 @@ const EvChargerMapView = (props) => {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        style={[styles.map, { width: mapWidth }]}
+        // style={[styles.map, { width: mapWidth }]}
+        style={styles.map}
         provider={PROVIDER_GOOGLE}
         showsUserLocation={true}
         showsMyLocationButton={true}
         onMapReady={() => {
           updateMapStyle()
         }}
+        
       />
-    ); 
+
+    </View>
+  ); 
 }
 
 export default EvChargerMapView;
 
-const styles = StyleSheet.create({
-  map: {
+// const styles = StyleSheet.create({
+//   map: {
+//     flex: 1,
+//     width: '100%',
+//     height: '100%',
+//   },
+// });
+
+var styles = StyleSheet.create({
+
+  container: {
     flex: 1,
-    width: '100%',
-    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
   },
+    map: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+    }
 });

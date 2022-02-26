@@ -19,8 +19,6 @@ function HomeScreen({ navigation }) {
 function EvChargerScreen({ route, navigation }) {
   const { latitude } = route.params;
   const { longitude } = route.params;
-  // console.log(JSON.stringify(latitude));
-  // console.log(JSON.stringify(longitude));
   return (
     <EvChargerRoute navigation={navigation} latitude={latitude} longitude={longitude} />
   );
@@ -94,7 +92,6 @@ const MainRoute = (props) => {
       // console.log('[LOG] current location : ' + text);
     }
 
-    // console.log(latitude + ' ' + longitude)
 
   return (
     <Stack.Navigator

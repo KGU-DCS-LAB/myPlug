@@ -3,15 +3,28 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import EvChargerMapView from '../../views/ev_chrager/EvChargerMapView';
+import axios from 'axios';
 
 
 function EvChargerMapScreen({route}) {
+
+  let charging_stations="";
+
+  //ip는 변경되어야 할 가능성이 높으니깐 주의 바람 (윤주현)
+  axios.get('http://192.168.0.11:5000/stationsRouter/find')
+  .then((response) => {
+    charging_stations=response.data;
+    console.log(charging_stations);
+  }).catch(function (error) {
+    charging_stations='serverError';
+    console.log(error);
+  });
+
+
   const { latitude } = route.params;
   const { longitude } = route.params;
-  // console.log(JSON.stringify(latitude));
-  // console.log(JSON.stringify(longitude));
   return (
-      <EvChargerMapView  latitude={latitude} longitude={longitude} />
+      <EvChargerMapView  latitude={latitude} longitude={longitude} charging_stations={charging_stations} />
   );
 }
 
@@ -35,11 +48,8 @@ const Tab = createBottomTabNavigator();
 
 const EvChargerRoute = (props) => {
 
-
   const latitude = props.latitude;
   const longitude = props.longitude;
-
-  // console.log(latitude, longitude);
 
   return (
     <Tab.Navigator
