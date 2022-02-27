@@ -35,21 +35,20 @@ class EvChargerMapView extends React.Component {
           // updateMapStyle()
         }}      
         >
-        <Marker
-          coordinate={{latitude: 37.78825, longitude: 127.4324}}
-          // coordinate={{latitude: this.props.charging_stations[0].charging_station_location_latitude, longitude: 127.4324}}
-          title="this is a marker"
-          description="눌러보삼"
-          onPress={ () => console.log( this.state.charging_stations[0].charging_station_name ) }
-        />
-        {/* {charging_stations.map((marker, index) => (
+        {/* <Marker
+          coordinate={{latitude: Number(this.state.charging_stations[0].charging_station_location_latitude), longitude: Number(this.state.charging_stations[0].charging_station_location_longitude)}}
+          title={this.state.charging_stations[0].charging_station_name}
+          description={this.state.charging_stations[0].charging_station_location_detail}
+          // onPress={ () => console.log( this.state.charging_stations[0].charging_station_name ) }
+        /> */}
+        {this.state.charging_stations.map((marker, index) => (
           <Marker
             key={index}
-            coordinate={{latitude:marker.charging_station_location_latitude, longitude:marker.charging_station_location_longitude}}
+            coordinate={{latitude:Number(marker.charging_station_location_latitude), longitude:Number(marker.charging_station_location_longitude)}}
             title={marker.charging_station_name}
             description={marker.charging_station_location_detail}
           />
-        ))} */}
+        ))}
         </MapView>
       </View>
     );
