@@ -8,23 +8,15 @@ import axios from 'axios';
 
 function EvChargerMapScreen({route}) {
 
-  let charging_stations="";
-
-  //ip는 변경되어야 할 가능성이 높으니깐 주의 바람 (윤주현)
-  axios.get('http://192.168.0.11:5000/stationsRouter/find')
-  .then((response) => {
-    charging_stations=response.data;
-    console.log(charging_stations);
-  }).catch(function (error) {
-    charging_stations='serverError';
-    console.log(error);
-  });
-
-
   const { latitude } = route.params;
   const { longitude } = route.params;
+  const { charging_stations } = route.params;
+
+  // console.log(latitude)
+  // console.log(charging_stations)
+
   return (
-      <EvChargerMapView  latitude={latitude} longitude={longitude} charging_stations={charging_stations} />
+      <EvChargerMapView  latitude={latitude} longitude={longitude} charging_stations={charging_stations}/>
   );
 }
 
@@ -48,14 +40,14 @@ const Tab = createBottomTabNavigator();
 
 const EvChargerRoute = (props) => {
 
-  const latitude = props.latitude;
-  const longitude = props.longitude;
+  // const latitude = props.latitude;
+  // const longitude = props.longitude;
 
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false }}
     >
-      <Tab.Screen name="목록보기" component={EvChargerMapScreen} initialParams={{latitude:latitude, longitude:longitude}} />
+      <Tab.Screen name="목록보기" component={EvChargerMapScreen} initialParams={{latitude:props.latitude, longitude:props.longitude, charging_stations:props.charging_stations}} />
       <Tab.Screen name="인근장소" component={TemporaryScreen} />
       <Tab.Screen
         name="메인으로"

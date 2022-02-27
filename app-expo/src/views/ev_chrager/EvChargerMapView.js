@@ -1,65 +1,62 @@
-import React, { useState, useEffect } from 'react'; 
-import { StyleSheet, View } from "react-native";
-import MapView, {Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import React, { useState, useEffect, Component } from 'react'; 
+import { StyleSheet, View, Text } from "react-native";
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
+import axios from 'axios';
+
+class EvChargerMapView extends React.Component {
 
 
-const EvChargerMapView = (props) => { 
+  constructor(props) {
+    super(props);
+    this.state = {charging_stations:JSON.parse(props.charging_stations)};
 
-  const [mapWidth, setMapWidth] = useState('99%');
-
-  // Update map style to force a re-render to make sure the geolocation button appears
-  const updateMapStyle = () => {
-    setMapWidth('100%')
   }
 
-  return (
-    <View style={styles.container}>
-      <MapView
-        initialRegion={{
-          latitude: props.latitude,
-          longitude: props.longitude,
+  componentDidMount(){
+
+  }
+
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <MapView
+          initialRegion={{
+          latitude: this.props.latitude,
+          longitude: this.props.longitude,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        // style={[styles.map, { width: mapWidth }]}
-        style={styles.map}
+        style={{ flex: 1 }}
         provider={PROVIDER_GOOGLE}
         showsUserLocation={true}
         showsMyLocationButton={true}
         onMapReady={() => {
-          updateMapStyle()
-        }}
-        
-      />
+          // updateMapStyle()
+        }}      
+        >
+        <Marker
+          coordinate={{latitude: 37.78825, longitude: 127.4324}}
+          // coordinate={{latitude: this.props.charging_stations[0].charging_station_location_latitude, longitude: 127.4324}}
+          title="this is a marker"
+          description="눌러보삼"
+          onPress={ () => console.log( this.state.charging_stations[0].charging_station_name ) }
+        />
+        {/* {charging_stations.map((marker, index) => (
+          <Marker
+            key={index}
+            coordinate={{latitude:marker.charging_station_location_latitude, longitude:marker.charging_station_location_longitude}}
+            title={marker.charging_station_name}
+            description={marker.charging_station_location_detail}
+          />
+        ))} */}
+        </MapView>
+      </View>
+    );
+  }
 
-    </View>
-  ); 
+
+
 }
 
 export default EvChargerMapView;
-
-// const styles = StyleSheet.create({
-//   map: {
-//     flex: 1,
-//     width: '100%',
-//     height: '100%',
-//   },
-// });
-
-var styles = StyleSheet.create({
-
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-    map: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-    }
-});
