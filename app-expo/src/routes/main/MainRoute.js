@@ -98,7 +98,7 @@ const MainRoute = (props) => {
         // console.log(charging_stations);
         // charging_stations=JSON.stringify(charging_stations);
       }).catch(function (error) {
-        charging_stations=setChargingStation('serverError');
+        setChargingStation('');
         console.log(error);
       });
      // 충전소 데이터 받아오는 작업 끝
