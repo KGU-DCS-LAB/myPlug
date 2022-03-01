@@ -9,6 +9,7 @@ class EvChargerMapView extends React.Component {
 
   constructor(props) {
     super(props);
+    // console.log(props.charging_stations)
     this.state = {charging_stations:JSON.parse(props.charging_stations)};
 
   }

@@ -61,16 +61,11 @@ function TestScreen({ navigation }) {
 
 const Stack = createNativeStackNavigator();
 
-
-
 const MainRoute = (props) => {
  
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
-  const [charging_stations, setChargingStation] = useState(null);
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-
+  const [charging_stations, setChargingStation] = useState('[]');
 
   useEffect(() => {
     (async () => {
@@ -78,27 +73,22 @@ const MainRoute = (props) => {
       // Get current location information 
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+        console.log('Permission to access location was denied');
         return;
       }
       let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
       setLatitude(location.coords.latitude);
       setLongitude(location.coords.longitude);
       // GPS 받아오는 작업 끝
-
 
 
       // 충전소 데이터 받아오는 작업 시작
       //ip는 변경되어야 할 가능성이 높으니깐 주의 바람 (윤주현)
       axios.get('http://192.168.0.11:5000/stationsRouter/find')
       .then((response) => {
-        // setChargingStation(response.data);
         setChargingStation(JSON.stringify(response.data));
-        // console.log(charging_stations);
-        // charging_stations=JSON.stringify(charging_stations);
       }).catch(function (error) {
-        setChargingStation('');
+        setChargingStation('[]');
         console.log(error);
       });
      // 충전소 데이터 받아오는 작업 끝
@@ -106,23 +96,15 @@ const MainRoute = (props) => {
     })();
   }, []);
 
-  // let text = 'Waiting..';
-  // if (errorMsg) {
-  //   text = errorMsg;
-  // } else if (location) {
-  //   text = JSON.stringify(location);
-  //   // console.log('[LOG] current location : ' + text);
-  // }
-
   return (
     <Stack.Navigator
      initialRouteName="Home"
      screenOptions={{ headerShown: false }} 
     >
-      <Stack.Screen name="MyPlug" component={HomeScreen} />
+      <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="EvCharger" component={EvChargerScreen} initialParams={{latitude:latitude, longitude:longitude, charging_stations:charging_stations}} />
       {/* <Stack.Screen name="Community" component={CommunityScreen} /> */}
-      {/* <Stack.Screen name="HotPlace" component={HotPlaceScreen} /> */}
+      <Stack.Screen name="HotPlace" component={HotPlaceScreen} />
       <Stack.Screen name="Test" component={TestScreen} />
     </Stack.Navigator>
   );

@@ -28,7 +28,7 @@ function TemporaryScreen() {
   );
 }
 
-const GoToMain = () => {
+const UselessScreen = () => {
      return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>이거 삭제하지 마세요. 없으면 오류남</Text>
@@ -48,15 +48,25 @@ const EvChargerRoute = (props) => {
       screenOptions={{ headerShown: false }}
     >
       <Tab.Screen name="목록보기" component={EvChargerMapScreen} initialParams={{latitude:props.latitude, longitude:props.longitude, charging_stations:props.charging_stations}} />
-      <Tab.Screen name="인근장소" component={TemporaryScreen} />
       <Tab.Screen
-        name="메인으로"
-        component={GoToMain}
+        name="인근장소"
+        component={UselessScreen}
         listeners={{
             tabPress: () => {
             //버튼 눌렀을 때 메인으로 가게 해주는 기능.
             //참고로 이 listner 기능은 navigation v6부터 가능함
-            props.navigation.navigate('MyPlug');
+            props.navigation.navigate('HotPlace');
+            },
+        }}
+      />
+      <Tab.Screen
+        name="메인으로"
+        component={UselessScreen}
+        listeners={{
+            tabPress: () => {
+            //버튼 눌렀을 때 메인으로 가게 해주는 기능.
+            //참고로 이 listner 기능은 navigation v6부터 가능함
+            props.navigation.navigate('Home');
             },
         }}
         />
