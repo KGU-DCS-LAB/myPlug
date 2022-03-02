@@ -4,14 +4,15 @@
 
 ## 기본 세팅 방법
 
-1. node.js, mongodb 기본 설치
+1. 윈도우 환경에 vscode, node.js, mongodb가 기본적으로 설치되어있어야 함
 2. vsc에서 터미널 실행
 3. app-expo와 server 각 폴더에 들어가서 npm install 후 대기
 
-특정 경로로 이동하기
+특정 경로로 이동하는 법
 
 - cd 폴더명
-  부모 경로로 이동하기
+
+부모 경로로 이동하기
 - cd ..
 
 
@@ -37,6 +38,7 @@ npm start
 node server.js
 또는
 nodemon server.js
+※ nodemon이 안되는 경우 권한 설정을 따로 해줘야 한다.
 
 ### stand-alone
 각 폴더를 intellij로 실행해야 함
@@ -55,6 +57,8 @@ nodemon server.js
 ### 3. app-expo
 
 앱을 실행하면 정상 동작함
+
+#### 참고로 서버 실행을 하지 않고 app을 동작하는 경우 일부 데이터를 수신하지 못할 수 있다.
 
 
 ## 작업하다가 오류 발생 시 시도해보면 좋은 명령어
