@@ -10,6 +10,7 @@ class EvChargerMapView extends React.Component {
   constructor(props) {
     super(props);
 
+    //지도 스타일은 추후에 바깥으로 빼는 것을 고려해야 할 것으로 보임. 코드가 너무 길어서 뒤에 내용이 하나도 안보임
     const MapStyle = [
       {
         "elementType": "geometry",

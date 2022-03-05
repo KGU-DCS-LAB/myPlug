@@ -9,6 +9,7 @@ class LoadingView extends React.Component {
     }
 
     render() {
+      // 로딩 화면을 여기에서 꾸며주세요!
         return (
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
               <Text>MyPlug</Text>

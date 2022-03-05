@@ -76,6 +76,7 @@ const MainRoute = (props) => {
   useEffect(() => {
     (async () => {
       // GPS 받아오는 작업 시작
+      // GPS를 실시간으로 계속 받아오려면 메소드화 하는게 맞지 않을까? + 굳이 여기에서 받아야하나?
       // Get current location information 
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
