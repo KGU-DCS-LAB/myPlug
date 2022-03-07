@@ -1,249 +1,25 @@
 import React, { useState, useEffect, Component } from 'react'; 
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Modal, Pressable } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import axios from 'axios';
 
 class EvChargerMapView extends React.Component {
 
+  state = {
+    modalVisible: false
+  };
+
+  setModalVisible = (visible) => {
+    this.setState({ modalVisible: visible });
+  }
+
 
   constructor(props) {
     super(props);
 
     //지도 스타일은 추후에 바깥으로 빼는 것을 고려해야 할 것으로 보임. 코드가 너무 길어서 뒤에 내용이 하나도 안보임
-    const MapStyle = [
-      {
-        "elementType": "geometry",
-        "stylers": [
-          {
-            "color": "#1d2c4d"
-          }
-        ]
-      },
-      {
-        "elementType": "labels.text.fill",
-        "stylers": [
-          {
-            "color": "#8ec3b9"
-          }
-        ]
-      },
-      {
-        "elementType": "labels.text.stroke",
-        "stylers": [
-          {
-            "color": "#1a3646"
-          }
-        ]
-      },
-      {
-        "featureType": "administrative.country",
-        "elementType": "geometry.stroke",
-        "stylers": [
-          {
-            "color": "#4b6878"
-          }
-        ]
-      },
-      {
-        "featureType": "administrative.land_parcel",
-        "elementType": "labels.text.fill",
-        "stylers": [
-          {
-            "color": "#64779e"
-          }
-        ]
-      },
-      {
-        "featureType": "administrative.province",
-        "elementType": "geometry.stroke",
-        "stylers": [
-          {
-            "color": "#4b6878"
-          }
-        ]
-      },
-      {
-        "featureType": "landscape.man_made",
-        "elementType": "geometry.stroke",
-        "stylers": [
-          {
-            "color": "#334e87"
-          }
-        ]
-      },
-      {
-        "featureType": "landscape.natural",
-        "elementType": "geometry",
-        "stylers": [
-          {
-            "color": "#023e58"
-          }
-        ]
-      },
-      {
-        "featureType": "poi",
-        "elementType": "geometry",
-        "stylers": [
-          {
-            "color": "#283d6a"
-          }
-        ]
-      },
-      {
-        "featureType": "poi",
-        "elementType": "labels.text.fill",
-        "stylers": [
-          {
-            "color": "#6f9ba5"
-          }
-        ]
-      },
-      {
-        "featureType": "poi",
-        "elementType": "labels.text.stroke",
-        "stylers": [
-          {
-            "color": "#1d2c4d"
-          }
-        ]
-      },
-      {
-        "featureType": "poi.park",
-        "elementType": "geometry.fill",
-        "stylers": [
-          {
-            "color": "#023e58"
-          }
-        ]
-      },
-      {
-        "featureType": "poi.park",
-        "elementType": "labels.text.fill",
-        "stylers": [
-          {
-            "color": "#3C7680"
-          }
-        ]
-      },
-      {
-        "featureType": "road",
-        "elementType": "geometry",
-        "stylers": [
-          {
-            "color": "#304a7d"
-          }
-        ]
-      },
-      {
-        "featureType": "road",
-        "elementType": "labels.text.fill",
-        "stylers": [
-          {
-            "color": "#98a5be"
-          }
-        ]
-      },
-      {
-        "featureType": "road",
-        "elementType": "labels.text.stroke",
-        "stylers": [
-          {
-            "color": "#1d2c4d"
-          }
-        ]
-      },
-      {
-        "featureType": "road.highway",
-        "elementType": "geometry",
-        "stylers": [
-          {
-            "color": "#2c6675"
-          }
-        ]
-      },
-      {
-        "featureType": "road.highway",
-        "elementType": "geometry.stroke",
-        "stylers": [
-          {
-            "color": "#255763"
-          }
-        ]
-      },
-      {
-        "featureType": "road.highway",
-        "elementType": "labels.text.fill",
-        "stylers": [
-          {
-            "color": "#b0d5ce"
-          }
-        ]
-      },
-      {
-        "featureType": "road.highway",
-        "elementType": "labels.text.stroke",
-        "stylers": [
-          {
-            "color": "#023e58"
-          }
-        ]
-      },
-      {
-        "featureType": "transit",
-        "elementType": "labels.text.fill",
-        "stylers": [
-          {
-            "color": "#98a5be"
-          }
-        ]
-      },
-      {
-        "featureType": "transit",
-        "elementType": "labels.text.stroke",
-        "stylers": [
-          {
-            "color": "#1d2c4d"
-          }
-        ]
-      },
-      {
-        "featureType": "transit.line",
-        "elementType": "geometry.fill",
-        "stylers": [
-          {
-            "color": "#283d6a"
-          }
-        ]
-      },
-      {
-        "featureType": "transit.station",
-        "elementType": "geometry",
-        "stylers": [
-          {
-            "color": "#3a4762"
-          }
-        ]
-      },
-      {
-        "featureType": "water",
-        "elementType": "geometry",
-        "stylers": [
-          {
-            "color": "#0e1626"
-          }
-        ]
-      },
-      {
-        "featureType": "water",
-        "elementType": "labels.text.fill",
-        "stylers": [
-          {
-            "color": "#4e6d70"
-          }
-        ]
-      }
-    ]
+    const MapStyle = [    ]
 
     this.state = {charging_stations:JSON.parse(props.charging_stations), MapStyle:MapStyle};
   }
@@ -256,8 +32,30 @@ class EvChargerMapView extends React.Component {
   }
 
   render() {
+    const { modalVisible } = this.state;
     return (
       <View style={{ flex: 1 }}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            this.setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Hello World!</Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => this.setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.textStyle}>Hide Modal</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
         <MapView
           initialRegion={{
           latitude: this.props.latitude,
@@ -280,15 +78,60 @@ class EvChargerMapView extends React.Component {
             coordinate={{latitude:Number(marker.charging_station_location_latitude), longitude:Number(marker.charging_station_location_longitude)}}
             title={marker.charging_station_name}
             description={marker.charging_station_location_detail}
+            onPress={() => this.setModalVisible(true)}
           />
         ))}
         </MapView>
       </View>
     );
   }
-
-
-
 }
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
+});
+
+
+
 
 export default EvChargerMapView;
