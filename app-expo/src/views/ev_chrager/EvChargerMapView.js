@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Component } from 'react'; 
-import { StyleSheet, View, Text, Modal, Pressable } from "react-native";
+import { StyleSheet, View, Text, Modal, Pressable, Alert, TouchableWithoutFeedback } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import axios from 'axios';
@@ -55,18 +55,20 @@ class EvChargerMapView extends React.Component {
             this.setModalVisible(!modalVisible);
           }}
         >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>{this.state.charging_station_name}</Text>
-              <Text>{this.state.charging_station_location_detail}</Text>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => this.setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.textStyle}>Hide Modal</Text>
-              </Pressable>
+          <TouchableWithoutFeedback onPress={() => this.setModalVisible(!modalVisible)}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>{this.state.charging_station_name}</Text>
+                <Text>{this.state.charging_station_location_detail}</Text>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => this.setModalVisible(!modalVisible)}
+                >
+                  <Text style={styles.textStyle}>Hide Modal</Text>
+                </Pressable>
+              </View>
             </View>
-          </View>
+          </TouchableWithoutFeedback>
         </Modal>
         <MapView
           initialRegion={{
