@@ -6,12 +6,16 @@ import axios from 'axios';
 
 class EvChargerMapView extends React.Component {
 
-  state = {
-    modalVisible: false
-  };
-
   setModalVisible = (visible) => {
     this.setState({ modalVisible: visible });
+  }
+
+  setChargingStationName = (name)=>{
+    this.setState({charging_station_name:name});
+  }
+
+  setChargingStationLocationDetail = (detail)=>{
+    this.setState({charging_station_location_detail:detail});
   }
 
 
@@ -21,7 +25,14 @@ class EvChargerMapView extends React.Component {
     //지도 스타일은 추후에 바깥으로 빼는 것을 고려해야 할 것으로 보임. 코드가 너무 길어서 뒤에 내용이 하나도 안보임
     const MapStyle = [    ]
 
-    this.state = {charging_stations:JSON.parse(props.charging_stations), MapStyle:MapStyle};
+    this.state = {
+      charging_stations : JSON.parse(props.charging_stations), 
+      MapStyle : MapStyle, 
+      modalVisible : false,
+      charging_station_name : "charging_station_name",
+      charging_station_location_detail : "charging_station_location_detail"
+    };
+
   }
 
   componentDidMount(){
@@ -46,7 +57,8 @@ class EvChargerMapView extends React.Component {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>Hello World!</Text>
+              <Text style={styles.modalText}>{this.state.charging_station_name}</Text>
+              <Text>{this.state.charging_station_location_detail}</Text>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => this.setModalVisible(!modalVisible)}
@@ -78,7 +90,13 @@ class EvChargerMapView extends React.Component {
             coordinate={{latitude:Number(marker.charging_station_location_latitude), longitude:Number(marker.charging_station_location_longitude)}}
             title={marker.charging_station_name}
             description={marker.charging_station_location_detail}
-            onPress={() => this.setModalVisible(true)}
+            onPress={
+              () => {
+                this.setModalVisible(true);
+                this.setChargingStationName(marker.charging_station_name);
+                this.setChargingStationLocationDetail(marker.charging_station_location_detail);
+              }
+            }
           />
         ))}
         </MapView>

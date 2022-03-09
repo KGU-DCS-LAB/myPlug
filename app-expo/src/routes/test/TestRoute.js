@@ -22,7 +22,7 @@ const TestRoute = (props) => {
               tabPress: () => {
               //버튼 눌렀을 때 메인으로 가게 해주는 기능.
               //참고로 이 listner 기능은 navigation v6부터 가능함
-              props.navigation.navigate('MyPlug');
+              props.navigation.navigate('Home');
               },
           }}
           />

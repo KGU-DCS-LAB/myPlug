@@ -91,7 +91,7 @@ const MainRoute = (props) => {
 
       // 충전소 데이터 받아오는 작업 시작
       //ip는 변경되어야 할 가능성이 높으니깐 주의 바람 (윤주현)
-      axios.get('http://192.168.1.48:5000/stationsRouter/find')
+      axios.get('http://192.168.0.11:5000/stationsRouter/find')
       .then((response) => {
         setChargingStation(JSON.stringify(response.data));
       }).catch(function (error) {
