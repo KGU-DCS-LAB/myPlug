@@ -52,17 +52,15 @@ const HomeView = (props) => {
 }
 const styles = StyleSheet.create({
   CardContainer: {
-
       flex: 1,
       elevation: 5,
-    backgroundColor: 'white',
-    borderRadius: 7,
+      backgroundColor: 'white',
+      borderRadius: 7,
       borderWidth: 0.5,
       borderColor: 'black',
       margin: 5,
       flexDirection: 'column',
       alignItems: 'stretch'
-      
   },
   CardTitle: {
       width: '100%',

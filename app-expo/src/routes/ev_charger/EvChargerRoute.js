@@ -3,20 +3,25 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import EvChargerMapView from '../../views/ev_chrager/EvChargerMapView';
+import EvChargerListView from '../../views/ev_chrager/EvChargerListView';
 import axios from 'axios';
 
 
 function EvChargerMapScreen({route}) {
-
   const { latitude } = route.params;
   const { longitude } = route.params;
   const { charging_stations } = route.params;
-
-  // console.log(latitude)
-  // console.log(charging_stations)
-
   return (
-      <EvChargerMapView  latitude={latitude} longitude={longitude} charging_stations={charging_stations}/>
+      <EvChargerMapView latitude={latitude} longitude={longitude} charging_stations={charging_stations}/>
+  );
+}
+
+function EvChargerListScreen({route}) {
+  const { latitude } = route.params;
+  const { longitude } = route.params;
+  const { charging_stations } = route.params;
+  return (
+      <EvChargerListView latitude={latitude} longitude={longitude} charging_stations={charging_stations}/>
   );
 }
 
@@ -42,20 +47,32 @@ const EvChargerRoute = (props) => {
 
   // const latitude = props.latitude;
   // const longitude = props.longitude;
-
+  const [stationStyle, setStationStyle] = useState(true);
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false }}
     >
-      <Tab.Screen name="목록보기" component={EvChargerMapScreen} initialParams={{latitude:props.latitude, longitude:props.longitude, charging_stations:props.charging_stations}} />
+      <Tab.Screen 
+        name={stationStyle?"목록보기":"지도보기"} 
+        component={stationStyle?EvChargerMapScreen:EvChargerListScreen} 
+        initialParams={{latitude:props.latitude, longitude:props.longitude, charging_stations:props.charging_stations}}
+        listeners={{
+          tabPress: () => {
+            //버튼 눌렀을 때 메인으로 가게 해주는 기능.
+            //참고로 이 listner 기능은 navigation v6부터 가능함
+            setStationStyle(!stationStyle);
+          },
+      }}
+      />
+      {/* <Tab.Screen name="목록보기" component={EvChargerMapScreen} initialParams={{latitude:props.latitude, longitude:props.longitude, charging_stations:props.charging_stations}} /> */}
       <Tab.Screen
         name="인근장소"
         component={UselessScreen}
         listeners={{
             tabPress: () => {
-            //버튼 눌렀을 때 메인으로 가게 해주는 기능.
-            //참고로 이 listner 기능은 navigation v6부터 가능함
-            props.navigation.navigate('HotPlace');
+              //버튼 눌렀을 때 메인으로 가게 해주는 기능.
+              //참고로 이 listner 기능은 navigation v6부터 가능함
+              props.navigation.navigate('HotPlace');
             },
         }}
       />
