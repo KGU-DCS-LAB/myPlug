@@ -24,6 +24,14 @@ Do you want to install it globally [Y/n]?
 
 이런 문장이 나오면 y 누르고 엔터 해주면 됨
 
+typeScript도 설치해줘야 한다.
+>√ It looks like you're trying to use TypeScript but don't have the required dependencies installed. Would you
+like to install typescript, @types/react, @types/react-native? 
+
+역시나 y 누르고 엔터
+
+(현재는 typescript를 native base에서만 제한적으로 사용중임)
+
 ---
 
 ## 프로그램 별 실행 방법
