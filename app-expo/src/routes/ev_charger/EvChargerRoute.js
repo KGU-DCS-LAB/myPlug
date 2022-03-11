@@ -21,7 +21,7 @@ function EvChargerListScreen({route}) {
   const { longitude } = route.params;
   const { charging_stations } = route.params;
   return (
-      <EvChargerListView latitude={latitude} longitude={longitude} charging_stations={charging_stations}/>
+    <EvChargerListView latitude={latitude} longitude={longitude} charging_stations={charging_stations}/>
   );
 }
 
