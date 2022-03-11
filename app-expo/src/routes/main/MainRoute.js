@@ -8,6 +8,7 @@ import TestRoute from '../test/TestRoute';
 import Loading from '../main/Loading';
 import * as Location from 'expo-location';
 import axios from 'axios';
+import {config} from '../../../config'
 
 
 function LoadingScreen({navigation}){
@@ -88,10 +89,9 @@ const MainRoute = (props) => {
       setLongitude(location.coords.longitude);
       // GPS 받아오는 작업 끝
 
-
       // 충전소 데이터 받아오는 작업 시작
-      //ip는 변경되어야 할 가능성이 높으니깐 주의 바람 (윤주현)
-      axios.get('http://192.168.29.48:5000/stationsRouter/find')
+      // 3월 12일 부로 ip는 config.js에서 받아오구 있음 (윤주현)
+      axios.get(config.ip+':5000/stationsRouter/find')
       .then((response) => {
         setChargingStation(JSON.stringify(response.data));
       }).catch(function (error) {
