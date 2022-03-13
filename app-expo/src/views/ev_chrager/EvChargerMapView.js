@@ -47,7 +47,7 @@ class EvChargerMapView extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <Modal
-          animationType="slide"
+          animationType="fade"
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
@@ -56,16 +56,24 @@ class EvChargerMapView extends React.Component {
           }}
         >
           <TouchableWithoutFeedback onPress={() => this.setModalVisible(!modalVisible)}>
-            <View style={styles.centeredView}>
+            <View style={styles.flexEndView}>
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>{this.state.charging_station_name}</Text>
                 <Text>{this.state.charging_station_location_detail}</Text>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => this.setModalVisible(!modalVisible)}
-                >
-                  <Text style={styles.textStyle}>Hide Modal</Text>
-                </Pressable>
+                <View>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => this.setModalVisible(!modalVisible)}
+                  >
+                    <Text style={styles.textStyle}>Hide Modal</Text>
+                  </Pressable>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => this.setModalVisible(!modalVisible)}
+                  >
+                    <Text style={styles.textStyle}>상세보기</Text>
+                  </Pressable>
+                </View>
               </View>
             </View>
           </TouchableWithoutFeedback>
@@ -108,16 +116,17 @@ class EvChargerMapView extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
+  flexEndView:{
+    flex: 1 ,
+    flexDirection: 'column', 
+    justifyContent: 'flex-end'
   },
   modalView: {
-    margin: 20,
+    height: 240,
+    margin: 10,
+    marginBottom : 60,
     backgroundColor: "white",
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 35,
     alignItems: "center",
     shadowColor: "#000",
@@ -130,7 +139,7 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   button: {
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 10,
     elevation: 2
   },
