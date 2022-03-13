@@ -85,7 +85,7 @@ class EvChargerMapView extends React.Component {
           </TouchableWithoutFeedback>
         </Modal>
         <Modal
-          animationType="fade"
+          animationType="slide"
           transparent={true}
           visible={bigModalVisible}
           onRequestClose={() => {
@@ -170,11 +170,13 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   bigModalView: {
-    height: '85%',
-    margin: 10,
-    marginBottom : 60,
+    height: '95%',
+    margin: 5,
+    marginBottom : 0,
     backgroundColor: "white",
     borderRadius: 10,
+    borderBottomLeftRadius : 0,
+    borderBottomRightRadius : 0,
     padding: 35,
     alignItems: "center",
     shadowColor: "#000",
