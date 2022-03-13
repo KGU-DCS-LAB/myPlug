@@ -6,8 +6,12 @@ import axios from 'axios';
 
 class EvChargerMapView extends React.Component {
 
-  setModalVisible = (visible) => {
-    this.setState({ modalVisible: visible });
+  setSmallModalVisible = (visible) => {
+    this.setState({ smallModalVisible: visible });
+  }
+
+  setBigModalVisible = (visible) => {
+    this.setState({ bigModalVisible: visible });
   }
 
   setChargingStationName = (name)=>{
@@ -28,7 +32,8 @@ class EvChargerMapView extends React.Component {
     this.state = {
       charging_stations : JSON.parse(props.charging_stations), 
       MapStyle : MapStyle, 
-      modalVisible : false,
+      smallModalVisible : false,
+      bigModalVisible : false,
       charging_station_name : "charging_station_name",
       charging_station_location_detail : "charging_station_location_detail"
     };
@@ -43,33 +48,34 @@ class EvChargerMapView extends React.Component {
   }
 
   render() {
-    const { modalVisible } = this.state;
+    const { smallModalVisible } = this.state;
+    const { bigModalVisible } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <Modal
           animationType="fade"
           transparent={true}
-          visible={modalVisible}
+          visible={smallModalVisible}
           onRequestClose={() => {
             Alert.alert("Modal has been closed.");
-            this.setModalVisible(!modalVisible);
+            this.setSmallModalVisible(!smallModalVisible);
           }}
         >
-          <TouchableWithoutFeedback onPress={() => this.setModalVisible(!modalVisible)}>
+          <TouchableWithoutFeedback onPress={() => this.setSmallModalVisible(!smallModalVisible)}>
             <View style={styles.flexEndView}>
-              <View style={styles.modalView}>
+              <View style={styles.smallModalView}>
                 <Text style={styles.modalText}>{this.state.charging_station_name}</Text>
                 <Text>{this.state.charging_station_location_detail}</Text>
                 <View>
                   <Pressable
                     style={[styles.button, styles.buttonClose]}
-                    onPress={() => this.setModalVisible(!modalVisible)}
+                    onPress={() => this.setSmallModalVisible(!smallModalVisible)}
                   >
                     <Text style={styles.textStyle}>Hide Modal</Text>
                   </Pressable>
                   <Pressable
                     style={[styles.button, styles.buttonClose]}
-                    onPress={() => this.setModalVisible(!modalVisible)}
+                    onPress={() => this.setBigModalVisible(!bigModalVisible)}
                   >
                     <Text style={styles.textStyle}>상세보기</Text>
                   </Pressable>
@@ -77,6 +83,31 @@ class EvChargerMapView extends React.Component {
               </View>
             </View>
           </TouchableWithoutFeedback>
+        </Modal>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={bigModalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            this.setBigModalVisible(!bigModalVisible);
+          }}
+        >
+            <View style={styles.flexEndView}>
+              <View style={styles.bigModalView}>
+                <Text>This is Big Modal</Text>
+                <Text style={styles.modalText}>{this.state.charging_station_name}</Text>
+                <Text>{this.state.charging_station_location_detail}</Text>
+                <View>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => this.setBigModalVisible(!smallModalVisible)}
+                  >
+                    <Text style={styles.textStyle}>Hide Modal</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
         </Modal>
         <MapView
           initialRegion={{
@@ -102,7 +133,7 @@ class EvChargerMapView extends React.Component {
             description={marker.charging_station_location_detail}
             onPress={
               () => {
-                this.setModalVisible(true);
+                this.setSmallModalVisible(true);
                 this.setChargingStationName(marker.charging_station_name);
                 this.setChargingStationLocationDetail(marker.charging_station_location_detail);
               }
@@ -121,8 +152,25 @@ const styles = StyleSheet.create({
     flexDirection: 'column', 
     justifyContent: 'flex-end'
   },
-  modalView: {
+  smallModalView: {
     height: 240,
+    margin: 10,
+    marginBottom : 60,
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  bigModalView: {
+    height: '85%',
     margin: 10,
     marginBottom : 60,
     backgroundColor: "white",
