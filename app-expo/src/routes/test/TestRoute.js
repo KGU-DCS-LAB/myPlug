@@ -2,10 +2,13 @@ import * as React from 'react';
 import { Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TestGpsView from '../../views/test/TestGPSView';
+import TestNativeBaseView from '../../views/test/TestNativeBaseView';
+
 
 const TestScreen = () => {
     return (
-     <TestGpsView/>
+      // <TestGpsView/>
+      <TestNativeBaseView/>
    );
  }
 
