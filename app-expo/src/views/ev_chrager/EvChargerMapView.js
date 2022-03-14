@@ -48,42 +48,49 @@ class EvChargerMapView extends React.Component {
   }
 
   render() {
+
     const { smallModalVisible } = this.state;
     const { bigModalVisible } = this.state;
-    return (
-      <View style={{ flex: 1 }}>
+
+    const SmallModalView = () => {
+      return(
         <Modal
-          animationType="fade"
-          transparent={true}
-          visible={smallModalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-            this.setSmallModalVisible(!smallModalVisible);
-          }}
-        >
-          <TouchableWithoutFeedback onPress={() => this.setSmallModalVisible(!smallModalVisible)}>
-            <View style={styles.flexEndView}>
-              <View style={styles.smallModalView}>
-                <Text style={styles.modalText}>{this.state.charging_station_name}</Text>
-                <Text>{this.state.charging_station_location_detail}</Text>
-                <View>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => this.setSmallModalVisible(!smallModalVisible)}
-                  >
-                    <Text style={styles.textStyle}>Hide Modal</Text>
-                  </Pressable>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => this.setBigModalVisible(!bigModalVisible)}
-                  >
-                    <Text style={styles.textStyle}>상세보기</Text>
-                  </Pressable>
-                </View>
+        animationType="fade"
+        transparent={true}
+        visible={smallModalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          this.setSmallModalVisible(!smallModalVisible);
+        }}
+      >
+        <TouchableWithoutFeedback onPress={() => this.setSmallModalVisible(!smallModalVisible)}>
+          <View style={styles.flexEndView}>
+            <View style={styles.smallModalView}>
+              <Text style={styles.modalText}>{this.state.charging_station_name}</Text>
+              <Text>{this.state.charging_station_location_detail}</Text>
+              <View>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => this.setSmallModalVisible(!smallModalVisible)}
+                >
+                  <Text style={styles.textStyle}>Hide Modal</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => this.setBigModalVisible(!bigModalVisible)}
+                >
+                  <Text style={styles.textStyle}>상세보기</Text>
+                </Pressable>
               </View>
             </View>
-          </TouchableWithoutFeedback>
-        </Modal>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+      )
+    }
+
+    const BigModalView = () => {
+      return(
         <Modal
           animationType="slide"
           transparent={true}
@@ -93,6 +100,7 @@ class EvChargerMapView extends React.Component {
             this.setBigModalVisible(!bigModalVisible);
           }}
         >
+          <TouchableWithoutFeedback onPress={() => this.setBigModalVisible(!bigModalVisible)}>
             <View style={styles.flexEndView}>
               <View style={styles.bigModalView}>
                 <Text>This is Big Modal</Text>
@@ -101,14 +109,23 @@ class EvChargerMapView extends React.Component {
                 <View>
                   <Pressable
                     style={[styles.button, styles.buttonClose]}
-                    onPress={() => this.setBigModalVisible(!smallModalVisible)}
+                    onPress={() => this.setBigModalVisible(!bigModalVisible)}
                   >
                     <Text style={styles.textStyle}>Hide Modal</Text>
                   </Pressable>
                 </View>
               </View>
             </View>
+          </TouchableWithoutFeedback>
         </Modal>
+      )
+    }
+  
+
+    return (
+      <View style={{ flex: 1 }}>
+        <SmallModalView/>
+        <BigModalView/>
         <MapView
           initialRegion={{
           latitude: this.props.latitude,
