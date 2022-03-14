@@ -1,29 +1,9 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import 'react-native-gesture-handler';
-import { Button, View, StyleSheet, Image, TouchableOpacity,ScrollView } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import { MasonaryLayout } from '../../components/MasonLayout/MasonaryLayout';
-import { Layout } from '../../components/Layout';
-import { StoryBook } from '../../components/StoryBook';
 
-import {
-	Box,
-	useColorMode,
-	Heading,
-	HStack,
-	Text,
-	useBreakpointValue,
-	Fab,
-	Icon,
-	useColorModeValue,
-	MoonIcon,
-	SunIcon,
-	Stagger,
-	IconButton,
-} from 'native-base';
 
 const HomeView = (props) => {
   return (
