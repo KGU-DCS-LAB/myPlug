@@ -1,7 +1,24 @@
 /* 디자인 테스트 */
 
 import React from 'react';
-import { AspectRatio, Box, Center, Container, Divider, Heading, HStack, Image, ScrollView, Stack, Text, VStack } from "native-base";
+import { 
+  AspectRatio, 
+  Box, 
+  Button, 
+  Center, 
+  Container, 
+  Divider, 
+  Heading, 
+  HStack,
+  Icon, 
+  Image, 
+  Ionicons,
+  ScrollView, 
+  Stack, 
+  Text, 
+  VStack,
+  ZStack
+} from "native-base";
 
 
 export default function TestNativeBaseView() {
@@ -107,107 +124,337 @@ export default function TestNativeBaseView() {
 
       //@ts-nocheck
 function Example5() {
-    return <ScrollView>
-        <VStack space="2.5" mt="4" px="8">
-          <Heading size="md">row</Heading>
-          <Stack direction="row" mb="2.5" mt="1.5" space={3}>
-            <Center size="16" bg="primary.400" rounded="sm" _text={{
-            color: "warmGray.50",
-            fontWeight: "medium"
-          }} shadow={"3"}>
-              Box 1
-            </Center>
-            <Center bg="primary.500" size="16" rounded="sm" _text={{
-            color: "warmGray.50",
-            fontWeight: "medium"
-          }} shadow={"3"}>
-              Box 2
-            </Center>
-            <Center size="16" bg="primary.700" rounded="sm" _text={{
-            color: "warmGray.50",
-            fontWeight: "medium"
-          }} shadow={"3"}>
-              Box 3
-            </Center>
-          </Stack>
-          <Divider />
-          <Heading size="md">column</Heading>
-          <Stack mb="2.5" mt="1.5" direction="column" space={3}>
-            <Center size="16" bg="primary.400" rounded="sm" _text={{
-            color: "warmGray.50",
-            fontWeight: "medium"
-          }} shadow={"3"}>
-              Box 1
-            </Center>
-            <Center bg="primary.500" size="16" rounded="sm" _text={{
-            color: "warmGray.50",
-            fontWeight: "medium"
-          }} shadow={"3"}>
-              Box 2
-            </Center>
-            <Center size="16" bg="primary.700" rounded="sm" _text={{
-            color: "warmGray.50",
-            fontWeight: "medium"
-          }} shadow={"3"}>
-              Box 3
-            </Center>
-          </Stack>
-          <Divider />
-          <Heading size="md">row-reverse</Heading>
-          <Stack mb="2.5" mt="1.5" direction="row" reversed space={3}>
-            <Center size="16" bg="primary.400" rounded="sm" _text={{
-            color: "warmGray.50",
-            fontWeight: "medium"
-          }} shadow={"3"}>
-              Box 1
-            </Center>
-            <Center bg="primary.500" size="16" rounded="sm" _text={{
-            color: "warmGray.50",
-            fontWeight: "medium"
-          }} shadow={"3"}>
-              Box 2
-            </Center>
-            <Center size="16" bg="primary.700" rounded="sm" _text={{
-            color: "warmGray.50",
-            fontWeight: "medium"
-          }} shadow={"3"}>
-              Box 3
-            </Center>
-          </Stack>
-          <Divider />
-          <Heading size="md">column-reverse</Heading>
-          <Stack mb="2.5" mt="1.5" direction="column-reverse" space={3}>
-            <Center size="16" bg="primary.400" rounded="sm" _text={{
-            color: "warmGray.50",
-            fontWeight: "medium"
-          }} shadow={"3"}>
-              Box 1
-            </Center>
-            <Center bg="primary.500" size="16" rounded="sm" _text={{
-            color: "warmGray.50",
-            fontWeight: "medium"
-          }} shadow={"3"}>
-              Box 2
-            </Center>
-            <Center size="16" bg="primary.700" rounded="sm" _text={{
-            color: "warmGray.50",
-            fontWeight: "medium"
-          }} shadow={"3"}>
-              Box 3
-            </Center>
-          </Stack>
-          <Divider />
-        </VStack>
-      </ScrollView>;
+    return (
+      <VStack space="2.5" mt="4" px="8">
+      <Heading size="md">row</Heading>
+      <Stack direction="row" mb="2.5" mt="1.5" space={3}>
+        <Center size="16" bg="primary.400" rounded="sm" _text={{
+        color: "warmGray.50",
+        fontWeight: "medium"
+      }} shadow={"3"}>
+          Box 1
+        </Center>
+        <Center bg="primary.500" size="16" rounded="sm" _text={{
+        color: "warmGray.50",
+        fontWeight: "medium"
+      }} shadow={"3"}>
+          Box 2
+        </Center>
+        <Center size="16" bg="primary.700" rounded="sm" _text={{
+        color: "warmGray.50",
+        fontWeight: "medium"
+      }} shadow={"3"}>
+          Box 3
+        </Center>
+      </Stack>
+      <Divider />
+      <Heading size="md">column</Heading>
+      <Stack mb="2.5" mt="1.5" direction="column" space={3}>
+        <Center size="16" bg="primary.400" rounded="sm" _text={{
+        color: "warmGray.50",
+        fontWeight: "medium"
+      }} shadow={"3"}>
+          Box 1
+        </Center>
+        <Center bg="primary.500" size="16" rounded="sm" _text={{
+        color: "warmGray.50",
+        fontWeight: "medium"
+      }} shadow={"3"}>
+          Box 2
+        </Center>
+        <Center size="16" bg="primary.700" rounded="sm" _text={{
+        color: "warmGray.50",
+        fontWeight: "medium"
+      }} shadow={"3"}>
+          Box 3
+        </Center>
+      </Stack>
+      <Divider />
+      <Heading size="md">row-reverse</Heading>
+      <Stack mb="2.5" mt="1.5" direction="row" reversed space={3}>
+        <Center size="16" bg="primary.400" rounded="sm" _text={{
+        color: "warmGray.50",
+        fontWeight: "medium"
+      }} shadow={"3"}>
+          Box 1
+        </Center>
+        <Center bg="primary.500" size="16" rounded="sm" _text={{
+        color: "warmGray.50",
+        fontWeight: "medium"
+      }} shadow={"3"}>
+          Box 2
+        </Center>
+        <Center size="16" bg="primary.700" rounded="sm" _text={{
+        color: "warmGray.50",
+        fontWeight: "medium"
+      }} shadow={"3"}>
+          Box 3
+        </Center>
+      </Stack>
+      <Divider />
+      <Heading size="md">column-reverse</Heading>
+      <Stack mb="2.5" mt="1.5" direction="column-reverse" space={3}>
+        <Center size="16" bg="primary.400" rounded="sm" _text={{
+        color: "warmGray.50",
+        fontWeight: "medium"
+      }} shadow={"3"}>
+          Box 1
+        </Center>
+        <Center bg="primary.500" size="16" rounded="sm" _text={{
+        color: "warmGray.50",
+        fontWeight: "medium"
+      }} shadow={"3"}>
+          Box 2
+        </Center>
+        <Center size="16" bg="primary.700" rounded="sm" _text={{
+        color: "warmGray.50",
+        fontWeight: "medium"
+      }} shadow={"3"}>
+          Box 3
+        </Center>
+      </Stack>
+      <Divider />
+    </VStack>
+    );
   }
 
+  function Example6() {
+    return <VStack space={4} alignItems="center">
+        <Center w="64" h="20" bg="indigo.300" rounded="md" shadow={3} />
+        <Center w="64" h="20" bg="indigo.500" rounded="md" shadow={3} />
+        <Center w="64" h="20" bg="indigo.700" rounded="md" shadow={3} />
+      </VStack>;
+  }
+
+  const Example7 = () => {
+    return <Center h="40">
+        <Box mt="-32">
+          <ZStack mt="3" ml={-50}>
+            <Box bg="primary.700" size="20" rounded="lg" shadow={3} />
+            <Box bg="primary.500" mt="5" ml="5" size="20" rounded="lg" shadow={5} />
+            <Box bg="primary.300" mt="10" ml="10" size="20" rounded="lg" shadow={7} />
+          </ZStack>
+        </Box>
+      </Center>;
+  };
+
+  const Example8 = () => {
+    return <Center h="96">
+        <ZStack alignItems="center" justifyContent="center">
+          <Box bg="indigo.700" size="64" rounded="lg" />
+          <Box bg="indigo.500" size="48" rounded="lg" shadow={8} />
+          <Box bg="indigo.300" size="32" rounded="lg" shadow={8} />
+        </ZStack>
+      </Center>;
+  };
+
+  const Example9 = () => {
+    return <Box alignItems="center">
+        <Button onPress={() => console.log("hello world")}>Click Me</Button>
+      </Box>;
+  };
+
+  const Example10 = () => {
+    return <ScrollView showsVerticalScrollIndicator={false} px="3">
+        <VStack w="100%" space={4} px="2" mt="4" alignItems="center" justifyContent="center">
+          {
+          /* Solid */
+        }
+          <Heading size="md">Solid</Heading>
+          <Stack mb="2.5" mt="1.5" direction={{
+          base: "column",
+          md: "row"
+        }} space={2} mx={{
+          base: "auto",
+          md: "0"
+        }}>
+            <Button size="sm">PRIMARY</Button>
+            <Button size="sm" colorScheme="secondary">
+              SECONDARY
+            </Button>
+            <Button size="sm" isDisabled>
+              DISABLED
+            </Button>
+          </Stack>
+  
+          <Divider w="100%" />
+  
+          <Heading size="md">Subtle</Heading>
+  
+          {
+          /* Subtle */
+        }
+          <Stack mb="2.5" mt="1.5" direction={{
+          base: "column",
+          md: "row"
+        }} space={2} mx={{
+          base: "auto",
+          md: "0"
+        }}>
+            <Button size="sm" variant="subtle">
+              PRIMARY
+            </Button>
+            <Button size="sm" variant="subtle" colorScheme="secondary">
+              SECONDARY
+            </Button>
+            <Button size="sm" variant="subtle" isDisabled>
+              DISABLED
+            </Button>
+          </Stack>
+          <Divider />
+          <Heading size="md">Outline</Heading>
+  
+          {
+          /* Outline */
+        }
+          <Stack mb="2.5" mt="1.5" direction={{
+          base: "column",
+          md: "row"
+        }} space={2} mx={{
+          base: "auto",
+          md: "0"
+        }}>
+            <Button size="sm" variant="outline">
+              PRIMARY
+            </Button>
+            <Button size="sm" variant="outline" colorScheme="secondary">
+              SECONDARY
+            </Button>
+            <Button size="sm" variant="outline" isDisabled>
+              DISABLED
+            </Button>
+          </Stack>
+          <Divider w="100%" />
+  
+          <Heading size="md">Link</Heading>
+  
+          {
+          /* Link */
+        }
+          <Stack mb="2.5" mt="1.5" direction={{
+          base: "column",
+          md: "row"
+        }} space={2} mx={{
+          base: "auto",
+          md: "0"
+        }}>
+            <Button size="sm" variant="link">
+              PRIMARY
+            </Button>
+            <Button size="sm" variant="link" colorScheme="secondary">
+              SECONDARY
+            </Button>
+            <Button size="sm" variant="link" isDisabled>
+              DISABLED
+            </Button>
+          </Stack>
+          <Divider w="100%" />
+  
+          <Heading size="md">Ghost</Heading>
+  
+          {
+          /* Ghost */
+        }
+          <Stack mb="2.5" mt="1.5" direction={{
+          base: "column",
+          md: "row"
+        }} space={2} mx={{
+          base: "auto",
+          md: "0"
+        }}>
+            <Button size="sm" variant="ghost">
+              PRIMARY
+            </Button>
+            <Button size="sm" variant="ghost" colorScheme="secondary">
+              SECONDARY
+            </Button>
+            <Button size="sm" variant="ghost" isDisabled>
+              DISABLED
+            </Button>
+          </Stack>
+  
+          <Divider w="100%" />
+  
+          <Heading size="md">Unstyled</Heading>
+  
+          {
+          /* Unstyled */
+        }
+          <Stack mb="2.5" mt="1.5" direction={{
+          base: "column",
+          md: "row"
+        }} space={2} mx={{
+          base: "auto",
+          md: "0"
+        }}>
+            <Button variant="unstyled">Unstyled</Button>
+          </Stack>
+        </VStack>
+      </ScrollView>;
+  };
+
+  const Example12 = () => {
+    return <Stack direction={{
+      base: "column",
+      md: "row"
+    }} space={2} alignItems={{
+      base: "center",
+      md: "flex-start"
+    }}>
+        <Button isLoading>Button</Button>
+        <Button isLoading isLoadingText="Submitting">
+          Button
+        </Button>
+        <Button isLoading spinnerPlacement="end" isLoadingText="Submitting">
+          Button
+        </Button>
+        <Button isLoading _loading={{
+        bg: "amber.400:alpha.70",
+        _text: {
+          color: "coolGray.700"
+        }
+      }} _spinner={{
+        color: "white"
+      }} isLoadingText="Submitting">
+          Button
+        </Button>
+        <Button isLoading isLoadingText="Submitting" variant="outline">
+          Button
+        </Button>
+      </Stack>;
+  };
+
+  const Example11 = () => {
+    return <Stack direction={{
+      base: "column",
+      md: "row"
+    }} space={4}>
+        <Button leftIcon={<Icon as={Ionicons} name="cloud-upload-outline" size="sm" />}>
+          Upload
+        </Button>
+        <Button variant="subtle" endIcon={<Icon as={Ionicons} name="cloud-download-outline" size="sm" />}>
+          Download
+        </Button>
+      </Stack>;
+  };
+
+
+
+
     return (
-    <>
+    <ScrollView>
         <Example1/>
         <Example3/>
         <Example2/>
         <Example4/>
         <Example5/>
-    </>
+        <Example6/>
+        <Example7/>
+        <Example8/>
+        <Example9/>
+        <Example10/>
+        <Example11/>
+        <Example12/>
+    </ScrollView>
     );
 }
