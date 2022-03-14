@@ -3,10 +3,15 @@ import 'react-native-gesture-handler';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-
+import { HStack, Center, Box } from "native-base";
 
 const HomeView = (props) => {
   return (
+  <>
+      <HStack space={2} justifyContent="center">
+            <Box h="40" w="40" bg="primary.300" rounded="md" shadow={3} />
+            <Box h="40" w="40" bg="primary.500" rounded="md" shadow={3} />
+      </HStack>
       <View  style={{ flex: 1, alignItems: 'center' }}>
             <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
                   <MaterialIcons name="my-location" size={24} color="black" />
@@ -28,6 +33,7 @@ const HomeView = (props) => {
                   </View>
             </View> 
       </View>
+      </>
  );
 }
 const styles = StyleSheet.create({
