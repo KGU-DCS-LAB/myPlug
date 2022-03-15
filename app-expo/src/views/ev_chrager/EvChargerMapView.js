@@ -52,6 +52,16 @@ class EvChargerMapView extends React.Component {
     const { smallModalVisible } = this.state;
     const { bigModalVisible } = this.state;
 
+    const openBigModalView = () =>{
+      this.setSmallModalVisible(!smallModalVisible);
+      this.setBigModalVisible(!bigModalVisible);
+    }
+
+    const closeBigModalView = () =>{
+      this.setBigModalVisible(!bigModalVisible);
+      this.setSmallModalVisible(!smallModalVisible);
+    }
+
     const SmallModalView = () => {
       return(
         <Modal
@@ -77,7 +87,7 @@ class EvChargerMapView extends React.Component {
                 </Pressable>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
-                  onPress={() => this.setBigModalVisible(!bigModalVisible)}
+                  onPress={ () => openBigModalView() }
                 >
                   <Text style={styles.textStyle}>상세보기</Text>
                 </Pressable>
@@ -109,7 +119,7 @@ class EvChargerMapView extends React.Component {
                 <View>
                   <Pressable
                     style={[styles.button, styles.buttonClose]}
-                    onPress={() => this.setBigModalVisible(!bigModalVisible)}
+                    onPress={ () => closeBigModalView() }
                   >
                     <Text style={styles.textStyle}>Hide Modal</Text>
                   </Pressable>
