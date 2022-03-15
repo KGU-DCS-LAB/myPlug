@@ -23,7 +23,7 @@ import {
 
 export default function TestNativeBaseView() {
 
-    const Example1 = () => {
+    const BoxBasicExample = () => {
         return (
             <Box>
                 <Box 
@@ -41,7 +41,7 @@ export default function TestNativeBaseView() {
         );
     };
 
-    const Example2 = () => {
+    const BoxCompositionExample = () => {
         return <Box alignItems="center">
             <Box maxW="80" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _dark={{
             borderColor: "coolGray.600",
@@ -99,7 +99,7 @@ export default function TestNativeBaseView() {
           </Box>;
       };
 
-      function Example3() {
+      function ContainerExample() {
         return <Center>
             <Container>
               <Heading>
@@ -247,12 +247,12 @@ function Example5() {
         </ZStack>
       </Center>;
   };
-  
+
     return (
     <ScrollView>
-        <Example1/>
-        <Example3/>
-        <Example2/>
+        <BoxBasicExample/>
+        <ContainerExample/>
+        <BoxCompositionExample/>
         <Example4/>
         <Example5/>
         <Example6/>
