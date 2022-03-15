@@ -8,12 +8,14 @@ import {
   Center, 
   Container, 
   Divider, 
+  Flex,
   Heading, 
   HStack,
   Icon, 
   Image, 
   Ionicons,
   ScrollView, 
+  Spacer,
   Stack, 
   Text, 
   VStack,
@@ -114,16 +116,16 @@ export default function TestNativeBaseView() {
           </Center>;
       }
 
-      function Example4() {
-        return <HStack space={3} justifyContent="center">
-            <Center h="40" w="20" bg="primary.300" rounded="md" shadow={3} />
-            <Center h="40" w="20" bg="primary.500" rounded="md" shadow={3} />
-            <Center h="40" w="20" bg="primary.700" rounded="md" shadow={3} />
-          </HStack>;
-      }
+  function HStackRowExample() {
+    return <HStack space={3} justifyContent="center">
+        <Center h="40" w="20" bg="primary.300" rounded="md" shadow={3} />
+        <Center h="40" w="20" bg="primary.500" rounded="md" shadow={3} />
+        <Center h="40" w="20" bg="primary.700" rounded="md" shadow={3} />
+      </HStack>;
+  }
 
       //@ts-nocheck
-function Example5() {
+function StackExample() {
     return (
       <VStack space="2.5" mt="4" px="8">
       <Heading size="md">row</Heading>
@@ -218,7 +220,123 @@ function Example5() {
     );
   }
 
-  function Example6() {
+  function FlexExample() {
+    return <Box flex="1" safeAreaTop>
+        <ScrollView>
+          <VStack space={2.5} w="100%" px="3">
+            {
+            /* flexDirection -> row */
+          }
+            <Heading size="md">row</Heading>
+            <Flex direction="row" mb="2.5" mt="1.5" _text={{
+            color: "coolGray.800"
+          }}>
+              <Center size="16" bg="primary.100">
+                100
+              </Center>
+              <Center size="16" bg="primary.200">
+                200
+              </Center>
+              <Center bg="primary.300" size="16">
+                300
+              </Center>
+              <Center size="16" bg="primary.400">
+                400
+              </Center>
+            </Flex>
+            <Divider />
+            {
+            /* flexDirection -> column */
+          }
+            <Heading size="md">column</Heading>
+  
+            <Flex direction="column" mb="2.5" mt="1.5" _text={{
+            color: "coolGray.800"
+          }}>
+              <Center size="16" bg="primary.100">
+                100
+              </Center>
+              <Center size="16" bg="primary.200">
+                200
+              </Center>
+              <Center bg="primary.300" size="16">
+                300
+              </Center>
+              <Center size="16" bg="primary.400">
+                400
+              </Center>
+            </Flex>
+            <Divider />
+            {
+            /* flexDirection -> row-reverse */
+          }
+            <Heading size="md">row-reverse</Heading>
+            <Flex direction="row-reverse" mb="2.5" mt="1.5" _text={{
+            color: "coolGray.800"
+          }}>
+              <Center size="16" bg="primary.100">
+                100
+              </Center>
+              <Center size="16" bg="primary.200">
+                200
+              </Center>
+              <Center bg="primary.300" size="16">
+                300
+              </Center>
+              <Center size="16" bg="primary.400">
+                400
+              </Center>
+            </Flex>
+            <Divider />
+            {
+            /* flexDirection -> column-reverse */
+          }
+            <Heading size="md">column-reverse</Heading>
+            <Flex direction="column-reverse" mb="2.5" mt="1.5" _text={{
+            color: "coolGray.800"
+          }}>
+              <Center size="16" bg="primary.100">
+                100
+              </Center>
+              <Center size="16" bg="primary.200">
+                200
+              </Center>
+              <Center bg="primary.300" size="16">
+                300
+              </Center>
+              <Center size="16" bg="primary.400">
+                400
+              </Center>
+            </Flex>
+            <Divider />
+          </VStack>
+        </ScrollView>
+      </Box>;
+  }
+
+  const FlexUsingTheSpacerExample = () => {
+    return <Flex h={40} alignItems="center">
+        <Center size={16} bg="primary.500" _dark={{
+        bg: "primary.400"
+      }} rounded="sm" _text={{
+        color: "warmGray.50",
+        fontWeight: "medium"
+      }}>
+          Box 1
+        </Center>
+        <Spacer />
+        <Center size={16} bg="secondary.500" _dark={{
+        bg: "secondary.400"
+      }} rounded="sm" _text={{
+        color: "warmGray.50",
+        fontWeight: "medium"
+      }}>
+          Box 2
+        </Center>
+      </Flex>;
+  };
+
+  function VStackColumnExample() {
     return <VStack space={4} alignItems="center">
         <Center w="64" h="20" bg="indigo.300" rounded="md" shadow={3} />
         <Center w="64" h="20" bg="indigo.500" rounded="md" shadow={3} />
@@ -226,7 +344,7 @@ function Example5() {
       </VStack>;
   }
 
-  const Example7 = () => {
+  const ZStackBasicExample = () => {
     return <Center h="40">
         <Box mt="-32">
           <ZStack mt="3" ml={-50}>
@@ -238,7 +356,7 @@ function Example5() {
       </Center>;
   };
 
-  const Example8 = () => {
+  const ZStackItemsCenteredExample = () => {
     return <Center h="96">
         <ZStack alignItems="center" justifyContent="center">
           <Box bg="indigo.700" size="64" rounded="lg" />
@@ -253,11 +371,13 @@ function Example5() {
         <BoxBasicExample/>
         <ContainerExample/>
         <BoxCompositionExample/>
-        <Example4/>
-        <Example5/>
-        <Example6/>
-        <Example7/>
-        <Example8/>
+        <HStackRowExample/>
+        <StackExample/>
+        <FlexExample/>
+        <FlexUsingTheSpacerExample/>
+        <VStackColumnExample/>
+        <ZStackBasicExample/>
+        <ZStackItemsCenteredExample/>
     </ScrollView>
     );
 }
