@@ -4,7 +4,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { Platform, Text, View, StyleSheet } from 'react-native';
+import { Alert, Platform, Text, View, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import { 
@@ -29,6 +29,10 @@ class Loading extends React.Component {
     this.setState({ longitude: longitude });
   }
 
+  setSeconds = (seconds) => {
+    this.setState({ seconds: seconds });
+  }
+
     constructor(props) {
         super(props);
         console.log('loading constructor')
@@ -38,6 +42,7 @@ class Loading extends React.Component {
           errorMsg : null, 
           latitude : null,
           longitude : null,
+          seconds : 0,
         };
     }
     
@@ -75,7 +80,13 @@ class Loading extends React.Component {
             clearInterval(checkGPS);
           }
           else{
-            console.log('location is '+this.state.location)
+            if(this.state.seconds==15){
+              Alert.alert('GPS를 제한 시간 내에 수신하지 못한 것 같습니다.');
+              this.state.props.navigation.navigate('Home');
+              clearInterval(checkGPS);
+            }
+            console.log('location is '+this.state.location);
+            this.setSeconds(this.state.seconds+1);
           }
         }, 1000 );
 
@@ -86,7 +97,7 @@ class Loading extends React.Component {
         return <HStack space={2} justifyContent="center">
             <Spinner accessibilityLabel="Loading posts" />
             <Heading color="primary.500" fontSize="md">
-              Loading
+              Loading...{this.state.seconds}
             </Heading>
           </HStack>;
       };
