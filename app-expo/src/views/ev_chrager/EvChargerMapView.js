@@ -65,7 +65,7 @@ class EvChargerMapView extends React.Component {
     const SmallModalView = () => {
       return(
         <Modal
-        animationType="fade"
+        animationType="slide"
         transparent={true}
         visible={smallModalVisible}
         onRequestClose={() => {

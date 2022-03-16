@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import EvChargerMapView from '../../views/ev_chrager/EvChargerMapView';
 import EvChargerListView from '../../views/ev_chrager/EvChargerListView';
+import EvChargerSearchView from '../../views/ev_chrager/EvChargerSearchView';
 import axios from 'axios';
 
 
@@ -22,6 +23,14 @@ function EvChargerListScreen({route}) {
   const { charging_stations } = route.params;
   return (
     <EvChargerListView latitude={latitude} longitude={longitude} charging_stations={charging_stations}/>
+  );
+}
+
+
+function EvChargerSearchScreen({route}) {
+  const { charging_stations } = route.params;
+  return (
+    <EvChargerSearchView charging_stations={charging_stations}/>
   );
 }
 
@@ -88,7 +97,11 @@ const EvChargerRoute = (props) => {
         }}
         />
       <Tab.Screen name="필터링" component={TemporaryScreen} />
-      <Tab.Screen name="검색하기" component={TemporaryScreen} />
+      <Tab.Screen
+       name="검색하기"
+       component={EvChargerSearchScreen}
+       initialParams={{charging_stations:props.charging_stations}}
+      />
     </Tab.Navigator>
   );
 }

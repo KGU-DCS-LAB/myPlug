@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'; 
-import { Button, View, Text } from 'react-native';
+import { Button, View, Text, Modal, StyleSheet, Pressable } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeView from  '../../views/main/HomeView';
@@ -68,6 +68,8 @@ function TestScreen({ navigation }) {
 
 const Stack = createNativeStackNavigator();
 
+
+
 const MainRoute = (props) => {
  
   const [latitude, setLatitude] = useState(null);
@@ -103,7 +105,33 @@ const MainRoute = (props) => {
     })();
   }, []);
 
+  const [modalVisible, setModalVisible] = useState(true);
+
   return (
+    <>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+          <Text style={styles.titleText}>안내문</Text>
+            <Text style={styles.modalText}>기기 성능에 따라서 초기 로딩 시간이 필요합니다. 너무 빨리 메뉴에 접근 하면 오류가 발생합니다.</Text>
+            <Text style={styles.modalText}>GPS를 수신할 때 까지 대기가 필요합니다. (추후에 로딩 화면에서 이를 방지할 계획)</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>확인했습니다.</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     <Stack.Navigator
      initialRouteName="Loading"
      screenOptions={{ headerShown: false }} 
@@ -115,7 +143,58 @@ const MainRoute = (props) => {
       <Stack.Screen name="HotPlace" component={HotPlaceScreen} />
       <Stack.Screen name="Test" component={TestScreen} />
     </Stack.Navigator>
+    </>
   );
 }
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  },
+  titleText: {
+    marginBottom: 15,
+    fontSize: 20,
+    fontWeight: "bold"
+  }
+});
+
 
 export default MainRoute;
