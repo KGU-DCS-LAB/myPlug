@@ -109,7 +109,7 @@ const MainRoute = (props) => {
 
   return (
     <>
-      <Modal
+      {/* <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -131,7 +131,7 @@ const MainRoute = (props) => {
             </Pressable>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
     <Stack.Navigator
      initialRouteName="Loading"
      screenOptions={{ headerShown: false }} 
