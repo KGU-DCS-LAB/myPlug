@@ -38,8 +38,8 @@ class App extends React.Component{
       props : props,
       location : null, 
       errorMsg : null, 
-      latitude : null,
-      longitude : null,
+      latitude : 0,
+      longitude : 0,
       seconds : 0,
     };
   }
