@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeView from  '../../views/main/HomeView';
 import EvChargerRoute from '../ev_charger/EvChargerRoute';
 import TestRoute from '../test/TestRoute';
-import Loading from '../main/Loading';
+// import Loading from '../main/Loading';
 import * as Location from 'expo-location';
 import axios from 'axios';
 import {config} from '../../../config'
@@ -133,10 +133,10 @@ const MainRoute = (props) => {
         </View>
       </Modal> */}
     <Stack.Navigator
-     initialRouteName="Loading"
+     initialRouteName="Home"
      screenOptions={{ headerShown: false }} 
     >
-      <Stack.Screen name="Loading" component={LoadingScreen} />
+      {/* <Stack.Screen name="Loading" component={LoadingScreen} /> */}
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="EvCharger" component={EvChargerScreen} initialParams={{latitude:latitude, longitude:longitude, charging_stations:charging_stations}} />
       {/* <Stack.Screen name="Community" component={CommunityScreen} /> */}
