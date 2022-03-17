@@ -78,6 +78,13 @@ class MainRoute extends React.Component{
   }
 
 
+  // HandleChange = (e) => {
+  //   this.setState({
+  //     [e.target.latitude]: e.target.value,
+  //   });
+  // };
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -102,6 +109,9 @@ class MainRoute extends React.Component{
         console.log(error);
       });
      // 충전소 데이터 받아오는 작업 끝
+
+     this.setLatitude(this.state.latitude);
+     this.setLongitude(this.state.longitude);
     }
     stationsData();
     // console.log(this.state.charging_stations);
@@ -123,12 +133,6 @@ class MainRoute extends React.Component{
       // }
     }, 1000 );
 
-
-    console.log(this.state.latitude);
-    console.log(this.state.longitude);
-
-    this.setLatitude(this.state.latitude);
-    this.setLongitude(this.state.longitude);
 
     console.log(this.state.latitude);
     console.log(this.state.longitude);

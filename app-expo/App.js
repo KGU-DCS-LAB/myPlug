@@ -33,7 +33,7 @@ class App extends React.Component{
 
   constructor(props) {
     super(props);
-    console.log('loading constructor')
+    // console.log('loading constructor')
     this.state = {
       props : props,
       location : null, 
@@ -62,18 +62,21 @@ class App extends React.Component{
       this.setLocation(location2);
       this.setLatitude(location2.coords.latitude);
       this.setLongitude(location2.coords.longitude);
+      console.log('[gps]')
       console.log(this.state.location); 
+      console.log(this.state.latitude);
+      console.log(this.state.longitude);
     };
 
     // 프로그램 최초 로딩 시 여기에서 모든 것을 불러와야함
     // 로딩뷰 렌더링 이후에 이 함수가 실행됨
     // 스택으로 등록되어 있으므로 뒤로가기 방지 코딩이 필요
     // 초기에는 setInteval 같은 코드로 로딩 화면이 뜬다는 것을 보여줄 필요도 있어보임
-      console.log('loading componentDidMount')
+      // console.log('loading componentDidMount')
       gps();
       let checkGPS = setInterval( (props) =>{
         if (this.state.location){
-          console.log('location is not null! this interval is going to be clear.')
+          console.log('[checkGPS]location is not null! this interval is going to be clear.')
           // this.state.props.navigation.navigate('Home');
           clearInterval(checkGPS);
         }
