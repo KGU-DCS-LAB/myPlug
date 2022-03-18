@@ -117,7 +117,7 @@ class App extends React.Component{
         <NativeBaseProvider>
           <NavigationContainer>
           {this.state.location
-            ? <MainRoute latitude={this.state.latitude} longitude={this.state.longitude}/>
+            ? this.state.latitude==0 || this.state.longitude==0 ? <LoadingScreen/> : <MainRoute latitude={this.state.latitude} longitude={this.state.longitude}/>
             : <LoadingScreen/>
           }
           </NavigationContainer>
