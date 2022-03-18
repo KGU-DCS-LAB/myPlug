@@ -122,15 +122,6 @@ class MainRoute extends React.Component{
         // this.state.props.navigation.navigate('Home');
         clearInterval(checkStations);
       }
-      //나중에 데이터가 너무 커지면 부활할 수 있음
-      // else{
-      //   if(this.state.seconds==15){
-      //     Alert.alert('충전소 데이터를 제한 시간 내에 수신하지 못한 것 같습니다.');
-      //     clearInterval(checkStations);
-      //   }
-      //   console.log(this.state.seconds+'location is '+this.state.charging_stations);
-      //   this.setSeconds(this.state.seconds+1);
-      // }
     }, 1000 );
 
 

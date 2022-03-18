@@ -16,6 +16,7 @@ class EvChargerListView extends React.Component {
 
   }
 
+  //unique한 키를 부여해야 오류가 사라집니다.
   render() {
     return (
       <View style={{ flex: 1 }}>
