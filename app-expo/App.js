@@ -10,6 +10,7 @@ import {
   HStack,
   Spinner
 } from "native-base";
+import LoadingView from './src/views/main/LoadingView';
 
 
 
@@ -33,9 +34,7 @@ class App extends React.Component{
 
   constructor(props) {
     super(props);
-    // console.log('loading constructor')
     this.state = {
-      props : props,
       location : null, 
       errorMsg : null, 
       latitude : 0,
@@ -45,6 +44,7 @@ class App extends React.Component{
   }
 
   componentDidMount(){
+    console.log('loading componentDidMount()')
     let gps = async () => {
       if (Platform.OS === 'android' && !Constants.isDevice) {
         setErrorMsg(
@@ -67,48 +67,27 @@ class App extends React.Component{
       console.log(this.state.latitude);
       console.log(this.state.longitude);
     };
-
-    // 프로그램 최초 로딩 시 여기에서 모든 것을 불러와야함
-    // 로딩뷰 렌더링 이후에 이 함수가 실행됨
-    // 스택으로 등록되어 있으므로 뒤로가기 방지 코딩이 필요
-    // 초기에는 setInteval 같은 코드로 로딩 화면이 뜬다는 것을 보여줄 필요도 있어보임
-      // console.log('loading componentDidMount')
-      gps();
-      let checkGPS = setInterval( (props) =>{
-        if (this.state.location){
-          console.log('[checkGPS]location is not null! this interval is going to be clear.')
-          // this.state.props.navigation.navigate('Home');
+    gps();
+    let checkGPS = setInterval( (props) =>{
+      if (this.state.location){
+        console.log('[checkGPS]location is not null! this interval is going to be clear.')
+        clearInterval(checkGPS);
+      }
+      else{
+        if(this.state.seconds==15){
+          Alert.alert('GPS를 제한 시간 내에 수신하지 못한 것 같습니다.');
           clearInterval(checkGPS);
         }
-        else{
-          if(this.state.seconds==15){
-            // Alert.alert('GPS를 제한 시간 내에 수신하지 못한 것 같습니다.');
-            // this.state.props.navigation.navigate('Home');
-            clearInterval(checkGPS);
-          }
-          console.log('location is '+this.state.location);
-          this.setSeconds(this.state.seconds+1);
-        }
-      }, 1000 );
-
+        console.log('location is '+this.state.location);
+        this.setSeconds(this.state.seconds+1);
+      }
+    }, 1000 );
   }
 
   render() {
-    
-    const ToastBasic = () => {
-      return <HStack space={2} justifyContent="center">
-          <Spinner accessibilityLabel="Loading posts" />
-          <Heading color="primary.500" fontSize="md">
-            Loading...{this.state.seconds}
-          </Heading>
-        </HStack>;
-    };
 
     const LoadingScreen = () => {
-        return     <View style={styles.container}>
-        <Text>myPlug</Text>
-        <ToastBasic/>
-      </View>;
+        return <LoadingView seconds={this.state.seconds}/>;
     }
 
 
@@ -134,15 +113,5 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  paragraph: {
-    fontSize: 18,
-    textAlign: 'center',
   },
 });

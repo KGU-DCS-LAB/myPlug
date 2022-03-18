@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'; 
-import { Button, View, Text, Modal, StyleSheet, Pressable } from 'react-native';
+import { Alert, Button, View, Text, Modal, StyleSheet, Pressable } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeView from  '../../views/main/HomeView';
 import EvChargerRoute from '../ev_charger/EvChargerRoute';
@@ -7,6 +7,8 @@ import TestRoute from '../test/TestRoute';
 import * as Location from 'expo-location';
 import axios from 'axios';
 import {config} from '../../../config'
+import DocsRoute from '../docs/DocsRoute';
+
 
 
 function HomeScreen({ navigation }) {
@@ -56,6 +58,14 @@ function TestScreen({ navigation }) {
     <TestRoute navigation={navigation} />
   );
 }
+
+function DocsScreen({ navigation }) {
+  // 패치내역 및 안내운
+  return (
+    <DocsRoute navigation={navigation} />
+  );
+}
+
 
 
 const Stack = createNativeStackNavigator();
@@ -160,11 +170,11 @@ class MainRoute extends React.Component{
        initialRouteName="Home"
        screenOptions={{ headerShown: false }} 
       >
-        {/* <Stack.Screen name="Loading" component={LoadingScreen} /> */}
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="EvCharger" component={EvChargerScreen} initialParams={{latitude:this.state.latitude, longitude:this.state.longitude, charging_stations:this.state.charging_stations}} />
         {/* <Stack.Screen name="Community" component={CommunityScreen} /> */}
         <Stack.Screen name="HotPlace" component={HotPlaceScreen} />
+        <Stack.Screen name="Docs" component={DocsScreen} />
         <Stack.Screen name="Test" component={TestScreen} />
       </Stack.Navigator>
       </>

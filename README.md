@@ -76,6 +76,7 @@ nodemon server.js
 서버 종료 후
 
 expo start --clear
+
 npm start --reset-cache
 
 둘 중 하나를 시도한다
