@@ -16,12 +16,14 @@ class EvChargerListView extends React.Component {
 
   }
 
+  //unique한 키를 부여해야 오류가 사라집니다.
   render() {
     return (
       <View style={{ flex: 1 }}>
         <FlatList
           data={this.state.charging_stations}
           renderItem={({item}) => <Text>{item.charging_station_name}</Text>}
+          keyExtractor={item => item._id}
         />
       </View>
     );

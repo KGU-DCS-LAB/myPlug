@@ -1,22 +1,24 @@
-// import * as React from 'react';
-// import { StyleSheet, View, Text } from "react-native";
+import ToastBasic from "../../components/Loading/ToastBasic";
+import { StyleSheet, Text, View } from 'react-native';
 
-// class LoadingView extends React.Component {
+export default (props) => {
+    return(
+        <View style={styles.container}>
+            <Text style={styles.paragraph}>myPlug</Text>
+            <ToastBasic seconds={props.seconds}/>
+        </View>
+    )
+}
 
-//     constructor(props) {
-//         super(props);
-//         console.log('loading view')
-//     }
-
-//     render() {
-//       // 로딩 화면을 여기에서 꾸며주세요!
-//         return (
-//           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//               <Text>MyPlug</Text>
-//               <Text>Loading...</Text>
-//           </View>
-//         );
-//       }
-// }
-
-// export default LoadingView;
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 20,
+    },
+    paragraph: {
+        fontSize: 18,
+        textAlign: 'center',
+      },
+});

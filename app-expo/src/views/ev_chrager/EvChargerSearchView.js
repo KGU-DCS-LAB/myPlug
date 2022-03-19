@@ -33,10 +33,10 @@ class EvChargerSearchView extends React.Component {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.inner}>
-          <Text style={styles.header}>Header</Text>
-          <TextInput placeholder="Username" style={styles.textInput} />
+          <Text style={styles.header}>충전소 검색하기</Text>
+          <TextInput placeholder="검색어를 입력하세요" style={styles.textInput} />
           <View style={styles.btnContainer}>
-            <Button title="Submit" onPress={() => null} />
+            <Button title="검색하기" onPress={() => null} />
           </View>
         </View>
       </TouchableWithoutFeedback>

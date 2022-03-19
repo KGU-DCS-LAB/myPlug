@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const stationSchema = mongoose.Schema({
+    _id: {
+        type: String,
+        maxlength: 100,
+        required: true
+    },
     charging_station_name: {
         type: String,
         maxlength: 100,

@@ -56,6 +56,8 @@ const EvChargerRoute = (props) => {
 
   // const latitude = props.latitude;
   // const longitude = props.longitude;
+
+  //아래와 같은 접근 방식은 일부 개선될 필요가 있음. ex) 맵 -> 검색 -> 맵으로 복귀 시 리스트로 뜨는 문제 발생
   const [stationStyle, setStationStyle] = useState(true);
   return (
     <Tab.Navigator

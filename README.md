@@ -47,10 +47,10 @@ npm start
 node server.js
 또는
 nodemon server.js
-※ nodemon이 안되는 경우 권한 설정을 따로 해줘야 한다.
+※ nodemon이 안되는 경우 권한 설정을 따로 해줘야 한다. node로 실행하는 것이 정석임.
 
 ### stand-alone
-각 폴더를 intellij로 실행해야 함
+각 하위 폴더를 intellij로 실행해야 함. 이때 엉뚱한 폴더를 열지 않도록 주의한다.
 
 
 ## 프로그램 실행 순서
@@ -77,6 +77,7 @@ nodemon server.js
 서버 종료 후
 
 expo start --clear
+
 npm start --reset-cache
 
 둘 중 하나를 시도한다
