@@ -23,6 +23,7 @@ class EvChargerListView extends React.Component {
         <FlatList
           data={this.state.charging_stations}
           renderItem={({item}) => <Text>{item.charging_station_name}</Text>}
+          keyExtractor={item => item._id}
         />
       </View>
     );

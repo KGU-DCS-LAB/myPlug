@@ -6,9 +6,10 @@ const { Station } = require("../models/Station");
 /* GET. */
 router.get('/find', function(req, res, next) {
     // 전체 데이터 가져오기
-    Station.find({} , {"_id" : 0}).then( (users) => {
-        console.log(users);
-        res.json(users)
+    Station.find({}).then( (stations) => {
+        // Station.find({} , {"_id" : 0}).then( (stations) => {
+        console.log(stations);
+        res.json(stations)
     }).catch( (err) => {
         console.log(err);
         next(err)
