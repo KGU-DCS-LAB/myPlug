@@ -10,6 +10,7 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.util.Date;
 
 public class ReceiverDAO {
     public static ReceiverDAO getInstance() {
@@ -80,6 +81,7 @@ public class ReceiverDAO {
                 NodeList nList = doc.getElementsByTagName("item");
                 //System.out.println("파싱할 리스트 수 : "+ nList.getLength());
 
+
                 for(int temp = 0; temp < nList.getLength(); temp++){
                     Node nNode = nList.item(temp);
                     StationBean station = new StationBean();
@@ -89,6 +91,8 @@ public class ReceiverDAO {
                         station.setCharging_station_location_detail(getTagValue("addr",eElement));  //충전소 주소
                         station.setCharging_station_location_latitude(getTagValue("lat",eElement)); //중천소 위치(위도)
                         station.setCharging_station_location_longitude(getTagValue("lng",eElement));//충전소 위치(경도)
+                        station.setDate(new Date()); //수신 시각
+                        station.setChecked(false); //업데이트 확인 여부
                         DataManager.stationList.add(station);
                     }
                 }
@@ -133,6 +137,8 @@ public class ReceiverDAO {
                         station.setCharging_station_location_detail(getTagValue("addr",eElement));
                         station.setCharging_station_location_latitude(getTagValue("lat",eElement));
                         station.setCharging_station_location_longitude(getTagValue("longi",eElement));
+                        station.setDate(new Date()); //수신 시각
+                        station.setChecked(false); //업데이트 확인 여부
                         DataManager.stationList.add(station);
                     }
                 }
@@ -174,6 +180,8 @@ public class ReceiverDAO {
                         station.setCharging_station_location_detail(getTagValue("rdnmadr",eElement));
                         station.setCharging_station_location_latitude(getTagValue("latitude",eElement));
                         station.setCharging_station_location_longitude(getTagValue("longitude",eElement));
+                        station.setDate(new Date()); //수신 시각
+                        station.setChecked(false); //업데이트 확인 여부
                         DataManager.stationList.add(station);
                     }
                 }
@@ -212,6 +220,8 @@ public class ReceiverDAO {
                         station.setCharging_station_location_detail(getTagValue("addr",eElement));
                         station.setCharging_station_location_latitude(getTagValue("lat",eElement));
                         station.setCharging_station_location_longitude(getTagValue("lng",eElement));
+                        station.setDate(new Date()); //수신 시각
+                        station.setChecked(false); //업데이트 확인 여부
                         DataManager.stationList.add(station);
                     }
                 }

@@ -39,12 +39,6 @@ public class DataManager {
                     pc.start();
                     break;
                 case 2:
-//                    for (StationBean s: stationList) {
-//                        System.out.println(s.getCharging_station_name());
-//                        System.out.println(s.getCharging_station_location_detail());
-//                        System.out.println(s.getCharging_station_location_latitude());
-//                        System.out.println(s.getCharging_station_location_longitude());
-//                    }
                     SaverController sc = SaverController.getInstance();
                     sc.start(stationList);
                     break;

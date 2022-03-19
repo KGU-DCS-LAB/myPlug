@@ -40,10 +40,13 @@ public class SaverController {
 //            System.out.println(s.getCharging_station_location_detail());
 //            System.out.println(s.getCharging_station_location_latitude());
 //            System.out.println(s.getCharging_station_location_longitude());
-            Document document = new Document("charging_station_name", s.getCharging_station_name())
+            Document document = new Document("checked", s.getChecked())
+                    .append("date", s.getDate())
+                    .append("charging_station_name", s.getCharging_station_name())
                     .append("charging_station_location_detail", s.getCharging_station_location_detail())
                     .append("charging_station_location_latitude", s.getCharging_station_location_latitude())
-                    .append("charging_station_location_longitude", s.getCharging_station_location_longitude());
+                    .append("charging_station_location_longitude", s.getCharging_station_location_longitude())
+                    ;
             collection.insertOne(document);
         }
         System.out.println("저장 완료");

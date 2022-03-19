@@ -1,5 +1,7 @@
 package beans;
 
+import java.util.Date;
+
 public class StationBean {
 //    private String id="null"; // auto-increment
     private String charging_station_name="null"; //충전소명
@@ -30,7 +32,24 @@ public class StationBean {
 //    private String providing_institution_name ="null"; //제공기관명
 //    private String charging_station_delete ="null"; //삭제여부
 //    private String charging_station_delete_reason ="null"; //삭제사유
+    private Date date=null;
+    private boolean checked = false;
 
+    public boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public String getCharging_station_name() {
         return charging_station_name;
