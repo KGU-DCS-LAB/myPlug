@@ -2,19 +2,31 @@
 
 전기차 충전 조회 및 충전 기록 앱
 
+## 프로젝트 구성
+    myPlug
+        ⊢   app-expo (React Native)
+        ⊢   server (node.js)
+        ⊢   stand-alone     ⊢ station-data-generator (java)
+                            ⊢ station-data-purifier (node.js)
+
+
+## 사전 다운로드
+
+vscode, node.js, mongodb 기본 설치
 
 ## 기본 세팅 방법
 
-1. 윈도우 환경에 vscode, node.js, mongodb가 기본적으로 설치되어있어야 함
-2. vsc에서 터미널 실행
-3. app-expo와 server 각 폴더에 들어가서 npm install 후 대기
+1. vsc에서 터미널 실행
+2. app-expo, server, stand-alone/station-data-purifier 폴더에서 각각 npm install 명령어 입력 (입력 시 설치가 끝날 때 까지 대기하여야 한다.)
+
+
 
 특정 경로로 이동하는 법
 
-- cd 폴더명
+- cd 폴더명 (엔터)
 
 부모 경로로 이동하기
-- cd ..
+- cd .. (엔터)
 
 
 app-expo의 경우에는 expo-cli를 설치해줘야 한다
@@ -55,7 +67,7 @@ nodemon server.js
 
 ## 프로그램 실행 순서
 
-### 1. stand-alone
+### 1. stand-alone / station-data-generator
 
 자바를 사용하여 공공데이터 api로부터 데이터 수신 및 저장
 
@@ -70,6 +82,7 @@ nodemon server.js
 #### 참고로 서버 실행을 하지 않고 app을 동작하는 경우 일부 데이터를 수신하지 못할 수 있다.
 
 #### 서버의 ip는 app-expo의 config.js에서 localhost에 적혀있는 주소로 수정해줘야한다.
+
 
 
 ## 작업하다가 오류 발생 시 시도해보면 좋은 명령어
