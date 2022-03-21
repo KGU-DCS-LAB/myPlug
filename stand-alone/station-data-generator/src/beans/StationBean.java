@@ -3,6 +3,7 @@ package beans;
 import java.util.Date;
 
 public class StationBean {
+    private String api="null";
 //    private String id="null"; // auto-increment
     private String charging_station_name="null"; //충전소명
 //    private String charging_station_id="null"; //충전소ID
@@ -34,6 +35,14 @@ public class StationBean {
 //    private String charging_station_delete_reason ="null"; //삭제사유
     private Date date=null;
     private boolean checked = false;
+
+    public String getApi() {
+        return api;
+    }
+
+    public void setApi(String api) {
+        this.api = api;
+    }
 
     public boolean getChecked() {
         return checked;

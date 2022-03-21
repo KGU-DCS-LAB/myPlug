@@ -41,6 +41,7 @@ public class SaverController {
 //            System.out.println(s.getCharging_station_location_latitude());
 //            System.out.println(s.getCharging_station_location_longitude());
             Document document = new Document("checked", s.getChecked())
+                    .append("api", s.getApi())
                     .append("date", s.getDate())
                     .append("charging_station_name", s.getCharging_station_name())
                     .append("charging_station_location_detail", s.getCharging_station_location_detail())

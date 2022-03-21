@@ -93,6 +93,7 @@ public class ReceiverDAO {
                         station.setCharging_station_location_longitude(getTagValue("lng",eElement));//충전소 위치(경도)
                         station.setDate(new Date()); //수신 시각
                         station.setChecked(false); //업데이트 확인 여부
+                        station.setApi("keco"); //수집된 api 종류
                         DataManager.stationList.add(station);
                     }
                 }
@@ -139,6 +140,7 @@ public class ReceiverDAO {
                         station.setCharging_station_location_longitude(getTagValue("longi",eElement));
                         station.setDate(new Date()); //수신 시각
                         station.setChecked(false); //업데이트 확인 여부
+                        station.setApi("kepco"); //수집된 api 종류
                         DataManager.stationList.add(station);
                     }
                 }
@@ -182,6 +184,7 @@ public class ReceiverDAO {
                         station.setCharging_station_location_longitude(getTagValue("longitude",eElement));
                         station.setDate(new Date()); //수신 시각
                         station.setChecked(false); //업데이트 확인 여부
+                        station.setApi("public"); //수집된 api 종류
                         DataManager.stationList.add(station);
                     }
                 }
@@ -222,6 +225,7 @@ public class ReceiverDAO {
                         station.setCharging_station_location_longitude(getTagValue("lng",eElement));
                         station.setDate(new Date()); //수신 시각
                         station.setChecked(false); //업데이트 확인 여부
+                        station.setApi("public"); //수집된 api 종류
                         DataManager.stationList.add(station);
                     }
                 }
