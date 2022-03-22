@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import '../../App.css';
 import Header from "../../components/common/Header"
 import axios from 'axios';
+import Table from "../../components/Table";
 
 // import { Button, Col, Row, } from 'react-bootstrap';
 
@@ -55,7 +56,16 @@ function MainView() {
     <div className="container">
       <div className="row my-4">
         <div className="col-md-3 card">dd1</div>
-        <div className="col-md-9 card"><StationList stations={charging_stations} /></div>
+        <div className="col-md-9 card">
+          <div className="row">
+           <div style={{width: "1000px"}}>
+             <Table data={charging_stations} rowsPerPage={30} />
+           </div>
+          </div>
+          <div className="row">
+            <StationList stations={charging_stations} />
+          </div>
+        </div>
       </div>
     </div>
     </>
