@@ -62,9 +62,9 @@ function MainView() {
              <Table data={charging_stations} rowsPerPage={30} />
            </div>
           </div>
-          <div className="row">
+          {/* <div className="row">
             <StationList stations={charging_stations} />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
