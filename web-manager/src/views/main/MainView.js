@@ -16,18 +16,15 @@ function MainView() {
             <p>하단의 메뉴를 통해 데이터 관리를 할 수 있습니다.</p>
             <ul class="icon-list">
               <li><a href="data/raw_all">수집한 모든 원본 데이터 확인하기</a></li>
-              <li><a href="data/raw_checked_false">수집한 모든 원본 데이터 중 처리되지 않은 데이터 확인하기 (coming soon!)</a></li>
+              <li><a href="data/raw_checked_false" class="nav-link disabled">수집한 모든 원본 데이터 중 처리되지 않은 데이터 확인하기 (coming soon!)</a></li>
             </ul>
           </div>
     
           <div class="col-md-6">
-            <h2>Guides</h2>
-            <p>Read more detailed instructions and documentation on using or contributing to Bootstrap.</p>
+            <h2>사용 가이드</h2>
+            <p>사용방법에 대해서 알아보세요.</p>
             <ul class="icon-list">
-              <li><a href="/docs/5.1/getting-started/introduction/">Bootstrap quick start guide</a></li>
-              <li><a href="/docs/5.1/getting-started/webpack/">Bootstrap Webpack guide</a></li>
-              <li><a href="/docs/5.1/getting-started/parcel/">Bootstrap Parcel guide</a></li>
-              <li><a href="/docs/5.1/getting-started/contribute/">Contributing to Bootstrap</a></li>
+              <li><a href="#">Quick start</a></li>
             </ul>
           </div>
         </div>
