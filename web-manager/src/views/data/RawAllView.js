@@ -29,9 +29,12 @@ function RawAllView() {
   
     if (loading) return <LoadingView/>;
     return(
+      <div className="container">
+        <h1>수집한 모든 원본 데이터 확인하기</h1>
         <main>
             <Table data={charging_stations} rowsPerPage={30} />
         </main>
+      </div>
     )
 }
 export default RawAllView;
