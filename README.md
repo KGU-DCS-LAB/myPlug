@@ -6,9 +6,9 @@
     myPlug
         ⊢   app-expo (React Native)
         ⊢   server (node.js)
-        ⊢   stand-alone     ⊢ station-data-generator (java)
-        |                   ⊢ station-data-purifier (node.js)
-        ⊢   web-manager (React)
+        ⊢   stand-alone     ⊢ data-manager (node.js)
+                            ⊢ station-data-generator (java)
+                            ⊢ web-manager (React)
 
 
 ## 사전 다운로드
@@ -18,8 +18,8 @@
 ## 기본 세팅 방법
 
     1. vsc에서 터미널 실행
-    2. app-expo, server, stand-alone/station-data-purifier, web-manager 폴더에서 각각 npm install 명령어 입력 (입력 시 설치가 끝날 때 까지 대기하여야 한다.)
-    3. 참고로 Java로 작성된 앱에서는 npm 관련 세팅을 하지 않는다!
+    2. app-expo, server, stand-alone/data-manager, stand-alone/web-manager 폴더에서 각각 npm install 명령어 입력 (입력 시 설치가 끝날 때 까지 대기하여야 한다.)
+    3. 참고로 Java로 작성된 앱(stand-alone/station-data-generator)에서는 npm 관련 세팅을 하지 않는다!
 
 
 
@@ -63,11 +63,15 @@ like to install typescript, @types/react, @types/react-native?
     ※ nodemon이 안되는 경우 권한 설정을 따로 해줘야 한다. node로 실행하는 것이 정석임.
 
 ### stand-alone
+    data-manager
+     - node(또는 nodemon) server.js
+     ※ nodemon이 안되는 경우 권한 설정을 따로 해줘야 한다. node로 실행하는 것이 정석임.
+
     station-data-generator
      - intelliJ로 실행해야 함. 이때 엉뚱한 폴더를 열지 않도록 주의한다.
 
-    station-data-purifier
-     - node(또는 nodemon) server.js
+    web-manager
+     - npm start
 
 
 ## 프로그램 실행 순서
