@@ -16,6 +16,7 @@ function MainView() {
             <p>하단의 메뉴를 통해 데이터 관리를 할 수 있습니다.</p>
             <ul class="icon-list">
               <li><a href="data/raw_all">수집한 모든 원본 데이터 확인하기</a></li>
+              <li><a href="#">수집한 데이터를 업데이트 하기</a></li>
               <li><a href="data/raw_checked_false" class="nav-link disabled">수집한 모든 원본 데이터 중 처리되지 않은 데이터 확인하기 (coming soon!)</a></li>
             </ul>
           </div>
