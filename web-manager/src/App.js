@@ -3,13 +3,15 @@ import {
   Route,
 } from "react-router-dom";
 import IndexView from './pages/main/IndexView'
-import MainView from './pages/main/MainView';
+import MainPage from './pages/main/MainPage';
+import DataPage from "./pages/data/DataPage";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<IndexView/>} />
-      <Route path="main" element={<MainView />} />
+      <Route path="main" element={<MainPage />} />
+      <Route path="data/:menu" element={<DataPage/>} />
     </Routes>
   );
 }
