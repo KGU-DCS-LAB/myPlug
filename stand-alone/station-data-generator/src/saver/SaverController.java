@@ -29,7 +29,7 @@ public class SaverController {
         System.out.println("Collection created successfully");
 
         System.out.println("Credentials : "+credential);
-        MongoCollection<Document> collection = database.getCollection("charging_stations");
+        MongoCollection<Document> collection = database.getCollection("raw_charging_stations");
         System.out.println("Collection myCollection selected successfully");
 //https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=cc116105&logNo=221479553429
 

@@ -13,7 +13,7 @@ function RawAllView() {
       (async () => {
         // 충전소 데이터 받아오는 작업 시작
         //ip는 변경되어야 할 가능성이 높으니깐 주의 바람 (윤주현)
-        axios.get('/stationsRouter/find')
+        axios.get('/stationsRouter/find/raw/all')
         .then((response) => {
           setChargingStation(response.data);
           // setChargingStation(JSON.stringify(response.data));
