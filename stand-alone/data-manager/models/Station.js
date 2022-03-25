@@ -6,6 +6,15 @@ const stationSchema = mongoose.Schema({
         maxlength: 100,
         required: true
     },
+    checked: {
+        type: Boolean,
+        required: true
+    },
+    api: {
+        type: String,
+        maxlength: 100,
+        required: true
+    },
     charging_station_name: {
         type: String,
         maxlength: 100,
@@ -28,6 +37,6 @@ const stationSchema = mongoose.Schema({
     }
 })
 
-const Station = mongoose.model('charging_station', stationSchema)
+const Station = mongoose.model('raw_charging_station', stationSchema)
 
 module.exports = { Station }
