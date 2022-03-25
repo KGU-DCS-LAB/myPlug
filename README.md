@@ -71,7 +71,7 @@ like to install typescript, @types/react, @types/react-native?
      - intelliJ로 실행해야 함. 이때 엉뚱한 폴더를 열지 않도록 주의한다.
 
     web-manager
-     - npm start
+     - npm start 
 
 
 ## 프로그램 실행 순서
@@ -82,11 +82,11 @@ like to install typescript, @types/react, @types/react-native?
 
 ### 2. server
 
-    서버를 실행하여 대기 상태로 만듦
+    서버(server)를 실행하여 대기 상태로 만듦
 
 ### 3. app-expo
 
-    앱을 실행하면 정상 동작함
+    앱(app-expo)을 실행하면 정상 동작함
 
 > 참고로 서버 실행을 하지 않고 app을 동작하는 경우 일부 데이터를 수신하지 못할 수 있다.
 
