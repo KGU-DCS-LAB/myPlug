@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const stationSchema = mongoose.Schema({
+const rawStationSchema = mongoose.Schema({
     _id: {
         type: String,
         maxlength: 100,
@@ -37,6 +37,6 @@ const stationSchema = mongoose.Schema({
     }
 })
 
-const Station = mongoose.model('raw_charging_station', stationSchema)
+const RawStation = mongoose.model('raw_charging_station', rawStationSchema)
 
-module.exports = { Station }
+module.exports = { RawStation }

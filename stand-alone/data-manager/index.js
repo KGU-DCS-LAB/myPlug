@@ -2,7 +2,6 @@ const express = require('express')
 const app = express()
 const port = 5001
 const bodyParser = require('body-parser');
-const { Station } = require("./models/Station");
 require('dotenv').config();
 // const dbpw = process.env;
 
