@@ -2,11 +2,16 @@ import { useParams } from 'react-router-dom';
 import Header from '../../components/common/Header';
 import RawAllView from '../../views/data/RawAllView';
 import RawCheckedFalseView from '../../views/data/RawCheckedFalseView';
+import UpdateRawAllView from '../../views/data/UpdateRawAllView';
+
 const data = {
-  raw_all: {
+  get_raw_all: {
     html:<RawAllView/>,
   },
-  raw_checked_false: {
+  update_raw_all:{
+    html:<UpdateRawAllView/>,
+  },
+  get_raw_checked_false: {
     html:<RawCheckedFalseView/>,
   },
 };

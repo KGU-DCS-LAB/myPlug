@@ -31,7 +31,7 @@ function RawCheckedFalseView() {
     if (loading) return <LoadingView/>;
     return(
       <div className="container">
-        <h1>수집한 모든 원본 데이터 중 처리되지 않은 데이터 확인하기</h1>
+        <h1>수집한 전체 원본 데이터 중 checked가 false인 데이터 확인하기</h1>
         <main>
             <Table data={charging_stations} rowsPerPage={30} />
         </main>
