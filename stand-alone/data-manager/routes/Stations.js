@@ -18,16 +18,25 @@ router.get('/find/raw/all', function(req, res, next) {
 
 router.get('/update/raw/false', function(req, res, next) {
     //수집한 원본 데이터 중 한번도 검사하지 않은 데이터 업데이트 하기
-    const filter = { 
-        checked: {$eq: false} 
-    };
-    const updateDoc = {
-        $set: {
-        checked : true,
-        },
-    };
-    RawStation.updateMany(filter, updateDoc);
-    res.json({status: 'success'});
+    const filter = {checked:{$eq:false}};
+    const updateDoc = {checked:true};
+    function handleStatus(){
+        
+    }
+    let status = null;
+    RawStation.updateMany(filter, updateDoc,
+        function (err, docs) {
+            if (err){
+                console.log(err);
+                status=err;
+            }
+            else{
+                console.log("Updated Docs : ", docs);
+                status=docs;
+            }
+        }
+    );
+    res.json({status: status});
 });
 
 router.get('/find/raw/false', function(req, res, next) {
