@@ -12,11 +12,11 @@ function UpdateRawAllView() {
         //ip는 proxy에서 관리해주고 있음
         axios.get('/stationsRouter/update/raw/false')
         .then((response) => {
+          console.log(response.data.status);
           setMessage(response.data.status);
           setLoading(false);
         }).catch(function (error) {
-          setMessage(response.data.status);
-          console.log(error);
+          console.log("error : ",error);
         });
       })();
     }, []);

@@ -16,39 +16,36 @@ router.get('/find/raw/all', function(req, res, next) {
     });
 });
 
-router.get('/update/raw/false', function(req, res, next) {
-// 추후 수정 예정
-// 현재 : checked를 fasle to true로 하는 작업만 완료
-// https://www.zerocho.com/category/MongoDB/post/59b6228e92f5830019d41ac4 여기에서 참고해서 작업 시도하기
-
-    //수집한 원본 데이터 중 한번도 검사하지 않은 데이터 업데이트 하기
-    const filter = {checked:{$eq:true}};
-    const updateDoc = {checked:false};
-    let status = null;
-    const handleStatus = (msg) => {
-        console.log('msg : ' + msg);
-        status = msg;
-    }
-    let updateFalseToTrue = async () => {
-        await RawStation.updateMany(filter, updateDoc,
-        function (err, docs) {
-            if (err){
-                console.log(err);
-                return err;
-                // handleStatus(err);
+router.get('/update/raw/false', async (req, res) => {
+        //수집한 원본 데이터 중 한번도 검사하지 않은 데이터 업데이트 하기
+        const filter = {checked:{$eq:false}};
+        const updateDoc = {checked:true};
+        let hello = async () => {
+            let state = {
+                status:null,
+            };
+            let setStatus = (msg) =>{
+                state.status = msg;
             }
-            else{
-                console.log("Updated Docs : ", docs);
-                return docs;
-                // handleStatus(docs);
-            }
+            RawStation.updateMany(filter, updateDoc,
+                function (err, docs) {
+                    if (err){
+                        console.log(err);
+                        // state.status=err;
+                        setStatus(err);
+                    }
+                    else{
+                        console.log("Updated Docs : ", docs);
+                        // state.status=docs;
+                        setStatus(docs);
+                    }
+                }
+            );
+            console.log("hihi:",state.status);
+            return await state.status;
         }
-    )};
-    updateFalseToTrue().then(
-        (msg) => console.log(msg)
-    );
-    console.log(status);
-    res.json({status: status});
+        let answer = await hello();
+        await res.json({status: JSON.stringify(answer)});
 });
 
 router.get('/find/raw/false', function(req, res, next) {
