@@ -78,13 +78,21 @@ like to install typescript, @types/react, @types/react-native?
 
 ### 1. stand-alone / station-data-generator
 
-    자바를 사용하여 공공데이터 api로부터 데이터 수신 및 저장
+    인텔리제이 및 자바를 사용하여 공공데이터 api로부터 데이터 수신 및 저장 (이때 mongoDB에 raw_charging_stations collection에 중복 데이터가 쌓임)
 
-### 2. server
+### 2. stand-alone / data-manager
+
+    데이터 매니저를 실행하여 대기 상태로 만듦
+
+### 3. stand-alone / web-manager
+
+    수집한 원본 데이터 중 한번도 검사하지 않은 데이터 업데이트 하기를 눌러 raw_charging_stations의 checked == false인 데이터를 true로 만들어줌과 동시에 charging_stations colection으로 데이터 최신화
+
+### 4. server
 
     서버(server)를 실행하여 대기 상태로 만듦
 
-### 3. app-expo
+### 5. app-expo
 
     앱(app-expo)을 실행하면 정상 동작함
 
