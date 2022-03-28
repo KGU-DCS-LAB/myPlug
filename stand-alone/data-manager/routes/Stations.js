@@ -26,6 +26,7 @@ router.get('/update/raw/false', async (req, res, next) => {
                 for (let i = 0; i < stations.length; i++) {
                     let stationName = stations[i].charging_station_name;
                     console.log(stationName);
+                    // https://www.geeksforgeeks.org/mongoose-findoneandupdate-function/ 참고 필
                     // Station.findOneAndUpdate(
 
                     // );
