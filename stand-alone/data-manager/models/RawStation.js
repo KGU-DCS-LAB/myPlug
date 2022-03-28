@@ -15,6 +15,11 @@ const rawStationSchema = mongoose.Schema({
         maxlength: 100,
         required: true
     },
+    date:{
+        type: String,
+        maxlength: 100,
+        required: true
+    },
     charging_station_name: {
         type: String,
         maxlength: 100,

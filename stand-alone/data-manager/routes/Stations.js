@@ -8,7 +8,6 @@ const { Station } = require("../models/Station");
 router.get('/find/raw/all', function(req, res, next) {
     // 수집한 모든 원본 데이터 가져오기
     RawStation.find({}).then( (stations) => {
-        // Station.find({} , {"_id" : 0}).then( (stations) => {
         console.log(stations);
         res.json(stations)
     }).catch( (err) => {
@@ -26,10 +25,31 @@ router.get('/update/raw/false', async (req, res, next) => {
                 for (let i = 0; i < stations.length; i++) {
                     let stationName = stations[i].charging_station_name;
                     console.log(stationName);
+                    const filter = {
+                        charging_station_name:{$eq:stations[i].charging_station_name}
+                    };
+                    const update = {
+                        date:stations[i].date,
+                        charging_station_location_latitude:stations[i].charging_station_location_latitude,
+                        charging_station_location_longitude:stations[i].charging_station_location_longitude,
+                        charging_station_location_detail:stations[i].charging_station_location_detail
+                    };
+                    const options = {
+                        upsert: true,
+                        new: true,
+                        setDefaultsOnInsert: true
+                    };
                     // https://www.geeksforgeeks.org/mongoose-findoneandupdate-function/ 참고 필
-                    // Station.findOneAndUpdate(
-
-                    // );
+                    Station.findOneAndUpdate(filter,update,options,
+                        (err,docs) => {
+                            if (err){
+                                console.log(err)
+                            }
+                            else{
+                                console.log("Original Doc : ",docs);
+                            }
+                        }
+                    );
                 }
             }).catch( (err) => {
                 console.log(err);
