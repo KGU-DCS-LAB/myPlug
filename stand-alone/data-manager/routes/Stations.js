@@ -25,8 +25,10 @@ router.get('/update/raw/false', async (req, res, next) => {
                 // console.log(stations);
                 for (let i = 0; i < stations.length; i++) {
                     let stationName = stations[i].charging_station_name;
-                    
                     console.log(stationName);
+                    // Station.findOneAndUpdate(
+
+                    // );
                 }
             }).catch( (err) => {
                 console.log(err);
