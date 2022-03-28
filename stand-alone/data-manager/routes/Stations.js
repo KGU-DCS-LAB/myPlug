@@ -20,32 +20,24 @@ router.get('/update/raw/false', async (req, res) => {
         //수집한 원본 데이터 중 한번도 검사하지 않은 데이터 업데이트 하기
         const filter = {checked:{$eq:false}};
         const updateDoc = {checked:true};
+        let setStatus = (msg) =>{
+            // console.log(msg)
+            let text = msg.modifiedCount+'개의 새로운 수신 데이터가 최신화 되었습니다.';
+            res.json({status: text});
+        }
         let hello = async () => {
-            let state = {
-                status:null,
-            };
-            let setStatus = (msg) =>{
-                state.status = msg;
-            }
             RawStation.updateMany(filter, updateDoc,
-                function (err, docs) {
+                (err, docs) => {
                     if (err){
-                        console.log(err);
-                        // state.status=err;
                         setStatus(err);
                     }
                     else{
-                        console.log("Updated Docs : ", docs);
-                        // state.status=docs;
                         setStatus(docs);
                     }
                 }
             );
-            console.log("hihi:",state.status);
-            return await state.status;
         }
-        let answer = await hello();
-        await res.json({status: JSON.stringify(answer)});
+        hello();
 });
 
 router.get('/find/raw/false', function(req, res, next) {
