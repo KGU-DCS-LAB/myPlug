@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Modal, Pressable, Alert, TouchableWithoutFeedba
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import axios from 'axios';
+import { MaterialIcons } from '@expo/vector-icons'; 
 
 class EvChargerMapView extends React.Component {
 
@@ -76,21 +77,27 @@ class EvChargerMapView extends React.Component {
         <TouchableWithoutFeedback onPress={() => this.setSmallModalVisible(!smallModalVisible)}>
           <View style={styles.flexEndView}>
             <View style={styles.smallModalView}>
-              <Text style={styles.modalText}>{this.state.charging_station_name}</Text>
-              <Text>{this.state.charging_station_location_detail}</Text>
+              
+
+            
+          
+              <Text style={styles.modalText}>{this.state.charging_station_name}<MaterialIcons name="star-border" size={24} color="black" />
+              <MaterialIcons name="star" size={24} color="orange" />
+              </Text>
+              <Text style={styles.modalTextAddress}>{this.state.charging_station_location_detail}</Text>
               <View>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => this.setSmallModalVisible(!smallModalVisible)}
                 >
-                  <Text style={styles.textStyle}>Hide Modal</Text>
+                  <Text style={styles.textStyle}>상세보기</Text>
                 </Pressable>
-                <Pressable
+                {/* <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={ () => openBigModalView() }
                 >
-                  <Text style={styles.textStyle}>상세보기</Text>
-                </Pressable>
+                  <Text style={styles.textStyle}>닫기</Text>
+                </Pressable> */}
               </View>
             </View>
           </View>
@@ -230,10 +237,19 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center"
+
   },
   modalText: {
-    marginBottom: 15,
-    textAlign: "center"
+    marginBottom: 20,
+    textAlign: "center",
+    fontSize : 20,
+
+  },
+  modalTextAddress: {
+    marginBottom: 28,
+    textAlign: "center",
+    fontSize : 15,
+
   }
 });
 
