@@ -79,9 +79,11 @@ class EvChargerMapView extends React.Component {
             <View style={styles.smallModalView}>
               
 
-            <MaterialIcons name="star-border" size={24} color="black" />
-            <MaterialIcons name="star" size={24} color="orange" />
-              <Text style={styles.modalText}>{this.state.charging_station_name}</Text>
+            
+          
+              <Text style={styles.modalText}>{this.state.charging_station_name}<MaterialIcons name="star-border" size={24} color="black" />
+              <MaterialIcons name="star" size={24} color="orange" />
+              </Text>
               <Text style={styles.modalTextAddress}>{this.state.charging_station_location_detail}</Text>
               <View>
                 <Pressable
@@ -240,11 +242,14 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 20,
     textAlign: "center",
-    fontSize : 21
+    fontSize : 20,
+
   },
   modalTextAddress: {
-    marginBottom: 35,
-    textAlign: "center"
+    marginBottom: 28,
+    textAlign: "center",
+    fontSize : 15,
+
   }
 });
 
