@@ -33,7 +33,8 @@ const HomeView = (props) => {
             </TouchableOpacity >
       </HStack>
       <VStack space={4} alignItems="center">
-            <TouchableOpacity onPress={() => props.navigation.navigate('Test')}>
+            <TouchableOpacity style={styles.CardContainer}
+                  onPress={() => props.navigation.navigate('EvCharger')}>
                   <Center w="64" h="20" bg="indigo.500" rounded="md" shadow={3}>
                         <Text>인근 충전소 찾기</Text>
                   </Center>
