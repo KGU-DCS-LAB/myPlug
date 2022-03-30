@@ -30,6 +30,7 @@ public class SaverController {
         MongoCollection<Document> collection = database.getCollection("raw_charging_stations");
         System.out.println("Collection myCollection selected successfully");
         System.out.println("Document inserted successfully");
+        System.out.println("약간의 시간이 걸립니다. 기다려주세요.");
         int count=0;
         for (StationBean s: stationList) {
             Document document = new Document("checked", s.getChecked())

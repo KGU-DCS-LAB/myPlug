@@ -118,7 +118,7 @@ public class ReceiverDAO {
                 if(page>3){
                     break;
                 }
-                System.out.println("**KECO 전기자동차 충전소 상태 "+page+"page 수집 시도**");
+                System.out.println("**KECO 전기자동차 충전소 상태 "+page+"page 수집 시도 (기다려주세요)**");
                 String url = "http://apis.data.go.kr/B552584/EvCharger/getChargerStatus?serviceKey=dg8oHXO5d9HkXM00ye%2Bvpwk1w16hxVZxN9UGvCFKA8kXtHQhTb6CJebWA2WZdMszfK%2B9HgoiqEYCB%2Bze2hFWMQ%3D%3D";   //파싱할 url
                 url+="&pageNo="+page; // 페이지 번호 : 페이지 번호
                 url+="&numOfRows=9999"; //한 페이지 결과 수 : 한 페이지 결과 수 (최소 10, 최대 9999)
@@ -171,11 +171,13 @@ public class ReceiverDAO {
                 if(page>3){
                     break;
                 }
-                System.out.println("**KECO 전기자동차 충전소 정보 "+page+"page 수집 시도**");
+                System.out.println("**KECO 전기자동차 충전소 정보 "+page+"page 수집 시도 (기다려주세요)**");
                 String url = "http://apis.data.go.kr/B552584/EvCharger/getChargerInfo?serviceKey=dg8oHXO5d9HkXM00ye%2Bvpwk1w16hxVZxN9UGvCFKA8kXtHQhTb6CJebWA2WZdMszfK%2B9HgoiqEYCB%2Bze2hFWMQ%3D%3D";
                 url+="&pageNo="+page; // 페이지 번호 : 페이지 번호
                 url+="&numOfRows=9999"; //한 페이지 결과 수 : 한 페이지 결과 수 (최소 10, 최대 9999)
                 url+="&zcode=11"; //지역구분 코드 시도 코드 (행정구역코드 앞 2자리)
+                System.out.println("[요청 url]");
+                System.out.println(url);
 
                 //시도 코드 | 시도 이름
                 //11 | 서울시
@@ -226,6 +228,7 @@ public class ReceiverDAO {
                 page++;
             }
 
+            System.out.println("-----------수집 종료. 다음으로 2번을 눌러 '정리된 데이터를 저장'을 눌러주세요.-----------");
             } catch (Exception e){
             e.printStackTrace();
         }
