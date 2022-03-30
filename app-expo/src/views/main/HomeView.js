@@ -39,6 +39,12 @@ const HomeView = (props) => {
                         <Text>인근 충전소 찾기</Text>
                   </Center>
             </TouchableOpacity>
+            <TouchableOpacity style={styles.CardContainer}
+                  onPress={() => props.navigation.navigate('Test')}>
+                  <Center w="64" h="20" bg="indigo.500" rounded="md" shadow={3}>
+                        <Text>개인 충전 패턴 분석</Text>
+                  </Center>
+            </TouchableOpacity>
             <Center w="64" h="20" bg="indigo.300" rounded="md" shadow={3}>
                   <MaterialIcons name="my-location" size={24} color="black" />
                   <Text>수원시 영통구 이의동 </Text>
