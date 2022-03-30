@@ -114,7 +114,7 @@ class MainRoute extends React.Component{
       .then((response) => {
         this.setChargingStations(JSON.stringify(response.data));
         // console.log(response.data);
-      }).catch(function (error) {
+      }).catch( (error) => {
         this.setChargingStations('[]');
         console.log(error);
       });

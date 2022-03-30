@@ -29,8 +29,8 @@ public class ReceiverController {
             String mode = scan.next();
             switch (mode) {
                 case "keco":
-                    rd.receiveKECO();
-//                    rd.receiveKECO2();
+//                    rd.receiveKECO();
+                    rd.receiveKECO2();
                     break;
                 case "kepco":
                     rd.receiveKEPCO();

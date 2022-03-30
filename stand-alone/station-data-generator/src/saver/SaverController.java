@@ -24,16 +24,13 @@ public class SaverController {
         MongoClient mongo = new MongoClient("localhost", 27017);
         MongoCredential credential = MongoCredential.createCredential("sampleUser","myDb","password".toCharArray());
         System.out.println("Connected");
-
         MongoDatabase database = mongo.getDatabase("myplug");
         System.out.println("Collection created successfully");
-
         System.out.println("Credentials : "+credential);
         MongoCollection<Document> collection = database.getCollection("raw_charging_stations");
         System.out.println("Collection myCollection selected successfully");
-
-
         System.out.println("Document inserted successfully");
+        int count=0;
         for (StationBean s: stationList) {
             Document document = new Document("checked", s.getChecked())
                     .append("api", s.getApi())
@@ -44,8 +41,9 @@ public class SaverController {
                     .append("charging_station_location_longitude", s.getCharging_station_location_longitude())
                     ;
             collection.insertOne(document);
+            count++;
         }
-        System.out.println("저장 완료");
+        System.out.println("총 "+count+"개 정보 저장 완료");
     }
 
 
