@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Component } from 'react'; 
-import { StyleSheet, View, Text, Modal, Pressable, Alert, TouchableWithoutFeedback,TouchableOpacity } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { StyleSheet, View, Text, Modal, Pressable, Alert, TouchableWithoutFeedback, TouchableOpacity  } from "react-native";
+import { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView from "react-native-map-clustering";
 import * as Location from 'expo-location';
 import axios from 'axios';
 import { MaterialIcons } from '@expo/vector-icons'; 
@@ -63,12 +64,10 @@ class EvChargerMapView extends React.Component {
       this.setSmallModalVisible(!smallModalVisible);
     }
 
-    var check = false
+    var check = false;
 
     const SmallModalView = () => {
-   
       return(
-        
         <Modal
         animationType="slide"
         transparent={true}
@@ -79,7 +78,6 @@ class EvChargerMapView extends React.Component {
         }}
       >
         <TouchableWithoutFeedback onPress={() => this.setSmallModalVisible(!smallModalVisible)}>
-  
           <View style={styles.flexEndView}>
             <View style={styles.smallModalView}>
               
@@ -87,14 +85,13 @@ class EvChargerMapView extends React.Component {
             
           
               <Text style={styles.modalText}>{this.state.charging_station_name}
-              <TouchableOpacity activeOpacity={0.8}>
-              
-              <MaterialIcons name={check ? "star" : "star-border"} size={24} color={check ? "orange" : "black" } />
-          
-              {/* <MaterialIcons name="star" size={24} color="orange" /> */}
-              </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8}>
+
+                <MaterialIcons name={check ? "star" : "star-border"} size={24} color={check ? "orange" : "black" } />
+
+                {/* <MaterialIcons name="star" size={24} color="orange" /> */}
+                </TouchableOpacity>
               </Text>
-      
               <Text style={styles.modalTextAddress}>{this.state.charging_station_location_detail}</Text>
               <View>
                 <Pressable
@@ -154,6 +151,11 @@ class EvChargerMapView extends React.Component {
       <View style={{ flex: 1 }}>
         <SmallModalView/>
         <BigModalView/>
+        {/* 
+        지도사용방법 : 
+        https://github.com/react-native-maps/react-native-maps
+        https://github.com/venits/react-native-map-clustering
+        */}
         <MapView
           initialRegion={{
           latitude: this.props.latitude,
