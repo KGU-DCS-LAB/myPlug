@@ -109,6 +109,48 @@ public class ReceiverDAO {
         }
     }
 
+    public void receiveKECO2() {
+        int page = 1;	// 페이지 초기값
+        try{
+            while (true){
+                String url = "http://apis.data.go.kr/B552584/EvCharger/getChargerStatus?serviceKey=dg8oHXO5d9HkXM00ye%2Bvpwk1w16hxVZxN9UGvCFKA8kXtHQhTb6CJebWA2WZdMszfK%2B9HgoiqEYCB%2Bze2hFWMQ%3D%3D";   //파싱할 url
+                url+="&pageNo="+page; // 페이지 번호 : 페이지 번호
+                url+="&numOfRows=9999"; //한 페이지 결과 수 : 한 페이지 결과 수 (최소 10, 최대 9999)
+                url+="period=5"; //상태갱신 기간 : 상태갱신 조회 범위(분) (기본값 5, 최소 1, 최대 10)
+                url+="&zcode=11"; //지역구분 코드 시도 코드 (행정구역코드 앞 2자리)
+                System.out.println("[요청 url]");
+                System.out.println(url);
+
+                //시도 코드 | 시도 이름
+                //11 | 서울시
+                //26 | 부산시
+                //27 | 대구시
+                //28 | 인천시
+                //29 | 광주시
+                //30 | 대전시
+                //31 | 울산시
+                //41 | 경기도
+                //42 | 강원도
+                //43 | 충북도
+                //44 | 충남도
+                //45 | 전북도
+                //46 | 전남도
+                //47 | 경북도
+                //48 | 경남도
+                //50 | 제주도
+                page++;
+                if(page==2){
+                    break;
+                }
+
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
     public void receiveKEPCO() {
 
         int page = 1;	// 페이지 초기값

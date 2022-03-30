@@ -30,6 +30,7 @@ public class ReceiverController {
             switch (mode) {
                 case "keco":
                     rd.receiveKECO();
+//                    rd.receiveKECO2();
                     break;
                 case "kepco":
                     rd.receiveKEPCO();
