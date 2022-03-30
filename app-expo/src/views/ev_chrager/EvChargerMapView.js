@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Component } from 'react'; 
-import { StyleSheet, View, Text, Modal, Pressable, Alert, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, View, Text, Modal, Pressable, Alert, TouchableWithoutFeedback,TouchableOpacity } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import axios from 'axios';
@@ -63,8 +63,12 @@ class EvChargerMapView extends React.Component {
       this.setSmallModalVisible(!smallModalVisible);
     }
 
+    var check = false
+
     const SmallModalView = () => {
+   
       return(
+        
         <Modal
         animationType="slide"
         transparent={true}
@@ -75,15 +79,22 @@ class EvChargerMapView extends React.Component {
         }}
       >
         <TouchableWithoutFeedback onPress={() => this.setSmallModalVisible(!smallModalVisible)}>
+  
           <View style={styles.flexEndView}>
             <View style={styles.smallModalView}>
               
 
             
           
-              <Text style={styles.modalText}>{this.state.charging_station_name}<MaterialIcons name="star-border" size={24} color="black" />
-              <MaterialIcons name="star" size={24} color="orange" />
+              <Text style={styles.modalText}>{this.state.charging_station_name}
+              <TouchableOpacity activeOpacity={0.8}>
+              
+              <MaterialIcons name={check ? "star" : "star-border"} size={24} color={check ? "orange" : "black" } />
+          
+              {/* <MaterialIcons name="star" size={24} color="orange" /> */}
+              </TouchableOpacity>
               </Text>
+      
               <Text style={styles.modalTextAddress}>{this.state.charging_station_location_detail}</Text>
               <View>
                 <Pressable
