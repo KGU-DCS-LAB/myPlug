@@ -1,7 +1,7 @@
 import { View } from "native-base"
 import { Center, Box, Heading, VStack, FormControl, Input, Link, Button, HStack, Text } from "native-base"
 
-const LoginView = () => {
+const LoginView = ( props ) => {
     return (
         <Center w="100%" h="100%">
             <Box safeArea p="2" py="8" w="90%" maxW="290">
@@ -40,7 +40,8 @@ const LoginView = () => {
                             color: "indigo.500",
                             fontWeight: "medium",
                             fontSize: "sm"
-                        }} href="#">
+                        }} 
+                        onPress={() => props.navigation.navigate('SignIn')}>
                             회원가입
                         </Link>
                     </HStack>
