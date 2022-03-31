@@ -59,6 +59,11 @@ const HomeView = (props) => {
                         <Text>|Documents로 이동하기|</Text>
                   </Center>
             </TouchableOpacity>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Login')}>
+                  <Center w="64" h="20" bg="indigo.500" rounded="md" shadow={3}>
+                        <Text>Login</Text>
+                  </Center>
+            </TouchableOpacity>
       </VStack>
       </>
  );

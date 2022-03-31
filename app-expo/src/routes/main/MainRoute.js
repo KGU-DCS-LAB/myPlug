@@ -3,6 +3,7 @@ import { Alert, Button, View, Text, Modal, StyleSheet, Pressable } from 'react-n
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeView from  '../../views/main/HomeView';
 import EvChargerRoute from '../ev_charger/EvChargerRoute';
+import LoginRoute from '../login/LoginRoute';
 import TestRoute from '../test/TestRoute';
 import * as Location from 'expo-location';
 import axios from 'axios';
@@ -23,6 +24,12 @@ function EvChargerScreen({ route, navigation }) {
   const { longitude } = route.params;
   return (
     <EvChargerRoute navigation={navigation} latitude={latitude} longitude={longitude} charging_stations={charging_stations}/>
+  );
+}
+
+function LoginScreen({ navigation }) {
+  return (
+    <LoginRoute navigation={navigation} />
   );
 }
 
@@ -176,6 +183,7 @@ class MainRoute extends React.Component{
         <Stack.Screen name="HotPlace" component={HotPlaceScreen} />
         <Stack.Screen name="Docs" component={DocsScreen} />
         <Stack.Screen name="Test" component={TestScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
       </Stack.Navigator>
       </>
     );
