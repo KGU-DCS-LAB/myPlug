@@ -1,39 +1,22 @@
 package v2.receiver;
 
 import beans.StationBean;
-import main.DataManager;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import v2.DataManager;
+import v2.dto.ChargerInfoDTO;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Receiver {
     public static Receiver getInstance() {
         return new Receiver();  // Singleton
     }
-
-    String [] zcode = new String[]{"11", "26", "27", "28", "29", "30", "31", "41", "42", "43", "44", "45", "46", "47", "48", "50"};
-    //시도 코드 | 시도 이름
-    //11 | 서울시
-    //26 | 부산시
-    //27 | 대구시
-    //28 | 인천시
-    //29 | 광주시
-    //30 | 대전시
-    //31 | 울산시
-    //41 | 경기도
-    //42 | 강원도
-    //43 | 충북도
-    //44 | 충남도
-    //45 | 전북도
-    //46 | 전남도
-    //47 | 경북도
-    //48 | 경남도
-    //50 | 제주도
 
     public static String getTagValue(String tag, Element eElement) {
         NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
@@ -43,10 +26,9 @@ public class Receiver {
         return nValue.getNodeValue();
     }
 
-    public void receiveKECO() {
-        int page = 0;
-        try{
-            page = 1;	// 페이지 초기값
+    public void getChargerStatus(String zcode){
+        try {
+            int page = 1;	// 페이지 초기값
             System.out.println("***KECO 전기자동차 충전소 상태 수집 시작***");
             while (true){
                 if(page>3){
@@ -57,27 +39,9 @@ public class Receiver {
                 url+="&pageNo="+page; // 페이지 번호 : 페이지 번호
                 url+="&numOfRows=9999"; //한 페이지 결과 수 : 한 페이지 결과 수 (최소 10, 최대 9999)
                 url+="period=5"; //상태갱신 기간 : 상태갱신 조회 범위(분) (기본값 5, 최소 1, 최대 10)
-                url+="&zcode=11"; //지역구분 코드 시도 코드 (행정구역코드 앞 2자리)
+                url+="&zcode="+zcode; //지역구분 코드 시도 코드 (행정구역코드 앞 2자리)
                 System.out.println("[요청 url]");
                 System.out.println(url);
-
-                //시도 코드 | 시도 이름
-                //11 | 서울시
-                //26 | 부산시
-                //27 | 대구시
-                //28 | 인천시
-                //29 | 광주시
-                //30 | 대전시
-                //31 | 울산시
-                //41 | 경기도
-                //42 | 강원도
-                //43 | 충북도
-                //44 | 충남도
-                //45 | 전북도
-                //46 | 전남도
-                //47 | 경북도
-                //48 | 경남도
-                //50 | 제주도
 
                 DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
                 DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
@@ -98,38 +62,31 @@ public class Receiver {
                 }
                 page++;
             }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
-            page = 1;	// 페이지 초기값
+    public void getChargerInfo(String zcode){
+        try {
+            int totalCount= 10000; // 실행 시 업데이트 되는 부분
+            int numOfRows = 9999;
+            int page = 1;	// 페이지 초기값
+            int maxPage = 2; // 추후 수정 예정
+
             System.out.println("***KECO 전기자동차 충전소 정보 수집 시작***");
             while(true) {
-                if(page>3){
+                if(page>maxPage){
                     break;
                 }
                 System.out.println("**KECO 전기자동차 충전소 정보 "+page+"page 수집 시도 (기다려주세요)**");
                 String url = "http://apis.data.go.kr/B552584/EvCharger/getChargerInfo?serviceKey=dg8oHXO5d9HkXM00ye%2Bvpwk1w16hxVZxN9UGvCFKA8kXtHQhTb6CJebWA2WZdMszfK%2B9HgoiqEYCB%2Bze2hFWMQ%3D%3D";
                 url+="&pageNo="+page; // 페이지 번호 : 페이지 번호
-                url+="&numOfRows=9999"; //한 페이지 결과 수 : 한 페이지 결과 수 (최소 10, 최대 9999)
-                url+="&zcode=11"; //지역구분 코드 시도 코드 (행정구역코드 앞 2자리)
+                url+="&numOfRows="+numOfRows; //한 페이지 결과 수 : 한 페이지 결과 수 (최소 10, 최대 9999)
+                url+="&zcode="+zcode; //지역구분 코드 시도 코드 (행정구역코드 앞 2자리)
                 System.out.println("[요청 url]");
                 System.out.println(url);
-
-                //시도 코드 | 시도 이름
-                //11 | 서울시
-                //26 | 부산시
-                //27 | 대구시
-                //28 | 인천시
-                //29 | 광주시
-                //30 | 대전시
-                //31 | 울산시
-                //41 | 경기도
-                //42 | 강원도
-                //43 | 충북도
-                //44 | 충남도
-                //45 | 전북도
-                //46 | 전남도
-                //47 | 경북도
-                //48 | 경남도
-                //50 | 제주도
 
                 DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
                 DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
@@ -137,35 +94,74 @@ public class Receiver {
 
                 // root tag
                 doc.getDocumentElement().normalize();
-//                System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+                System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
                 // 파싱할 tag
                 NodeList nList = doc.getElementsByTagName("item");
-                //System.out.println("파싱할 리스트 수 : "+ nList.getLength());
+                System.out.println("파싱할 리스트 수 : "+ nList.getLength());
 
 
                 for(int temp = 0; temp < nList.getLength(); temp++){
                     Node nNode = nList.item(temp);
-                    StationBean station = new StationBean();
+                    ChargerInfoDTO info = new ChargerInfoDTO();
                     if(nNode.getNodeType() == Node.ELEMENT_NODE){
                         Element eElement = (Element) nNode;
-                        station.setCharging_station_name(getTagValue("statNm",eElement));   //충전소명
-                        station.setCharging_station_location_detail(getTagValue("addr",eElement));  //충전소 주소
-                        station.setCharging_station_location_latitude(getTagValue("lat",eElement)); //중천소 위치(위도)
-                        station.setCharging_station_location_longitude(getTagValue("lng",eElement));//충전소 위치(경도)
-                        station.setDate(new Date()); //수신 시각
-                        station.setChecked(false); //업데이트 확인 여부
-                        station.setApi("keco"); //수집된 api 종류
-                        DataManager.stationList.add(station);
+                        info.setDate(new Date()); //수신 시각
+                        info.setChecked(false); //업데이트 확인 여부
+                        info.setApi("keco"); //수집된 api 종류
+                        info.setStatNm(getTagValue("statNm",eElement)); //충전소명
+                        info.setStatId(getTagValue("statId",eElement)); //충전소ID
+                        info.setChgerId(getTagValue("chgerId",eElement)); //충전기ID
+                        info.setChgerType(getTagValue("chgerType",eElement)); //충전기타입
+                        info.setAddr(getTagValue("addr",eElement)); //소재지 도로명 주소
+                        info.setLat(getTagValue("lat",eElement)); //위도
+                        info.setLng(getTagValue("lng",eElement)); //경도
+                        info.setUseTime(getTagValue("useTime",eElement)); //이용가능시간
+                        info.setBusiId(getTagValue("busiId",eElement)); //기관ID
+                        info.setBusiNm(getTagValue("busiNm",eElement)); //운영기관명
+                        info.setBusiCall(getTagValue("busiCall",eElement)); //충전기 운영기관 연락처
+                        info.setStat(getTagValue("stat",eElement)); //충전기상태
+                        info.setStatUpdDt(getTagValue("statUpdDt",eElement)); //충전기 상태 변경 일시
+                        info.setPowerType(getTagValue("powerType",eElement)); //충전기용량
+                        info.setZcode(getTagValue("zcode",eElement)); //시도 코드(행정구역코드 앞2자리)
+                        info.setParkingFree(getTagValue("parkingFree",eElement)); //주차료(Y:무료, N:유료, NULL:현장확인)
+                        info.setNote(getTagValue("note",eElement)); //충전소 안내
+                        DataManager.chargerInfoList.add(info);
                     }
                 }
                 page++;
             }
-
-            System.out.println("-----------수집 종료. 다음으로 2번을 눌러 '정리된 데이터를 저장'을 눌러주세요.-----------");
-            } catch (Exception e){
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void receiveKECO() {
+        HashMap<String, String> zcodes = new HashMap<>();
+        zcodes.put("11", "서울특별시");
+//        zcodes.put("26", "부산광역시");
+//        zcodes.put("27", "대구광역시");
+//        zcodes.put("28", "인천광역시");
+//        zcodes.put("29", "광주광역시");
+//        zcodes.put("30", "대전광역시");
+//        zcodes.put("31", "울산광역시");
+//        zcodes.put("41", "경기도");
+//        zcodes.put("42", "강원도");
+//        zcodes.put("43", "충청북도");
+//        zcodes.put("44", "충청남도");
+//        zcodes.put("45", "전라북도");
+//        zcodes.put("46", "전라남도");
+//        zcodes.put("47", "경상북도");
+//        zcodes.put("48", "경상남도");
+//        zcodes.put("50", "제주도");
+
+        for (String z:zcodes.keySet()) {
+            System.out.println("["+zcodes.get(z)+" 데이터 수집]");
+//            getChargerStatus(z);
+            getChargerInfo(z);
+        }
+        System.out.println("-----------수집 종료. 다음으로 2번을 눌러 '정리된 데이터를 저장'을 눌러주세요.-----------");
     }
 
 }

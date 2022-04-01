@@ -30,6 +30,7 @@ public class DataManager {
     public void run() throws IOException {
         Scanner scan = new Scanner(System.in);
         while (true) {
+            System.out.println("--------Version2--------");
             System.out.println("[메뉴] 숫자를 입력 후 엔터를 누르세요. (순서대로 작업해야 합니다.)");
             System.out.println("1. 데이터 수신 및 정리");
             System.out.println("2. 정리된 데이터를 저장");
@@ -41,7 +42,7 @@ public class DataManager {
                     break;
                 case 2:
                     SaverController2 sc = SaverController2.getInstance();
-//                    sc.start(chargerInfoList, chargerStatusList);
+                    sc.start(chargerInfoList);
                     break;
                 default:
                     System.out.println("잘못된 입력입니다.");

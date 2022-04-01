@@ -1,6 +1,11 @@
 package v2.dto;
 
+import java.util.Date;
+
 public class ChargerInfoDTO {
+    private String api="null";
+    private Date date=null;
+    private boolean checked = false;
     private String statNm; //충전소명
     private String statId; //충전소ID
     private String chgerId; //충전기ID
@@ -153,5 +158,29 @@ public class ChargerInfoDTO {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getApi() {
+        return api;
+    }
+
+    public void setApi(String api) {
+        this.api = api;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }
