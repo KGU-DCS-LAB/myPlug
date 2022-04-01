@@ -64,9 +64,10 @@ class EvChargerMapView extends React.Component {
       this.setSmallModalVisible(!smallModalVisible);
     }
 
-    var check = false;
 
+ 
     const SmallModalView = () => {
+      const [check,setCheck] = useState(false);
       return(
         <Modal
         animationType="slide"
@@ -85,7 +86,7 @@ class EvChargerMapView extends React.Component {
             
           
               <Text style={styles.modalText}>{this.state.charging_station_name}
-                <TouchableOpacity activeOpacity={0.8}>
+                <TouchableOpacity activeOpacity={0.8} onPress ={()=>setCheck(true)}>
 
                 <MaterialIcons name={check ? "star" : "star-border"} size={24} color={check ? "orange" : "black" } />
 
@@ -94,18 +95,18 @@ class EvChargerMapView extends React.Component {
               </Text>
               <Text style={styles.modalTextAddress}>{this.state.charging_station_location_detail}</Text>
               <View>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => this.setSmallModalVisible(!smallModalVisible)}
-                >
-                  <Text style={styles.textStyle}>상세보기</Text>
-                </Pressable>
                 {/* <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={ () => openBigModalView() }
+                  style={[styles.button, styles.buttonClose]}a
+                  onPress={() => this.setSmallModalVisible(!smallModalVisible)}
                 >
                   <Text style={styles.textStyle}>닫기</Text>
                 </Pressable> */}
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={ () => openBigModalView() }
+                >
+                  <Text style={styles.textStyle}>상세보기</Text>
+                </Pressable>
               </View>
             </View>
           </View>
