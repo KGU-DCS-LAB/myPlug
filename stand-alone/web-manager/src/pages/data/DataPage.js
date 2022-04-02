@@ -3,6 +3,7 @@ import Header from '../../components/common/Header';
 import RawAllView from '../../views/data/RawAllView';
 import RawCheckedFalseView from '../../views/data/RawCheckedFalseView';
 import UpdateRawAllView from '../../views/data/UpdateRawAllView';
+import GetKecoRawAll from '../../views/data/GetKecoRawAll';
 
 const data = {
   get_raw_all: {
@@ -13,6 +14,9 @@ const data = {
   },
   get_raw_checked_false: {
     html:<RawCheckedFalseView/>,
+  },
+  get_keco_raw_all:{
+    html:<GetKecoRawAll/>,
   },
 };
 
