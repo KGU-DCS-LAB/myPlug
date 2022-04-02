@@ -3,6 +3,7 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const { RawStation } = require("../models/RawStation");
 const { Station } = require("../models/Station");
+const { RawChargerInfo } = require("../models/RawChargerInfo");
 
 /* GET. */
 router.get('/find/raw/all', function(req, res, next) {
@@ -86,6 +87,18 @@ router.get('/update/raw/false', async (req, res, next) => {
 router.get('/find/raw/false', function(req, res, next) {
     // 수집한 전체 원본 데이터 중 checked가 false인 데이터 확인하기
     RawStation.find({checked: {$eq: false}}).then( (stations) => {
+        console.log(stations);
+        res.json(stations)
+    }).catch( (err) => {
+        console.log(err);
+        next(err)
+    });
+});
+
+
+router.get('/find/keco/raw/charger_info/all', function(req, res, next) {
+    // 수집한 모든 원본 데이터 가져오기
+    RawChargerInfo.find({}).then( (stations) => {
         console.log(stations);
         res.json(stations)
     }).catch( (err) => {

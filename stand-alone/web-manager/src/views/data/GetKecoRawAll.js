@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import LoadingView from "../../views/main/LoadingView";
-import Table from "../../components/Table";
+import KecoTable from "../../components/KecoTable";
 
 
 function GetKecoRawAll() {
@@ -13,7 +13,7 @@ function GetKecoRawAll() {
       (async () => {
         // 충전소 데이터 받아오는 작업 시작
         //ip는 proxy에서 관리해주고 있음
-        axios.get('/stationsRouter/find/raw/all')
+        axios.get('/stationsRouter/find/keco/raw/charger_info/all')
         .then((response) => {
           setChargingStation(response.data);
           console.log(JSON.stringify(response.data))
@@ -29,9 +29,9 @@ function GetKecoRawAll() {
     if (loading) return <LoadingView/>;
     return(
       <div className="container">
-        <h1>수집한 모든 원본 데이터 확인하기</h1>
+        <h1>KECO 서버로부터 수집한 "KECO 전기자동차 충전소 정보" RAW 데이터 확인하기</h1>
         <main>
-            <Table data={charging_stations} rowsPerPage={30} />
+            <KecoTable data={charging_stations} rowsPerPage={30} />
         </main>
       </div>
     )
