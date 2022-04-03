@@ -114,7 +114,8 @@ router.get('/update/keco/raw/charger_info/false', async (req, res, next) => {
 
     let updateStations = async () => {
         RawChargerInfo.find({checked: {$eq: false}}).then( (stations) => {
-            for (let i = 0; i < stations.length; i++) {
+            for (let i = 0; i < 5000; i++) {
+                // for (let i = 0; i < stations.length; i++) {
                 let stationName = stations[i].statNm+"("+stations[i].statId+")";
                 console.log(stationName);
                 const filter = {
@@ -151,6 +152,10 @@ router.get('/update/keco/raw/charger_info/false', async (req, res, next) => {
                         // }
                     }
                 );
+                RawChargerInfo.updateOne({checked:{$eq:false}}, {checked:true},
+                    (err, docs) => {
+                    }
+                );
             }
         }).catch( (err) => {
             console.log(err);
@@ -163,25 +168,34 @@ router.get('/update/keco/raw/charger_info/false', async (req, res, next) => {
     const updateDoc = {checked:true};
     let setStatus = (msg) =>{
         // console.log(msg)
-        let text = msg.modifiedCount+'개의 새로운 수신 데이터가 최신화 되었습니다.';
+        let text = msg.modifiedCount+'개의 새로운 수신 데이터 중 일부(최대 5000개)가 최신화 되었습니다. 0개가 남을 때 까지 계속해주세요.';
         console.log(text);
         res.json({status: text});
     }
-    let updateCheckedFalseToTrue = async () => {
-        RawChargerInfo.updateMany(filter, updateDoc,
-            (err, docs) => {
-                if (err){
-                    setStatus(err);
-                }
-                else{
-                    setStatus(docs);
-                }
-            }
-        );
+    // let updateCheckedFalseToTrue = async () => {
+    //     RawChargerInfo.updateMany(filter, updateDoc,
+    //         (err, docs) => {
+    //             if (err){
+    //                 setStatus(err);
+    //             }
+    //             else{
+    //                 setStatus(docs);
+    //             }
+    //         }
+    //     );
+    // }
+    let findCheckedFalse = async () => {
+        RawChargerInfo.find({checked: {$eq: false}}).then( (stations) => {
+            res.json({status: "처리 완료. "+stations.length+"개 남음."});
+        }).catch( (err) => {
+            console.log(err);
+            next(err)
+        });
     }
 
     updateStations();
-    updateCheckedFalseToTrue();
+    // updateCheckedFalseToTrue();
+    findCheckedFalse();
 });
 
 //keco 관련 메소드 끝

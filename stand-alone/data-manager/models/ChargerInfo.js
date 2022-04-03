@@ -28,7 +28,8 @@ const rawChargerInfoSchema = mongoose.Schema({
     statId: {
         type: String,
         maxlength: 100,
-        required: true
+        required: true,
+        unique : true 
     },
     // chgerId: {
     //     type: String,
