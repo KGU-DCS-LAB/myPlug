@@ -4,6 +4,7 @@ import RawAllView from '../../views/data/RawAllView';
 import RawCheckedFalseView from '../../views/data/RawCheckedFalseView';
 import UpdateRawAllView from '../../views/data/UpdateRawAllView';
 import GetKecoRawAll from '../../views/data/GetKecoRawAll';
+import UpdateKecoRawAllView from '../../views/data/UpdateKecoRawAllView';
 
 const data = {
   get_raw_all: {
@@ -17,6 +18,9 @@ const data = {
   },
   get_keco_raw_all:{
     html:<GetKecoRawAll/>,
+  },
+  update_keco_raw_all:{
+    html:<UpdateKecoRawAllView/>,
   },
 };
 

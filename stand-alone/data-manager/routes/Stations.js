@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const { RawStation } = require("../models/RawStation");
 const { Station } = require("../models/Station");
 const { RawChargerInfo } = require("../models/RawChargerInfo");
+const { ChargerInfo } = require('../models/ChargerInfo');
 
 /* GET. */
 router.get('/find/raw/all', function(req, res, next) {
@@ -95,6 +96,7 @@ router.get('/find/raw/false', function(req, res, next) {
     });
 });
 
+// keco 관련 메소드 추가 시작
 
 router.get('/find/keco/raw/charger_info/all', function(req, res, next) {
     // 수집한 모든 원본 데이터 가져오기
@@ -106,5 +108,82 @@ router.get('/find/keco/raw/charger_info/all', function(req, res, next) {
         next(err)
     });
 });
+
+router.get('/update/keco/raw/charger_info/false', async (req, res, next) => {
+    //수집한 원본 데이터 중 한번도 검사하지 않은 데이터 업데이트 하기
+
+    let updateStations = async () => {
+        RawChargerInfo.find({checked: {$eq: false}}).then( (stations) => {
+            for (let i = 0; i < stations.length; i++) {
+                let stationName = stations[i].statNm+"("+stations[i].statId+")";
+                console.log(stationName);
+                const filter = {
+                    statId:{$eq:stations[i].statId}
+                };
+                const update = {
+                    date:stations[i].date,
+                    statNm:stations[i].statNm,
+                    statId:stations[i].statId,
+                    addr:stations[i].addr,
+                    lat:stations[i].lat,
+                    lng:stations[i].lng,
+                    useTime:stations[i].useTime,
+                    busiId:stations[i].busiId,
+                    busiNm:stations[i].busiNm,
+                    busiCall:stations[i].busiCall,
+                    zcode:stations[i].zcode,
+                    parkingFree:stations[i].parkingFree,
+                    note:stations[i].note,
+                };
+                const options = {
+                    upsert: true,
+                    new: true,
+                    setDefaultsOnInsert: true
+                };
+                // https://www.geeksforgeeks.org/mongoose-findoneandupdate-function/ 참고 필
+                ChargerInfo.findOneAndUpdate(filter,update,options,
+                    (err,docs) => {
+                        // if (err){
+                        //     console.log(err)
+                        // }
+                        // else{
+                        //     console.log("Original Doc : ",docs);
+                        // }
+                    }
+                );
+            }
+        }).catch( (err) => {
+            console.log(err);
+            next(err)
+        });    
+    }
+
+
+    const filter = {checked:{$eq:false}};
+    const updateDoc = {checked:true};
+    let setStatus = (msg) =>{
+        // console.log(msg)
+        let text = msg.modifiedCount+'개의 새로운 수신 데이터가 최신화 되었습니다.';
+        console.log(text);
+        res.json({status: text});
+    }
+    let updateCheckedFalseToTrue = async () => {
+        RawChargerInfo.updateMany(filter, updateDoc,
+            (err, docs) => {
+                if (err){
+                    setStatus(err);
+                }
+                else{
+                    setStatus(docs);
+                }
+            }
+        );
+    }
+
+    updateStations();
+    updateCheckedFalseToTrue();
+});
+
+//keco 관련 메소드 끝
 
 module.exports = router;
