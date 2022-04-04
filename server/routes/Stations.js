@@ -2,12 +2,12 @@ const express = require('express')
 const router = express.Router();
 const bodyParser = require('body-parser');
 const { Station } = require("../models/Station");
+const { ChargerInfo } = require('../models/ChargerInfo');
 
 /* GET. */
 router.get('/find', function(req, res, next) {
     // 전체 데이터 가져오기
     Station.find({}).then( (stations) => {
-        // Station.find({} , {"_id" : 0}).then( (stations) => {
         console.log(stations);
         res.json(stations)
     }).catch( (err) => {
@@ -16,21 +16,18 @@ router.get('/find', function(req, res, next) {
     });
 });
 
-// var mongoose = require('mongoose');
-// var student = mongoose.Schema({
-//     name : 'string',
-//     address : 'string',
-//     age : 'number'
-// });
-// var Student = mongoose.model('Schema', student);
-// Student.find(function(error, students){
-//     console.log('--- Read all ---');
-//     if(error){
-//         console.log(error);
-//     }else{
-//         console.log(students);
-//     }
-// })
+/* GET. */
+router.get('/keco/find', function(req, res, next) {
+    // 전체 데이터 가져오기
+    ChargerInfo.find({}).then( (stations) => {
+        console.log(stations);
+        res.json(stations)
+    }).catch( (err) => {
+        console.log(err);
+        next(err)
+    });
+});
+
 
 
 module.exports = router;
