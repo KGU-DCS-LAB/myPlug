@@ -1,6 +1,5 @@
 package v2.receiver;
 
-import beans.StationBean;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -54,7 +53,6 @@ public class Receiver {
                 //System.out.println("파싱할 리스트 수 : "+ nList.getLength());
                 for(int temp = 0; temp < nList.getLength(); temp++){
                     Node nNode = nList.item(temp);
-                    StationBean station = new StationBean();
                     if(nNode.getNodeType() == Node.ELEMENT_NODE){
                         Element eElement = (Element) nNode;
 //                        DataManager.stationList.add(station);

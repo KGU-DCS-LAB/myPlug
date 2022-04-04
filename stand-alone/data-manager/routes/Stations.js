@@ -186,7 +186,7 @@ router.get('/update/keco/raw/charger_info/false', async (req, res, next) => {
     // }
     let findCheckedFalse = async () => {
         RawChargerInfo.find({checked: {$eq: false}}).then( (stations) => {
-            res.json({status: "처리 완료. "+stations.length+"개 남음."});
+            res.json({status: "처리 완료. 데이터 중 일부(최대 5000개)가 최신화 되었습니다. 아직 처리되지 않은 "+stations.length+"개의 데이터가 남았습니다. 0개가 남을 때 까지 계속해주세요. (천천히 새로고침도 가능)"});
         }).catch( (err) => {
             console.log(err);
             next(err)

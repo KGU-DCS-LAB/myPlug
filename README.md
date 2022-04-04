@@ -78,7 +78,9 @@ like to install typescript, @types/react, @types/react-native?
 
 ### 1. stand-alone / station-data-generator
 
-    인텔리제이 및 자바를 사용하여 공공데이터 api로부터 데이터 수신 및 저장 (이때 mongoDB에 raw_charging_stations collection에 중복 데이터가 쌓임)
+    인텔리제이 및 자바를 사용하여 공공데이터 api로부터 데이터 수신 및 저장 (이때 mongoDB에 raw_charger_infos collection에 중복 데이터가 쌓임)
+    
+    기존과 다르게 v2 패키지에 있는 DataManager.java를 실행해주셔야 합니다. (기존 패키지는 삭제함)
 
 ### 2. stand-alone / data-manager
 
@@ -86,7 +88,7 @@ like to install typescript, @types/react, @types/react-native?
 
 ### 3. stand-alone / web-manager
 
-    수집한 원본 데이터 중 한번도 검사하지 않은 데이터 업데이트 하기를 눌러 raw_charging_stations의 checked == false인 데이터를 true로 만들어줌과 동시에 charging_stations colection으로 데이터 최신화
+    '수집한 원본 데이터 중 한번도 검사하지 않은 "KECO 전기자동차 충전소 정보" RAW 데이터 업데이트 하기'를 눌러 raw_charger_infos의 checked == false인 데이터를 true로 만들어줌과 동시에 charger_infos colection으로 데이터 최신화 (단, 한번에 5000개의 데이터만 업데이트 된다.)
 
 ### 4. server
 

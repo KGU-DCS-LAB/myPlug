@@ -1,6 +1,5 @@
 package v2.saver;
 
-import beans.StationBean;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.client.MongoCollection;
