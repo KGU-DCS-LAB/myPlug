@@ -24,6 +24,11 @@ class EvChargerMapView extends React.Component {
     this.setState({charging_station_location_detail:detail});
   }
 
+  setCheck = (check) => {
+    this.setState({check:check});
+  }
+
+
 
   constructor(props) {
     super(props);
@@ -37,7 +42,9 @@ class EvChargerMapView extends React.Component {
       smallModalVisible : false,
       bigModalVisible : false,
       charging_station_name : "charging_station_name",
-      charging_station_location_detail : "charging_station_location_detail"
+      charging_station_location_detail : "charging_station_location_detail",
+      selected_charging_station : '{}',
+      check:false, //나중에 회원가입 기능 생기면 수정 필요함
     };
 
   }
@@ -67,7 +74,6 @@ class EvChargerMapView extends React.Component {
 
  
     const SmallModalView = () => {
-      const [check,setCheck] = useState(false);
       return(
         <Modal
         animationType="slide"
@@ -86,9 +92,9 @@ class EvChargerMapView extends React.Component {
             
           
               <Text style={styles.modalText}>{this.state.charging_station_name}
-                <TouchableOpacity activeOpacity={0.8} onPress ={()=>setCheck(true)}>
+                <TouchableOpacity activeOpacity={0.8} onPress ={()=>this.setCheck(!this.state.check)}>
 
-                <MaterialIcons name={check ? "star" : "star-border"} size={24} color={check ? "orange" : "black" } />
+                <MaterialIcons name={this.state.check ? "star" : "star-border"} size={24} color={this.state.check ? "orange" : "black" } />
 
                 {/* <MaterialIcons name="star" size={24} color="orange" /> */}
                 </TouchableOpacity>
