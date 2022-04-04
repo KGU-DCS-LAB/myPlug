@@ -176,14 +176,14 @@ class EvChargerMapView extends React.Component {
         {this.state.charging_stations.map((marker, index) => (
           <Marker
             key={index}
-            coordinate={{latitude:Number(marker.charging_station_location_latitude), longitude:Number(marker.charging_station_location_longitude)}}
-            title={marker.charging_station_name}
-            description={marker.charging_station_location_detail}
+            coordinate={{latitude:Number(marker.lat), longitude:Number(marker.lng)}}
+            title={marker.statNm}
+            description={marker.addr}
             onPress={
               () => {
                 this.setSmallModalVisible(true);
-                this.setChargingStationName(marker.charging_station_name);
-                this.setChargingStationLocationDetail(marker.charging_station_location_detail);
+                this.setChargingStationName(marker.statNm);
+                this.setChargingStationLocationDetail(marker.addr);
               }
             }
           />

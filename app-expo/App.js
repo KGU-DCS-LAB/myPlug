@@ -57,7 +57,7 @@ class App extends React.Component{
       axios.get(config.ip+':5000/stationsRouter/keco/find')
       .then((response) => {
         this.setChargingStations(JSON.stringify(response.data));
-        console.log(response.data);
+        // console.log(response.data);
       }).catch( (error) => {
         this.setChargingStations('[]');
         console.log(error);
@@ -120,8 +120,9 @@ class App extends React.Component{
       <SafeAreaView style={styles.AndroidSafeArea}>
         <NativeBaseProvider>
           <NavigationContainer>
-          {this.state.location && this.state.charging_stations
-            ? this.state.latitude==0 || this.state.longitude==0 ? <LoadingScreen/> : <MainRoute latitude={this.state.latitude} longitude={this.state.longitude}/>
+          {
+          this.state.location && this.state.charging_stations
+            ? this.state.latitude==0 || this.state.longitude==0 ? <LoadingScreen/> : <MainRoute latitude={this.state.latitude} longitude={this.state.longitude} charging_stations={this.state.charging_stations} />
             : <LoadingScreen/>
           }
           </NavigationContainer>

@@ -78,21 +78,21 @@ function DocsScreen({ navigation }) {
 const Stack = createNativeStackNavigator();
 
 class MainRoute extends React.Component{
-  setChargingStations = (stations) => {
-    this.setState({ charging_stations: stations });
-  }
-  setLatitude = (latitude) => {
-    this.setState({latitude: latitude});
-  }
-  setLongitude = (longitude) => {
-    this.setState({longitude: longitude});
-  }
+  // setChargingStations = (stations) => {
+  //   this.setState({ charging_stations: stations });
+  // }
+  // setLatitude = (latitude) => {
+  //   this.setState({latitude: latitude});
+  // }
+  // setLongitude = (longitude) => {
+  //   this.setState({longitude: longitude});
+  // }
   setModalVisible = (visible) => {
     this.setState({ modalVisible: visible });
   }
-  setSeconds = (seconds) => {
-    this.setState({ seconds: seconds });
-  }
+  // setSeconds = (seconds) => {
+  //   this.setState({ seconds: seconds });
+  // }
 
 
   // HandleChange = (e) => {
@@ -105,7 +105,7 @@ class MainRoute extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      charging_stations : '[]',
+      charging_stations : props.charging_stations,
       latitude : props.latitude, 
       longitude : props.longitude,
       modalVisible : true,
@@ -114,36 +114,6 @@ class MainRoute extends React.Component{
   }
 
   componentDidMount(){
-    // let stationsData = async () => {
-    //   // 충전소 데이터 받아오는 작업 시작
-    //   // 3월 12일 부로 ip는 config.js에서 받아오구 있음 (윤주현)
-    //   axios.get(config.ip+':5000/stationsRouter/find')
-    //   .then((response) => {
-    //     this.setChargingStations(JSON.stringify(response.data));
-    //     // console.log(response.data);
-    //   }).catch( (error) => {
-    //     this.setChargingStations('[]');
-    //     console.log(error);
-    //   });
-    //  // 충전소 데이터 받아오는 작업 끝
-
-    //  this.setLatitude(this.state.latitude);
-    //  this.setLongitude(this.state.longitude);
-    // }
-    // stationsData();
-    // // console.log(this.state.charging_stations);
-    // let checkStations = setInterval( (props) =>{
-    //   if (this.state.charging_stations!='[]'){
-    //     console.log('충전소 정보가 정상적으로 수신 된 것 같습니다.')
-    //     // console.log(this.state.charging_stations)
-    //     // this.state.props.navigation.navigate('Home');
-    //     clearInterval(checkStations);
-    //   }
-    // }, 1000 );
-
-
-    // console.log(this.state.latitude);
-    // console.log(this.state.longitude);
 
   }
 
