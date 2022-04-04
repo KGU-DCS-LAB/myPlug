@@ -150,7 +150,7 @@ class MainRoute extends React.Component{
   render() {
     return (
       <>
-        <Modal
+        {/* <Modal
           animationType="slide"
           transparent={true}
           visible={this.state.modalVisible}
@@ -172,7 +172,7 @@ class MainRoute extends React.Component{
               </Pressable>
             </View>
           </View>
-        </Modal>
+        </Modal> */}
       <Stack.Navigator
        initialRouteName="Home"
        screenOptions={{ headerShown: false }} 
