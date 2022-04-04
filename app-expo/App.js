@@ -11,8 +11,8 @@ import {
   Spinner
 } from "native-base";
 import LoadingView from './src/views/main/LoadingView';
-
-
+import axios from 'axios';
+import {config} from './config'
 
 class App extends React.Component{
 
@@ -31,6 +31,9 @@ class App extends React.Component{
   setSeconds = (seconds) => {
     this.setState({ seconds: seconds });
   }
+  setChargingStations = (stations) => {
+    this.setState({ charging_stations: stations });
+  }
 
   constructor(props) {
     super(props);
@@ -40,11 +43,31 @@ class App extends React.Component{
       latitude : 0,
       longitude : 0,
       seconds : 0,
+      charging_stations : null,
     };
   }
 
   componentDidMount(){
     console.log('loading componentDidMount()')
+
+    //get station data start
+    let stationData = async () => {
+      console.log('stationData')
+      // 충전소 데이터 받아오는 작업 시작
+      axios.get(config.ip+':5000/stationsRouter/keco/find')
+      .then((response) => {
+        this.setChargingStations(JSON.stringify(response.data));
+        console.log(response.data);
+      }).catch( (error) => {
+        this.setChargingStations('[]');
+        console.log(error);
+      });
+     // 충전소 데이터 받아오는 작업 끝
+    }
+    stationData();
+    //get station data end
+
+    //get gps start
     let gps = async () => {
       if (Platform.OS === 'android' && !Constants.isDevice) {
         setErrorMsg(
@@ -82,6 +105,8 @@ class App extends React.Component{
         this.setSeconds(this.state.seconds+1);
       }
     }, 1000 );
+    //get gps end
+
   }
 
   render() {
@@ -95,7 +120,7 @@ class App extends React.Component{
       <SafeAreaView style={styles.AndroidSafeArea}>
         <NativeBaseProvider>
           <NavigationContainer>
-          {this.state.location
+          {this.state.location && this.state.charging_stations
             ? this.state.latitude==0 || this.state.longitude==0 ? <LoadingScreen/> : <MainRoute latitude={this.state.latitude} longitude={this.state.longitude}/>
             : <LoadingScreen/>
           }
