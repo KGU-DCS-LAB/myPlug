@@ -2,8 +2,6 @@ import React, { useState, useEffect, Component } from 'react';
 import { StyleSheet, View, Text, Modal, Pressable, Alert, TouchableWithoutFeedback, TouchableOpacity  } from "react-native";
 import { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapView from "react-native-map-clustering";
-import * as Location from 'expo-location';
-import axios from 'axios';
 import { MaterialIcons } from '@expo/vector-icons'; 
 
 class EvChargerMapView extends React.Component {
@@ -16,18 +14,13 @@ class EvChargerMapView extends React.Component {
     this.setState({ bigModalVisible: visible });
   }
 
-  setChargingStationName = (name)=>{
-    this.setState({charging_station_name:name});
-  }
-
-  setChargingStationLocationDetail = (detail)=>{
-    this.setState({charging_station_location_detail:detail});
-  }
-
   setCheck = (check) => {
     this.setState({check:check});
   }
 
+  setChargingStation = (station) => {
+    this.setState({station: station})
+  }
 
 
   constructor(props) {
@@ -38,12 +31,10 @@ class EvChargerMapView extends React.Component {
 
     this.state = {
       charging_stations : JSON.parse(props.charging_stations), 
+      station : '{}',
       MapStyle : MapStyle, 
       smallModalVisible : false,
       bigModalVisible : false,
-      charging_station_name : "charging_station_name",
-      charging_station_location_detail : "charging_station_location_detail",
-      selected_charging_station : '{}',
       check:false, //나중에 회원가입 기능 생기면 수정 필요함
     };
 
@@ -71,9 +62,8 @@ class EvChargerMapView extends React.Component {
       this.setSmallModalVisible(!smallModalVisible);
     }
 
-
- 
     const SmallModalView = () => {
+      const station = this.state.station;
       return(
         <Modal
         animationType="slide"
@@ -87,11 +77,8 @@ class EvChargerMapView extends React.Component {
         <TouchableWithoutFeedback onPress={() => this.setSmallModalVisible(!smallModalVisible)}>
           <View style={styles.flexEndView}>
             <View style={styles.smallModalView}>
-              
-
-            
           
-              <Text style={styles.modalText}>{this.state.charging_station_name}
+              <Text style={styles.modalText}>{station.statNm}
                 <TouchableOpacity activeOpacity={0.8} onPress ={()=>this.setCheck(!this.state.check)}>
 
                 <MaterialIcons name={this.state.check ? "star" : "star-border"} size={24} color={this.state.check ? "orange" : "black" } />
@@ -99,7 +86,7 @@ class EvChargerMapView extends React.Component {
                 {/* <MaterialIcons name="star" size={24} color="orange" /> */}
                 </TouchableOpacity>
               </Text>
-              <Text style={styles.modalTextAddress}>{this.state.charging_station_location_detail}</Text>
+              <Text style={styles.modalTextAddress}>{station.addr}</Text>
               <View>
                 {/* <Pressable
                   style={[styles.button, styles.buttonClose]}a
@@ -122,6 +109,7 @@ class EvChargerMapView extends React.Component {
     }
 
     const BigModalView = () => {
+      const station = this.state.station;
       return(
         <Modal
           animationType="slide"
@@ -136,8 +124,14 @@ class EvChargerMapView extends React.Component {
             <View style={styles.flexEndView}>
               <View style={styles.bigModalView}>
                 <Text>This is Big Modal</Text>
-                <Text style={styles.modalText}>{this.state.charging_station_name}</Text>
-                <Text>{this.state.charging_station_location_detail}</Text>
+                <Text style={styles.modalText}>{station.statNm+"("+station.statId+")"}</Text>
+                <Text>{station.addr}</Text>
+                <Text>{station.busiCall}</Text>
+                <Text>{station.busiId}</Text>
+                <Text>{station.note?'note가 없습니다.':station.note}</Text>
+                <Text>{station.parkingFree}</Text>
+                <Text>{station.useTime}</Text>
+                
                 <View>
                   <Pressable
                     style={[styles.button, styles.buttonClose]}
@@ -188,8 +182,7 @@ class EvChargerMapView extends React.Component {
             onPress={
               () => {
                 this.setSmallModalVisible(true);
-                this.setChargingStationName(marker.statNm);
-                this.setChargingStationLocationDetail(marker.addr);
+                this.setChargingStation(marker);
               }
             }
           />
