@@ -1,8 +1,5 @@
 import { useParams } from 'react-router-dom';
 import Header from '../../components/common/Header';
-import RawAllView from '../../views/data/RawAllView';
-import RawCheckedFalseView from '../../views/data/RawCheckedFalseView';
-import UpdateRawAllView from '../../views/data/UpdateRawAllView';
 import GetKecoRawAll from '../../views/data/GetKecoRawAll';
 import UpdateKecoRawAllView from '../../views/data/UpdateKecoRawAllView';
 
