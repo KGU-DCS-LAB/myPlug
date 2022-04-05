@@ -14,9 +14,19 @@ import java.util.ArrayList;
  * Project Structure에서 라이브러리 등록하세요!!!!!!!
  *
  * */
-public class SaverController2 {
-    public static SaverController2 getInstance() {
-        return new SaverController2();  // Singleton
+public class SaverController {
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+
+    public static SaverController getInstance() {
+        return new SaverController();  // Singleton
     }
 
     public void start(ArrayList<ChargerInfoDTO> chargerInfoList) {
@@ -29,7 +39,13 @@ public class SaverController2 {
         MongoCollection<Document> collection = database.getCollection("raw_charger_infos");
         System.out.println("Collection myCollection selected successfully");
         System.out.println("Document inserted successfully");
-        System.out.println("약간의 시간이 걸립니다. 기다려주세요.");
+        System.out.println(ANSI_YELLOW);
+        System.out.println("************************************");
+        System.out.println("************************************");
+        System.out.println("**약간의 시간이 걸립니다. 기다려주세요.**");
+        System.out.println("************************************");
+        System.out.println("************************************");
+        System.out.println(ANSI_RESET);
         int count=0;
         for (ChargerInfoDTO ci: chargerInfoList) {
             Document document = new Document("checked", ci.getChecked())
@@ -56,7 +72,8 @@ public class SaverController2 {
             collection.insertOne(document);
             count++;
         }
-        System.out.println("총 "+count+"개 정보 저장 완료");
+        System.out.println(ANSI_GREEN+"총 "+count+"개 정보 저장 완료"+ANSI_RESET);
+        System.out.println(ANSI_CYAN+"오류 방지를 위해 프로그램을 종료해주세요."+ANSI_RESET);
     }
 
 

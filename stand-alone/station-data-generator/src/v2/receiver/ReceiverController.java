@@ -3,9 +3,9 @@ package v2.receiver;
 import java.util.Scanner;
 //import receiver.ReceiverController;
 
-public class ReceiverController2 {
-    public static ReceiverController2 getInstance() {
-        return new ReceiverController2();  // Singleton
+public class ReceiverController {
+    public static ReceiverController getInstance() {
+        return new ReceiverController();  // Singleton
     }
 
     public void start(){

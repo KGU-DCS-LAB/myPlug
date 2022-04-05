@@ -7,15 +7,15 @@ import GetKecoRawAll from '../../views/data/GetKecoRawAll';
 import UpdateKecoRawAllView from '../../views/data/UpdateKecoRawAllView';
 
 const data = {
-  get_raw_all: {
-    html:<RawAllView/>,
-  },
-  update_raw_all:{
-    html:<UpdateRawAllView/>,
-  },
-  get_raw_checked_false: {
-    html:<RawCheckedFalseView/>,
-  },
+  // get_raw_all: {
+  //   html:<RawAllView/>,
+  // },
+  // update_raw_all:{
+  //   html:<UpdateRawAllView/>,
+  // },
+  // get_raw_checked_false: {
+  //   html:<RawCheckedFalseView/>,
+  // },
   get_keco_raw_all:{
     html:<GetKecoRawAll/>,
   },

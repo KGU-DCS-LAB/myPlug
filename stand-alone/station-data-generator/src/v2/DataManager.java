@@ -1,9 +1,8 @@
 package v2;
 
 import v2.dto.ChargerInfoDTO;
-import v2.dto.ChargerStatusDTO;
-import v2.receiver.ReceiverController2;
-import v2.saver.SaverController2;
+import v2.receiver.ReceiverController;
+import v2.saver.SaverController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ import java.util.Scanner;
 public class DataManager {
     public static DataManager dataManager = new DataManager();
     public static ArrayList<ChargerInfoDTO> chargerInfoList = new ArrayList<ChargerInfoDTO>();
-    public static ArrayList<ChargerStatusDTO> chargerStatusList = new ArrayList<ChargerStatusDTO>();
 
     public void run() throws IOException {
         Scanner scan = new Scanner(System.in);
@@ -37,11 +35,11 @@ public class DataManager {
             int mode = scan.nextInt();
             switch (mode) {
                 case 1:
-                    ReceiverController2 rc2 = ReceiverController2.getInstance();
+                    ReceiverController rc2 = ReceiverController.getInstance();
                     rc2.start();
                     break;
                 case 2:
-                    SaverController2 sc = SaverController2.getInstance();
+                    SaverController sc = SaverController.getInstance();
                     sc.start(chargerInfoList);
                     break;
                 default:

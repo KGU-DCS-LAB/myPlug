@@ -13,6 +13,17 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class Receiver {
+
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+
     public static Receiver getInstance() {
         return new Receiver();  // Singleton
     }
@@ -25,47 +36,6 @@ public class Receiver {
         return nValue.getNodeValue();
     }
 
-    public void getChargerStatus(String zcode){
-        try {
-            int page = 1;	// 페이지 초기값
-            System.out.println("***KECO 전기자동차 충전소 상태 수집 시작***");
-            while (true){
-                if(page>3){
-                    break;
-                }
-                System.out.println("**KECO 전기자동차 충전소 상태 "+page+"page 수집 시도 (기다려주세요)**");
-                String url = "http://apis.data.go.kr/B552584/EvCharger/getChargerStatus?serviceKey=dg8oHXO5d9HkXM00ye%2Bvpwk1w16hxVZxN9UGvCFKA8kXtHQhTb6CJebWA2WZdMszfK%2B9HgoiqEYCB%2Bze2hFWMQ%3D%3D";   //파싱할 url
-                url+="&pageNo="+page; // 페이지 번호 : 페이지 번호
-                url+="&numOfRows=9999"; //한 페이지 결과 수 : 한 페이지 결과 수 (최소 10, 최대 9999)
-                url+="period=5"; //상태갱신 기간 : 상태갱신 조회 범위(분) (기본값 5, 최소 1, 최대 10)
-                url+="&zcode="+zcode; //지역구분 코드 시도 코드 (행정구역코드 앞 2자리)
-                System.out.println("[요청 url]");
-                System.out.println(url);
-
-                DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
-                DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
-                Document doc = dBuilder.parse(url);
-                // root tag
-                doc.getDocumentElement().normalize();
-//                System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-                // 파싱할 tag
-                NodeList nList = doc.getElementsByTagName("item");
-                //System.out.println("파싱할 리스트 수 : "+ nList.getLength());
-                for(int temp = 0; temp < nList.getLength(); temp++){
-                    Node nNode = nList.item(temp);
-                    if(nNode.getNodeType() == Node.ELEMENT_NODE){
-                        Element eElement = (Element) nNode;
-//                        DataManager.stationList.add(station);
-                    }
-                }
-                page++;
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
     public void getChargerInfo(String zcode){
         try {
             int totalCount= 10000; // 실행 시 업데이트 되는 부분
@@ -73,19 +43,17 @@ public class Receiver {
             int page = 1;	// 페이지 초기값
             int maxPage = 2; // 추후 수정 예정
 
-            System.out.println("***KECO 전기자동차 충전소 정보 수집 시작***");
             while(true) {
                 if(page>maxPage){
                     break;
                 }
-                System.out.println("current page : "+page+"/ max page : "+maxPage);
-                System.out.println("**KECO 전기자동차 충전소 정보 "+page+"page 수집 시도 (기다려주세요)**");
+                System.out.println(">>KECO 전기자동차 충전소 정보 수집 요청("+page+"페이지)");
                 String url = "http://apis.data.go.kr/B552584/EvCharger/getChargerInfo?serviceKey=dg8oHXO5d9HkXM00ye%2Bvpwk1w16hxVZxN9UGvCFKA8kXtHQhTb6CJebWA2WZdMszfK%2B9HgoiqEYCB%2Bze2hFWMQ%3D%3D";
                 url+="&pageNo="+page; // 페이지 번호 : 페이지 번호
                 url+="&numOfRows="+numOfRows; //한 페이지 결과 수 : 한 페이지 결과 수 (최소 10, 최대 9999)
                 url+="&zcode="+zcode; //지역구분 코드 시도 코드 (행정구역코드 앞 2자리)
-                System.out.println("[요청 url]");
-                System.out.println(url);
+                System.out.println("요청 url : "+url);
+                System.out.println(ANSI_RED +"약간의 시간이 소요됩니다. 절대 프로그램을 종료하지 마세요."+ANSI_RESET);
 
                 DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
                 DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
@@ -93,7 +61,7 @@ public class Receiver {
 
                 // root tag
                 doc.getDocumentElement().normalize();
-                System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+//                System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
                 // totalCount tag of header
                 NodeList headerList = doc.getElementsByTagName("header");
@@ -103,9 +71,11 @@ public class Receiver {
                         Element eElement = (Element) nNode;
                         totalCount = Integer.parseInt(getTagValue("totalCount", eElement));
                         maxPage = (totalCount/numOfRows)+1;
-                        System.out.println("totalCount : "+getTagValue("totalCount", eElement));
+                        System.out.println("page ("+page+"/"+maxPage+")");
+                        System.out.println("count ("+ (page*numOfRows>totalCount?totalCount:page*numOfRows) +"/"+totalCount+")");
                     }
                 }
+
 
                 // 파싱할 tag
                 NodeList nList = doc.getElementsByTagName("item");
@@ -138,6 +108,8 @@ public class Receiver {
                         DataManager.chargerInfoList.add(info);
                     }
                 }
+                System.out.println(ANSI_GREEN+"파싱 완료!"+ANSI_RESET);
+                System.out.println();
                 page++;
             }
         }
@@ -165,12 +137,22 @@ public class Receiver {
         zcodes.put("48", "경상남도");
         zcodes.put("50", "제주도");
 
+        System.out.println();
+        System.out.println(ANSI_CYAN);
+        System.out.println("**************************************");
+        System.out.println("**************************************");
+        System.out.println("***KECO 전기자동차 충전소 정보 수집 시작***");
+        System.out.println("**************************************");
+        System.out.println("**************************************");
+        System.out.println(ANSI_RESET);
         for (String z:zcodes.keySet()) {
+            System.out.println();
             System.out.println("["+zcodes.get(z)+" 데이터 수집]");
-//            getChargerStatus(z);
             getChargerInfo(z);
+            System.out.println("-------------------------------------");
+            System.out.println();
         }
-        System.out.println("-----------수집 종료. 다음으로 2번을 눌러 '정리된 데이터를 저장'을 눌러주세요.-----------");
+        System.out.println(ANSI_YELLOW+"-----------수집 종료. 다음으로 2번을 눌러 '정리된 데이터를 저장'을 눌러주세요.-----------"+ANSI_RESET);
     }
 
 }
