@@ -1,13 +1,9 @@
 const mongoose = require('mongoose');
 
-const rawChargerInfoSchema = mongoose.Schema({
+const chargerSchema = mongoose.Schema({
     _id: {
         type: String,
         maxlength: 100,
-        required: true
-    },
-    checked: {
-        type: Boolean,
         required: true
     },
     api: {
@@ -41,41 +37,6 @@ const rawChargerInfoSchema = mongoose.Schema({
     //     maxlength: 100,
     //     required: true
     // },
-    addr: {
-        type: String,
-        maxlength: 100,
-        required: true
-    },
-    lat: {
-        type: String,
-        maxlength: 100,
-        required: true
-    },
-    lng: {
-        type: String,
-        maxlength: 100,
-        required: true
-    },
-    useTime: {
-        type: String,
-        maxlength: 100,
-        required: true
-    },
-    busiId: {
-        type: String,
-        maxlength: 100,
-        required: true
-    },
-    busiNm: {
-        type: String,
-        maxlength: 100,
-        required: true
-    },
-    busiCall: {
-        type: String,
-        maxlength: 100,
-        required: true
-    },
     // stat: {
     //     type: String,
     //     maxlength: 100,
@@ -96,18 +57,8 @@ const rawChargerInfoSchema = mongoose.Schema({
         maxlength: 100,
         required: true
     },
-    parkingFree: {
-        type: String,
-        maxlength: 100,
-        required: true
-    },
-    note: {
-        type: String,
-        maxlength: 100,
-        required: true
-    },
 })
 
-const ChargerInfo = mongoose.model('charger_info', rawChargerInfoSchema)
+const Charger = mongoose.model('chargers', chargerSchema)
 
-module.exports = { ChargerInfo }
+module.exports = { Charger }
