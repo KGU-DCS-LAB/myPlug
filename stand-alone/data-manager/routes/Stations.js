@@ -3,6 +3,7 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const { RawChargerInfo } = require("../models/RawChargerInfo");
 const { Station } = require('../models/Station');
+const { Charger } = require('../models/Charger');
 
 
 // keco 관련 메소드 추가 시작
@@ -27,10 +28,10 @@ router.get('/update/keco/raw/charger_info/false', async (req, res, next) => {
                 // for (let i = 0; i < stations.length; i++) {
                 let stationName = stations[i].statNm+"("+stations[i].statId+")";
                 console.log(stationName);
-                const filter = {
+                const station_filter = {
                     statId:{$eq:stations[i].statId}
                 };
-                const update = {
+                const station_update = {
                     date:stations[i].date,
                     statNm:stations[i].statNm,
                     statId:stations[i].statId,
@@ -51,11 +52,33 @@ router.get('/update/keco/raw/charger_info/false', async (req, res, next) => {
                     setDefaultsOnInsert: true
                 };
                 // https://www.geeksforgeeks.org/mongoose-findoneandupdate-function/ 참고 필
-                Station.findOneAndUpdate(filter,update,options,
+                Station.findOneAndUpdate(station_filter, station_update, options, 
                     (err,docs) => {
 
                     }
                 );
+                const charger_filter = {
+                    $and:[
+                        { statId : {$eq:stations[i].statId} },
+                        { chgerId : {$eq:stations[i].chgerId} },
+                    ]
+                };
+                const charger_update = {
+                    date:stations[i].date,
+                    statNm:stations[i].statNm,
+                    statId:stations[i].statId,
+                    chgerId:stations[i].chgerId,
+                    chgerType:stations[i].chgerType,
+                    stat:stations[i].stat,
+                    statUpdDt:stations[i].statUpdDt,
+                    powerType:stations[i].powerType,
+                    zcode:stations[i].zcode,
+                };
+                Charger.findOneAndUpdate(charger_filter, charger_update, options, 
+                    (err,docs) => {
+
+                    }
+                )
                 RawChargerInfo.updateOne({checked:{$eq:false}}, {checked:true}, //수정이 필요한 부분
                     (err, docs) => {
 

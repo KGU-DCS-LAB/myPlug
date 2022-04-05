@@ -27,31 +27,31 @@ const chargerSchema = mongoose.Schema({
         required: true,
         unique : true 
     },
-    // chgerId: {
-    //     type: String,
-    //     maxlength: 100,
-    //     required: true
-    // },
-    // chgerType: {
-    //     type: String,
-    //     maxlength: 100,
-    //     required: true
-    // },
-    // stat: {
-    //     type: String,
-    //     maxlength: 100,
-    //     required: true
-    // },
-    // statUpdDt: {
-    //     type: String,
-    //     maxlength: 100,
-    //     required: true
-    // },
-    // powerType: {
-    //     type: String,
-    //     maxlength: 100,
-    //     required: true
-    // },
+    chgerId: {
+        type: String,
+        maxlength: 100,
+        required: true
+    },
+    chgerType: {
+        type: String,
+        maxlength: 100,
+        required: true
+    },
+    stat: {
+        type: String,
+        maxlength: 100,
+        required: true
+    },
+    statUpdDt: {
+        type: String,
+        maxlength: 100,
+        required: true
+    },
+    powerType: {
+        type: String,
+        maxlength: 100,
+        required: true
+    },
     zcode: {
         type: String,
         maxlength: 100,
