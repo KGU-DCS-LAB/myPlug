@@ -6,10 +6,10 @@ const stationSchema = mongoose.Schema({
         maxlength: 100,
         required: true
     },
-    checked: {
-        type: Boolean,
-        required: true
-    },
+    // checked: {
+    //     type: Boolean,
+    //     required: true
+    // },
     api: {
         type: String,
         maxlength: 100,

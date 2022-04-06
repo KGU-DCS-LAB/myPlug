@@ -23,7 +23,12 @@ function EvChargerScreen({ route, navigation }) {
   const { latitude } = route.params;
   const { longitude } = route.params;
   return (
-    <EvChargerRoute navigation={navigation} latitude={latitude} longitude={longitude} charging_stations={charging_stations}/>
+    <EvChargerRoute
+     navigation={navigation} 
+     latitude={latitude} 
+     longitude={longitude} 
+     charging_stations={charging_stations}
+     />
   );
 }
 
@@ -78,29 +83,10 @@ function DocsScreen({ navigation }) {
 const Stack = createNativeStackNavigator();
 
 class MainRoute extends React.Component{
-  // setChargingStations = (stations) => {
-  //   this.setState({ charging_stations: stations });
-  // }
-  // setLatitude = (latitude) => {
-  //   this.setState({latitude: latitude});
-  // }
-  // setLongitude = (longitude) => {
-  //   this.setState({longitude: longitude});
-  // }
+
   setModalVisible = (visible) => {
     this.setState({ modalVisible: visible });
   }
-  // setSeconds = (seconds) => {
-  //   this.setState({ seconds: seconds });
-  // }
-
-
-  // HandleChange = (e) => {
-  //   this.setState({
-  //     [e.target.latitude]: e.target.value,
-  //   });
-  // };
-
 
   constructor(props) {
     super(props);
@@ -109,7 +95,6 @@ class MainRoute extends React.Component{
       latitude : props.latitude, 
       longitude : props.longitude,
       modalVisible : true,
-      seconds : 0,
     }
   }
 
@@ -148,7 +133,14 @@ class MainRoute extends React.Component{
        screenOptions={{ headerShown: false }} 
       >
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="EvCharger" component={EvChargerScreen} initialParams={{latitude:this.state.latitude, longitude:this.state.longitude, charging_stations:this.state.charging_stations}} />
+        <Stack.Screen name="EvCharger"
+          component={EvChargerScreen}
+          initialParams={{
+            latitude:this.state.latitude, 
+            longitude:this.state.longitude, 
+            charging_stations:this.state.charging_stations, 
+          }} 
+        />
         {/* <Stack.Screen name="Community" component={CommunityScreen} /> */}
         <Stack.Screen name="HotPlace" component={HotPlaceScreen} />
         <Stack.Screen name="Docs" component={DocsScreen} />

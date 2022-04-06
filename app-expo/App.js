@@ -54,7 +54,7 @@ class App extends React.Component{
     let stationData = async () => {
       console.log('stationData')
       // 충전소 데이터 받아오는 작업 시작
-      axios.get(config.ip+':5000/stationsRouter/keco/find')
+      axios.get(config.ip+':5000/stationsRouter/keco/find/stations')
       .then((response) => {
         this.setChargingStations(JSON.stringify(response.data));
         // console.log(response.data);

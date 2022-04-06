@@ -26,6 +26,9 @@ router.get('/update/keco/raw/charger_info/false', async (req, res, next) => {
         RawChargerInfo.find({checked: {$eq: false}}).then( (stations) => {
             for (let i = 0; i < 5000; i++) {
                 // for (let i = 0; i < stations.length; i++) {
+                if (stations[i]==null){
+                    break;
+                }
                 let stationName = stations[i].statNm+"("+stations[i].statId+")";
                 console.log(stationName);
                 const station_filter = {
