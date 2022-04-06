@@ -13,7 +13,11 @@ function EvChargerMapScreen({route}) {
   const { longitude } = route.params;
   const { charging_stations } = route.params;
   return (
-      <EvChargerMapView latitude={latitude} longitude={longitude} charging_stations={charging_stations}/>
+      <EvChargerMapView
+       latitude={latitude} 
+       longitude={longitude} 
+       charging_stations={charging_stations} 
+      />
   );
 }
 
@@ -22,7 +26,11 @@ function EvChargerListScreen({route}) {
   const { longitude } = route.params;
   const { charging_stations } = route.params;
   return (
-    <EvChargerListView latitude={latitude} longitude={longitude} charging_stations={charging_stations}/>
+    <EvChargerListView
+      latitude={latitude} 
+      longitude={longitude} 
+      charging_stations={charging_stations} 
+    />
   );
 }
 
@@ -66,14 +74,18 @@ const EvChargerRoute = (props) => {
       <Tab.Screen 
         name={stationStyle?"목록보기":"지도보기"} 
         component={stationStyle?EvChargerMapScreen:EvChargerListScreen} 
-        initialParams={{latitude:props.latitude, longitude:props.longitude, charging_stations:props.charging_stations}}
+        initialParams={{
+          latitude:props.latitude, 
+          longitude:props.longitude, 
+          charging_stations:props.charging_stations,
+        }}
         listeners={{
           tabPress: () => {
             //버튼 눌렀을 때 메인으로 가게 해주는 기능.
             //참고로 이 listner 기능은 navigation v6부터 가능함
             setStationStyle(!stationStyle);
           },
-      }}
+        }}
       />
       {/* <Tab.Screen name="목록보기" component={EvChargerMapScreen} initialParams={{latitude:props.latitude, longitude:props.longitude, charging_stations:props.charging_stations}} /> */}
       <Tab.Screen
