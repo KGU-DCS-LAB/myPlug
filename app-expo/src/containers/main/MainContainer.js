@@ -1,11 +1,12 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeView from "../../views/main/HomeView";
+import HomeContainer from "./HomeContainer";
 
 const MainContainer = () => {
 
     const HomeScreen = ({ navigation }) => {
         return (
-          <HomeView navigation={navigation} />
+          <HomeContainer navigation={navigation} />
         );
     }
 
