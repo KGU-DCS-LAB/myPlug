@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeView from "../../views/main/HomeView";
+import EvChargerContainer from "../ev_charger/EvChargerContainer";
 import HomeContainer from "./HomeContainer";
 
 const MainContainer = () => {
@@ -12,7 +13,7 @@ const MainContainer = () => {
 
     const EvChargerScreen = ({ navigation }) => {
         return (
-          <HomeView navigation={navigation} />
+          <EvChargerContainer navigation={navigation} />
         );
     }
     

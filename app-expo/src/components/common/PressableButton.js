@@ -1,9 +1,10 @@
-import { Box, Pressable } from "native-base";
+import { Box, Center, Pressable } from "native-base";
+import { Text } from "react-native";
 
 const PressableButton = (props) => {
     return (
         <Box alignItems="center" py="1" px="1">
-            <Pressable onPress={()=>console.log('나 눌렸다')}>
+            <Pressable onPress={props.onPress}>
                 {({
                     isHovered,
                     isFocused,
@@ -11,8 +12,8 @@ const PressableButton = (props) => {
                 }) => {
                     return (
                         <Box
-                            maxW={props.width}
                             minW={props.width}
+                            minH={props.height}
                             borderWidth="1"
                             borderColor="coolGray.300"
                             shadow="3"
@@ -25,6 +26,9 @@ const PressableButton = (props) => {
                                 }]
                             }}
                         >
+                            <Center>
+                                <Text>{props.title}</Text>
+                            </Center>
                         </Box>
                     )
                 }}

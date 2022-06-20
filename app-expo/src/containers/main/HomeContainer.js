@@ -1,37 +1,45 @@
-import { Box, HStack, Text } from "native-base";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { Box, HStack, Spacer, Text } from "native-base";
+import { Dimensions, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import PressableButton from "../../components/common/PressableButton";
 
 const HomeContainer = (props) => {
+    const windowWidth = Dimensions.get('window').width;
+    const numOfCol = 2;
     return (
-        <>
-            <HStack space={2} justifyContent="center">
-                <PressableButton
-                    width="100%"
-                />
-                <PressableButton
-                    width="100%"
-                />
-            </HStack>
-        </>
+        <Box px={2} flex="1">
+            <ScrollView>
+                <Box py={1}/>
+                <HStack justifyContent="center">
+                    <PressableButton
+                        numOfCol={numOfCol}
+                        width={windowWidth/numOfCol*0.9}
+                        height={windowWidth/numOfCol*0.9}
+                        onPress={() => props.navigation.navigate('EvCharger')}
+                        title="충전소 지도"
+                    />
+                    <PressableButton
+                        numOfCol={numOfCol}
+                        width={windowWidth/numOfCol*0.9}
+                        height={windowWidth/numOfCol*0.9}
+                        onPress={() => console.log('ㅇㅇ')}
+                        title="충전 기록하기"
+                    />
+                </HStack>
+                <HStack justifyContent="center">
+                    <PressableButton
+                        numOfCol={numOfCol}
+                        width={windowWidth*0.92}
+                        height={windowWidth/numOfCol*0.9}
+                        onPress={() => console.log('ㅇㅇ')}
+                        title="인근 충전소 찾기"
+                    />
+                </HStack>
+                <Box py={1}/>
+            </ScrollView>
+        </Box>
     )
 }
 
 export default HomeContainer;
-
-const styles = StyleSheet.create({
-
-    CardTitle: {
-        width: '100%',
-        fontWeight: 'bold',
-        fontSize: 15,
-        padding: 3
-    },
-    CardContent: {
-        width: '100%',
-        fontSize: 12,
-        padding: 3
-    },
-});
