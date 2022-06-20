@@ -1,5 +1,8 @@
+import { Fab, Icon } from "native-base";
 import { View } from "react-native";
+import SearchBar from "react-native-dynamic-search-bar";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import { AntDesign } from "@expo/vector-icons";
 
 const EvChargerContainer = (props) => {
     return (
@@ -20,6 +23,24 @@ const EvChargerContainer = (props) => {
                 }}
             >
             </MapView>
+            <SearchBar
+                placeholder="Search here"
+                onPress={() => alert("onPress")}
+                onChangeText={(text) => {
+                    console.log(text)
+                }}
+                onClearPress={() => {
+
+                }}
+            />
+            <Fab
+                renderInPortal={false}
+                shadow={2}
+                size="md"
+                style={{ backgroundColor: "#27ae60", }}
+                icon={<Icon color="white" as={AntDesign} name="plus" size="md" />}
+                onPress={() => props.navigation.navigate('Home')}
+            />
         </View>
     )
 }
