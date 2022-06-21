@@ -43,32 +43,6 @@ const MenuStagger = (props) => {
                             }
                         }
                     }}>
-
-                    <IconButton
-                        mb="3"
-                        margin={1}
-                        variant="solid"
-                        bg="indigo.500"
-                        colorScheme="indigo"
-                        borderRadius="full"
-
-                        icon={
-                            <Icon
-                                as={FontAwesome5}
-                                size="6"
-                                name="pencil-alt"
-                                _dark={{
-                                    color: "warmGray.50"
-                                }}
-                                color="warmGray.50"
-                            />
-                        }
-                        onPress={
-                            () => props.navigation.replace('DiaryModify', {
-                                diary: diary,
-                            })
-                        }
-                    />
                     <IconButton
                         mb="3"
                         margin={1}
@@ -88,7 +62,30 @@ const MenuStagger = (props) => {
                             />
                         }
                         onPress={
-                            () => confirmDeleteDiary()
+                            () => console.log('ㅋㅋ')
+                        }
+                    />
+                    <IconButton
+                        mb="3"
+                        margin={1}
+                        variant="solid"
+                        bg="indigo.500"
+                        colorScheme="indigo"
+                        borderRadius="full"
+
+                        icon={
+                            <Icon
+                                as={FontAwesome5}
+                                size="6"
+                                name="home"
+                                _dark={{
+                                    color: "warmGray.50"
+                                }}
+                                color="warmGray.50"
+                            />
+                        }
+                        onPress={
+                            () => props.navigation.navigate('Home')
                         }
                     />
                 </Stagger>

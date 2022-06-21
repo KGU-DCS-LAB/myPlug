@@ -8,7 +8,7 @@ const EvChargerContainer = (props) => {
             <View style={{ flex: 1 }}>
                 <ChargerMap/>
             </View>
-            <BottomMenu/>
+            <BottomMenu navigation={props.navigation}/>
         </>
     )
 }

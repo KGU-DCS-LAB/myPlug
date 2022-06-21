@@ -12,6 +12,7 @@ const ChargerMap = (props) => {
     });
 
     const [chargingStations, setChargingStations] = useState([]);
+    const [isLoaded, setLoaded] = useState(false);
 
     // Get current location information 
     useEffect(() => {
@@ -36,18 +37,21 @@ const ChargerMap = (props) => {
 
         })();
 
-
-
+        (async () => {
         // console.log('stationData')
         // // 충전소 데이터 받아오는 작업 시작
-        // axios.get(config.ip + ':5000/stationsRouter/keco/find/stations')
-        //     .then((response) => {
-        //         setChargingStations(JSON.stringify(response.data));
-        //         console.log(response.data);
-        //     }).catch((error) => {
-        //         console.log(error);
-        //     });
+        await axios.get(config.ip + ':5000/stationsRouter/keco/find/stations')
+            .then((response) => {
+                setChargingStations(JSON.stringify(response.data));
+                setLoaded(true);
+                console.log(response.data);
+            }).catch((error) => {
+                console.log(error);
+            });
         // // 충전소 데이터 받아오는 작업 끝
+
+
+        })();
 
 
     }, []);
@@ -76,7 +80,8 @@ const ChargerMap = (props) => {
         >
 
             {
-            // chargingStations.length > 0 && chargingStations.map((marker, index) => (
+            isLoaded && console.log(chargingStations.length)
+            // chargingStations.slice(0,3).map((marker, index) => (
             //     <Marker
             //         key={index}
             //         coordinate={{ latitude: Number(marker.lat), longitude: Number(marker.lng) }}

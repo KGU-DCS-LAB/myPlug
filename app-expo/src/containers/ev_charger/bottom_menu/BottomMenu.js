@@ -12,7 +12,7 @@ const BottomMenu = (props) => {
                 <ChargerSearchBar/>
             </Center>
             <Center style={{ position: 'absolute', right: 20, bottom: 90, height: 30, }} >
-                <MenuStagger/>
+                <MenuStagger navigation={props.navigation}/>
             </Center>
         </>
     )
