@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from 'expo-location';
+import { config } from '../../../../config'
+import axios from 'axios';
 
 const ChargerMap = (props) => {
 
@@ -8,6 +10,8 @@ const ChargerMap = (props) => {
         latitude: 37.3012,
         longitude: 127.0355,
     });
+
+    const [chargingStations, setChargingStations] = useState([]);
 
     // Get current location information 
     useEffect(() => {
@@ -32,6 +36,20 @@ const ChargerMap = (props) => {
 
         })();
 
+
+
+        // console.log('stationData')
+        // // 충전소 데이터 받아오는 작업 시작
+        // axios.get(config.ip + ':5000/stationsRouter/keco/find/stations')
+        //     .then((response) => {
+        //         setChargingStations(JSON.stringify(response.data));
+        //         console.log(response.data);
+        //     }).catch((error) => {
+        //         console.log(error);
+        //     });
+        // // 충전소 데이터 받아오는 작업 끝
+
+
     }, []);
 
     return (
@@ -55,7 +73,26 @@ const ChargerMap = (props) => {
             onMapReady={() => {
                 // updateMapStyle()
             }}
-        />
+        >
+
+            {
+            // chargingStations.length > 0 && chargingStations.map((marker, index) => (
+            //     <Marker
+            //         key={index}
+            //         coordinate={{ latitude: Number(marker.lat), longitude: Number(marker.lng) }}
+            //         title={marker.statNm}
+            //         description={marker.addr}
+            //         onPress={
+            //             () => {
+            //                 // this.setSmallModalVisible(true);
+            //                 // this.setChargingStation(marker);
+            //             }
+            //         }
+            //     />
+            // ))
+            }
+
+        </MapView>
     )
 }
 
