@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Circle, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MapView from "react-native-map-clustering";
 import * as Location from 'expo-location';
 import { config } from '../../../../config'
 import axios from 'axios';
+import { Box, HStack, Spacer, Text } from "native-base";
 
 const ChargerMap = (props) => {
 
@@ -18,6 +19,9 @@ const ChargerMap = (props) => {
     // const [isLoaded, setLoaded] = useState(false);
 
     const [count, setCount] = useState(0);
+
+    const mapRef = useRef();
+
 
     // Get current location information 
     useEffect(() => {
@@ -72,10 +76,18 @@ const ChargerMap = (props) => {
         console.log('new region')
         console.log(region)
 
+        //     if(region.latitude.toFixed(6) === location.latitude.toFixed(6)
+        //     && region.longitude.toFixed(6) === location.longitude.toFixed(6)){
+        //       return;
+        //   }
+
         setLocation(region)
         // axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
         //     data: {
-        //         region: region,
+        //         x1 : location.longitude-(location.longitudeDelta/2),
+        //         x2 : location.longitude+(location.longitudeDelta/2),
+        //         y1 : location.latitude-(location.latitudeDelta/2),
+        //         y2 : location.latitude+(location.latitudeDelta/2),
         //     }
         // }).then((response) => {
         //     console.log(response)
@@ -85,36 +97,40 @@ const ChargerMap = (props) => {
     }
 
     return (
-        <MapView
-            initialRegion={{
-                latitude: 37.3012,
-                longitude: 127.0355,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-            }}
-            style={{ flex: 1 }}
-            provider={PROVIDER_GOOGLE}
-            showsUserLocation={true}
-            showsMyLocationButton={true}
-            region={{
-                latitude: location.latitude,
-                longitude: location.longitude,
-                latitudeDelta: location.latitudeDelta,
-                longitudeDelta: location.longitudeDelta,
-            }}
-            onRegionChange={region => {
+        <>
+        <HStack><Text>{location.latitude}</Text><Spacer/><Text>{location.longitude}</Text></HStack>
+            <MapView
+                // ref={mapRef}
+                initialRegion={{
+                    latitude: 37.3012,
+                    longitude: 127.0355,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
+                }}
+                style={{ flex: 1 }}
+                provider={PROVIDER_GOOGLE}
+                showsUserLocation={true}
+                showsMyLocationButton={true}
+                region={{
+                    latitude: location.latitude,
+                    longitude: location.longitude,
+                    latitudeDelta: location.latitudeDelta,
+                    longitudeDelta: location.longitudeDelta,
+                }}
+                onRegionChange={region => {
 
-            }}
-            onRegionChangeComplete={region => {
-                setCount(count+1)
-                console.log('현재 당신이 보고 있는 페이지의 주소는 '+count)
-                getRegionStations(region)
-            }}
-            onMapReady={() => {
-                // updateMapStyle()
-            }}
-        >
-          {/* <Circle
+                }}
+                onRegionChangeComplete={(region, gesture) => {
+                    console.log(gesture)
+                    setCount(count + 1)
+                    console.log('현재 당신이 보고 있는 페이지의 주소는 ' + count)
+                    getRegionStations(region)  
+                }}
+                onMapReady={() => {
+                    // updateMapStyle()
+                }}
+            >
+                {/* <Circle
             center={{
                 latitude: location.latitude,
                 longitude: location.longitude,
@@ -125,62 +141,63 @@ const ChargerMap = (props) => {
             zIndex={2}
             strokeWidth={2}
           /> */}
-            <Marker
-                key={0}
-                title="dd"
-                description="22"
-                coordinate={{
-                    latitude: location.latitude+(location.latitudeDelta/2),
-                    longitude: location.longitude+(location.longitudeDelta/2),
-                  }}
-            />
-            <Marker
-                key={1}
-                title="dd"
-                description="22"
-                coordinate={{
-                    latitude: location.latitude+(location.latitudeDelta/2),
-                    longitude: location.longitude-(location.longitudeDelta/2),
-                  }}
-            />
-            <Marker
-                key={2}
-                title="dd"
-                description="22"
-                coordinate={{
-                    latitude: location.latitude-(location.latitudeDelta/2),
-                    longitude: location.longitude-(location.longitudeDelta/2),
-                  }}
-            />
-            <Marker
-                key={3}
-                title="dd"
-                description="22"
-                coordinate={{
-                    latitude: location.latitude-(location.latitudeDelta/2),
-                    longitude: location.longitude+(location.longitudeDelta/2),
-                  }}
-            />
+                <Marker
+                    key={0}
+                    title="dd"
+                    description="22"
+                    coordinate={{
+                        latitude: location.latitude + (location.latitudeDelta / 2),
+                        longitude: location.longitude + (location.longitudeDelta / 2),
+                    }}
+                />
+                <Marker
+                    key={1}
+                    title="dd"
+                    description="22"
+                    coordinate={{
+                        latitude: location.latitude + (location.latitudeDelta / 2),
+                        longitude: location.longitude - (location.longitudeDelta / 2),
+                    }}
+                />
+                <Marker
+                    key={2}
+                    title="dd"
+                    description="22"
+                    coordinate={{
+                        latitude: location.latitude - (location.latitudeDelta / 2),
+                        longitude: location.longitude - (location.longitudeDelta / 2),
+                    }}
+                />
+                <Marker
+                    key={3}
+                    title="dd"
+                    description="22"
+                    coordinate={{
+                        latitude: location.latitude - (location.latitudeDelta / 2),
+                        longitude: location.longitude + (location.longitudeDelta / 2),
+                    }}
+                />
 
-            {
-                // chargingStations.length > 0 &&
-                // chargingStations.map((marker, index) => (
-                //     <Marker
-                //         key={index}
-                //         coordinate={{ latitude: Number(marker.lat), longitude: Number(marker.lng) }}
-                //         title={marker.statNm}
-                //         description={marker.addr}
-                //         onPress={
-                //             () => {
-                //                 // this.setSmallModalVisible(true);
-                //                 // this.setChargingStation(marker);
-                //             }
-                //         }
-                //     />
-                // ))
-            }
+                {
+                    // chargingStations.length > 0 &&
+                    // chargingStations.map((marker, index) => (
+                    //     <Marker
+                    //         key={index}
+                    //         coordinate={{ latitude: Number(marker.lat), longitude: Number(marker.lng) }}
+                    //         title={marker.statNm}
+                    //         description={marker.addr}
+                    //         onPress={
+                    //             () => {
+                    //                 // this.setSmallModalVisible(true);
+                    //                 // this.setChargingStation(marker);
+                    //             }
+                    //         }
+                    //     />
+                    // ))
+                }
 
-        </MapView>
+            </MapView>
+        </>
     )
 }
 

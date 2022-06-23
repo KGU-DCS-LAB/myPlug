@@ -16,7 +16,13 @@ router.get('/keco/find/stations', function(req, res, next) {
 });
 
 router.post('/keco/find/regionStations', function(req, res, next) {
-    console.log(req.body);
+    const x1 = req.body.data.x1;
+    const x2 = req.body.data.x2;
+    const y1 = req.body.data.y1;
+    const y2 = req.body.data.y2;
+    console.log(x1,x2);
+    console.log(y1,y2);
+    
 });
 
 router.get('/keco/find/chargers', function(req, res, next) {
