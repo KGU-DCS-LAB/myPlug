@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import { Circle, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MapView from "react-native-map-clustering";
 import * as Location from 'expo-location';
 import { config } from '../../../../config'
@@ -16,6 +16,8 @@ const ChargerMap = (props) => {
 
     const [chargingStations, setChargingStations] = useState([]);
     // const [isLoaded, setLoaded] = useState(false);
+
+    const [count, setCount] = useState(0);
 
     // Get current location information 
     useEffect(() => {
@@ -104,21 +106,60 @@ const ChargerMap = (props) => {
 
             }}
             onRegionChangeComplete={region => {
-                console.log('현재 당신이 보고 있는 페이지의 주소는')
+                setCount(count+1)
+                console.log('현재 당신이 보고 있는 페이지의 주소는 '+count)
                 getRegionStations(region)
             }}
             onMapReady={() => {
                 // updateMapStyle()
             }}
         >
+          {/* <Circle
+            center={{
+                latitude: location.latitude,
+                longitude: location.longitude,
+              }}
+            radius={5000}
+            fillColor="rgba(255, 255, 255, 1)"
+            strokeColor="rgba(0,0,0,0.5)"
+            zIndex={2}
+            strokeWidth={2}
+          /> */}
             <Marker
                 key={0}
                 title="dd"
                 description="22"
                 coordinate={{
-                    latitude: Number(37.3012),
-                    longitude: Number(127.0355),
-                }}
+                    latitude: location.latitude+(location.latitudeDelta/2),
+                    longitude: location.longitude+(location.longitudeDelta/2),
+                  }}
+            />
+            <Marker
+                key={1}
+                title="dd"
+                description="22"
+                coordinate={{
+                    latitude: location.latitude+(location.latitudeDelta/2),
+                    longitude: location.longitude-(location.longitudeDelta/2),
+                  }}
+            />
+            <Marker
+                key={2}
+                title="dd"
+                description="22"
+                coordinate={{
+                    latitude: location.latitude-(location.latitudeDelta/2),
+                    longitude: location.longitude-(location.longitudeDelta/2),
+                  }}
+            />
+            <Marker
+                key={3}
+                title="dd"
+                description="22"
+                coordinate={{
+                    latitude: location.latitude-(location.latitudeDelta/2),
+                    longitude: location.longitude+(location.longitudeDelta/2),
+                  }}
             />
 
             {
