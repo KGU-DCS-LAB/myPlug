@@ -71,10 +71,16 @@ const ChargerMap = (props) => {
     }, []);
 
     const getRegionStations = (region) => {
-        console.log('former location')
-        console.log(location)
-        console.log('new region')
-        console.log(region)
+        // console.log('former location')
+        // console.log(location)
+        // console.log('new region')
+        // console.log(region)
+        const diffLatitude = location.latitude-region.latitude;
+        const diffLongitude = location.longitude-region.longitude;
+        const diffLatDelta = location.latitudeDelta-region.latitudeDelta;
+        const diffLongDelta = location.longitudeDelta-region.longitudeDelta;
+        console.log(diffLatitude, diffLongitude);
+        console.log(diffLatDelta, diffLongDelta);        
 
         //     if(region.latitude.toFixed(6) === location.latitude.toFixed(6)
         //     && region.longitude.toFixed(6) === location.longitude.toFixed(6)){
@@ -121,9 +127,9 @@ const ChargerMap = (props) => {
 
                 }}
                 onRegionChangeComplete={(region, gesture) => {
-                    console.log(gesture)
+                    // console.log(gesture)
                     setCount(count + 1)
-                    console.log('현재 당신이 보고 있는 페이지의 주소는 ' + count)
+                    console.log('Refresh Count :  ' + count)
                     getRegionStations(region)  
                 }}
                 onMapReady={() => {
