@@ -1,6 +1,6 @@
 // import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
-import HomeView from "../../views/main/HomeView";
+// import HomeView from "../../views/main/HomeView";
 import EvChargerContainer from "../ev_charger/EvChargerContainer";
 import HomeContainer from "./HomeContainer";
 
