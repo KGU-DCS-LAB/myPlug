@@ -16,9 +16,8 @@ const ChargerMap = (props) => {
     });
 
     const [chargingStations, setChargingStations] = useState([]);
-    // const [isLoaded, setLoaded] = useState(false);
-
     const [count, setCount] = useState(0);
+    const [requestTime, setRequestTime] = useState(new Date().getTime());
 
     const mapRef = useRef();
 
@@ -71,40 +70,39 @@ const ChargerMap = (props) => {
     }, []);
 
     const getRegionStations = (region) => {
-        // console.log('former location')
-        // console.log(location)
-        // console.log('new region')
-        // console.log(region)
-        const diffLatitude = location.latitude-region.latitude;
-        const diffLongitude = location.longitude-region.longitude;
-        const diffLatDelta = location.latitudeDelta-region.latitudeDelta;
-        const diffLongDelta = location.longitudeDelta-region.longitudeDelta;
-        console.log(diffLatitude, diffLongitude);
-        console.log(diffLatDelta, diffLongDelta);        
-
-        //     if(region.latitude.toFixed(6) === location.latitude.toFixed(6)
-        //     && region.longitude.toFixed(6) === location.longitude.toFixed(6)){
-        //       return;
-        //   }
-
-        setLocation(region)
-        // axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
-        //     data: {
-        //         x1 : location.longitude-(location.longitudeDelta/2),
-        //         x2 : location.longitude+(location.longitudeDelta/2),
-        //         y1 : location.latitude-(location.latitudeDelta/2),
-        //         y2 : location.latitude+(location.latitudeDelta/2),
-        //     }
-        // }).then((response) => {
-        //     console.log(response)
-        // }).catch(function (error) {
-        //     console.log(error);
-        // })
+        setCount(count + 1)
+        const newTime = new Date().getTime();
+        console.log('--------')
+        console.log(requestTime);
+        setRequestTime(newTime);
+        console.log(newTime);
+        console.log('diff : ', newTime - requestTime);
+        if (newTime - requestTime > 300) {
+            console.log('updated at count:', count);
+            setLocation(region)
+        }
     }
+
+    useEffect(()=>{
+        axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
+            data: {
+                x1: location.longitude - (location.longitudeDelta / 2),
+                x2: location.longitude + (location.longitudeDelta / 2),
+                y1: location.latitude - (location.latitudeDelta / 2),
+                y2: location.latitude + (location.latitudeDelta / 2),
+            }
+        }).then((response) => {
+            setChargingStations(response.data);
+        }).catch(function (error) {
+            console.log(error);
+        })
+    },[location]);
 
     return (
         <>
-        <HStack><Text>{location.latitude}</Text><Spacer/><Text>{location.longitude}</Text></HStack>
+            <HStack><Text>Log</Text></HStack>
+            <HStack><Text>{location.latitude}</Text><Spacer /><Text>{count}</Text><Spacer /><Text>{location.longitude}</Text></HStack>
+            <HStack><Text>{requestTime}</Text></HStack>
             <MapView
                 // ref={mapRef}
                 initialRegion={{
@@ -127,10 +125,7 @@ const ChargerMap = (props) => {
 
                 }}
                 onRegionChangeComplete={(region, gesture) => {
-                    // console.log(gesture)
-                    setCount(count + 1)
-                    console.log('Refresh Count :  ' + count)
-                    getRegionStations(region)  
+                    getRegionStations(region)
                 }}
                 onMapReady={() => {
                     // updateMapStyle()
@@ -185,21 +180,21 @@ const ChargerMap = (props) => {
                 />
 
                 {
-                    // chargingStations.length > 0 &&
-                    // chargingStations.map((marker, index) => (
-                    //     <Marker
-                    //         key={index}
-                    //         coordinate={{ latitude: Number(marker.lat), longitude: Number(marker.lng) }}
-                    //         title={marker.statNm}
-                    //         description={marker.addr}
-                    //         onPress={
-                    //             () => {
-                    //                 // this.setSmallModalVisible(true);
-                    //                 // this.setChargingStation(marker);
-                    //             }
-                    //         }
-                    //     />
-                    // ))
+                    chargingStations.length > 0 &&
+                    chargingStations.map((marker, index) => (
+                        <Marker
+                            key={index}
+                            coordinate={{ latitude: Number(marker.lat), longitude: Number(marker.lng) }}
+                            title={marker.statNm}
+                            description={marker.addr}
+                            onPress={
+                                () => {
+                                    // this.setSmallModalVisible(true);
+                                    // this.setChargingStation(marker);
+                                }
+                            }
+                        />
+                    ))
                 }
 
             </MapView>
