@@ -1,13 +1,20 @@
 package v2.saver;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoCredential;
+//import com.mongodb.*;
+import com.mongodb.ConnectionString;
+import com.mongodb.ServerApi;
+import com.mongodb.ServerApiVersion;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.MongoClientSettings;
+
 import org.bson.Document;
 import v2.dto.ChargerInfoDTO;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * 몽고DB 연결 시도했는데 연결은 잘 됨. 나중에 수정 필요함
@@ -30,12 +37,18 @@ public class SaverController {
     }
 
     public void start(ArrayList<ChargerInfoDTO> chargerInfoList) {
-        MongoClient mongo = new MongoClient("localhost", 27017);
-        MongoCredential credential = MongoCredential.createCredential("sampleUser","myDb","password".toCharArray());
+        ConnectionString connectionString = new ConnectionString("mongodb+srv://gabrielyoon7:0000@gabrielyoon7.aq0fu.mongodb.net/myplug?retryWrites=true&w=majority");
+        MongoClientSettings settings = MongoClientSettings.builder()
+                .applyConnectionString(connectionString)
+                .serverApi(ServerApi.builder()
+                        .version(ServerApiVersion.V1)
+                        .build())
+                .build();
+        MongoClient mongo = MongoClients.create(settings);
+
         System.out.println("Connected");
         MongoDatabase database = mongo.getDatabase("myplug");
         System.out.println("Collection created successfully");
-        System.out.println("Credentials : "+credential);
         MongoCollection<Document> collection = database.getCollection("raw_charger_infos");
         System.out.println("Collection myCollection selected successfully");
         System.out.println("Document inserted successfully");
@@ -78,14 +91,21 @@ public class SaverController {
 
 
     public static void main(String[] args) {
-        MongoClient mongo = new MongoClient("localhost", 27017);
-        MongoCredential credential = MongoCredential.createCredential("sampleUser","myDb","password".toCharArray());
+        ConnectionString connectionString = new ConnectionString("mongodb+srv://gabrielyoon7:0000@gabrielyoon7.aq0fu.mongodb.net/myplug?retryWrites=true&w=majority");
+        MongoClientSettings settings = MongoClientSettings.builder()
+                .applyConnectionString(connectionString)
+                .serverApi(ServerApi.builder()
+                        .version(ServerApiVersion.V1)
+                        .build())
+                .build();
+        MongoClient mongo = MongoClients.create(settings);
+
         System.out.println("Connected");
 
         MongoDatabase database = mongo.getDatabase("myDb");
         System.out.println("Collection created successfully");
 
-        System.out.println("Credentials : "+credential);
+//        System.out.println("Credentials : "+credential);
         MongoCollection<Document> collection = database.getCollection("myCollection");
         System.out.println("Collection myCollection selected successfully");
         Document document = new Document("title", "MongoDB")
