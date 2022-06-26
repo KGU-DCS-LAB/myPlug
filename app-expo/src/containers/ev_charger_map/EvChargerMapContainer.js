@@ -8,6 +8,7 @@ import { Box, HStack, Spacer, Text, View } from "native-base";
 
 import BottomMenu from "./bottom_menu/BottomMenu";
 import LoadingSpinner from "../../components/Loading/LoadingSpinner";
+import StationSmallModal from "../../components/ev_charger_map/StationSmallModal";
 
 const EvChargerContainer = (props) => {
 
@@ -20,9 +21,11 @@ const EvChargerContainer = (props) => {
 
     const [isLoaded, setLoaded] = useState(false);
     const [chargingStations, setChargingStations] = useState([]);
-    const [count, setCount] = useState(0);
-    const [requestTime, setRequestTime] = useState(new Date().getTime());
+    const [count, setCount] = useState(0); // 테스트용
+    const [requestTime, setRequestTime] = useState(new Date().getTime()); //제스처 검출용
 
+    const [selectedStation, setSelectedStation]=useState();
+    const [smallModalVisible, setSmallModalVisible]=useState(false);
 
     const mapRef = useRef();
 
@@ -54,23 +57,6 @@ const EvChargerContainer = (props) => {
             // );
 
         })();
-
-        // (async () => {
-        //     // console.log('stationData')
-        //     // // 충전소 데이터 받아오는 작업 시작
-        //     await axios.get(config.ip + ':5000/stationsRouter/keco/find/stations')
-        //         .then((response) => {
-        //             setChargingStations(response.data);
-        //             // setLoaded(true);
-        //             // console.log(response.data);
-        //         }).catch((error) => {
-        //             console.log(error);
-        //         });
-        //     // // 충전소 데이터 받아오는 작업 끝
-
-
-        // })();
-
 
     }, []);
 
@@ -117,6 +103,12 @@ const EvChargerContainer = (props) => {
                     ?
                     <>
                         <View style={{ flex: 1 }}>
+                            <StationSmallModal
+                                selectedStation={selectedStation}
+                                modalVisible={smallModalVisible}
+                                setModalVisible={setSmallModalVisible}
+                                station={selectedStation}
+                            />
                             <HStack><Text>Log</Text></HStack>
                             <HStack><Text>{location.latitude}</Text><Spacer /><Text>{count}</Text><Spacer /><Text>{location.longitude}</Text></HStack>
                             <HStack><Text>{location.latitudeDelta}</Text><Spacer /><Text>{location.longitudeDelta}</Text></HStack>
@@ -148,53 +140,6 @@ const EvChargerContainer = (props) => {
                                     // updateMapStyle()
                                 }}
                             >
-                                {/* <Circle
-                center={{
-                    latitude: location.latitude,
-                    longitude: location.longitude,
-                  }}
-                radius={5000}
-                fillColor="rgba(255, 255, 255, 1)"
-                strokeColor="rgba(0,0,0,0.5)"
-                zIndex={2}
-                strokeWidth={2}
-              /> */}
-                                {/* <Marker
-                        key={0}
-                        title="dd"
-                        description="22"
-                        coordinate={{
-                            latitude: location.latitude + (location.latitudeDelta / 2),
-                            longitude: location.longitude + (location.longitudeDelta / 2),
-                        }}
-                    />
-                    <Marker
-                        key={1}
-                        title="dd"
-                        description="22"
-                        coordinate={{
-                            latitude: location.latitude + (location.latitudeDelta / 2),
-                            longitude: location.longitude - (location.longitudeDelta / 2),
-                        }}
-                    />
-                    <Marker
-                        key={2}
-                        title="dd"
-                        description="22"
-                        coordinate={{
-                            latitude: location.latitude - (location.latitudeDelta / 2),
-                            longitude: location.longitude - (location.longitudeDelta / 2),
-                        }}
-                    />
-                    <Marker
-                        key={3}
-                        title="dd"
-                        description="22"
-                        coordinate={{
-                            latitude: location.latitude - (location.latitudeDelta / 2),
-                            longitude: location.longitude + (location.longitudeDelta / 2),
-                        }}
-                    /> */}
 
                                 {
                                     chargingStations.length > 0 &&
@@ -206,8 +151,8 @@ const EvChargerContainer = (props) => {
                                             description={marker.addr}
                                             onPress={
                                                 () => {
-                                                    // this.setSmallModalVisible(true);
-                                                    // this.setChargingStation(marker);
+                                                    setSmallModalVisible(true);
+                                                    setSelectedStation(marker);
                                                 }
                                             }
                                         />
