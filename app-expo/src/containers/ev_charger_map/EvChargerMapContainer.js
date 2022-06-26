@@ -2,11 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { Circle, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MapView from "react-native-map-clustering";
 import * as Location from 'expo-location';
-import { config } from '../../../../config'
+import { config } from '../../../config'
 import axios from 'axios';
-import { Box, HStack, Spacer, Text } from "native-base";
+import { Box, HStack, Spacer, Text, View } from "native-base";
 
-const ChargerMap = (props) => {
+import BottomMenu from "./bottom_menu/BottomMenu";
+
+const EvChargerContainer = (props) => {
 
     const [location, setLocation] = useState({
         latitude: 37.3012,
@@ -15,9 +17,11 @@ const ChargerMap = (props) => {
         longitudeDelta: 0.0823817029595375,
     });
 
+    const [isLoaded, setLoaded] = useState(false);
     const [chargingStations, setChargingStations] = useState([]);
     const [count, setCount] = useState(0);
     const [requestTime, setRequestTime] = useState(new Date().getTime());
+
 
     const mapRef = useRef();
 
@@ -83,55 +87,61 @@ const ChargerMap = (props) => {
         }
     }
 
-    useEffect(()=>{
-        axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
-            data: {
-                x1: location.longitude - (location.longitudeDelta / 2),
-                x2: location.longitude + (location.longitudeDelta / 2),
-                y1: location.latitude - (location.latitudeDelta / 2),
-                y2: location.latitude + (location.latitudeDelta / 2),
-            }
-        }).then((response) => {
-            setChargingStations(response.data);
-        }).catch(function (error) {
-            console.log(error);
-        })
-    },[location]);
+    useEffect(() => {
+        if (location && location.latitudeDelta < 0.13 && location.longitudeDelta < 0.13) {
+            axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
+                data: {
+                    x1: location.longitude - (location.longitudeDelta / 2),
+                    x2: location.longitude + (location.longitudeDelta / 2),
+                    y1: location.latitude - (location.latitudeDelta / 2),
+                    y2: location.latitude + (location.latitudeDelta / 2),
+                }
+            }).then((response) => {
+                setChargingStations(response.data);
+            }).catch(function (error) {
+                console.log(error);
+            })
+        }
+        else {
+            setChargingStations([]);
+        }
+    }, [location]);
 
     return (
         <>
-            <HStack><Text>Log</Text></HStack>
-            <HStack><Text>{location.latitude}</Text><Spacer /><Text>{count}</Text><Spacer /><Text>{location.longitude}</Text></HStack>
-            <HStack><Text>{requestTime}</Text></HStack>
-            <MapView
-                // ref={mapRef}
-                initialRegion={{
-                    latitude: 37.3012,
-                    longitude: 127.0355,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
-                }}
-                style={{ flex: 1 }}
-                provider={PROVIDER_GOOGLE}
-                showsUserLocation={true}
-                showsMyLocationButton={true}
-                region={{
-                    latitude: location.latitude,
-                    longitude: location.longitude,
-                    latitudeDelta: location.latitudeDelta,
-                    longitudeDelta: location.longitudeDelta,
-                }}
-                onRegionChange={region => {
+            <View style={{ flex: 1 }}>
+                <HStack><Text>Log</Text></HStack>
+                <HStack><Text>{location.latitude}</Text><Spacer /><Text>{count}</Text><Spacer /><Text>{location.longitude}</Text></HStack>
+                <HStack><Text>{location.latitudeDelta}</Text><Spacer /><Text>{location.longitudeDelta}</Text></HStack>
+                <MapView
+                    // ref={mapRef}
+                    initialRegion={{
+                        latitude: 37.3012,
+                        longitude: 127.0355,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                    style={{ flex: 1 }}
+                    provider={PROVIDER_GOOGLE}
+                    showsUserLocation={true}
+                    showsMyLocationButton={true}
+                    region={{
+                        latitude: location.latitude,
+                        longitude: location.longitude,
+                        latitudeDelta: location.latitudeDelta,
+                        longitudeDelta: location.longitudeDelta,
+                    }}
+                    onRegionChange={region => {
 
-                }}
-                onRegionChangeComplete={(region, gesture) => {
-                    getRegionStations(region)
-                }}
-                onMapReady={() => {
-                    // updateMapStyle()
-                }}
-            >
-                {/* <Circle
+                    }}
+                    onRegionChangeComplete={(region, gesture) => {
+                        getRegionStations(region)
+                    }}
+                    onMapReady={() => {
+                        // updateMapStyle()
+                    }}
+                >
+                    {/* <Circle
             center={{
                 latitude: location.latitude,
                 longitude: location.longitude,
@@ -142,7 +152,7 @@ const ChargerMap = (props) => {
             zIndex={2}
             strokeWidth={2}
           /> */}
-                <Marker
+                    {/* <Marker
                     key={0}
                     title="dd"
                     description="22"
@@ -177,29 +187,30 @@ const ChargerMap = (props) => {
                         latitude: location.latitude - (location.latitudeDelta / 2),
                         longitude: location.longitude + (location.longitudeDelta / 2),
                     }}
-                />
+                /> */}
 
-                {
-                    chargingStations.length > 0 &&
-                    chargingStations.map((marker, index) => (
-                        <Marker
-                            key={index}
-                            coordinate={{ latitude: Number(marker.lat), longitude: Number(marker.lng) }}
-                            title={marker.statNm}
-                            description={marker.addr}
-                            onPress={
-                                () => {
-                                    // this.setSmallModalVisible(true);
-                                    // this.setChargingStation(marker);
+                    {
+                        chargingStations.length > 0 &&
+                        chargingStations.map((marker, index) => (
+                            <Marker
+                                key={index}
+                                coordinate={{ latitude: Number(marker.lat), longitude: Number(marker.lng) }}
+                                title={marker.statNm}
+                                description={marker.addr}
+                                onPress={
+                                    () => {
+                                        // this.setSmallModalVisible(true);
+                                        // this.setChargingStation(marker);
+                                    }
                                 }
-                            }
-                        />
-                    ))
-                }
+                            />
+                        ))
+                    }
 
-            </MapView>
+                </MapView>
+            </View>
+            <BottomMenu navigation={props.navigation} />
         </>
     )
 }
-
-export default ChargerMap;
+export default EvChargerContainer;
