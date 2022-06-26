@@ -1,7 +1,8 @@
-import { Alert, Modal, Pressable, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 
-const StationSmallModal = (props) => {
+
+const StationBigModal = (props) => {
     return (
         <>
             {
@@ -10,29 +11,29 @@ const StationSmallModal = (props) => {
                 <Modal
                     animationType="slide"
                     transparent={true}
-                    visible={props.smallModalVisible}
+                    visible={props.bigModalVisible}
                     onRequestClose={() => {
-                        props.setSmallModalVisible(!props.smallModalVisible);
+                        props.setBigModalVisible(!props.smallModalVisible);
                     }}
                 >
-                    <TouchableWithoutFeedback onPress={() => props.setSmallModalVisible(!props.smallModalVisible)}>
+                    <TouchableWithoutFeedback onPress={() => props.setBigModalVisible(!props.smallModalVisible)}>
                         <View style={styles.flexEndView}>
-                            <View style={styles.smallModalView}>
-                                <Text style={styles.modalText}>{props.station.statNm}
-                                    <TouchableOpacity activeOpacity={0.8} onPress={() => console.log('ㅇㅇ')}>
-                                        <MaterialIcons name={"star-border"} size={24} color={"black"} />
-                                    </TouchableOpacity>
-                                </Text>
-                                <Text style={styles.modalTextAddress}>{props.station.addr}</Text>
+                            <View style={styles.bigModalView}>
+                                <Text>This is Big Modal</Text>
+                                <Text style={styles.modalText}>{props.station.statNm + "(" + props.station.statId + ")"}</Text>
+                                <Text>{props.station.addr}</Text>
+                                <Text>{props.station.busiCall}</Text>
+                                <Text>{props.station.busiId}</Text>
+                                <Text>{props.station.note ? 'note가 없습니다.' : props.station.note}</Text>
+                                <Text>{props.station.parkingFree}</Text>
+                                <Text>{props.station.useTime}</Text>
+
                                 <View>
                                     <Pressable
                                         style={[styles.button, styles.buttonClose]}
-                                        onPress={() => {
-                                            props.setSmallModalVisible(!props.smallModalVisible);
-                                            props.setBigModalVisible(!props.bigModalVisible);
-                                        }}
+                                        onPress={() => props.setBigModalVisible(!props.bigModalVisible)}
                                     >
-                                        <Text style={styles.textStyle}>상세보기</Text>
+                                        <Text style={styles.textStyle}>Hide Modal</Text>
                                     </Pressable>
                                 </View>
                             </View>
@@ -44,7 +45,7 @@ const StationSmallModal = (props) => {
     )
 }
 
-export default StationSmallModal;
+export default StationBigModal;
 
 const styles = StyleSheet.create({
     flexEndView: {
@@ -52,12 +53,14 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-end'
     },
-    smallModalView: {
-        height: 240,
-        margin: 10,
-        marginBottom: 20,
+    bigModalView: {
+        height: '95%',
+        margin: 5,
+        marginBottom: 0,
         backgroundColor: "white",
         borderRadius: 10,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
         padding: 35,
         alignItems: "center",
         shadowColor: "#000",
@@ -93,6 +96,6 @@ const styles = StyleSheet.create({
         color: "white",
         fontWeight: "bold",
         textAlign: "center"
-    
-      },
+
+    },
 });

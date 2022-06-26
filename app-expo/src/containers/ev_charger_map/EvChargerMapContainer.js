@@ -9,6 +9,7 @@ import { Box, HStack, Spacer, Text, View } from "native-base";
 import BottomMenu from "./bottom_menu/BottomMenu";
 import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 import StationSmallModal from "../../components/ev_charger_map/StationSmallModal";
+import StationBigModal from "../../components/ev_charger_map/StationBigModal";
 
 const EvChargerContainer = (props) => {
 
@@ -24,8 +25,9 @@ const EvChargerContainer = (props) => {
     const [count, setCount] = useState(0); // 테스트용
     const [requestTime, setRequestTime] = useState(new Date().getTime()); //제스처 검출용
 
-    const [selectedStation, setSelectedStation]=useState();
-    const [smallModalVisible, setSmallModalVisible]=useState(false);
+    const [selectedStation, setSelectedStation] = useState();
+    const [smallModalVisible, setSmallModalVisible] = useState(false);
+    const [bigModalVisible, setBigModalVisible] = useState(false);
 
     const mapRef = useRef();
 
@@ -61,7 +63,7 @@ const EvChargerContainer = (props) => {
     }, []);
 
     const getRegionStations = (region) => {
-        if(isLoaded){
+        if (isLoaded) {
             setCount(count + 1)
             const newTime = new Date().getTime();
             console.log('--------')
@@ -72,7 +74,7 @@ const EvChargerContainer = (props) => {
             if (newTime - requestTime > 300) {
                 console.log('updated at count:', count);
                 setLocation(region)
-            }    
+            }
         }
     }
 
@@ -104,10 +106,18 @@ const EvChargerContainer = (props) => {
                     <>
                         <View style={{ flex: 1 }}>
                             <StationSmallModal
-                                selectedStation={selectedStation}
-                                modalVisible={smallModalVisible}
-                                setModalVisible={setSmallModalVisible}
                                 station={selectedStation}
+                                smallModalVisible={smallModalVisible}
+                                setSmallModalVisible={setSmallModalVisible}
+                                bigModalVisible={bigModalVisible}
+                                setBigModalVisible={setBigModalVisible}
+                            />
+                            <StationBigModal
+                                station={selectedStation}
+                                smallModalVisible={smallModalVisible}
+                                setSmallModalVisible={setSmallModalVisible}
+                                bigModalVisible={bigModalVisible}
+                                setBigModalVisible={setBigModalVisible}
                             />
                             <HStack><Text>Log</Text></HStack>
                             <HStack><Text>{location.latitude}</Text><Spacer /><Text>{count}</Text><Spacer /><Text>{location.longitude}</Text></HStack>
