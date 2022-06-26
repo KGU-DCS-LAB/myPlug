@@ -7,14 +7,15 @@ import axios from 'axios';
 import { Box, HStack, Spacer, Text, View } from "native-base";
 
 import BottomMenu from "./bottom_menu/BottomMenu";
+import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 
 const EvChargerContainer = (props) => {
 
     const [location, setLocation] = useState({
         latitude: 37.3012,
         longitude: 127.0355,
-        latitudeDelta: 0.11211571126961672,
-        longitudeDelta: 0.0823817029595375,
+        latitudeDelta: 0,
+        longitudeDelta: 0,
     });
 
     const [isLoaded, setLoaded] = useState(false);
@@ -40,10 +41,10 @@ const EvChargerContainer = (props) => {
             setLocation({
                 longitude: location.coords.longitude,
                 latitude: location.coords.latitude,
-                latitudeDelta: 0.11211571126961672,
-                longitudeDelta: 0.0823817029595375,
+                latitudeDelta: 0.015,
+                longitudeDelta: 0.015,
             });
-
+            setLoaded(true);
             // 실시간으로 위치 변화 감지 (권한 거부 시 아예 동작하지 않음 / 델타 값 관련 버그가 있어서 일단 주석 처리. 동작 자체는 아무 이상 없음)
             // Location.watchPositionAsync({ accuracy: Location.Accuracy.Balanced, timeInterval: 100, distanceInterval: 1 },
             //     position => {
@@ -74,16 +75,18 @@ const EvChargerContainer = (props) => {
     }, []);
 
     const getRegionStations = (region) => {
-        setCount(count + 1)
-        const newTime = new Date().getTime();
-        console.log('--------')
-        console.log(requestTime);
-        setRequestTime(newTime);
-        console.log(newTime);
-        console.log('diff : ', newTime - requestTime);
-        if (newTime - requestTime > 300) {
-            console.log('updated at count:', count);
-            setLocation(region)
+        if(isLoaded){
+            setCount(count + 1)
+            const newTime = new Date().getTime();
+            console.log('--------')
+            console.log(requestTime);
+            setRequestTime(newTime);
+            console.log(newTime);
+            console.log('diff : ', newTime - requestTime);
+            if (newTime - requestTime > 300) {
+                console.log('updated at count:', count);
+                setLocation(region)
+            }    
         }
     }
 
@@ -109,107 +112,115 @@ const EvChargerContainer = (props) => {
 
     return (
         <>
-            <View style={{ flex: 1 }}>
-                <HStack><Text>Log</Text></HStack>
-                <HStack><Text>{location.latitude}</Text><Spacer /><Text>{count}</Text><Spacer /><Text>{location.longitude}</Text></HStack>
-                <HStack><Text>{location.latitudeDelta}</Text><Spacer /><Text>{location.longitudeDelta}</Text></HStack>
-                <MapView
-                    // ref={mapRef}
-                    initialRegion={{
-                        latitude: 37.3012,
-                        longitude: 127.0355,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    }}
-                    style={{ flex: 1 }}
-                    provider={PROVIDER_GOOGLE}
-                    showsUserLocation={true}
-                    showsMyLocationButton={true}
-                    region={{
-                        latitude: location.latitude,
-                        longitude: location.longitude,
-                        latitudeDelta: location.latitudeDelta,
-                        longitudeDelta: location.longitudeDelta,
-                    }}
-                    onRegionChange={region => {
+            {
+                isLoaded
+                    ?
+                    <>
+                        <View style={{ flex: 1 }}>
+                            <HStack><Text>Log</Text></HStack>
+                            <HStack><Text>{location.latitude}</Text><Spacer /><Text>{count}</Text><Spacer /><Text>{location.longitude}</Text></HStack>
+                            <HStack><Text>{location.latitudeDelta}</Text><Spacer /><Text>{location.longitudeDelta}</Text></HStack>
+                            <MapView
+                                // ref={mapRef}
+                                initialRegion={{
+                                    latitude: 37.3012,
+                                    longitude: 127.0355,
+                                    latitudeDelta: 0.0922,
+                                    longitudeDelta: 0.0421,
+                                }}
+                                style={{ flex: 1 }}
+                                provider={PROVIDER_GOOGLE}
+                                showsUserLocation={true}
+                                showsMyLocationButton={true}
+                                region={{
+                                    latitude: location.latitude,
+                                    longitude: location.longitude,
+                                    latitudeDelta: location.latitudeDelta,
+                                    longitudeDelta: location.longitudeDelta,
+                                }}
+                                onRegionChange={region => {
 
-                    }}
-                    onRegionChangeComplete={(region, gesture) => {
-                        getRegionStations(region)
-                    }}
-                    onMapReady={() => {
-                        // updateMapStyle()
-                    }}
-                >
-                    {/* <Circle
-            center={{
-                latitude: location.latitude,
-                longitude: location.longitude,
-              }}
-            radius={5000}
-            fillColor="rgba(255, 255, 255, 1)"
-            strokeColor="rgba(0,0,0,0.5)"
-            zIndex={2}
-            strokeWidth={2}
-          /> */}
-                    {/* <Marker
-                    key={0}
-                    title="dd"
-                    description="22"
-                    coordinate={{
-                        latitude: location.latitude + (location.latitudeDelta / 2),
-                        longitude: location.longitude + (location.longitudeDelta / 2),
-                    }}
-                />
-                <Marker
-                    key={1}
-                    title="dd"
-                    description="22"
-                    coordinate={{
-                        latitude: location.latitude + (location.latitudeDelta / 2),
-                        longitude: location.longitude - (location.longitudeDelta / 2),
-                    }}
-                />
-                <Marker
-                    key={2}
-                    title="dd"
-                    description="22"
-                    coordinate={{
-                        latitude: location.latitude - (location.latitudeDelta / 2),
-                        longitude: location.longitude - (location.longitudeDelta / 2),
-                    }}
-                />
-                <Marker
-                    key={3}
-                    title="dd"
-                    description="22"
-                    coordinate={{
-                        latitude: location.latitude - (location.latitudeDelta / 2),
-                        longitude: location.longitude + (location.longitudeDelta / 2),
-                    }}
-                /> */}
+                                }}
+                                onRegionChangeComplete={(region, gesture) => {
+                                    getRegionStations(region)
+                                }}
+                                onMapReady={() => {
+                                    // updateMapStyle()
+                                }}
+                            >
+                                {/* <Circle
+                center={{
+                    latitude: location.latitude,
+                    longitude: location.longitude,
+                  }}
+                radius={5000}
+                fillColor="rgba(255, 255, 255, 1)"
+                strokeColor="rgba(0,0,0,0.5)"
+                zIndex={2}
+                strokeWidth={2}
+              /> */}
+                                {/* <Marker
+                        key={0}
+                        title="dd"
+                        description="22"
+                        coordinate={{
+                            latitude: location.latitude + (location.latitudeDelta / 2),
+                            longitude: location.longitude + (location.longitudeDelta / 2),
+                        }}
+                    />
+                    <Marker
+                        key={1}
+                        title="dd"
+                        description="22"
+                        coordinate={{
+                            latitude: location.latitude + (location.latitudeDelta / 2),
+                            longitude: location.longitude - (location.longitudeDelta / 2),
+                        }}
+                    />
+                    <Marker
+                        key={2}
+                        title="dd"
+                        description="22"
+                        coordinate={{
+                            latitude: location.latitude - (location.latitudeDelta / 2),
+                            longitude: location.longitude - (location.longitudeDelta / 2),
+                        }}
+                    />
+                    <Marker
+                        key={3}
+                        title="dd"
+                        description="22"
+                        coordinate={{
+                            latitude: location.latitude - (location.latitudeDelta / 2),
+                            longitude: location.longitude + (location.longitudeDelta / 2),
+                        }}
+                    /> */}
 
-                    {
-                        chargingStations.length > 0 &&
-                        chargingStations.map((marker, index) => (
-                            <Marker
-                                key={index}
-                                coordinate={{ latitude: Number(marker.lat), longitude: Number(marker.lng) }}
-                                title={marker.statNm}
-                                description={marker.addr}
-                                onPress={
-                                    () => {
-                                        // this.setSmallModalVisible(true);
-                                        // this.setChargingStation(marker);
-                                    }
+                                {
+                                    chargingStations.length > 0 &&
+                                    chargingStations.map((marker, index) => (
+                                        <Marker
+                                            key={index}
+                                            coordinate={{ latitude: Number(marker.lat), longitude: Number(marker.lng) }}
+                                            title={marker.statNm}
+                                            description={marker.addr}
+                                            onPress={
+                                                () => {
+                                                    // this.setSmallModalVisible(true);
+                                                    // this.setChargingStation(marker);
+                                                }
+                                            }
+                                        />
+                                    ))
                                 }
-                            />
-                        ))
-                    }
 
-                </MapView>
-            </View>
-            <BottomMenu navigation={props.navigation} />
+                            </MapView>
+                        </View>
+                        <BottomMenu navigation={props.navigation} />
+                    </>
+                    :
+                    <LoadingSpinner />
+            }
         </>
     )
 }
