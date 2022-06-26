@@ -1,4 +1,5 @@
-import { Modal, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 const StationSmallModal = (props) => {
@@ -19,7 +20,20 @@ const StationSmallModal = (props) => {
                     <TouchableWithoutFeedback onPress={() => props.setModalVisible(!props.modalVisible)}>
                         <View style={styles.flexEndView}>
                             <View style={styles.smallModalView}>
-                                <Text>{props.station.statNm}</Text>
+                                <Text style={styles.modalText}>{props.station.statNm}
+                                    <TouchableOpacity activeOpacity={0.8} onPress={() => console.log('ㅇㅇ')}>
+                                        <MaterialIcons name={"star-border"} size={24} color={"black"} />
+                                    </TouchableOpacity>
+                                </Text>
+                                <Text style={styles.modalTextAddress}>{props.station.addr}</Text>
+                                <View>
+                                    <Pressable
+                                        style={[styles.button, styles.buttonClose]}
+                                        onPress={() => console.log('dd')}
+                                    >
+                                        <Text style={styles.textStyle}>상세보기</Text>
+                                    </Pressable>
+                                </View>
                             </View>
                         </View>
                     </TouchableWithoutFeedback>
@@ -54,4 +68,30 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
     },
+    modalText: {
+        marginBottom: 20,
+        textAlign: "center",
+        fontSize: 20,
+
+    },
+    modalTextAddress: {
+        marginBottom: 28,
+        textAlign: "center",
+        fontSize: 15,
+
+    },
+    button: {
+        borderRadius: 10,
+        padding: 10,
+        elevation: 2
+    },
+    buttonClose: {
+        backgroundColor: "#2196F3",
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    
+      },
 });
