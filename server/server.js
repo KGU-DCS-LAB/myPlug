@@ -33,22 +33,6 @@ app.listen(port, () => {
 
 app.use('/stationsRouter', stationsRouter);
 
-app.get("/search/:key", async  (req, res) => {
-  // console.log(req);
-  let result = await Station.find({
-    "$or": [
-      {
-        statNm: {$regex: req.params.key}
-      }
-    ]
-  });
-  res.send(result);
-})
-
-
-
-
-
 // const express = require('express');
 // const app = express();
 // const port = 5000

@@ -26,6 +26,7 @@ const MenuStagger = (props) => {
 
             <Box maxW="100">
                 <Stagger
+                    // visible={isOpen}
                     visible={true}
                     initial={{
                         opacity: 0,

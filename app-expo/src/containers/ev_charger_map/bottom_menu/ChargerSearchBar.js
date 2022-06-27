@@ -24,7 +24,7 @@ const ChargerSearchBar = (props) => {
         console.log(text)
         let key = text;
         if(key) {
-            let result = await fetch(config.ip + `:5000/search/${key}`);
+            let result = await fetch(config.ip + `:5000/stationsRouter/search/${key}`);
             result = await result.json();
             if(result) {
                 // console.log(result);
@@ -86,20 +86,20 @@ const ChargerSearchBar = (props) => {
                     filterList("");
                 }}
             />
-            <StationSmallModal //마커 클릭 시 작은 모달 띄우기 용
-            station={selectedStation}
-            smallModalVisible={smallModalVisible}
-            setSmallModalVisible={setSmallModalVisible}
-            bigModalVisible={bigModalVisible}
-            setBigModalVisible={setBigModalVisible}
-            />
-            <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
-                station={selectedStation}
-                smallModalVisible={smallModalVisible}
-                setSmallModalVisible={setSmallModalVisible}
-                bigModalVisible={bigModalVisible}
-                setBigModalVisible={setBigModalVisible}
-            />
+                <StationSmallModal //마커 클릭 시 작은 모달 띄우기 용
+                    station={selectedStation}
+                    smallModalVisible={smallModalVisible}
+                    setSmallModalVisible={setSmallModalVisible}
+                    bigModalVisible={bigModalVisible}
+                    setBigModalVisible={setBigModalVisible}
+                    />
+                <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
+                    station={selectedStation}
+                    smallModalVisible={smallModalVisible}
+                    setSmallModalVisible={setSmallModalVisible}
+                    bigModalVisible={bigModalVisible}
+                    setBigModalVisible={setBigModalVisible}
+                />
         </>
     )
 }

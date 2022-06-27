@@ -51,5 +51,18 @@ router.get('/keco/find/chargers', function (req, res, next) {
     });
 });
 
+// 충전소 검색
+router.get("/search/:key", async  (req, res) => {
+    // console.log(req);
+    let result = await Station.find({
+      "$or": [
+        {
+          statNm: {$regex: req.params.key}
+        }
+      ]
+    });
+    res.send(result);
+  })
+
 
 module.exports = router;
