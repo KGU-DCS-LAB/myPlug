@@ -1,5 +1,6 @@
 import { Box, Center, Fab, HStack, Icon, IconButton, Spacer, Stagger, useDisclose } from "native-base";
 import { AntDesign, MaterialCommunityIcons, MaterialIcons, FontAwesome5, Ionicons } from "@expo/vector-icons";
+import * as Location from 'expo-location';
 
 
 const MenuStagger = (props) => {
@@ -8,6 +9,17 @@ const MenuStagger = (props) => {
         isOpen,
         onToggle
     } = useDisclose();
+
+    const goToCurrentLocation = async () => {
+        let location = await Location.getCurrentPositionAsync({}); //현 위치 수신
+        // console.log(location);
+        props.setLocation({
+            longitude: location.coords.longitude,
+            latitude: location.coords.latitude,
+            latitudeDelta: 0.007,
+            longitudeDelta: 0.007,
+        });
+    }
 
     return (
         <>
@@ -47,14 +59,14 @@ const MenuStagger = (props) => {
                         mb="3"
                         margin={1}
                         variant="solid"
-                        bg="yellow.500"
+                        bg="red.500"
                         colorScheme="yellow"
                         borderRadius="full"
                         icon={
                             <Icon
                                 as={MaterialIcons}
                                 size="6"
-                                name="delete"
+                                name="my-location"
                                 _dark={{
                                     color: "warmGray.50"
                                 }}
@@ -62,7 +74,7 @@ const MenuStagger = (props) => {
                             />
                         }
                         onPress={
-                            () => console.log('ㅋㅋ')
+                            () => goToCurrentLocation()
                         }
                     />
                     <IconButton

@@ -18,7 +18,7 @@ const EvChargerContainer = (props) => {
         longitude: 127.0355,
         latitudeDelta: 0,
         longitudeDelta: 0,
-    }); // 기본 위치 데이터
+    }); // 기본 위치 데이터 (비상용)
 
     const [isLoaded, setLoaded] = useState(false); // GPS 로딩 여부 검사용
     const [chargingStations, setChargingStations] = useState([]); //서버로 부터 받아온 충전소 데이터 리스트
@@ -45,8 +45,8 @@ const EvChargerContainer = (props) => {
             setLocation({
                 longitude: location.coords.longitude,
                 latitude: location.coords.latitude,
-                latitudeDelta: 0.015,
-                longitudeDelta: 0.015,
+                latitudeDelta: 0.007,
+                longitudeDelta: 0.007,
             });
             setLoaded(true);
             // 실시간으로 위치 변화 감지 (권한 거부 시 아예 동작하지 않음 / 델타 값 관련 버그가 있어서 일단 주석 처리. 동작 자체는 아무 이상 없음)
@@ -139,7 +139,7 @@ const EvChargerContainer = (props) => {
                                 style={{ flex: 1 }}
                                 provider={PROVIDER_GOOGLE} // Apple 지도가 뜨지 않도록 방지함
                                 showsUserLocation={true} 
-                                showsMyLocationButton={true} 
+                                showsMyLocationButton={false} // 현위치를 맵에서 직접 관리하지 않도록 제한함 (Stagger에서 처리)
                                 region={{ //현 위치를 state가 관리하도록 함
                                     latitude: location.latitude,
                                     longitude: location.longitude,
@@ -177,7 +177,7 @@ const EvChargerContainer = (props) => {
 
                             </MapView>
                         </View>
-                        <BottomMenu navigation={props.navigation} />
+                        <BottomMenu navigation={props.navigation} setLocation={setLocation}/>
                     </>
                     :
                     <LoadingSpinner />
