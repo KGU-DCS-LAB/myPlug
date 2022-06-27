@@ -10,7 +10,6 @@ const ChargerSearchBar = (props) => {
 
     const [text, setText] = useState('');
     const [stations, setStations] = useState([]);
-    const [touch, setTouch] = useState(false); // 검색 결과 터치 
     const [selectedStation, setSelectedStation] = useState(); //마커 선택 시 모달에 띄워줄 데이터
     const [smallModalVisible, setSmallModalVisible] = useState(false); //작은 모달 온오프
     const [bigModalVisible, setBigModalVisible] = useState(false); //큰 모달 온오프
@@ -52,35 +51,16 @@ const ChargerSearchBar = (props) => {
     }
 
     const renderItem = ({ item }) => (
-        <>
         <TouchableOpacity onPress={() => goToCurrentLocation(item)}>
             <Text>{item.statNm}</Text>
         </TouchableOpacity>
-
-        <StationSmallModal //마커 클릭 시 작은 모달 띄우기 용
-            station={selectedStation}
-            smallModalVisible={smallModalVisible}
-            setSmallModalVisible={setSmallModalVisible}
-            bigModalVisible={bigModalVisible}
-            setBigModalVisible={setBigModalVisible}
-        />
-        <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
-            station={selectedStation}
-            smallModalVisible={smallModalVisible}
-            setSmallModalVisible={setSmallModalVisible}
-            bigModalVisible={bigModalVisible}
-            setBigModalVisible={setBigModalVisible}
-        />
-        </>
-        
-
       );
 
     return (
         <>
             {
                 text.length > 0
-                &&
+                && !smallModalVisible &&
                 <Box
                     style={{ width: 250, position: 'absolute', bottom: 40 }}
                     bg="white"
@@ -105,6 +85,20 @@ const ChargerSearchBar = (props) => {
                 onClearPress={() => {
                     filterList("");
                 }}
+            />
+            <StationSmallModal //마커 클릭 시 작은 모달 띄우기 용
+            station={selectedStation}
+            smallModalVisible={smallModalVisible}
+            setSmallModalVisible={setSmallModalVisible}
+            bigModalVisible={bigModalVisible}
+            setBigModalVisible={setBigModalVisible}
+            />
+            <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
+                station={selectedStation}
+                smallModalVisible={smallModalVisible}
+                setSmallModalVisible={setSmallModalVisible}
+                bigModalVisible={bigModalVisible}
+                setBigModalVisible={setBigModalVisible}
             />
         </>
     )
