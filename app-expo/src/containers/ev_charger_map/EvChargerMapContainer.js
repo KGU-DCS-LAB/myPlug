@@ -29,7 +29,7 @@ const EvChargerContainer = (props) => {
     const [smallModalVisible, setSmallModalVisible] = useState(false); //작은 모달 온오프
     const [bigModalVisible, setBigModalVisible] = useState(false); //큰 모달 온오프
 
-    // const mapRef = useRef(); //몰라
+    const mapRef = useRef(); //몰라
 
     // Get current location information 
     useEffect(() => {
@@ -80,6 +80,7 @@ const EvChargerContainer = (props) => {
 
     //위치 값이 변할 때 마다 서버로 데이터 요청을 함
     useEffect(() => {
+        console.log(mapRef?.current?.getCamera());
         if (location && location.latitudeDelta < 0.13 && location.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
             axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
                 data: { // 현재 화면 모서리의 좌표 값을 전송함. 같은 축이여도 숫자가 작을 수록 값이 작음 (ex. x1<x2,  y1<y2)
@@ -129,7 +130,7 @@ const EvChargerContainer = (props) => {
                             {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
 
                             <MapView
-                                // ref={mapRef}
+                                ref={mapRef}
                                 initialRegion={{ //초기 값
                                     latitude: 37.3012,
                                     longitude: 127.0355,
