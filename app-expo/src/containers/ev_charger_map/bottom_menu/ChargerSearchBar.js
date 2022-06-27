@@ -3,12 +3,17 @@ import { useState } from "react";
 import SearchBar from "react-native-dynamic-search-bar";
 import { FlatList, TouchableOpacity } from 'react-native';
 import { config } from '../../../../config'
-import * as Location from 'expo-location';
+import StationSmallModal from "../../../components/ev_charger_map/StationSmallModal";
+import StationBigModal from "../../../components/ev_charger_map/StationBigModal";
 
 const ChargerSearchBar = (props) => {
 
     const [text, setText] = useState('');
     const [stations, setStations] = useState([]);
+    const [touch, setTouch] = useState(false); // 검색 결과 터치 
+    const [selectedStation, setSelectedStation] = useState(); //마커 선택 시 모달에 띄워줄 데이터
+    const [smallModalVisible, setSmallModalVisible] = useState(false); //작은 모달 온오프
+    const [bigModalVisible, setBigModalVisible] = useState(false); //큰 모달 온오프
 
     // const getStations = async () => {
     //     let result = await fetch(config.ip + ':5000/stationsRouter/keco/find/stations');
@@ -35,18 +40,40 @@ const ChargerSearchBar = (props) => {
     }
 
     const goToCurrentLocation = async (item) => {
-        console.log('dhdhdhdhdhhdh');
-        console.log(item.lat);
+        // console.log(item.lat);
+        setSelectedStation(item);
         props.setLocation({
             longitude: item.lng,
             latitude: item.lat,
             latitudeDelta: 0.007,
             longitudeDelta: 0.007,
         });
+        setSmallModalVisible(true);
     }
 
     const renderItem = ({ item }) => (
-        <TouchableOpacity onPress={() => goToCurrentLocation(item)}><Text>{item.statNm}</Text></TouchableOpacity>
+        <>
+        <TouchableOpacity onPress={() => goToCurrentLocation(item)}>
+            <Text>{item.statNm}</Text>
+        </TouchableOpacity>
+
+        <StationSmallModal //마커 클릭 시 작은 모달 띄우기 용
+            station={selectedStation}
+            smallModalVisible={smallModalVisible}
+            setSmallModalVisible={setSmallModalVisible}
+            bigModalVisible={bigModalVisible}
+            setBigModalVisible={setBigModalVisible}
+        />
+        <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
+            station={selectedStation}
+            smallModalVisible={smallModalVisible}
+            setSmallModalVisible={setSmallModalVisible}
+            bigModalVisible={bigModalVisible}
+            setBigModalVisible={setBigModalVisible}
+        />
+        </>
+        
+
       );
 
     return (
@@ -65,9 +92,6 @@ const ChargerSearchBar = (props) => {
                     renderItem={renderItem}
                     keyExtractor={item => item._id}
                 />
-                    {/* <Text>ㅇㅇ</Text>
-                    <Text>ㅇㅇ</Text>
-                    <Text>ㅇㅇ</Text> */}
                 </Box>
             }
 
