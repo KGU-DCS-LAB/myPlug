@@ -1,9 +1,9 @@
 import { Box, Text } from "native-base";
 import { useState } from "react";
 import SearchBar from "react-native-dynamic-search-bar";
-import { FlatList } from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native';
 import { config } from '../../../../config'
-import axios from 'axios';
+import * as Location from 'expo-location';
 
 const ChargerSearchBar = (props) => {
 
@@ -34,8 +34,19 @@ const ChargerSearchBar = (props) => {
         setText(textData);
     }
 
+    const goToCurrentLocation = async (item) => {
+        console.log('dhdhdhdhdhhdh');
+        console.log(item.lat);
+        props.setLocation({
+            longitude: item.lng,
+            latitude: item.lat,
+            latitudeDelta: 0.007,
+            longitudeDelta: 0.007,
+        });
+    }
+
     const renderItem = ({ item }) => (
-        <Text>{item.statNm}</Text>
+        <TouchableOpacity onPress={() => goToCurrentLocation(item)}><Text>{item.statNm}</Text></TouchableOpacity>
       );
 
     return (
