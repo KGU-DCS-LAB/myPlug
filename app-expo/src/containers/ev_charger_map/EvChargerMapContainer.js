@@ -11,6 +11,8 @@ import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 import StationSmallModal from "../../components/ev_charger_map/StationSmallModal";
 import StationBigModal from "../../components/ev_charger_map/StationBigModal";
 import FilterModal from "../../components/ev_charger_map/FilterModal";
+import { Image } from "react-native";
+import { MaterialIcons } from '@expo/vector-icons';
 
 const EvChargerContainer = (props) => {
 
@@ -83,7 +85,7 @@ const EvChargerContainer = (props) => {
 
     const getFilterRange = async () => {
         let key = "useTime";
-        console.log("key",key);
+        console.log("key", key);
         let result = await fetch(config.ip + `:5000/stationsRouter/keco/filteredStations/${key}`);
         result = await result.json();
         if (result) {
@@ -157,7 +159,7 @@ const EvChargerContainer = (props) => {
                                 }}
                                 style={{ flex: 1 }}
                                 provider={PROVIDER_GOOGLE} // Apple 지도가 뜨지 않도록 방지함
-                                showsUserLocation={true} 
+                                showsUserLocation={true}
                                 showsMyLocationButton={false} // 현위치를 맵에서 직접 관리하지 않도록 제한함 (Stagger에서 처리)
                                 region={{ //현 위치를 state가 관리하도록 함
                                     latitude: location.latitude,
@@ -190,17 +192,19 @@ const EvChargerContainer = (props) => {
                                                     setSelectedStation(marker);
                                                 }
                                             }
-                                        />
+                                        >
+                                            {/* <MaterialIcons name="location-pin" size={40} color="red" /> */}
+                                        </Marker>
                                     ))
                                 }
 
                             </MapView>
                         </View>
-                        <BottomMenu navigation={props.navigation} setLocation={setLocation} setFilterModalVisible={setFilterModalVisible}/>
+                        <BottomMenu navigation={props.navigation} setLocation={setLocation} setFilterModalVisible={setFilterModalVisible} />
                     </>
                     :
                     <>
-                        <LoadingSpinner description="디바이스가 어디에 있는지 찾고 있어요..."/>
+                        <LoadingSpinner description="디바이스가 어디에 있는지 찾고 있어요..." />
                         {/* <LoadingSpinner/> */}
                     </>
             }
