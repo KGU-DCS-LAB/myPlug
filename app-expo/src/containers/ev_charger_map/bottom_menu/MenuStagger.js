@@ -10,6 +10,8 @@ const MenuStagger = (props) => {
         onToggle
     } = useDisclose();
 
+    const location = props.location;
+
     const goToCurrentLocation = async () => {
         let location = await Location.getCurrentPositionAsync({}); //현 위치 수신
         // console.log(location);
@@ -19,6 +21,31 @@ const MenuStagger = (props) => {
             latitudeDelta: 0.007,
             longitudeDelta: 0.007,
         });
+    }
+
+    const zoom = (zoom) => {
+        let magnification = 0.005
+        switch (zoom) {
+            case 'out':
+                magnification *= 1
+                break;
+
+            case 'in':
+                magnification *= -1
+                break;
+            default:
+                return
+                break;
+        }
+        if (location.latitudeDelta + magnification > 0 && location.longitudeDelta + magnification > 0) {
+            props.setLocation({
+                longitude: location.longitude,
+                latitude: location.latitude,
+                latitudeDelta: location.latitudeDelta + magnification,
+                longitudeDelta: location.longitudeDelta + magnification,
+            });
+
+        }
     }
 
     return (
@@ -76,7 +103,7 @@ const MenuStagger = (props) => {
                             />
                         }
                         onPress={
-                            () => console.log('새로고침')
+                            () => props.getStations()
                         }
                     />
                     <IconButton
@@ -125,6 +152,30 @@ const MenuStagger = (props) => {
                             () => props.setFilterModalVisible(true)
                         }
                     />
+
+                    <IconButton
+                        mb="3"
+                        margin={1}
+                        variant="solid"
+                        bg="red.400"
+                        colorScheme="yellow"
+                        borderRadius="full"
+                        icon={
+                            <Icon
+                                as={AntDesign}
+                                size="6"
+                                name="plus"
+                                _dark={{
+                                    color: "warmGray.50"
+                                }}
+                                color="warmGray.50"
+                            />
+                        }
+                        onPress={
+                            () => zoom('in')
+                        }
+                    />
+
                     <IconButton
                         mb="3"
                         margin={1}
@@ -145,6 +196,29 @@ const MenuStagger = (props) => {
                         }
                         onPress={
                             () => goToCurrentLocation()
+                        }
+                    />
+
+                    <IconButton
+                        mb="3"
+                        margin={1}
+                        variant="solid"
+                        bg="red.400"
+                        colorScheme="yellow"
+                        borderRadius="full"
+                        icon={
+                            <Icon
+                                as={AntDesign}
+                                size="6"
+                                name="minus"
+                                _dark={{
+                                    color: "warmGray.50"
+                                }}
+                                color="warmGray.50"
+                            />
+                        }
+                        onPress={
+                            () => zoom('out')
                         }
                     />
                     <IconButton
@@ -187,7 +261,8 @@ const MenuStagger = (props) => {
                         color="warmGray.50"
                         _dark={{
                             color: "warmGray.50"
-                        }} />} />
+                        }} />}
+                />
             </HStack>
 
         </>
