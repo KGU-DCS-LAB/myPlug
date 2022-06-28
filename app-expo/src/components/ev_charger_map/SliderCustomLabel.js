@@ -31,8 +31,6 @@ export default function SliderCustomLabel(textTransformer)
             twoMarkerLeftPosition,
         } = props;
 
-        console.log({props, oneMarkerLeftPosition, twoMarkerLeftPosition});
-
         return (
             <View>
                 <LabelBase
