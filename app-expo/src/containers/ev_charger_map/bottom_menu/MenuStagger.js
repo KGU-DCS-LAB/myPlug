@@ -26,8 +26,8 @@ const MenuStagger = (props) => {
 
             <Box maxW="100">
                 <Stagger
-                    // visible={isOpen}
-                    visible={true}
+                    visible={!isOpen}
+                    // visible={true}
                     initial={{
                         opacity: 0,
                         scale: 0,
@@ -60,7 +60,7 @@ const MenuStagger = (props) => {
                         mb="3"
                         margin={1}
                         variant="solid"
-                        bg="indigo.500"
+                        bg="yellow.500"
                         colorScheme="indigo"
                         borderRadius="full"
 
@@ -127,7 +127,19 @@ const MenuStagger = (props) => {
                 </Stagger>
             </Box>
             <HStack alignItems="center">
-                <IconButton style={{ backgroundColor: "#27ae60" }} variant="solid" borderRadius="full" shadow={2} size="lg" onPress={onToggle} bg="cyan.400" icon={<Icon as={MaterialCommunityIcons} size="7" name="dots-horizontal" color="warmGray.50" _dark={{
+                <IconButton
+                 style={{ backgroundColor: "#27ae60" }}
+                  variant="solid" 
+                  borderRadius="full" 
+                  shadow={2}
+                  size="lg" 
+                  onPress={onToggle}
+                  bg="cyan.400"
+                  icon={<Icon as={MaterialCommunityIcons} 
+                  size="7" 
+                  name={isOpen?'chevron-double-up':'chevron-double-down'} 
+                  color="warmGray.50" 
+                  _dark={{
                     color: "warmGray.50"
                 }} />} />
             </HStack>

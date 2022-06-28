@@ -4,7 +4,7 @@ import MapView from "react-native-map-clustering";
 import * as Location from 'expo-location';
 import { config } from '../../../config'
 import axios from 'axios';
-import { Box, HStack, Spacer, Text, View } from "native-base";
+import { Box, Center, HStack, Spacer, Text, View } from "native-base";
 
 import BottomMenu from "./bottom_menu/BottomMenu";
 import LoadingSpinner from "../../components/Loading/LoadingSpinner";
@@ -170,8 +170,8 @@ const EvChargerContainer = (props) => {
                                         <Marker
                                             key={index}
                                             coordinate={{ latitude: Number(marker.lat), longitude: Number(marker.lng) }}
-                                            title={marker.statNm}
-                                            description={marker.addr}
+                                            // title={marker.statNm}
+                                            // description={marker.addr}
                                             onPress={
                                                 () => {
                                                     setSmallModalVisible(true);
@@ -187,7 +187,10 @@ const EvChargerContainer = (props) => {
                         <BottomMenu navigation={props.navigation} setLocation={setLocation} setFilterModalVisible={setFilterModalVisible}/>
                     </>
                     :
-                    <LoadingSpinner />
+                    <>
+                        <LoadingSpinner description="디바이스가 어디에 있는지 찾고 있어요..."/>
+                        {/* <LoadingSpinner/> */}
+                    </>
             }
         </>
     )
