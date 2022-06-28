@@ -58,6 +58,7 @@ const EvChargerContainer = (props) => {
             //         setLocation({ longitude: position.coords.longitude, latitude: position.coords.latitude });
             //     }
             // );
+            getFilterRange();
 
         })();
 
@@ -77,6 +78,17 @@ const EvChargerContainer = (props) => {
                 console.log('updated at count:', count); //실제로 서버로 요청이 들어간 refresh count 값이 얼마인지 확인하기 위해 추가
                 setLocation(region); //위치 값 갱신
             }
+        }
+    }
+
+    const getFilterRange = async () => {
+        let key = "useTime";
+        console.log("key",key);
+        let result = await fetch(config.ip + `:5000/stationsRouter/keco/filteredStations/${key}`);
+        result = await result.json();
+        if (result) {
+            // console.log(result);
+            // setStations(result)
         }
     }
 
