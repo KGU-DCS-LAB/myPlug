@@ -27,9 +27,10 @@ const EvChargerContainer = (props) => {
     const [requestTime, setRequestTime] = useState(new Date().getTime()); //제스처 검출용 (손 끝에서 지도를 탈출했을 때, 특정 상황에서 부드러운 화면 업데이트를 위해 위치 상태 값이 강제러 리프레시 되는 현상이 있어 서버에 과도한 데이터 요청을 하는 것을 발견함. 따라서 이를 방지하기 위해 특정한 로직을 추가하여 위치 값이 수정될 때 마다 이 값이 갱신되도록 함)
 
     const [selectedStation, setSelectedStation] = useState(); //마커 선택 시 모달에 띄워줄 데이터
+    const [filterKeyword, setFilterKeyword] = useState({});
     const [smallModalVisible, setSmallModalVisible] = useState(false); //작은 모달 온오프
     const [bigModalVisible, setBigModalVisible] = useState(false); //큰 모달 온오프
-    const [filterModalVisible, setFilterModalVisible] = useState(false);
+    const [filterModalVisible, setFilterModalVisible] = useState(false); // 필터 모달 온오프
 
     const mapRef = useRef(); //몰라
 
@@ -58,8 +59,9 @@ const EvChargerContainer = (props) => {
             //         setLocation({ longitude: position.coords.longitude, latitude: position.coords.latitude });
             //     }
             // );
-            getFilterRange();
 
+            // getFilterRange(); //영업시간을 group으로 묶어 받아오기
+            // group으로 묶은 결과 126개 데이터가 있어서 버튼을 생성하기 부적합하다고 생각 -> 0시, 1시, ... 으로 버튼 만들기로 함
         })();
 
     }, []);
@@ -86,10 +88,7 @@ const EvChargerContainer = (props) => {
         console.log("key",key);
         let result = await fetch(config.ip + `:5000/stationsRouter/keco/filteredStations/${key}`);
         result = await result.json();
-        if (result) {
-            // console.log(result);
-            // setStations(result)
-        }
+        console.log("size",result.length);
     }
 
     //위치 값이 변할 때 마다 서버로 데이터 요청을 함
@@ -139,6 +138,7 @@ const EvChargerContainer = (props) => {
                             <FilterModal
                                 filterModalVisible={filterModalVisible}
                                 setFilterModalVisible={setFilterModalVisible}
+                                setFilterKeyword={setFilterKeyword}
                             />
 
                             {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}

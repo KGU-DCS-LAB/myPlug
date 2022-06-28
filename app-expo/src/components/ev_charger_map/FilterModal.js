@@ -1,8 +1,36 @@
-import { Alert, Modal, Pressable, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, Icon } from "react-native";
+import { Alert, Modal, Pressable, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, Icon, ScrollViewBase } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
-import { Center, ScrollView } from "native-base";
+import { Button, Center, Flex, HStack, ScrollView } from "native-base";
+import MultiSlider from "@ptomasroos/react-native-multi-slider";
+import { useState } from "react";
+import SliderCustomLabel from "./SliderCustomLabel";
+
+const TIME = {  min: 0,  max: 24 }
+const SliderPad = 12;
+
+const textTransformerTimes = (value) => {
+    return value === 0
+      ? "12am"
+      : (value < 13 ? value : value - 12) + (value < 12 ? "am" : "pm");
+  };
 
 const FilterModal = (props) => {
+    const { min, max } = TIME;
+    const [width, setWidth] = useState(280);
+    const [selected, setSelected] = useState(null);
+
+    if (!selected) {
+        setSelected([min, max]); 
+    }
+
+    const onLayout = (event) => {
+        setWidth(event.nativeEvent.layout.width - SliderPad * 2);
+    };
+
+    const onValuesChangeFinish = (values) => {
+        setSelected(values);
+    };
+
     return (
         <>
             {
@@ -26,8 +54,30 @@ const FilterModal = (props) => {
                                 <Center>
                                     <MaterialIcons name="drag-handle" size={40} color="black" />
                                 </Center>
-                                <Text>사용시간 범위 선택</Text>
-                                {/* <ScrollView></ScrollView> */}
+                                <View onLayout={onLayout} style={styles.wrapper}>
+                                <Text>사용가능시간 범위 선택</Text>
+                                    <MultiSlider
+                                        min={min}
+                                        max={max}
+                                        allowOverlap
+                                        values={selected}
+                                        sliderLength={width}
+                                        onValuesChangeFinish={onValuesChangeFinish}
+                                        enableLabel={true}
+                                        customLabel={SliderCustomLabel(textTransformerTimes)}
+                                        trackStyle={{
+                                            height: 7,
+                                            borderRadius: 8,
+                                        }}
+                                        markerOffsetY={3}
+                                        selectedStyle={{
+                                            backgroundColor: "#895CDF",
+                                        }}
+                                        unselectedStyle={{
+                                            backgroundColor: "#EEF3F7",
+                                        }}
+                                    />
+                                </View>
 
                                 <View>
                                     <Pressable
@@ -99,4 +149,18 @@ const styles = StyleSheet.create({
         textAlign: "center"
 
     },
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
+      },
+      wrapper: {
+        flex: 1,
+        width:"80%",
+        margin: SliderPad * 2,
+        
+        justifyContent: "center",
+        alignItems: "center",
+      },
 });

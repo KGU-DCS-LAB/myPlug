@@ -61,7 +61,7 @@ router.get("/keco/filteredStations/:key", async (req, res) => {
             _id: keyword.toString()
           }
       }]);
-      console.log(result)
+    //   console.log(result);
       res.send(result);
 });
 
