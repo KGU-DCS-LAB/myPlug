@@ -8,5 +8,5 @@
 
 */
 export const config = {
-	ip:"http://172.30.1.43",
+	ip:"http://192.168.45.185",
 };
