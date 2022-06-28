@@ -56,6 +56,29 @@ const MenuStagger = (props) => {
                             }
                         }
                     }}>
+                        <IconButton
+                        mb="3"
+                        margin={1}
+                        variant="solid"
+                        bg="indigo.500"
+                        colorScheme="indigo"
+                        borderRadius="full"
+
+                        icon={
+                            <Icon
+                                as={FontAwesome5}
+                                size="6"
+                                name="sliders-h"
+                                _dark={{
+                                    color: "warmGray.50"
+                                }}
+                                color="warmGray.50"
+                            />
+                        }
+                        onPress={
+                            () => console.log('filter')
+                        }
+                    />
                     <IconButton
                         mb="3"
                         margin={1}
