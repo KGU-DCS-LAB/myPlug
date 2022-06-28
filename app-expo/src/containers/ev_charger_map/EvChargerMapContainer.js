@@ -10,6 +10,7 @@ import BottomMenu from "./bottom_menu/BottomMenu";
 import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 import StationSmallModal from "../../components/ev_charger_map/StationSmallModal";
 import StationBigModal from "../../components/ev_charger_map/StationBigModal";
+import FilterModal from "../../components/ev_charger_map/FilterModal";
 
 const EvChargerContainer = (props) => {
 
@@ -28,6 +29,7 @@ const EvChargerContainer = (props) => {
     const [selectedStation, setSelectedStation] = useState(); //마커 선택 시 모달에 띄워줄 데이터
     const [smallModalVisible, setSmallModalVisible] = useState(false); //작은 모달 온오프
     const [bigModalVisible, setBigModalVisible] = useState(false); //큰 모달 온오프
+    const [filterModalVisible, setFilterModalVisible] = useState(false);
 
     const mapRef = useRef(); //몰라
 
@@ -122,6 +124,10 @@ const EvChargerContainer = (props) => {
                                 bigModalVisible={bigModalVisible}
                                 setBigModalVisible={setBigModalVisible}
                             />
+                            <FilterModal
+                                filterModalVisible={filterModalVisible}
+                                setFilterModalVisible={setFilterModalVisible}
+                            />
 
                             {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
                             <HStack><Text>Log</Text></HStack>
@@ -178,7 +184,7 @@ const EvChargerContainer = (props) => {
 
                             </MapView>
                         </View>
-                        <BottomMenu navigation={props.navigation} setLocation={setLocation}/>
+                        <BottomMenu navigation={props.navigation} setLocation={setLocation} setFilterModalVisible={setFilterModalVisible}/>
                     </>
                     :
                     <LoadingSpinner />

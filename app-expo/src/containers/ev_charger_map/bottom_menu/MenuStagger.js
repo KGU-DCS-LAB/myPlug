@@ -76,7 +76,7 @@ const MenuStagger = (props) => {
                             />
                         }
                         onPress={
-                            () => console.log('filter')
+                            () => props.setFilterModalVisible(true)
                         }
                     />
                     <IconButton
