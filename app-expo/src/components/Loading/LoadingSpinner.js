@@ -1,13 +1,20 @@
-import { 
-    Heading,
-    HStack,
-    Spinner
-  } from "native-base";
-  
+
+import { Center, Text } from "native-base";
+import { ActivityIndicator, Dimensions, StyleSheet, View } from "react-native";
+
 export default (props) => {
-    return(
-        <HStack space={2} justifyContent="center">
-          <Spinner accessibilityLabel="Loading posts" />
-        </HStack>
-    )
+  return (
+    <View style={styles.container}>
+      <ActivityIndicator size="large" />
+      <Center><Text>{props.description}</Text></Center>
+    </View>
+  )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center', //Centered horizontally
+    alignItems: 'center', //Centered vertically
+    flex: 1
+  }
+});
