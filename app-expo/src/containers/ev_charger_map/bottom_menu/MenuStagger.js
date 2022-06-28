@@ -56,7 +56,53 @@ const MenuStagger = (props) => {
                             }
                         }
                     }}>
-                        <IconButton
+                    <IconButton
+                        mb="3"
+                        margin={1}
+                        variant="solid"
+                        bg="primary.500"
+                        colorScheme="indigo"
+                        borderRadius="full"
+
+                        icon={
+                            <Icon
+                                as={MaterialIcons}
+                                size="6"
+                                name="refresh"
+                                _dark={{
+                                    color: "warmGray.50"
+                                }}
+                                color="warmGray.50"
+                            />
+                        }
+                        onPress={
+                            () => console.log('새로고침')
+                        }
+                    />
+                    <IconButton
+                        mb="3"
+                        margin={1}
+                        variant="solid"
+                        bg="green.500"
+                        colorScheme="indigo"
+                        borderRadius="full"
+
+                        icon={
+                            <Icon
+                                as={Ionicons}
+                                size="6"
+                                name="list"
+                                _dark={{
+                                    color: "warmGray.50"
+                                }}
+                                color="warmGray.50"
+                            />
+                        }
+                        onPress={
+                            () => console.log('리스트로 보기')
+                        }
+                    />
+                    <IconButton
                         mb="3"
                         margin={1}
                         variant="solid"
@@ -66,9 +112,9 @@ const MenuStagger = (props) => {
 
                         icon={
                             <Icon
-                                as={FontAwesome5}
+                                as={MaterialIcons}
                                 size="6"
-                                name="sliders-h"
+                                name="filter-list-alt"
                                 _dark={{
                                     color: "warmGray.50"
                                 }}
@@ -128,20 +174,20 @@ const MenuStagger = (props) => {
             </Box>
             <HStack alignItems="center">
                 <IconButton
-                 style={{ backgroundColor: "#27ae60" }}
-                  variant="solid" 
-                  borderRadius="full" 
-                  shadow={2}
-                  size="lg" 
-                  onPress={onToggle}
-                  bg="cyan.400"
-                  icon={<Icon as={MaterialCommunityIcons} 
-                  size="7" 
-                  name={isOpen?'chevron-double-up':'chevron-double-down'} 
-                  color="warmGray.50" 
-                  _dark={{
-                    color: "warmGray.50"
-                }} />} />
+                    style={{ backgroundColor: "#27ae60" }}
+                    variant="solid"
+                    borderRadius="full"
+                    shadow={2}
+                    size="lg"
+                    onPress={onToggle}
+                    bg="cyan.400"
+                    icon={<Icon as={MaterialCommunityIcons}
+                        size="7"
+                        name={isOpen ? 'chevron-double-up' : 'chevron-double-down'}
+                        color="warmGray.50"
+                        _dark={{
+                            color: "warmGray.50"
+                        }} />} />
             </HStack>
 
         </>
