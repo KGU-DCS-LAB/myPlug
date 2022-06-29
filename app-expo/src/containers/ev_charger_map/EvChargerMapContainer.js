@@ -8,9 +8,9 @@ import { Box, Center, HStack, Spacer, Text, View } from "native-base";
 
 import BottomMenu from "./bottom_menu/BottomMenu";
 import LoadingSpinner from "../../components/Loading/LoadingSpinner";
-import StationSmallModal from "../../components/ev_charger_map/StationSmallModal";
-import StationBigModal from "../../components/ev_charger_map/StationBigModal";
-import FilterModal from "../../components/ev_charger_map/FilterModal";
+import StationSmallModal from "../../components/ev_charger_map/modals/StationSmallModal";
+import StationBigModal from "../../components/ev_charger_map/modals/StationBigModal";
+import FilterModal from "../../components/ev_charger_map/modals/FilterModal";
 import { Image } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -218,12 +218,12 @@ const EvChargerContainer = (props) => {
                                 {
                                     chargingStations.length > 0 && //사이즈가 0 이상일때맏 마커 찍는 시도함 (오류 방지)
                                     chargingStations.map((marker, index) => (
-                                        <>
+                                        <Box key={index}>
                                         {marker.lat == searchedStation.lat && marker.lng == searchedStation.lng ?
                                             <MarkerCompo marker={marker} index={index} color={"green"}/> :
                                             <MarkerCompo marker={marker} index={index} color={"red"}/>
                                             }   
-                                        </>
+                                        </Box>
                                     ))
                                 }
 
