@@ -37,6 +37,8 @@ const EvChargerContainer = (props) => {
     const [bigModalVisible, setBigModalVisible] = useState(false); //큰 모달 온오프
     const [filterModalVisible, setFilterModalVisible] = useState(false); // 필터 모달 온오프
 
+    const [searchedStation, setSearchedStation] = useState([]); // 검색하고 선택한 충전소
+
     const mapRef = useRef(); //몰라
 
     // Get current location information 
@@ -122,6 +124,34 @@ const EvChargerContainer = (props) => {
         })
     }
 
+    const submitHandler = (value) => { // 충전소 검색에서 선택한 충전소 
+        // console.log(value);
+        setSearchedStation(value);
+    }
+
+    const MarkerCompo = ({marker, index, color}) => {
+        return(
+                <Marker
+                key={index}
+                coordinate={{ 
+                latitude: Number(marker.lat), 
+                longitude: Number(marker.lng) 
+                }}
+                // title={marker.statNm}
+                // description={marker.addr}
+                onPress={
+                  () => {
+                setSmallModalVisible(true);
+                setSearchedStation([])
+                setSelectedStation(marker);
+                }}
+                pinColor={color}
+                >
+                {/* <MaterialIcons name="location-pin" size={40} color="red" /> */}
+                </Marker>
+        )
+    }
+
     return (
         <>
             {
@@ -188,20 +218,12 @@ const EvChargerContainer = (props) => {
                                 {
                                     chargingStations.length > 0 && //사이즈가 0 이상일때맏 마커 찍는 시도함 (오류 방지)
                                     chargingStations.map((marker, index) => (
-                                        <Marker
-                                            key={index}
-                                            coordinate={{ latitude: Number(marker.lat), longitude: Number(marker.lng) }}
-                                            // title={marker.statNm}
-                                            // description={marker.addr}
-                                            onPress={
-                                                () => {
-                                                    setSmallModalVisible(true);
-                                                    setSelectedStation(marker);
-                                                }
-                                            }
-                                        >
-                                            {/* <MaterialIcons name="location-pin" size={40} color="red" /> */}
-                                        </Marker>
+                                        <>
+                                        {marker.lat == searchedStation.lat && marker.lng == searchedStation.lng ?
+                                            <MarkerCompo marker={marker} index={index} color={"green"}/> :
+                                            <MarkerCompo marker={marker} index={index} color={"red"}/>
+                                            }   
+                                        </>
                                     ))
                                 }
 
@@ -213,6 +235,7 @@ const EvChargerContainer = (props) => {
                          setLocation={setLocation} 
                          setFilterModalVisible={setFilterModalVisible} 
                          getStations={getStations}
+                         submitHandler={submitHandler}
                          />
                     </>
                     :

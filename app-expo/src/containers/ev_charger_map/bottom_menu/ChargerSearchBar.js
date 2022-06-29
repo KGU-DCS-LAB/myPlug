@@ -5,6 +5,8 @@ import { FlatList, TouchableOpacity } from 'react-native';
 import { config } from '../../../../config'
 import StationSmallModal from "../../../components/ev_charger_map/StationSmallModal";
 import StationBigModal from "../../../components/ev_charger_map/StationBigModal";
+import { Marker } from "react-native-maps";
+import MapView from "react-native-map-clustering";
 
 const ChargerSearchBar = (props) => {
 
@@ -48,6 +50,7 @@ const ChargerSearchBar = (props) => {
             longitudeDelta: 0.007,
         });
         setSmallModalVisible(true);
+        props.submitHandler(item); // 선택한 충전소 정보 EvChargerMapContainer.js로 보냄
     }
 
     const renderItem = ({ item }) => (
@@ -100,6 +103,7 @@ const ChargerSearchBar = (props) => {
                     bigModalVisible={bigModalVisible}
                     setBigModalVisible={setBigModalVisible}
                 />
+                              
         </>
     )
 }
