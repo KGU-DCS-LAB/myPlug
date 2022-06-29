@@ -95,7 +95,7 @@ const EvChargerContainer = (props) => {
         console.log("key", key);
         let result = await fetch(config.ip + `:5000/stationsRouter/keco/filteredStations/${key}`);
         result = await result.json();
-        console.log("size",result.length);
+        console.log("size", result.length);
     }
 
     //위치 값이 변할 때 마다 서버로 데이터 요청을 함
@@ -129,28 +129,28 @@ const EvChargerContainer = (props) => {
         setSearchedStation(value);
     }
 
-    const MarkerCompo = ({marker, index, color}) => {
-        return(
-                <Marker
-                key={index}
-                coordinate={{ 
-                latitude: Number(marker.lat), 
-                longitude: Number(marker.lng) 
-                }}
-                // title={marker.statNm}
-                // description={marker.addr}
-                onPress={
-                  () => {
-                setSmallModalVisible(true);
-                setSearchedStation([])
-                setSelectedStation(marker);
-                }}
-                pinColor={color}
-                >
-                {/* <MaterialIcons name="location-pin" size={40} color="red" /> */}
-                </Marker>
-        )
-    }
+    // const MarkerCompo = ({ marker, index, color }) => {
+    //     return (
+    //         <Marker
+    //             key={index}
+    //             coordinate={{
+    //                 latitude: Number(marker.lat),
+    //                 longitude: Number(marker.lng)
+    //             }}
+    //             // title={marker.statNm}
+    //             // description={marker.addr}
+    //             onPress={
+    //                 () => {
+    //                     setSmallModalVisible(true);
+    //                     setSearchedStation([])
+    //                     setSelectedStation(marker);
+    //                 }}
+    //             pinColor={color}
+    //         >
+    //             {/* <MaterialIcons name="location-pin" size={40} color="red" /> */}
+    //         </Marker>
+    //     )
+    // }
 
     return (
         <>
@@ -218,25 +218,37 @@ const EvChargerContainer = (props) => {
                                 {
                                     chargingStations.length > 0 && //사이즈가 0 이상일때맏 마커 찍는 시도함 (오류 방지)
                                     chargingStations.map((marker, index) => (
-                                        <Box key={index}>
-                                        {marker.lat == searchedStation.lat && marker.lng == searchedStation.lng ?
-                                            <MarkerCompo marker={marker} index={index} color={"green"}/> :
-                                            <MarkerCompo marker={marker} index={index} color={"red"}/>
-                                            }   
-                                        </Box>
+                                        <Marker
+                                            key={index}
+                                            coordinate={{
+                                                latitude: Number(marker.lat),
+                                                longitude: Number(marker.lng)
+                                            }}
+                                            // title={marker.statNm}
+                                            // description={marker.addr}
+                                            onPress={
+                                                () => {
+                                                    setSmallModalVisible(true);
+                                                    setSearchedStation([])
+                                                    setSelectedStation(marker);
+                                                }}
+                                            pinColor={marker.lat == searchedStation.lat && marker.lng == searchedStation.lng ? "green" : "red"}
+                                        >
+                                            {/* <MaterialIcons name="location-pin" size={40} color="red" /> */}
+                                        </Marker>
                                     ))
                                 }
 
                             </MapView>
                         </View>
                         <BottomMenu
-                         navigation={props.navigation} 
-                         location={location} 
-                         setLocation={setLocation} 
-                         setFilterModalVisible={setFilterModalVisible} 
-                         getStations={getStations}
-                         submitHandler={submitHandler}
-                         />
+                            navigation={props.navigation}
+                            location={location}
+                            setLocation={setLocation}
+                            setFilterModalVisible={setFilterModalVisible}
+                            getStations={getStations}
+                            submitHandler={submitHandler}
+                        />
                     </>
                     :
                     <>

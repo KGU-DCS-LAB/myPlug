@@ -44,8 +44,8 @@ const ChargerSearchBar = (props) => {
         // console.log(item.lat);
         setSelectedStation(item);
         props.setLocation({
-            longitude: item.lng,
-            latitude: item.lat,
+            longitude: Number(item.lng),
+            latitude: Number(item.lat),
             latitudeDelta: 0.007,
             longitudeDelta: 0.007,
         });
