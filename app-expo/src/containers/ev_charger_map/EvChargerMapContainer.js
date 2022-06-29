@@ -13,6 +13,7 @@ import StationBigModal from "../../components/ev_charger_map/modals/StationBigMo
 import FilterModal from "../../components/ev_charger_map/modals/FilterModal";
 import { Image } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
+import StationListModal from "../../components/ev_charger_map/modals/StationListModal";
 
 const EvChargerContainer = (props) => {
 
@@ -36,6 +37,7 @@ const EvChargerContainer = (props) => {
     const [smallModalVisible, setSmallModalVisible] = useState(false); //작은 모달 온오프
     const [bigModalVisible, setBigModalVisible] = useState(false); //큰 모달 온오프
     const [filterModalVisible, setFilterModalVisible] = useState(false); // 필터 모달 온오프
+    const [stationListModalVisible, setStationListModalVisible] = useState(false); // 필터 모달 온오프
 
     const [searchedStation, setSearchedStation] = useState([]); // 검색하고 선택한 충전소
 
@@ -179,6 +181,10 @@ const EvChargerContainer = (props) => {
                                 setFilterModalVisible={setFilterModalVisible}
                                 setFilterKeyword={setFilterKeyword}
                             />
+                            <StationListModal
+                                stationListModalVisible={stationListModalVisible}
+                                setStationListModalVisible={setStationListModalVisible}
+                            />
 
                             {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
                             <HStack><Text>Log</Text></HStack>
@@ -246,6 +252,7 @@ const EvChargerContainer = (props) => {
                             location={location}
                             setLocation={setLocation}
                             setFilterModalVisible={setFilterModalVisible}
+                            setStationListModalVisible={setStationListModalVisible}
                             getStations={getStations}
                             submitHandler={submitHandler}
                         />

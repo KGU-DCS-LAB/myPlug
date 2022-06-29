@@ -11,14 +11,21 @@ const StationListModal = (props) => {
                 <Modal
                     animationType="slide"
                     transparent={true}
-                    visible={props.filterModalVisible}
+                    visible={props.stationListModalVisible}
                     onRequestClose={() => {
-                        props.setFilterModalVisible(!props.filterModalVisible);
+                        props.setStationListModalVisible(!props.stationListModalVisible);
                     }}
                 >
                     <View style={styles.flexEndView}>
                         <View style={styles.bigModalView}>
-
+                            <View>
+                                <Pressable
+                                    style={[styles.button, styles.buttonClose]}
+                                    onPress={() => props.setStationListModalVisible(!props.stationListModalVisible)}
+                                >
+                                    <Text style={styles.textStyle}>Hide Modal</Text>
+                                </Pressable>
+                            </View>
                         </View>
                     </View>
                 </Modal>

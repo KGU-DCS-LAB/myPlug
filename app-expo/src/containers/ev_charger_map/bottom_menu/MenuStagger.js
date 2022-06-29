@@ -126,7 +126,7 @@ const MenuStagger = (props) => {
                             />
                         }
                         onPress={
-                            () => console.log('리스트로 보기')
+                            () => props.setStationListModalVisible(true)
                         }
                     />
                     <IconButton
