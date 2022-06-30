@@ -31,7 +31,7 @@ const EvChargerContainer = (props) => {
     const [count, setCount] = useState(0); // 리프레시 횟수 검사 용 (테스트 할 때 사용됨)
     const [requestTime, setRequestTime] = useState(new Date().getTime()); //제스처 검출용 (손 끝에서 지도를 탈출했을 때, 특정 상황에서 부드러운 화면 업데이트를 위해 위치 상태 값이 강제러 리프레시 되는 현상이 있어 서버에 과도한 데이터 요청을 하는 것을 발견함. 따라서 이를 방지하기 위해 특정한 로직을 추가하여 위치 값이 수정될 때 마다 이 값이 갱신되도록 함)
 
-    const [selectedStation, setSelectedStation] = useState(); //마커 선택 시 모달에 띄워줄 데이터
+    const [selectedStation, setSelectedStation] = useState([lat=0,lng=0]); //마커 선택 시 모달에 띄워줄 데이터
     const [filterKeyword, setFilterKeyword] = useState({});
 
     const [smallModalVisible, setSmallModalVisible] = useState(false); //작은 모달 온오프
@@ -238,7 +238,9 @@ const EvChargerContainer = (props) => {
                                                     setSearchedStation([])
                                                     setSelectedStation(marker);
                                                 }}
-                                            pinColor={marker.lat == searchedStation.lat && marker.lng == searchedStation.lng ? "green" : "red"}
+                                            pinColor={
+                                                (marker.lat == searchedStation.lat && marker.lng == searchedStation.lng) || (marker.lat == selectedStation.lat && marker.lng == selectedStation.lng) 
+                                                ? "green" : "red"}
                                         >
                                             {/* <MaterialIcons name="location-pin" size={40} color="red" /> */}
                                         </Marker>
