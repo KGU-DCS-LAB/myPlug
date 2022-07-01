@@ -40,16 +40,21 @@ router.post('/keco/find/regionStations', function (req, res, next) {
     });
 });
 
-router.get('/keco/find/chargers', function (req, res, next) {
-    // 전체 데이터 가져오기
-    Station.find({}).then((chargers) => {
-        // console.log(chargers);
-        res.json(chargers)
-    }).catch((err) => {
-        console.log(err);
-        next(err)
-    });
-});
+// router.post('/keco/find/chargers', function (req, res, next) {
+//   console.log(req.body.data);
+//   res.json([])
+// });
+
+// router.get('/keco/find/chargers', function (req, res, next) {
+//     // 전체 데이터 가져오기
+//     Station.find({}).then((chargers) => {
+//         // console.log(chargers);
+//         res.json(chargers)
+//     }).catch((err) => {
+//         console.log(err);
+//         next(err)
+//     });
+// });
 
 router.get("/keco/filteredStations/:key", async (req, res) => {
     const keyword = "$" + req.params.key;

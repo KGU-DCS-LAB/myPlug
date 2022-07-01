@@ -126,33 +126,23 @@ const EvChargerContainer = (props) => {
         })
     }
 
+    // const getChargers = (marker) => {
+    //     console.log(marker)
+    //     axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
+    //         data:marker
+    //     }).then((response) => {
+    //         console.log(response)
+    //     }).catch(function (error) {
+    //         console.log(error);
+    //     })
+    // }
+
     const submitHandler = (value) => { // 충전소 검색에서 선택한 충전소 
         // console.log(value);
         setSearchedStation(value);
     }
 
-    // const MarkerCompo = ({ marker, index, color }) => {
-    //     return (
-    //         <Marker
-    //             key={index}
-    //             coordinate={{
-    //                 latitude: Number(marker.lat),
-    //                 longitude: Number(marker.lng)
-    //             }}
-    //             // title={marker.statNm}
-    //             // description={marker.addr}
-    //             onPress={
-    //                 () => {
-    //                     setSmallModalVisible(true);
-    //                     setSearchedStation([])
-    //                     setSelectedStation(marker);
-    //                 }}
-    //             pinColor={color}
-    //         >
-    //             {/* <MaterialIcons name="location-pin" size={40} color="red" /> */}
-    //         </Marker>
-    //     )
-    // }
+
 
     return (
         <>
@@ -234,9 +224,10 @@ const EvChargerContainer = (props) => {
                                             // description={marker.addr}
                                             onPress={
                                                 () => {
-                                                    setSmallModalVisible(true);
+                                                    setSmallModalVisible(true)
                                                     setSearchedStation([])
-                                                    setSelectedStation(marker);
+                                                    setSelectedStation(marker)
+                                                    getChargers(marker)
                                                 }}
                                             pinColor={
                                                 (marker.lat == searchedStation.lat && marker.lng == searchedStation.lng) || (marker.lat == selectedStation.lat && marker.lng == selectedStation.lng) 
