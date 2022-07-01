@@ -19,7 +19,7 @@ const StationBigModal = (props) => {
                     <TouchableWithoutFeedback onPress={() => props.setBigModalVisible(!props.smallModalVisible)}>
                         <View style={styles.flexEndView}>
                             <View style={styles.bigModalView}>
-                                <Text>This is Big Modal</Text>
+                                {/* <Text>This is Big Modal</Text> */}
                                 <Text style={styles.modalText}>{props.station.statNm + "(" + props.station.statId + ")"}</Text>
                                 <Text>{props.station.addr}</Text>
                                 <Text>{props.station.busiCall}</Text>
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
         padding: 35,
-        alignItems: "center",
+        // alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
             width: 0,

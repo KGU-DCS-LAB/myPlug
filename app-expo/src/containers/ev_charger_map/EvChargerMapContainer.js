@@ -102,7 +102,7 @@ const EvChargerContainer = (props) => {
 
     //위치 값이 변할 때 마다 서버로 데이터 요청을 함
     useEffect(() => {
-        console.log(mapRef?.current?.getCamera());
+        // console.log(mapRef?.current?.getCamera());
         if (location && location.latitudeDelta < 0.13 && location.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
             getStations();
         }

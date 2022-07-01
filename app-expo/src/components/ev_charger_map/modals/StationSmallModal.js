@@ -1,5 +1,7 @@
 import { Alert, Modal, Pressable, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
+import { Box, Button, HStack, Spacer } from "native-base";
+import PressableButton from "../../common/PressableButton";
 
 const StationSmallModal = (props) => {
     return (
@@ -23,18 +25,23 @@ const StationSmallModal = (props) => {
                                         <MaterialIcons name={"star-border"} size={24} color={"black"} />
                                     </TouchableOpacity>
                                 </Text>
-                                <Text style={styles.modalTextAddress}>{props.station.addr}</Text>
-                                <View>
-                                    <Pressable
-                                        style={[styles.button, styles.buttonClose]}
+                                <Text>{props.station.addr}</Text>
+                                <HStack>
+                                    <PressableButton
+                                        title="닫 기"
+                                        onPress={() => {
+                                            props.setSmallModalVisible(!props.smallModalVisible);
+                                        }}
+                                    />
+                                    <Spacer />
+                                    <PressableButton
+                                        title="상세보기"
                                         onPress={() => {
                                             props.setSmallModalVisible(!props.smallModalVisible);
                                             props.setBigModalVisible(!props.bigModalVisible);
                                         }}
-                                    >
-                                        <Text style={styles.textStyle}>상세보기</Text>
-                                    </Pressable>
-                                </View>
+                                    />
+                                </HStack>
                             </View>
                         </View>
                     </TouchableWithoutFeedback>
@@ -59,7 +66,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderRadius: 10,
         padding: 35,
-        alignItems: "center",
+        // alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -69,30 +76,4 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
     },
-    modalText: {
-        marginBottom: 20,
-        textAlign: "center",
-        fontSize: 20,
-
-    },
-    modalTextAddress: {
-        marginBottom: 28,
-        textAlign: "center",
-        fontSize: 15,
-
-    },
-    button: {
-        borderRadius: 10,
-        padding: 10,
-        elevation: 2
-    },
-    buttonClose: {
-        backgroundColor: "#2196F3",
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-    
-      },
 });
