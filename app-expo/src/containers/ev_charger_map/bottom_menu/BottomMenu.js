@@ -21,7 +21,8 @@ const BottomMenu = (props) => {
                     setLocation={props.setLocation}
                     setFilterModalVisible={props.setFilterModalVisible}
                     setStationListModalVisible={props.setStationListModalVisible}
-                    getStations={props.getStations} />
+                    getStations={props.getStations}
+                />
             </Center>
         </>
     )

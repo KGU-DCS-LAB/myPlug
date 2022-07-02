@@ -16,43 +16,49 @@ const ChargerSearchBar = (props) => {
     const filterList = async (text) => {
         console.log(text)
         let key = text;
-        if(key) {
+        if (key) {
             let result = await fetch(config.ip + `:5000/stationsRouter/search/${key}`);
             result = await result.json();
-            if(result) {
+            if (result) {
                 // console.log(result);
                 setStations(result)
             }
         } else {
             setStations([])
         }
-      
+
         const textData = text.toLowerCase();
         setText(textData);
     }
 
     const renderItem = ({ item }) => (
         <TouchableOpacity onPress={() => props.focuseToStation(item)}>
-            <Text>{item.statNm}</Text>
+            <Box
+             borderBottomWidth="1"
+             borderColor="coolGray.200"
+             p={1}
+             >
+                <Text fontSize="md">{item.statNm}</Text>
+            </Box>
         </TouchableOpacity>
-      );
+    );
 
     return (
         <>
             {
                 text.length > 0 &&
-                 !props.smallModalVisible &&
+                !props.smallModalVisible &&
                 <Box
                     style={{ width: 250, position: 'absolute', bottom: 40 }}
                     bg="white"
                     maxH={300}
                     minH={300}
                 >
-                <FlatList
-                    data={stations}
-                    renderItem={renderItem}
-                    keyExtractor={item => item._id}
-                />
+                    <FlatList
+                        data={stations}
+                        renderItem={renderItem}
+                        keyExtractor={item => item._id}
+                    />
                 </Box>
             }
 
@@ -67,7 +73,7 @@ const ChargerSearchBar = (props) => {
                     filterList("");
                 }}
             />
-                              
+
         </>
     )
 }

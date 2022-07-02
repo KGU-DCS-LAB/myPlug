@@ -28,7 +28,7 @@ const FilterModal = (props) => {
                                         props.setFilterModalVisible(false)
                                     }
                                 }}>
-                                <View  style={styles.modalCloseIcon}>
+                                <View style={styles.modalCloseIcon}>
                                     <MaterialIcons name="drag-handle" size={40} color="black" />
                                 </View>
 
@@ -44,6 +44,12 @@ const FilterModal = (props) => {
                                 </View> */}
                             </TouchableWithoutFeedback>
                             <TimeSlider />
+                            <Pressable
+                                style={[styles.button, styles.buttonClose]}
+                                onPress={() => props.setFilterModalVisible(false)}
+                            >
+                                <Text style={styles.textStyle}>Hide Modal</Text>
+                            </Pressable>
                         </View>
                     </View>
                 </Modal>

@@ -146,8 +146,10 @@ const EvChargerContainer = (props) => {
         setLocation({
             longitude: Number(station.lng),
             latitude: Number(station.lat),
-            latitudeDelta: location.latitudeDelta,
-            longitudeDelta: location.longitudeDelta,
+            latitudeDelta: 0.007,
+            longitudeDelta: 0.007,
+            // latitudeDelta: location.latitudeDelta,
+            // longitudeDelta: location.longitudeDelta,
         });
         getChargers(station.statId)
     }
@@ -219,6 +221,8 @@ const EvChargerContainer = (props) => {
                                 onMapReady={() => {
                                     // updateMapStyle()
                                 }}
+                                clusterColor="green"
+                                maxZoom={13}
                             >
 
                                 {
