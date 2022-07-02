@@ -31,21 +31,8 @@ const ChargerSearchBar = (props) => {
         setText(textData);
     }
 
-    const goToCurrentLocation = async (item) => {
-        // console.log(item.lat);
-        props.setSelectedStation(item);
-        props.setLocation({
-            longitude: Number(item.lng),
-            latitude: Number(item.lat),
-            latitudeDelta: 0.007,
-            longitudeDelta: 0.007,
-        });
-        props.setSmallModalVisible(true);
-        props.submitHandler(item); // 선택한 충전소 정보 EvChargerMapContainer.js로 보냄
-    }
-
     const renderItem = ({ item }) => (
-        <TouchableOpacity onPress={() => goToCurrentLocation(item)}>
+        <TouchableOpacity onPress={() => props.focuseToStation(item)}>
             <Text>{item.statNm}</Text>
         </TouchableOpacity>
       );
@@ -53,8 +40,8 @@ const ChargerSearchBar = (props) => {
     return (
         <>
             {
-                text.length > 0
-                && !props.smallModalVisible &&
+                text.length > 0 &&
+                 !props.smallModalVisible &&
                 <Box
                     style={{ width: 250, position: 'absolute', bottom: 40 }}
                     bg="white"

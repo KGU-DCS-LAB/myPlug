@@ -32,14 +32,14 @@ const EvChargerContainer = (props) => {
     const [count, setCount] = useState(0); // 리프레시 횟수 검사 용 (테스트 할 때 사용됨)
     const [requestTime, setRequestTime] = useState(new Date().getTime()); //제스처 검출용 (손 끝에서 지도를 탈출했을 때, 특정 상황에서 부드러운 화면 업데이트를 위해 위치 상태 값이 강제러 리프레시 되는 현상이 있어 서버에 과도한 데이터 요청을 하는 것을 발견함. 따라서 이를 방지하기 위해 특정한 로직을 추가하여 위치 값이 수정될 때 마다 이 값이 갱신되도록 함)
 
-    const [searchedStation, setSearchedStation] = useState([]); // 검색하고 선택한 충전소
-    const [selectedStation, setSelectedStation] = useState([lat=0,lng=0]); //마커 선택 시 모달에 띄워줄 데이터
+    // const [searchedStation, setSearchedStation] = useState([]); // 검색하고 선택한 충전소
+    const [selectedStation, setSelectedStation] = useState([lat = 0, lng = 0]); //마커 선택 시 모달에 띄워줄 데이터
     const [filterKeyword, setFilterKeyword] = useState({});
 
     const [smallModalVisible, setSmallModalVisible] = useState(false); //작은 모달 온오프
     const [bigModalVisible, setBigModalVisible] = useState(false); //큰 모달 온오프
     const [filterModalVisible, setFilterModalVisible] = useState(false); // 필터 모달 온오프
-    const [stationListModalVisible, setStationListModalVisible] = useState(false); // 필터 모달 온오프
+    const [stationListModalVisible, setStationListModalVisible] = useState(false); // 충전소 목록 모달 온오프
 
 
     const mapRef = useRef(); //몰라
@@ -87,7 +87,7 @@ const EvChargerContainer = (props) => {
             // console.log(newTime); //새로운 위치 요청 시간
             // console.log('diff : ', newTime - requestTime);
             if (newTime - requestTime > 300) { //두 요청 시간 차이가 300보다 큰 경우에만 정상적인 요청임 (그 이하는 지도 화면이 자동으로 부드럽게 밀리는 과정에서 위치 값을 갱신하는 것으로 간주함)
-                console.log('updated at count:', count); //실제로 서버로 요청이 들어간 refresh count 값이 얼마인지 확인하기 위해 추가
+                // console.log('updated at count:', count); //실제로 서버로 요청이 들어간 refresh count 값이 얼마인지 확인하기 위해 추가
                 setLocation(region); //위치 값 갱신
             }
         }
@@ -129,9 +129,9 @@ const EvChargerContainer = (props) => {
 
     const getChargers = (statId) => {
         //선택한 충전소id에 속한 충전기를 요청 
-        console.log(statId)
+        // console.log(statId)
         axios.post(config.ip + ':5000/stationsRouter/keco/find/chargers', {
-            data:statId
+            data: statId
         }).then((response) => {
             // console.log(response.data)
             setChargers(response.data)
@@ -140,9 +140,16 @@ const EvChargerContainer = (props) => {
         })
     }
 
-    const submitHandler = (value) => { // 충전소 검색에서 선택한 충전소 
-        // console.log(value);
-        setSearchedStation(value);
+    const focuseToStation = (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
+        setSmallModalVisible(true)
+        setSelectedStation(station)
+        setLocation({
+            longitude: Number(station.lng),
+            latitude: Number(station.lat),
+            latitudeDelta: location.latitudeDelta,
+            longitudeDelta: location.longitudeDelta,
+        });
+        getChargers(station.statId)
     }
 
     return (
@@ -223,24 +230,13 @@ const EvChargerContainer = (props) => {
                                                 latitude: Number(marker.lat),
                                                 longitude: Number(marker.lng)
                                             }}
-                                            // title={marker.statNm}
-                                            // description={marker.addr}
                                             onPress={
                                                 () => {
-                                                    setSmallModalVisible(true)
-                                                    setSearchedStation([])
-                                                    setSelectedStation(marker)
-                                                    setLocation({
-                                                        longitude: Number(marker.lng),
-                                                        latitude: Number(marker.lat),
-                                                        latitudeDelta: location.latitudeDelta,
-                                                        longitudeDelta: location.longitudeDelta,
-                                                    });
-                                                    getChargers(marker.statId)
+                                                    focuseToStation(marker)
                                                 }}
                                             pinColor={
-                                                (marker.lat == searchedStation.lat && marker.lng == searchedStation.lng) || (marker.lat == selectedStation.lat && marker.lng == selectedStation.lng) 
-                                                ? "green" : "red"}
+                                                ((marker.statId == selectedStation.statId) ? "green" : "red")
+                                            }
                                         >
                                             {/* <MaterialIcons name="location-pin" size={40} color="red" /> */}
                                         </Marker>
@@ -254,15 +250,10 @@ const EvChargerContainer = (props) => {
                             location={location}
                             setLocation={setLocation}
                             smallModalVisible={smallModalVisible}
-                            setSmallModalVisible={setSmallModalVisible}
-                            bigModalVisible={bigModalVisible}
-                            setBigModalVisible={setBigModalVisible}
-                            selectedStation={selectedStation}
-                            setSelectedStation={setSelectedStation}
                             setFilterModalVisible={setFilterModalVisible}
                             setStationListModalVisible={setStationListModalVisible}
                             getStations={getStations}
-                            submitHandler={submitHandler}
+                            focuseToStation={focuseToStation}
                         />
                     </>
                     :

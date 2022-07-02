@@ -10,14 +10,8 @@ const BottomMenu = (props) => {
         <>
             <Center style={{ position: 'absolute', left: 20, bottom: 30, height: 30 }} >
                 <ChargerSearchBar
-                    setLocation={props.setLocation}
-                    submitHandler={props.submitHandler}
                     smallModalVisible={props.smallModalVisible}
-                    setSmallModalVisible={props.setSmallModalVisible}
-                    bigModalVisible={props.bigModalVisible}
-                    setBigModalVisible={props.setBigModalVisible}
-                    selectedStation={props.selectedStation}
-                    setSelectedStation={props.setSelectedStation}
+                    focuseToStation={props.focuseToStation}
                 />
             </Center>
             <Center style={{ position: 'absolute', right: 20, bottom: 240, height: 30, }} >
