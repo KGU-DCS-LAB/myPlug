@@ -27,7 +27,7 @@ const StationBigModal = (props) => {
                                 <Text>{props.station.note ? 'note가 없습니다.' : props.station.note}</Text>
                                 <Text>{props.station.parkingFree}</Text>
                                 <Text>{props.station.useTime}</Text>
-
+                                <Text>{JSON.stringify(props.chargers)}</Text>
                                 <View>
                                     <Pressable
                                         style={[styles.button, styles.buttonClose]}

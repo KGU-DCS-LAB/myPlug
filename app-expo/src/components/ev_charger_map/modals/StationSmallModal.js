@@ -26,6 +26,7 @@ const StationSmallModal = (props) => {
                                     </TouchableOpacity>
                                 </Text>
                                 <Text>{props.station.addr}</Text>
+                                <Text>{JSON.stringify(props.chargers)}</Text>
                                 <HStack>
                                     <PressableButton
                                         title="닫 기"

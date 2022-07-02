@@ -27,10 +27,12 @@ const EvChargerContainer = (props) => {
     const [isLoaded, setLoaded] = useState(false); // GPS 로딩 여부 검사용
 
     const [chargingStations, setChargingStations] = useState([]); //서버로 부터 받아온 충전소 데이터 리스트
+    const [chargers, setChargers] = useState([]); // 서버로 부터 받아온 충전기 리스트
 
     const [count, setCount] = useState(0); // 리프레시 횟수 검사 용 (테스트 할 때 사용됨)
     const [requestTime, setRequestTime] = useState(new Date().getTime()); //제스처 검출용 (손 끝에서 지도를 탈출했을 때, 특정 상황에서 부드러운 화면 업데이트를 위해 위치 상태 값이 강제러 리프레시 되는 현상이 있어 서버에 과도한 데이터 요청을 하는 것을 발견함. 따라서 이를 방지하기 위해 특정한 로직을 추가하여 위치 값이 수정될 때 마다 이 값이 갱신되도록 함)
 
+    const [searchedStation, setSearchedStation] = useState([]); // 검색하고 선택한 충전소
     const [selectedStation, setSelectedStation] = useState([lat=0,lng=0]); //마커 선택 시 모달에 띄워줄 데이터
     const [filterKeyword, setFilterKeyword] = useState({});
 
@@ -39,7 +41,6 @@ const EvChargerContainer = (props) => {
     const [filterModalVisible, setFilterModalVisible] = useState(false); // 필터 모달 온오프
     const [stationListModalVisible, setStationListModalVisible] = useState(false); // 필터 모달 온오프
 
-    const [searchedStation, setSearchedStation] = useState([]); // 검색하고 선택한 충전소
 
     const mapRef = useRef(); //몰라
 
@@ -126,23 +127,23 @@ const EvChargerContainer = (props) => {
         })
     }
 
-    // const getChargers = (marker) => {
-    //     console.log(marker)
-    //     axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
-    //         data:marker
-    //     }).then((response) => {
-    //         console.log(response)
-    //     }).catch(function (error) {
-    //         console.log(error);
-    //     })
-    // }
+    const getChargers = (statId) => {
+        //선택한 충전소id에 속한 충전기를 요청 
+        console.log(statId)
+        axios.post(config.ip + ':5000/stationsRouter/keco/find/chargers', {
+            data:statId
+        }).then((response) => {
+            console.log(response.data)
+            setChargers(response.data)
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
 
     const submitHandler = (value) => { // 충전소 검색에서 선택한 충전소 
         // console.log(value);
         setSearchedStation(value);
     }
-
-
 
     return (
         <>
@@ -158,6 +159,7 @@ const EvChargerContainer = (props) => {
                                 setSmallModalVisible={setSmallModalVisible}
                                 bigModalVisible={bigModalVisible}
                                 setBigModalVisible={setBigModalVisible}
+                                chargers={chargers}
                             />
                             <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
                                 station={selectedStation}
@@ -165,6 +167,7 @@ const EvChargerContainer = (props) => {
                                 setSmallModalVisible={setSmallModalVisible}
                                 bigModalVisible={bigModalVisible}
                                 setBigModalVisible={setBigModalVisible}
+                                chargers={chargers}
                             />
                             <FilterModal
                                 filterModalVisible={filterModalVisible}
@@ -227,7 +230,7 @@ const EvChargerContainer = (props) => {
                                                     setSmallModalVisible(true)
                                                     setSearchedStation([])
                                                     setSelectedStation(marker)
-                                                    getChargers(marker)
+                                                    getChargers(marker.statId)
                                                 }}
                                             pinColor={
                                                 (marker.lat == searchedStation.lat && marker.lng == searchedStation.lng) || (marker.lat == selectedStation.lat && marker.lng == selectedStation.lng) 

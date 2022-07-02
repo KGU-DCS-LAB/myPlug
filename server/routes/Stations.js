@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router();
 const bodyParser = require('body-parser');
 const { Station } = require("../models/Station");
+const { Charger } = require('../models/Charger');
 
 /* GET. */
 router.get('/keco/find/stations', function (req, res, next) {
@@ -40,10 +41,18 @@ router.post('/keco/find/regionStations', function (req, res, next) {
     });
 });
 
-// router.post('/keco/find/chargers', function (req, res, next) {
-//   console.log(req.body.data);
-//   res.json([])
-// });
+router.post('/keco/find/chargers', function (req, res, next) {
+  console.log(req.body.data);
+  Charger.find({
+    statId:req.body.data
+  }).then((response)=>{
+    console.log(response)
+    res.json(response)
+  }).catch((err) => {
+    console.log(err);
+    next(err)
+});
+});
 
 // router.get('/keco/find/chargers', function (req, res, next) {
 //     // 전체 데이터 가져오기
