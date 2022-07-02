@@ -12,15 +12,6 @@ const ChargerSearchBar = (props) => {
 
     const [text, setText] = useState('');
     const [stations, setStations] = useState([]);
-    const [selectedStation, setSelectedStation] = useState(); //마커 선택 시 모달에 띄워줄 데이터
-    const [smallModalVisible, setSmallModalVisible] = useState(false); //작은 모달 온오프
-    const [bigModalVisible, setBigModalVisible] = useState(false); //큰 모달 온오프
-
-    // const getStations = async () => {
-    //     let result = await fetch(config.ip + ':5000/stationsRouter/keco/find/stations');
-    //     result = await result.json();
-    //     setStations(result);
-    // }
 
     const filterList = async (text) => {
         console.log(text)
@@ -42,14 +33,14 @@ const ChargerSearchBar = (props) => {
 
     const goToCurrentLocation = async (item) => {
         // console.log(item.lat);
-        setSelectedStation(item);
+        props.setSelectedStation(item);
         props.setLocation({
             longitude: Number(item.lng),
             latitude: Number(item.lat),
             latitudeDelta: 0.007,
             longitudeDelta: 0.007,
         });
-        setSmallModalVisible(true);
+        props.setSmallModalVisible(true);
         props.submitHandler(item); // 선택한 충전소 정보 EvChargerMapContainer.js로 보냄
     }
 
@@ -63,7 +54,7 @@ const ChargerSearchBar = (props) => {
         <>
             {
                 text.length > 0
-                && !smallModalVisible &&
+                && !props.smallModalVisible &&
                 <Box
                     style={{ width: 250, position: 'absolute', bottom: 40 }}
                     bg="white"
@@ -89,20 +80,6 @@ const ChargerSearchBar = (props) => {
                     filterList("");
                 }}
             />
-                <StationSmallModal //마커 클릭 시 작은 모달 띄우기 용
-                    station={selectedStation}
-                    smallModalVisible={smallModalVisible}
-                    setSmallModalVisible={setSmallModalVisible}
-                    bigModalVisible={bigModalVisible}
-                    setBigModalVisible={setBigModalVisible}
-                    />
-                <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
-                    station={selectedStation}
-                    smallModalVisible={smallModalVisible}
-                    setSmallModalVisible={setSmallModalVisible}
-                    bigModalVisible={bigModalVisible}
-                    setBigModalVisible={setBigModalVisible}
-                />
                               
         </>
     )

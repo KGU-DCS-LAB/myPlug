@@ -133,7 +133,7 @@ const EvChargerContainer = (props) => {
         axios.post(config.ip + ':5000/stationsRouter/keco/find/chargers', {
             data:statId
         }).then((response) => {
-            console.log(response.data)
+            // console.log(response.data)
             setChargers(response.data)
         }).catch(function (error) {
             console.log(error);
@@ -230,6 +230,12 @@ const EvChargerContainer = (props) => {
                                                     setSmallModalVisible(true)
                                                     setSearchedStation([])
                                                     setSelectedStation(marker)
+                                                    setLocation({
+                                                        longitude: Number(marker.lng),
+                                                        latitude: Number(marker.lat),
+                                                        latitudeDelta: location.latitudeDelta,
+                                                        longitudeDelta: location.longitudeDelta,
+                                                    });
                                                     getChargers(marker.statId)
                                                 }}
                                             pinColor={
@@ -247,6 +253,12 @@ const EvChargerContainer = (props) => {
                             navigation={props.navigation}
                             location={location}
                             setLocation={setLocation}
+                            smallModalVisible={smallModalVisible}
+                            setSmallModalVisible={setSmallModalVisible}
+                            bigModalVisible={bigModalVisible}
+                            setBigModalVisible={setBigModalVisible}
+                            selectedStation={selectedStation}
+                            setSelectedStation={setSelectedStation}
                             setFilterModalVisible={setFilterModalVisible}
                             setStationListModalVisible={setStationListModalVisible}
                             getStations={getStations}

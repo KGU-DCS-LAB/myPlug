@@ -9,16 +9,25 @@ const BottomMenu = (props) => {
     return (
         <>
             <Center style={{ position: 'absolute', left: 20, bottom: 30, height: 30 }} >
-                <ChargerSearchBar setLocation={props.setLocation} submitHandler={props.submitHandler}/>
+                <ChargerSearchBar
+                    setLocation={props.setLocation}
+                    submitHandler={props.submitHandler}
+                    smallModalVisible={props.smallModalVisible}
+                    setSmallModalVisible={props.setSmallModalVisible}
+                    bigModalVisible={props.bigModalVisible}
+                    setBigModalVisible={props.setBigModalVisible}
+                    selectedStation={props.selectedStation}
+                    setSelectedStation={props.setSelectedStation}
+                />
             </Center>
             <Center style={{ position: 'absolute', right: 20, bottom: 240, height: 30, }} >
                 <MenuStagger
-                 navigation={props.navigation} 
-                 location={props.location} 
-                 setLocation={props.setLocation} 
-                 setFilterModalVisible={props.setFilterModalVisible}
-                 setStationListModalVisible={props.setStationListModalVisible}
-                 getStations={props.getStations}/>
+                    navigation={props.navigation}
+                    location={props.location}
+                    setLocation={props.setLocation}
+                    setFilterModalVisible={props.setFilterModalVisible}
+                    setStationListModalVisible={props.setStationListModalVisible}
+                    getStations={props.getStations} />
             </Center>
         </>
     )
