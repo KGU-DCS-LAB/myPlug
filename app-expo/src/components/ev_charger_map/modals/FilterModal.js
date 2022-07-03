@@ -5,8 +5,30 @@ import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import { useState } from "react";
 import SliderCustomLabel from "../SliderCustomLabel";
 import TimeSlider from "../TimeSlider";
+import axios from "axios";
+import { config } from "../../../../config";
 
 const FilterModal = (props) => {
+    const [selected, setSelected] = useState([0, 24]);
+
+    const timeChanged = (value) => {
+        console.log(value);
+        setSelected(value);
+    }
+
+    const dataFiltering = () => {
+        axios.post(config.ip + ':5000/stationsRouter/filterStations', {
+            data: {
+                min: selected[0],
+                max: selected[1]
+            }
+        }).then((response) => {
+            console.log(response.data)
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
+
     return (
         <>
             {
@@ -43,7 +65,13 @@ const FilterModal = (props) => {
                                     </Pressable>
                                 </View> */}
                             </TouchableWithoutFeedback>
-                            <TimeSlider />
+                            <TimeSlider selected={selected} timeChanged={timeChanged} />
+                            <Pressable
+                                style={[styles.button, styles.buttonClose]}
+                                onPress={() => dataFiltering()}
+                            >
+                                <Text style={styles.textStyle}>검색</Text>
+                            </Pressable>
                             <Pressable
                                 style={[styles.button, styles.buttonClose]}
                                 onPress={() => props.setFilterModalVisible(false)}

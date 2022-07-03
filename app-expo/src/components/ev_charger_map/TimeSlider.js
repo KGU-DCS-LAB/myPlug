@@ -13,21 +13,17 @@ const textTransformerTimes = (value) => {
         : (value < 13 ? value : value - 12) + (value < 12 ? "am" : "pm");
 };
 
-const TimeSlider = () => {
+const TimeSlider = (props) => {
     const { min, max } = TIME;
     const [width, setWidth] = useState(280);
-    const [selected, setSelected] = useState(null);
-
-    if (!selected) {
-        setSelected([min, max]);
-    }
 
     const onLayout = (event) => {
         setWidth(event.nativeEvent.layout.width - SliderPad * 2);
     };
 
     const onValuesChangeFinish = (values) => {
-        setSelected(values);
+        props.timeChanged(values);
+        console.log(values);
     };
 
     return (
@@ -37,7 +33,7 @@ const TimeSlider = () => {
                 min={min}
                 max={max}
                 allowOverlap
-                values={selected}
+                values={props.selected}
                 sliderLength={width}
                 onValuesChangeFinish={onValuesChangeFinish}
                 enableLabel={true}
