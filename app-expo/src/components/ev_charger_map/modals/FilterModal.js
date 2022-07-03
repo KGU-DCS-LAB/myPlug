@@ -5,6 +5,8 @@ import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import { useState } from "react";
 import SliderCustomLabel from "../SliderCustomLabel";
 import TimeSlider from "../TimeSlider";
+import axios from "axios";
+import { config } from "../../../../config";
 
 const FilterModal = (props) => {
     const [selected, setSelected] = useState([0, 24]);
@@ -21,8 +23,7 @@ const FilterModal = (props) => {
                 max: selected[1]
             }
         }).then((response) => {
-            // console.log(response.data)
-            setChargers(response.data)
+            console.log(response.data)
         }).catch(function (error) {
             console.log(error);
         })
