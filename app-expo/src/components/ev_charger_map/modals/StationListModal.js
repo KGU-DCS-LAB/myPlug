@@ -25,7 +25,12 @@ const StationListModal = (props) => {
                                 >
                                     <Text style={styles.textStyle}>Hide Modal</Text>
                                 </Pressable>
+
+
+                                {props.chargingStations.length < 0 ? <></> : props.chargingStations.map((stations) => <Text>{stations.statNm}</Text>)}
+
                             </View>
+
                         </View>
                     </View>
                 </Modal>
