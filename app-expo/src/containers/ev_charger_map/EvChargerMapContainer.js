@@ -183,10 +183,12 @@ const EvChargerContainer = (props) => {
                                 setFilterModalVisible={setFilterModalVisible}
                                 setFilterKeyword={setFilterKeyword}
                             />
+            
                             <StationListModal
+                                chargingStations={chargingStations}
                                 stationListModalVisible={stationListModalVisible}
                                 setStationListModalVisible={setStationListModalVisible}
-                            />
+                            /> 
 
                             {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
                             <HStack><Text>Log</Text></HStack>
