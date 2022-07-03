@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import LoadingView from "../../views/main/LoadingView";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
 import KecoTable from "../../components/KecoTable";
 
 
@@ -26,15 +26,20 @@ function GetKecoRawAll() {
     })();
   }, []);
 
-  if (loading) return <LoadingView />;
   return (
     <>
-      <div className="container">
-        <h1>KECO 서버로부터 수집한 "KECO 전기자동차 충전소 정보" RAW 데이터 확인하기</h1>
-      </div>
-      <main>
-        <KecoTable data={charging_stations} rowsPerPage={30} />
-      </main>
+      {
+        loading ?
+          <LoadingSpinner />
+          :
+          <>
+            <h1>KECO 서버로부터 수집한 "KECO 전기자동차 충전소 정보" RAW 데이터 확인하기</h1>
+            <main>
+              <KecoTable data={charging_stations} rowsPerPage={30} />
+            </main>
+          </>
+      }
+
     </>
   )
 }
