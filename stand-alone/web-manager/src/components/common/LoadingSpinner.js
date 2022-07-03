@@ -6,7 +6,7 @@ const LoadingSpinner = (props) => {
 
   return (
     <>
-      <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+      <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
         <div className='text-center'>
           <img src={logo} className="App-logo" alt="logo" />
           <p>

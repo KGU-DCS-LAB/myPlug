@@ -4,6 +4,7 @@ import {
 } from "react-router-dom";
 import DefaultLayout from "./components/common/DefaultLayout";
 import HomeContainer from "./containers/common/HomeContainer";
+import KecoRawDataViewContainer from "./containers/keco/raw_data_view/KecoRawDataViewContainer";
 import GetKecoRawAll from "./views/data/GetKecoRawAll";
 import UpdateKecoRawAllView from "./views/data/UpdateKecoRawAllView";
 
@@ -15,6 +16,8 @@ function App() {
         {/* DefaultLayout의 Outlet으로 연결되는 부분 시작 */}
         <Route path="/" element={<HomeContainer />} />
         <Route path="data/get_keco_raw_all" element={<GetKecoRawAll/>} />
+        {/* 무한 스크롤 구현하다가 중단 */}
+        {/* <Route path="data/get_keco_raw_all" element={<KecoRawDataViewContainer/>} /> */}
         <Route path="data/update_keco_raw_all" element={<UpdateKecoRawAllView/>} />
         <Route
           path="*"

@@ -26,23 +26,23 @@ export default () => {
                 </div>
             </div>
 
-            <div class="row align-items-md-stretch">
-                <div class="col-md-6">
+            <div className="row align-items-md-stretch">
+                <div className="col-md-6">
                     <div className="h-100 p-5 bg-light border rounded-3">
                         <h2>데이터 관리 시작하기</h2>
                         <p>하단의 메뉴를 통해 데이터 관리를 할 수 있습니다.</p>
-                        <ul class="icon-list">
+                        <ul className="icon-list">
                             <li><a href="data/get_keco_raw_all">📄 KECO 서버로부터 수집한 "KECO 전기자동차 충전소 정보" RAW 데이터 확인하기</a></li>
                             <li><a href="data/update_keco_raw_all">🔃 수집한 원본 데이터 중 한번도 검사하지 않은 "KECO 전기자동차 충전소 정보" RAW 데이터 업데이트 하기</a></li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div className="col-md-6">
                     <div className="h-100 p-5 text-white bg-dark  border rounded-3">
                         <h2>사용 가이드</h2>
                         <p>사용방법에 대해서 알아보세요.</p>
-                        <ul class="icon-list">
+                        <ul className="icon-list">
                             <li><a href="#">Quick start</a></li>
                         </ul>
                     </div>

@@ -60,6 +60,7 @@ public class SaverController {
         System.out.println("************************************");
         System.out.println(ANSI_RESET);
         int count=0;
+        int length = chargerInfoList.size();
         for (ChargerInfoDTO ci: chargerInfoList) {
             Document document = new Document("checked", ci.getChecked())
                     .append("api", ci.getApi())
@@ -84,6 +85,7 @@ public class SaverController {
                     ;
             collection.insertOne(document);
             count++;
+            System.out.println("("+count+"/"+length+")"+ci.getStatNm()+"/"+ci.getChgerId());
         }
         System.out.println(ANSI_GREEN+"총 "+count+"개 정보 저장 완료"+ANSI_RESET);
         System.out.println(ANSI_CYAN+"오류 방지를 위해 프로그램을 종료해주세요."+ANSI_RESET);
