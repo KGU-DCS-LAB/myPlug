@@ -19,6 +19,7 @@ const StationListModal = (props) => {
                     <View style={styles.flexEndView}>
                         <View style={styles.bigModalView}>
                             <View>
+                                <Text>인근 충전소 목록으로 보기</Text>
                                 <Pressable
                                     style={[styles.button, styles.buttonClose]}
                                     onPress={() => props.setStationListModalVisible(!props.stationListModalVisible)}
@@ -27,7 +28,7 @@ const StationListModal = (props) => {
                                 </Pressable>
 
 
-                                {props.chargingStations.length < 0 ? <></> : props.chargingStations.map((stations) => <Text>{stations.statNm}</Text>)}
+                                {props.chargingStations.length < 0 ? <></> : props.chargingStations.map((stations) => <Text key={stations.statId}>{stations.statNm}</Text>)}
 
                             </View>
 

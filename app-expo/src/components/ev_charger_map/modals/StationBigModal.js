@@ -27,9 +27,9 @@ const StationBigModal = (props) => {
                                 <Text>{props.station.note ? 'note가 없습니다.' : props.station.note}</Text>
                                 <Text>{props.station.parkingFree}</Text>
                                 <Text>{props.station.useTime}</Text>
-                                <Text>충전기</Text>
+                                <Text>[[충전기 목록]]</Text>
                                 {props.chargers.map((charger)=>(
-                                    <Text key={charger._id}>{charger.chgerId}</Text>
+                                    <Text key={charger._id}>충전기 번호 : {charger.chgerId}</Text>
                                 ))}
                                 <View>
                                     <Pressable

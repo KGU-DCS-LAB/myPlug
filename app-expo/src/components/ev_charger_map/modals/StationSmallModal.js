@@ -26,7 +26,11 @@ const StationSmallModal = (props) => {
                                     </TouchableOpacity>
                                 </Text>
                                 <Text>{props.station.addr}</Text>
-                                <Text>{JSON.stringify(props.chargers)}</Text>
+                                <Text>[[충전기 목록]]</Text>
+                                {props.chargers.map((charger)=>(
+                                    <Text key={charger._id}>충전기 번호 : {charger.chgerId}</Text>
+                                ))}
+                                {/* <Text>{JSON.stringify(props.chargers)}</Text> */}
                                 <HStack>
                                     <PressableButton
                                         title="닫 기"

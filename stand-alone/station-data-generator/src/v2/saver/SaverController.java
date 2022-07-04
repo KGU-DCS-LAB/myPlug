@@ -1,29 +1,30 @@
 package v2.saver;
 
 //import com.mongodb.*;
-import com.mongodb.ConnectionString;
-import com.mongodb.ServerApi;
-import com.mongodb.ServerApiVersion;
+
+import com.mongodb.*;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.MongoClientSettings;
 
 import com.mongodb.client.model.InsertManyOptions;
 import com.mongodb.client.model.UpdateOptions;
 import org.bson.Document;
+import org.bson.json.JsonObject;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import v2.dto.ChargerInfoDTO;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
+import static sun.text.normalizer.UTF16.append;
 
 /**
  * 몽고DB 연결 시도했는데 연결은 잘 됨. 나중에 수정 필요함
  * Project Structure에서 라이브러리 등록하세요!!!!!!!
- *
- * */
+ */
 public class SaverController {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
@@ -43,9 +44,7 @@ public class SaverController {
         ConnectionString connectionString = new ConnectionString("mongodb+srv://gabrielyoon7:0000@gabrielyoon7.aq0fu.mongodb.net/myplug?retryWrites=true&w=majority");
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
-                .serverApi(ServerApi.builder()
-                        .version(ServerApiVersion.V1)
-                        .build())
+                .serverApi(ServerApi.builder().version(ServerApiVersion.V1).build())
                 .build();
         MongoClient mongo = MongoClients.create(settings);
 
@@ -53,14 +52,33 @@ public class SaverController {
         MongoDatabase database = mongo.getDatabase("myplug");
         System.out.println("Collection created successfully");
 
-        MongoCollection<Document> collection = database.getCollection("raw_charger_infos");
-        List<Document> list = new ArrayList<Document>();
+        MongoCollection<Document> collection_version = database.getCollection("version"); // 데이터 버전 관리용
+        Document version = collection_version.find().sort(new BasicDBObject("version", -1)).limit(1).first(); //현재 최신 버전 상태를 가져옴
+        int currentVersion = -1; //버전이라는 것 조차 존재하지 않는다면 (초기 프로그램 상태라면)
+        if (version != null) {
+            JsonObject versionJSON = new JsonObject(version.toJson()); //JSON 파싱
+            String versionStringJSON = versionJSON.getJson();
+            try {
+                JSONParser parser = new JSONParser();
+                Object obj = parser.parse(versionStringJSON);
+                JSONObject jsonObj = (JSONObject) obj;
+                currentVersion = Integer.parseInt(jsonObj.get("version").toString()); //json으로 부터 현재 버전 값을 얻어옴
+            } catch (Exception e) {
 
-//        MongoCollection<Document> collection_stations = database.getCollection("stations");
-//        List<Document> list_stations = new ArrayList<Document>();
-//
-//        MongoCollection<Document> collection_chargers = database.getCollection("chargers");
-//        List<Document> list_chargers = new ArrayList<Document>();
+            }
+        }
+        System.out.println("current version is : " + currentVersion); //그래서 알게된 현재 버전
+
+        int newVersion = currentVersion + 1; //새로운 버전은 1 증가 시킴
+
+        MongoCollection<Document> collection_raw = database.getCollection("raw_charger_infos");
+        List<Document> list_raw = new ArrayList<Document>();
+
+        MongoCollection<Document> collection_stations = database.getCollection("stations");
+        List<Document> list_stations = new ArrayList<Document>();
+
+        MongoCollection<Document> collection_chargers = database.getCollection("chargers");
+        List<Document> list_chargers = new ArrayList<Document>();
 
         System.out.println("Collection myCollection selected successfully");
         System.out.println(ANSI_YELLOW);
@@ -70,9 +88,10 @@ public class SaverController {
         System.out.println("************************************");
         System.out.println("************************************");
         System.out.println(ANSI_RESET);
-        int count=0;
+        int count = 0;
         int length = chargerInfoList.size();
-        for (ChargerInfoDTO ci: chargerInfoList) {
+        Set<String> duplicateStationSet = new HashSet<String>();
+        for (ChargerInfoDTO ci : chargerInfoList) {
             //Raw 데이터 정리
             Document document = new Document("checked", ci.getChecked())
                     .append("api", ci.getApi())
@@ -94,49 +113,57 @@ public class SaverController {
                     .append("zcode", ci.getZcode())
                     .append("parkingFree", ci.getParkingFree())
                     .append("note", ci.getNote())
-                    ;
-            list.add(document);
+                    .append("version", newVersion);
+            list_raw.add(document);
 
-//            //충전소 데이터 정리
-//            Document document_stations = new Document()
-//                    .append("api", ci.getApi())
-//                    .append("date", ci.getDate())
-//                    .append("statNm", ci.getStatNm())
-//                    .append("statId", ci.getStatId())
-//                    .append("addr", ci.getAddr())
-//                    .append("lat", ci.getLat())
-//                    .append("lng", ci.getLng())
-//                    .append("useTime", ci.getUseTime())
-//                    .append("busiId", ci.getBusiId())
-//                    .append("busiNm", ci.getBusiNm())
-//                    .append("busiCall", ci.getBusiCall())
-//                    .append("zcode", ci.getZcode())
-//                    .append("parkingFree", ci.getParkingFree())
-//                    .append("note", ci.getNote())
-//                    ;
-//            list_stations.add(document_stations);
-//
-//
-//            //충전기 데이터 정리
-//            Document document_chargers = new Document()
-//                    .append("api", ci.getApi())
-//                    .append("date", ci.getDate())
-//                    .append("statNm", ci.getStatNm())
-//                    .append("statId", ci.getStatId())
-//                    .append("chgerId", ci.getChgerId())
-//                    .append("chgerType", ci.getChgerType())
-//                    .append("stat", ci.getStat())
-//                    .append("statUpdDt", ci.getStatUpdDt())
-//                    .append("powerType", ci.getPowerType())
-//                    .append("zcode", ci.getZcode())
-//                    ;
-//            list_chargers.add(document_chargers);
-            
-            
+            //충전소 데이터 정리
+            if (!duplicateStationSet.contains(ci.getStatId()+"")) {
+                Document document_stations = new Document()
+                        .append("api", ci.getApi())
+                        .append("date", ci.getDate())
+                        .append("statNm", ci.getStatNm())
+                        .append("statId", ci.getStatId())
+                        .append("addr", ci.getAddr())
+                        .append("lat", ci.getLat())
+                        .append("lng", ci.getLng())
+                        .append("useTime", ci.getUseTime())
+                        .append("busiId", ci.getBusiId())
+                        .append("busiNm", ci.getBusiNm())
+                        .append("busiCall", ci.getBusiCall())
+                        .append("zcode", ci.getZcode())
+                        .append("parkingFree", ci.getParkingFree())
+                        .append("note", ci.getNote())
+                        .append("version", newVersion);
+                list_stations.add(document_stations);
+                duplicateStationSet.add(ci.getStatId());
+            }
+
+            //충전기 데이터 정리
+            Document document_chargers = new Document()
+                    .append("api", ci.getApi())
+                    .append("date", ci.getDate())
+                    .append("statNm", ci.getStatNm())
+                    .append("statId", ci.getStatId())
+                    .append("chgerId", ci.getChgerId())
+                    .append("chgerType", ci.getChgerType())
+                    .append("stat", ci.getStat())
+                    .append("statUpdDt", ci.getStatUpdDt())
+                    .append("powerType", ci.getPowerType())
+                    .append("zcode", ci.getZcode())
+                    .append("version", newVersion);
+            list_chargers.add(document_chargers);
+
             count++;
-            System.out.println("("+count+"/"+length+")"+ci.getStatNm()+"/"+ci.getChgerId());
+//            System.out.println(duplicateStationSet);
+            System.out.println("(" + count + "/" + length + ")" + ci.getStatNm() + "/" + ci.getChgerId());
         }
-        System.out.println(ANSI_GREEN+"Collection 구성 완료... MongoDB cluster로 데이터 입력을 시도합니다."+ANSI_RESET);
+        System.out.println(ANSI_PURPLE);
+        System.out.println("준비된 Raw 데이터 건수 : "+list_raw.size());
+        System.out.println("준비된 충전소 데이터 건수 : "+list_stations.size());
+        System.out.println("준비된 충전기 데이터 건수 : "+list_chargers.size());
+        System.out.println(ANSI_RESET);
+        System.out.println(ANSI_GREEN + "Collection 구성 완료... MongoDB cluster로 데이터 입력을 시도합니다." + ANSI_RESET);
+        System.out.println("새로운 데이터 버전은... " + newVersion + " 입니다.");
         System.out.println(ANSI_YELLOW);
         System.out.println("************************************");
         System.out.println("************************************");
@@ -144,12 +171,28 @@ public class SaverController {
         System.out.println("************************************");
         System.out.println("************************************");
         System.out.println(ANSI_RESET);
-        collection.insertMany(list); // raw 데이터는 그냥 추가해줘도 문제 없음
-//        collection_stations.updateMany(new Document(),new Document(),new UpdateOptions().upsert(true));
-//        collection_stations.updateMany(list_stations);
-//        collection_chargers.updateMany(list_chargers);
-        System.out.println(ANSI_GREEN+"총 "+count+"개 정보 저장 완료"+ANSI_RESET);
-        System.out.println(ANSI_CYAN+"오류 방지를 위해 프로그램을 종료해주세요."+ANSI_RESET);
+
+        collection_version.insertOne(new Document("version", newVersion).append("date", new Date().toString()));
+        System.out.println("버전이 " + newVersion + "으로 업데이트됨");
+
+        System.out.println("새 raw 데이터 추가 중...");
+        collection_raw.insertMany(list_raw); // raw 데이터는 그냥 추가해줘도 문제 없음
+        System.out.println("새 raw 데이터 추가 완료!");
+        System.out.println("새 충전소 데이터 추가 중...");
+        collection_stations.insertMany(list_stations);
+        System.out.println("새 충전소 데이터 추가 완료!");
+        System.out.println("오래된 충전소 데이터 삭제중...");
+        collection_stations.deleteMany(new Document("version", new Document("$eq", currentVersion)));
+        System.out.println("오래된 충전소 데이터 삭제 완료!");
+        System.out.println("새 충전기 데이터 추가 중...");
+        collection_chargers.insertMany(list_chargers);
+        System.out.println("새 충전기 데이터 추가 완료!");
+        System.out.println("오래된 충전기 데이터 삭제중...");
+        collection_chargers.deleteMany(new Document("version", new Document("$eq", currentVersion)));
+        System.out.println("오래된 충전소 데이터 삭제 완료!");
+
+        System.out.println(ANSI_GREEN + "총 " + count + "개 정보 저장 완료" + ANSI_RESET);
+        System.out.println(ANSI_CYAN + "오류 방지를 위해 프로그램을 종료해주세요." + ANSI_RESET);
     }
 
     public static void main(String[] args) {
