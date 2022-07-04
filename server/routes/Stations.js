@@ -65,6 +65,20 @@ router.post('/keco/find/chargers', function (req, res, next) {
 //     });
 // });
 
+router.post('/filterStations', function (req, res, next) {
+  // 필터링된 데이터 가져오기
+  console.log(req.body.data.min)
+  console.log(req.body.data.max)
+  // Station.find({}).then((stations) => {
+  //     // console.log(stations);
+  //     res.json(stations)
+  // }).catch((err) => {
+  //     console.log(err);
+  //     next(err)
+  // });
+  res.json("준비중..")
+});
+
 router.get("/keco/filteredStations/:key", async (req, res) => {
     const keyword = "$" + req.params.key;
     console.log(keyword)
