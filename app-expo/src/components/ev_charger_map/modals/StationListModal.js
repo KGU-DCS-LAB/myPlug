@@ -1,6 +1,6 @@
 import { Alert, Modal, Pressable, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, Icon, ScrollViewBase } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
-import { Button, Center, Flex, HStack, ScrollView } from "native-base";
+import { Box, Button, Center, Flex, Heading, HStack, ScrollView } from "native-base";
 import { useState } from "react";
 
 const StationListModal = (props) => {
@@ -19,16 +19,40 @@ const StationListModal = (props) => {
                     <View style={styles.flexEndView}>
                         <View style={styles.bigModalView}>
                             <View>
-                                <Text>인근 충전소 목록으로 보기</Text>
-                                <Pressable
-                                    style={[styles.button, styles.buttonClose]}
-                                    onPress={() => props.setStationListModalVisible(!props.stationListModalVisible)}
-                                >
-                                    <Text style={styles.textStyle}>Hide Modal</Text>
-                                </Pressable>
+                                <Box my={3}>
+                                    <Heading>인근 충전소 목록으로 보기</Heading>
+                                </Box>
 
+                                <ScrollView>
+                                    {
+                                        props.chargingStations.length < 0
+                                            ?
+                                            <><Text>근처에 충전소가 없습니다.</Text></>
+                                            :
+                                            props.chargingStations.map((stations) => (
+                                                <TouchableOpacity key={stations.statId} onPress={() => props.focuseToStation(stations)}>
+                                                    <Box
+                                                        borderBottomWidth="1"
+                                                        borderColor="coolGray.200"
+                                                        p={1}
+                                                    >
+                                                        <Text fontSize="md">{stations.statNm}</Text>
+                                                    </Box>
+                                                </TouchableOpacity>
+                                                // <Text key={stations.statId}>{stations.statNm}</Text>
+                                            ))
+                                    }
+                                </ScrollView>
 
-                                {props.chargingStations.length < 0 ? <></> : props.chargingStations.map((stations) => <Text key={stations.statId}>{stations.statNm}</Text>)}
+                                <Box my={3}>
+                                    <Pressable
+                                        style={[styles.button, styles.buttonClose]}
+                                        onPress={() => props.setStationListModalVisible(!props.stationListModalVisible)}
+                                    >
+                                        <Text style={styles.textStyle}>닫기</Text>
+                                    </Pressable>
+
+                                </Box>
 
                             </View>
 

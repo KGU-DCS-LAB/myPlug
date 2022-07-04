@@ -1,5 +1,6 @@
 import { Icon, IconButton } from "native-base"
 import { AntDesign, MaterialCommunityIcons, MaterialIcons, FontAwesome5, Ionicons } from "@expo/vector-icons";
+import * as Location from 'expo-location';
 
 export default (props) => {
 

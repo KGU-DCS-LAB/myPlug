@@ -144,6 +144,7 @@ const EvChargerContainer = (props) => {
 
     const focuseToStation = (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
         setSmallModalVisible(true)
+        setStationListModalVisible(false)
         setSelectedStation(station)
         setLocation({
             longitude: Number(station.lng),
@@ -190,6 +191,7 @@ const EvChargerContainer = (props) => {
                                 chargingStations={chargingStations}
                                 stationListModalVisible={stationListModalVisible}
                                 setStationListModalVisible={setStationListModalVisible}
+                                focuseToStation={focuseToStation}
                             /> 
 
                             {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
