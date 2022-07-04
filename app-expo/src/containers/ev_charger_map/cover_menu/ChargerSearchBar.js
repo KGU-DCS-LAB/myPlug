@@ -49,7 +49,7 @@ const ChargerSearchBar = (props) => {
                 text.length > 0 &&
                 !props.smallModalVisible &&
                 <Box
-                    style={{ width: 250, position: 'absolute', bottom: 40 }}
+                    style={{ width: 250, position: 'absolute', top: 40 }}
                     bg="white"
                     maxH={300}
                     minH={300}

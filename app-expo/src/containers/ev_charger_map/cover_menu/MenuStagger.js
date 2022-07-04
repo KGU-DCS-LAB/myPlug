@@ -10,43 +10,43 @@ const MenuStagger = (props) => {
         onToggle
     } = useDisclose();
 
-    const location = props.location;
+    // const location = props.location;
 
-    const goToCurrentLocation = async () => {
-        let location = await Location.getCurrentPositionAsync({}); //현 위치 수신
-        // console.log(location);
-        props.setLocation({
-            longitude: location.coords.longitude,
-            latitude: location.coords.latitude,
-            latitudeDelta: 0.007,
-            longitudeDelta: 0.007,
-        });
-    }
+    // const goToCurrentLocation = async () => {
+    //     let location = await Location.getCurrentPositionAsync({}); //현 위치 수신
+    //     // console.log(location);
+    //     props.setLocation({
+    //         longitude: location.coords.longitude,
+    //         latitude: location.coords.latitude,
+    //         latitudeDelta: 0.007,
+    //         longitudeDelta: 0.007,
+    //     });
+    // }
 
-    const zoom = (zoom) => {
-        let magnification = 0.005
-        switch (zoom) {
-            case 'out':
-                magnification *= 1
-                break;
+    // const zoom = (zoom) => {
+    //     let magnification = 0.005
+    //     switch (zoom) {
+    //         case 'out':
+    //             magnification *= 1
+    //             break;
 
-            case 'in':
-                magnification *= -1
-                break;
-            default:
-                return
-                break;
-        }
-        if (location.latitudeDelta + magnification > 0 && location.longitudeDelta + magnification > 0) {
-            props.setLocation({
-                longitude: location.longitude,
-                latitude: location.latitude,
-                latitudeDelta: location.latitudeDelta + magnification,
-                longitudeDelta: location.longitudeDelta + magnification,
-            });
+    //         case 'in':
+    //             magnification *= -1
+    //             break;
+    //         default:
+    //             return
+    //             break;
+    //     }
+    //     if (location.latitudeDelta + magnification > 0 && location.longitudeDelta + magnification > 0) {
+    //         props.setLocation({
+    //             longitude: location.longitude,
+    //             latitude: location.latitude,
+    //             latitudeDelta: location.latitudeDelta + magnification,
+    //             longitudeDelta: location.longitudeDelta + magnification,
+    //         });
 
-        }
-    }
+    //     }
+    // }
 
     return (
         <>
@@ -152,7 +152,7 @@ const MenuStagger = (props) => {
                             () => props.setFilterModalVisible(true)
                         }
                     />
-
+{/* 
                     <IconButton
                         mb="3"
                         margin={1}
@@ -220,7 +220,7 @@ const MenuStagger = (props) => {
                         onPress={
                             () => zoom('out')
                         }
-                    />
+                    /> */}
                     <IconButton
                         mb="3"
                         margin={1}

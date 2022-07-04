@@ -6,7 +6,7 @@ import { config } from '../../../config'
 import axios from 'axios';
 import { Box, Center, HStack, Spacer, Text, View } from "native-base";
 
-import BottomMenu from "./bottom_menu/BottomMenu";
+import CoverMenu from "./cover_menu/CoverMenu";
 import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 import StationSmallModal from "../../components/ev_charger_map/modals/StationSmallModal";
 import StationBigModal from "../../components/ev_charger_map/modals/StationBigModal";
@@ -73,7 +73,9 @@ const EvChargerContainer = (props) => {
             // getFilterRange(); //영업시간을 group으로 묶어 받아오기
             // group으로 묶은 결과 126개 데이터가 있어서 버튼을 생성하기 부적합하다고 생각 -> 0시, 1시, ... 으로 버튼 만들기로 함
         })();
+        return ()=>{
 
+        }
     }, []);
 
     //현 위치의 충전소 데이터 수신
@@ -191,9 +193,9 @@ const EvChargerContainer = (props) => {
                             /> 
 
                             {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
-                            <HStack><Text>Log</Text></HStack>
+                            {/* <HStack><Text>Log</Text></HStack>
                             <HStack><Text>{location.latitude}</Text><Spacer /><Text>{count}</Text><Spacer /><Text>{location.longitude}</Text></HStack>
-                            <HStack><Text>{location.latitudeDelta}</Text><Spacer /><Text>{location.longitudeDelta}</Text></HStack>
+                            <HStack><Text>{location.latitudeDelta}</Text><Spacer /><Text>{location.longitudeDelta}</Text></HStack> */}
                             {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
 
                             <MapView
@@ -251,7 +253,7 @@ const EvChargerContainer = (props) => {
 
                             </MapView>
                         </View>
-                        <BottomMenu
+                        <CoverMenu
                             navigation={props.navigation}
                             location={location}
                             setLocation={setLocation}
