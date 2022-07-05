@@ -41,42 +41,45 @@ const EvChargerContainer = (props) => {
     const [bigModalVisible, setBigModalVisible] = useState(false); //큰 모달 온오프
     const [filterModalVisible, setFilterModalVisible] = useState(false); // 필터 모달 온오프
     const [stationListModalVisible, setStationListModalVisible] = useState(false); // 충전소 목록 모달 온오프
-
+    const [didCancel, setCancel] = useState(false);
 
     const mapRef = useRef(); //몰라
 
     // Get current location information 
     useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync(); //GPS 사용 권한 물어봄
-            if (status !== 'granted') {
-                console.log('Permission to access location was denied');
-                return;  //권한 거부 시 그대로 종료
-            }
+        setCancel(false);
+        if (!didCancel) {
+            (async () => {
+                let { status } = await Location.requestForegroundPermissionsAsync(); //GPS 사용 권한 물어봄
+                if (status !== 'granted') {
+                    console.log('Permission to access location was denied');
+                    return;  //권한 거부 시 그대로 종료
+                }
 
-            let location = await Location.getCurrentPositionAsync({}); //현 위치 수신
-            // console.log(location);
-            setLocation({
-                longitude: location.coords.longitude,
-                latitude: location.coords.latitude,
-                latitudeDelta: 0.007,
-                longitudeDelta: 0.007,
-            });
-            setLoaded(true);
-            // 실시간으로 위치 변화 감지 (권한 거부 시 아예 동작하지 않음 / 델타 값 관련 버그가 있어서 일단 주석 처리. 동작 자체는 아무 이상 없음)
-            // Location.watchPositionAsync({ accuracy: Location.Accuracy.Balanced, timeInterval: 100, distanceInterval: 1 },
-            //     position => {
-            //         console.log(position.coords);
-            //         setLocation({ longitude: position.coords.longitude, latitude: position.coords.latitude });
-            //     }
-            // );
+                let location = await Location.getCurrentPositionAsync({}); //현 위치 수신
+                // console.log(location);
+                setLocation({
+                    longitude: location.coords.longitude,
+                    latitude: location.coords.latitude,
+                    latitudeDelta: 0.007,
+                    longitudeDelta: 0.007,
+                });
+                setLoaded(true);
+                // 실시간으로 위치 변화 감지 (권한 거부 시 아예 동작하지 않음 / 델타 값 관련 버그가 있어서 일단 주석 처리. 동작 자체는 아무 이상 없음)
+                // Location.watchPositionAsync({ accuracy: Location.Accuracy.Balanced, timeInterval: 100, distanceInterval: 1 },
+                //     position => {
+                //         console.log(position.coords);
+                //         setLocation({ longitude: position.coords.longitude, latitude: position.coords.latitude });
+                //     }
+                // );
 
-            // getFilterRange(); //영업시간을 group으로 묶어 받아오기
-            // group으로 묶은 결과 126개 데이터가 있어서 버튼을 생성하기 부적합하다고 생각 -> 0시, 1시, ... 으로 버튼 만들기로 함
-            getchgerType();
-        })();
-        return ()=>{
-
+                // getFilterRange(); //영업시간을 group으로 묶어 받아오기
+                // group으로 묶은 결과 126개 데이터가 있어서 버튼을 생성하기 부적합하다고 생각 -> 0시, 1시, ... 으로 버튼 만들기로 함
+                getchgerType();
+            })();
+        }
+        return () => {
+            setCancel(true);
         }
     }, []);
 
@@ -201,13 +204,13 @@ const EvChargerContainer = (props) => {
                                 setFilterModalVisible={setFilterModalVisible}
                                 setFilterKeyword={setFilterKeyword}
                             />
-            
+
                             <StationListModal
                                 chargingStations={chargingStations}
                                 stationListModalVisible={stationListModalVisible}
                                 setStationListModalVisible={setStationListModalVisible}
                                 focuseToStation={focuseToStation}
-                            /> 
+                            />
 
                             {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
                             {/* <HStack><Text>Log</Text></HStack>
