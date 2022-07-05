@@ -32,7 +32,8 @@ const FilterModal = (props) => {
                 types: selectedType
             }
         }).then((response) => {
-            console.log(response.data)
+            console.log(response);
+            props.setFilteredChargingStations(response.data);
         }).catch(function (error) {
             console.log(error);
         })
