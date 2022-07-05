@@ -46,6 +46,7 @@ const EvChargerContainer = (props) => {
     const [didCancel, setCancel] = useState(false);
     const [isFiltering, setIsFiltering] = useState(false);
 
+    // const source = useRef(); //취소 토큰 용
     const mapRef = useRef(); //몰라
 
     // Get current location information 
@@ -95,9 +96,9 @@ const EvChargerContainer = (props) => {
             // console.log(requestTime); //마지막 위치 요청 시간
             setRequestTime(newTime);
             // console.log(newTime); //새로운 위치 요청 시간
-            // console.log('diff : ', newTime - requestTime);
+            console.log('diff : ', newTime - requestTime);
             if (newTime - requestTime > 300) { //두 요청 시간 차이가 300보다 큰 경우에만 정상적인 요청임 (그 이하는 지도 화면이 자동으로 부드럽게 밀리는 과정에서 위치 값을 갱신하는 것으로 간주함)
-                // console.log('updated at count:', count); //실제로 서버로 요청이 들어간 refresh count 값이 얼마인지 확인하기 위해 추가
+                console.log('updated at count:', count); //실제로 서버로 요청이 들어간 refresh count 값이 얼마인지 확인하기 위해 추가
                 setLocation(region); //위치 값 갱신
             }
         }
@@ -165,6 +166,7 @@ const EvChargerContainer = (props) => {
             setChargingStations([]);
             setFilteredChargingStations([]);
         }
+        
     }, [location]);
 
     const refresh = () => {
@@ -172,13 +174,22 @@ const EvChargerContainer = (props) => {
         getStations();
     }
 
-    const getStations = () => {
-        axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
+    const getStations = async () => {
+
+        // if(source.current !== undefined && source.current !== null) { // already exists request
+        //     console.log('취소점여')
+        //     source.current.cancel();
+        //   }
+        //   source.current = axios.CancelToken.source();
+
+        await axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
+            // cancelToken: source.current.token,
             data: { // 현재 화면 모서리의 좌표 값을 전송함. 같은 축이여도 숫자가 작을 수록 값이 작음 (ex. x1<x2,  y1<y2)
                 x1: location.longitude - (location.longitudeDelta / 2),
                 x2: location.longitude + (location.longitudeDelta / 2),
                 y1: location.latitude - (location.latitudeDelta / 2),
                 y2: location.latitude + (location.latitudeDelta / 2),
+                count:count,
             }
         }).then((response) => {
             setChargingStations(response.data); //서버에서 받아온 충전소 데이터 리스트를 업데이트
@@ -264,12 +275,6 @@ const EvChargerContainer = (props) => {
                                 focuseToStation={focuseToStation}
                             />
 
-                            {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
-                            {/* <HStack><Text>Log</Text></HStack>
-                            <HStack><Text>{location.latitude}</Text><Spacer /><Text>{count}</Text><Spacer /><Text>{location.longitude}</Text></HStack>
-                            <HStack><Text>{location.latitudeDelta}</Text><Spacer /><Text>{location.longitudeDelta}</Text></HStack> */}
-                            {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
-
                             <MapView
                                 ref={mapRef}
                                 initialRegion={{ //초기 값
@@ -324,6 +329,11 @@ const EvChargerContainer = (props) => {
                                 }
 
                             </MapView>
+                            {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
+                            <HStack><Text>{location.latitude}</Text><Spacer /><Text>{count}</Text><Spacer /><Text>{location.longitude}</Text></HStack>
+                            <HStack><Text>{location.latitudeDelta}</Text><Spacer /><Text>{location.longitudeDelta}</Text></HStack>
+                            {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
+
                         </View>
                         <CoverMenu
                             navigation={props.navigation}
