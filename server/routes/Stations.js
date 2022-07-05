@@ -65,18 +65,30 @@ router.post('/keco/find/chargers', function (req, res, next) {
 //     });
 // });
 
-router.post('/filterStations', function (req, res, next) {
+router.post('/filterStations', async function (req, res, next) {
   // 필터링된 데이터 가져오기
-  console.log(req.body.data.min)
-  console.log(req.body.data.max)
-  // Station.find({}).then((stations) => {
-  //     // console.log(stations);
-  //     res.json(stations)
-  // }).catch((err) => {
-  //     console.log(err);
-  //     next(err)
-  // });
-  res.json("준비중..")
+  // console.log(req.body.data.min)
+  // console.log(req.body.data.max)
+  let result = await Charger.aggregate([
+    {
+      "$match": { chgerType: { "$in": req.body.data.types }}
+    },
+    {
+    "$group": 
+      {
+        _id: "$statNm"
+      }
+  }]);
+
+  const newArr = [];
+  result.map((item) => newArr.push(item._id))
+  // console.log(newArr)
+  const filteredStations = await Station.aggregate([
+    {
+      "$match": { statNm: { "$in": newArr }}
+    }]);
+  console.log(filteredStations);
+  res.json(filteredStations)
 });
 
 router.get("/keco/filteredStations/:key", async (req, res) => {

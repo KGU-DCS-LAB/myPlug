@@ -149,7 +149,7 @@ const EvChargerContainer = (props) => {
         axios.post(config.ip + ':5000/stationsRouter/keco/find/chargers', {
             data: statId
         }).then((response) => {
-            // console.log(response.data)
+            console.log(response.data.length)
             setChargers(response.data)
         }).catch(function (error) {
             console.log(error);
