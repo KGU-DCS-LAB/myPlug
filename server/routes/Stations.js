@@ -83,11 +83,13 @@ router.get("/keco/filteredStations/:key", async (req, res) => {
     const keyword = "$" + req.params.key;
     console.log(keyword)
     // 전체 데이터 가져오기
-    let result = await Station.aggregate([{
+    let result = await Charger.aggregate([{
         "$group": 
           {
             _id: keyword.toString()
           }
+      }, {
+        "$sort": {_id: 1}
       }]);
     //   console.log(result);
       res.send(result);

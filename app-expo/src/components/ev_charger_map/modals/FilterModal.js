@@ -1,6 +1,6 @@
 import { Alert, Modal, Pressable, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, Icon, ScrollViewBase } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
-import { Button, Center, Flex, HStack, ScrollView } from "native-base";
+import { Button, Center, Flex, HStack, ScrollView, VStack } from "native-base";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import { useState } from "react";
 import SliderCustomLabel from "../SliderCustomLabel";
@@ -66,6 +66,14 @@ const FilterModal = (props) => {
                                 </View> */}
                             </TouchableWithoutFeedback>
                             <TimeSlider selected={selected} timeChanged={timeChanged} />
+
+                            <Text>충전기 종류</Text>
+                            <HStack>
+                            {props.chgerType.map((item) => 
+                            <Button key={item._id}>{item._id}</Button>
+                            )}
+                            </HStack>
+                            
                             <Pressable
                                 style={[styles.button, styles.buttonClose]}
                                 onPress={() => dataFiltering()}

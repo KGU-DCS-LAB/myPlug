@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         width: "80%",
         margin: SliderPad * 2,
 
-        justifyContent: "center",
+        // justifyContent: "center",
         alignItems: "center",
     },
 })

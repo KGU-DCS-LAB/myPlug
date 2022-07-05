@@ -28,6 +28,7 @@ const EvChargerContainer = (props) => {
 
     const [chargingStations, setChargingStations] = useState([]); //서버로 부터 받아온 충전소 데이터 리스트
     const [chargers, setChargers] = useState([]); // 서버로 부터 받아온 충전기 리스트
+    const [chgerType, setChgerType] = useState([]); // 서버로 부터 받아온 충전기 타입
 
     const [count, setCount] = useState(0); // 리프레시 횟수 검사 용 (테스트 할 때 사용됨)
     const [requestTime, setRequestTime] = useState(new Date().getTime()); //제스처 검출용 (손 끝에서 지도를 탈출했을 때, 특정 상황에서 부드러운 화면 업데이트를 위해 위치 상태 값이 강제러 리프레시 되는 현상이 있어 서버에 과도한 데이터 요청을 하는 것을 발견함. 따라서 이를 방지하기 위해 특정한 로직을 추가하여 위치 값이 수정될 때 마다 이 값이 갱신되도록 함)
@@ -72,6 +73,7 @@ const EvChargerContainer = (props) => {
 
             // getFilterRange(); //영업시간을 group으로 묶어 받아오기
             // group으로 묶은 결과 126개 데이터가 있어서 버튼을 생성하기 부적합하다고 생각 -> 0시, 1시, ... 으로 버튼 만들기로 함
+            getchgerType();
         })();
         return ()=>{
 
@@ -101,6 +103,18 @@ const EvChargerContainer = (props) => {
         let result = await fetch(config.ip + `:5000/stationsRouter/keco/filteredStations/${key}`);
         result = await result.json();
         console.log("size", result.length);
+    }
+
+    const getchgerType = () => {
+        let key = "chgerType";
+        console.log(key);
+        axios.get(config.ip + ':5000/stationsRouter/keco/filteredStations/' + key
+        ).then((response) => {
+            setChgerType(response.data);
+            console.log(response.data)
+        }).catch(function (error) {
+            console.log(error);
+        })
     }
 
     //위치 값이 변할 때 마다 서버로 데이터 요청을 함
@@ -183,6 +197,7 @@ const EvChargerContainer = (props) => {
                             />
                             <FilterModal
                                 filterModalVisible={filterModalVisible}
+                                chgerType={chgerType}
                                 setFilterModalVisible={setFilterModalVisible}
                                 setFilterKeyword={setFilterKeyword}
                             />
