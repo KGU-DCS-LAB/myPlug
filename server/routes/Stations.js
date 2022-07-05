@@ -69,6 +69,10 @@ router.post('/filterStations', async function (req, res, next) {
   // 필터링된 데이터 가져오기
   // console.log(req.body.data.min)
   // console.log(req.body.data.max)
+  const x1 = req.body.data.x1;
+  const x2 = req.body.data.x2;
+  const y1 = req.body.data.y1;
+  const y2 = req.body.data.y2;
   let result = await Charger.aggregate([
     {
       "$match": { chgerType: { "$in": req.body.data.types }}
@@ -82,11 +86,28 @@ router.post('/filterStations', async function (req, res, next) {
 
   const newArr = [];
   result.map((item) => newArr.push(item._id))
-  // console.log(newArr)
-  const filteredStations = await Station.aggregate([
-    {
-      "$match": { statNm: { "$in": newArr }}
-    }]);
+  console.log(x1,x2)
+  console.log(y1,y2)
+  // { lng: { $gte: x1 } },
+  //           { lng: { $lte: x2 } },
+  //           { lat: { $gte: y1 } },
+  //           { lat: { $lte: y2 } },
+  const filteredStations = await Station.aggregate(
+    [
+      {
+        "$match": {
+          "$and": [
+            // { lng: { "$gte": x1, "$lte": x2 } },
+            // { lat: { "$gte": y1, "$lte": y2 } },
+            { lng: { "$gte": x1 } },
+            { lng: { "$lte": x2 } },
+            { lat: { "$gte": y1 } },
+            { lat: { "$lte": y2 } },
+            { statNm: { "$in": newArr } }
+          ]
+        }
+      }
+    ]);
   console.log(filteredStations);
   res.json(filteredStations)
 });

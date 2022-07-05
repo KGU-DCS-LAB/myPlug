@@ -29,7 +29,7 @@ const EvChargerContainer = (props) => {
     const [chargingStations, setChargingStations] = useState([]); //서버로 부터 받아온 충전소 데이터 리스트
     const [chargers, setChargers] = useState([]); // 서버로 부터 받아온 충전기 리스트
     const [chgerType, setChgerType] = useState([]); // 서버로 부터 받아온 충전기 타입
-
+    const [selectedType, setSelectedType] = useState([]);
     const [filteredChargingStations, setFilteredChargingStations] = useState([]); // 필터링 한 결과 충전소 데이터 리스트
 
     const [count, setCount] = useState(0); // 리프레시 횟수 검사 용 (테스트 할 때 사용됨)
@@ -123,6 +123,38 @@ const EvChargerContainer = (props) => {
         })
     }
 
+    const dataFiltering = () => {
+        setIsFiltering(true);
+        getFilteredData();
+        setFilterModalVisible(false);
+    }
+
+    const selectType = (type) => {
+        setSelectedType([ ...selectedType, type ])
+    }
+    const cancleSelect = (type) => {
+        setSelectedType(selectedType.filter((item) => item !== type))
+    }
+
+    const getFilteredData = () => {
+        axios.post(config.ip + ':5000/stationsRouter/filterStations', {
+            data: {
+                // min: selected[0],
+                // max: selected[1],
+                x1: location.longitude - (location.longitudeDelta / 2),
+                x2: location.longitude + (location.longitudeDelta / 2),
+                y1: location.latitude - (location.latitudeDelta / 2),
+                y2: location.latitude + (location.latitudeDelta / 2),
+                types: selectedType
+            }
+        }).then((response) => {
+            console.log(response.data);
+            setFilteredChargingStations(response.data);
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
+
     //위치 값이 변할 때 마다 서버로 데이터 요청을 함
     useEffect(() => {
         // console.log(mapRef?.current?.getCamera());
@@ -135,6 +167,11 @@ const EvChargerContainer = (props) => {
         }
     }, [location]);
 
+    const refresh = () => {
+        setIsFiltering(false);
+        getStations();
+    }
+
     const getStations = () => {
         axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
             data: { // 현재 화면 모서리의 좌표 값을 전송함. 같은 축이여도 숫자가 작을 수록 값이 작음 (ex. x1<x2,  y1<y2)
@@ -145,6 +182,9 @@ const EvChargerContainer = (props) => {
             }
         }).then((response) => {
             setChargingStations(response.data); //서버에서 받아온 충전소 데이터 리스트를 업데이트
+            if(isFiltering){
+                getFilteredData();
+            }
             setFilteredChargingStations(response.data);
         }).catch(function (error) {
             console.log(error);
@@ -205,6 +245,11 @@ const EvChargerContainer = (props) => {
                             />
                             <FilterModal
                                 filterModalVisible={filterModalVisible}
+                                selectedType={selectedType}
+                                setSelectedType={setSelectedType}
+                                dataFiltering={dataFiltering}
+                                cancleSelect={cancleSelect}
+                                selectType={selectType}
                                 chgerType={chgerType}
                                 setFilterModalVisible={setFilterModalVisible}
                                 setFilterKeyword={setFilterKeyword}
@@ -289,6 +334,7 @@ const EvChargerContainer = (props) => {
                             setStationListModalVisible={setStationListModalVisible}
                             getStations={getStations}
                             focuseToStation={focuseToStation}
+                            refresh={refresh}
                         />
                     </>
                     :

@@ -10,33 +10,10 @@ import { config } from "../../../../config";
 
 const FilterModal = (props) => {
     const [selected, setSelected] = useState([0, 24]);
-    const [selectedType, setSelectedType] = useState([]);
 
     const timeChanged = (value) => {
         console.log(value);
         setSelected(value);
-    }
-
-    const selectType = (type) => {
-        setSelectedType([ ...selectedType, type ])
-    }
-    const cancleSelect = (type) => {
-        setSelectedType(selectedType.filter((item) => item !== type))
-    }
-
-    const dataFiltering = () => {
-        axios.post(config.ip + ':5000/stationsRouter/filterStations', {
-            data: {
-                min: selected[0],
-                max: selected[1],
-                types: selectedType
-            }
-        }).then((response) => {
-            console.log(response);
-            props.setFilteredChargingStations(response.data);
-        }).catch(function (error) {
-            console.log(error);
-        })
     }
 
     return (
@@ -80,17 +57,17 @@ const FilterModal = (props) => {
                             <Text>충전기 종류</Text>
                             <HStack>
                             {props.chgerType.map((item) => 
-                            selectedType.findIndex((type) => type === item._id) !== -1 ? 
-                            <Button key={item._id} onPress={() => cancleSelect(item._id)}>{item._id}</Button>
+                            props.selectedType.findIndex((type) => type === item._id) !== -1 ? 
+                            <Button key={item._id} onPress={() => props.cancleSelect(item._id)}>{item._id}</Button>
                              : 
-                            <Button style={{backgroundColor: "grey"}} key={item._id} onPress={() => selectType(item._id)}>{item._id}</Button>
+                            <Button style={{backgroundColor: "grey"}} key={item._id} onPress={() => props.selectType(item._id)}>{item._id}</Button>
                             // console.log(selectedType.findIndex((type) => type === item._id))
                             )}
                             </HStack>
 
                             <Pressable
                                 style={[styles.button, styles.buttonClose]}
-                                onPress={() => dataFiltering()}
+                                onPress={() => props.dataFiltering()}
                             >
                                 <Text style={styles.textStyle}>검색</Text>
                             </Pressable>
