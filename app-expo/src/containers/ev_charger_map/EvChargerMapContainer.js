@@ -149,7 +149,7 @@ const EvChargerContainer = (props) => {
                 types: selectedType
             }
         }).then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setFilteredChargingStations(response.data);
         }).catch(function (error) {
             console.log(error);
@@ -171,17 +171,20 @@ const EvChargerContainer = (props) => {
 
     const refresh = () => {
         setIsFiltering(false);
+        setSelectedType([]);
         getStations();
     }
 
-    const getStations = async () => {
+    const getStations = () => {
+        if(isFiltering){
+            getFilteredData();
+        }
+        else {
+            getAllData();
+        }
+    }
 
-        // if(source.current !== undefined && source.current !== null) { // already exists request
-        //     console.log('취소점여')
-        //     source.current.cancel();
-        //   }
-        //   source.current = axios.CancelToken.source();
-
+    const getAllData = async () => {
         await axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
             // cancelToken: source.current.token,
             data: { // 현재 화면 모서리의 좌표 값을 전송함. 같은 축이여도 숫자가 작을 수록 값이 작음 (ex. x1<x2,  y1<y2)
@@ -193,9 +196,6 @@ const EvChargerContainer = (props) => {
             }
         }).then((response) => {
             setChargingStations(response.data); //서버에서 받아온 충전소 데이터 리스트를 업데이트
-            if(isFiltering){
-                getFilteredData();
-            }
             setFilteredChargingStations(response.data);
         }).catch(function (error) {
             console.log(error);
