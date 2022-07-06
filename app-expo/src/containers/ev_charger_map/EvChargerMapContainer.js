@@ -172,16 +172,17 @@ const EvChargerContainer = (props) => {
     const refresh = () => {
         setIsFiltering(false);
         setSelectedType([]);
-        getStations();
+        setFilteredChargingStations(chargingStations);
     }
 
     const getStations = () => {
-        if(isFiltering){
-            getFilteredData();
-        }
-        else {
-            getAllData();
-        }
+        // if(isFiltering){
+        //     getFilteredData();
+        // }
+        // else {
+        //     getAllData();
+        // }
+        getAllData();
     }
 
     const getAllData = async () => {
@@ -196,7 +197,13 @@ const EvChargerContainer = (props) => {
             }
         }).then((response) => {
             setChargingStations(response.data); //서버에서 받아온 충전소 데이터 리스트를 업데이트
-            setFilteredChargingStations(response.data);
+            // setFilteredChargingStations(response.data);
+            if(isFiltering){
+                getFilteredData();
+            }
+            else {
+                setFilteredChargingStations(response.data);
+            }
         }).catch(function (error) {
             console.log(error);
         })

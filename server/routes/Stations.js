@@ -97,7 +97,6 @@ router.post('/filterStations', async function (req, res, next) {
       { lat: { $lte: y2 } },
     ]
   }).then((stations) => {
-    console.log(stations);
     res.json(stations)
   }).catch((err) => {
     console.log(err);
