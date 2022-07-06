@@ -52,18 +52,20 @@ const FilterModal = (props) => {
                                     </Pressable>
                                 </View> */}
                             </TouchableWithoutFeedback>
-                            <TimeSlider selected={selected} timeChanged={timeChanged} />
+                            {/* <TimeSlider selected={selected} timeChanged={timeChanged} /> */}
 
-                            <Text>충전기 종류</Text>
-                            <HStack>
-                            {props.chgerType.map((item) => 
-                            props.selectedType.findIndex((type) => type === item._id) !== -1 ? 
-                            <Button key={item._id} onPress={() => props.cancleSelect(item._id)}>{item._id}</Button>
-                             : 
-                            <Button style={{backgroundColor: "grey"}} key={item._id} onPress={() => props.selectType(item._id)}>{item._id}</Button>
-                            // console.log(selectedType.findIndex((type) => type === item._id))
-                            )}
-                            </HStack>
+                            <View style={styles.wrapper}>
+                                <Text>충전기 종류</Text>
+                                <HStack>
+                                    {props.chgerType.map((item) =>
+                                        props.selectedType.findIndex((type) => type === item._id) !== -1 ?
+                                            <Button key={item._id} onPress={() => props.cancleSelect(item._id)}>{item._id}</Button>
+                                            :
+                                            <Button style={{ backgroundColor: "grey" }} key={item._id} onPress={() => props.selectType(item._id)}>{item._id}</Button>
+                                        // console.log(selectedType.findIndex((type) => type === item._id))
+                                    )}
+                                </HStack>
+                            </View>
 
                             <Pressable
                                 style={[styles.button, styles.buttonClose]}
@@ -131,12 +133,19 @@ const styles = StyleSheet.create({
     },
     buttonClose: {
         backgroundColor: "#2196F3",
+        marginVertical:6
     },
     textStyle: {
         color: "white",
         fontWeight: "bold",
         textAlign: "center"
 
+    },
+    wrapper: {
+        flex: 1,
+        width: "90%",
+        justifyContent: "center",
+        alignItems: "center",
     },
     modalCloseIcon: {
         height: 80,
