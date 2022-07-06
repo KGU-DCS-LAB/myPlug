@@ -87,30 +87,22 @@ router.post('/filterStations', async function (req, res, next) {
 
   const newArr = [];
   result.map((item) => newArr.push(item._id))
-  console.log(x1,x2)
-  console.log(y1,y2)
-  // { lng: { $gte: x1 } },
-  //           { lng: { $lte: x2 } },
-  //           { lat: { $gte: y1 } },
-  //           { lat: { $lte: y2 } },
-  const filteredStations = await Station.aggregate(
-    [
-      {
-        "$match": {
-          "$and": [
-            // { lng: { "$gte": x1, "$lte": x2 } },
-            // { lat: { "$gte": y1, "$lte": y2 } },
-            { lng: { "$gte": x1 } },
-            { lng: { "$lte": x2 } },
-            { lat: { "$gte": y1 } },
-            { lat: { "$lte": y2 } },
-            { statNm: { "$in": newArr } }
-          ]
-        }
-      }
-    ]);
-  console.log(filteredStations);
-  res.json(filteredStations)
+
+  Station.find({
+    'statNm': { $in: newArr },
+    $and: [
+      { lng: { $gte: x1 } },
+      { lng: { $lte: x2 } },
+      { lat: { $gte: y1 } },
+      { lat: { $lte: y2 } },
+    ]
+  }).then((stations) => {
+    console.log(stations);
+    res.json(stations)
+  }).catch((err) => {
+    console.log(err);
+    next(err)
+  });
 });
 
 router.get("/keco/filteredStations/:key", async (req, res) => {
