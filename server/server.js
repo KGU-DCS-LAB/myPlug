@@ -9,6 +9,7 @@ require('dotenv').config();
 
 const stationsRouter = require('./routes/Stations'); // 추가된 코드
 const usersRouter = require('./routes/Users'); 
+const favoritesRouter = require('./routes/Favorites'); 
 
 //application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
@@ -35,6 +36,7 @@ app.listen(port, () => {
 
 app.use('/stationsRouter', stationsRouter);
 app.use('/usersRouter', usersRouter);
+app.use('/favoritesRouter', favoritesRouter);
 
 // const express = require('express');
 // const app = express();

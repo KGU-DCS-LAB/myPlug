@@ -16,4 +16,17 @@ router.post('/save', function(req, res) {
     });
 });
 
+router.post('/findOne/', function(req, res, next) {
+    const user_id = req.body.data.user_id
+    console.log('[로그인 요청] '+user_id);
+    User.find().where('user_id').equals(user_id)
+    .then( (users) => {
+        // console.log(users);
+        res.json(users);
+    }).catch( (err) => {
+        console.log(err);
+        next(err)
+    });
+});
+
 module.exports = router;

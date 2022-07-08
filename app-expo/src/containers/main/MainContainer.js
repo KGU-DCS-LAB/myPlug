@@ -5,6 +5,7 @@ import EvChargerContainer from "../ev_charger_map/EvChargerMapContainer";
 import HomeContainer from "./HomeContainer";
 import LoginContainer from '../user/LoginContainer';
 import SignUpContainer from '../user/SignUpContainer';
+import MyPageContainer from '../user/MyPageContainer';
 
 const MainContainer = () => {
 
@@ -34,7 +35,7 @@ const MainContainer = () => {
 
     const MyPageScreen = ({ navigation }) => {
         return (
-            <LoginContainer navigation={navigation} />
+            <MyPageContainer navigation={navigation} />
         );
     }
 

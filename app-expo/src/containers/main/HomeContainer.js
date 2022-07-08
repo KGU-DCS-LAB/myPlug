@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Box, Heading, HStack, Spacer, Text, View, Avatar } from "native-base";
 import { Dimensions, ScrollView, StyleSheet, TouchableOpacity, Button } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
@@ -9,9 +10,11 @@ const HomeContainer = (props) => {
     const windowWidth = Dimensions.get('window').width;
     const colNum2 = 2;
     const colNum3 = 3;
+    const [userInfo, setUserInfo] = useState([]);
 
     const userCheck = async () => {
-        if(await AsyncStorage.getItem('user') != null) {
+        
+        if(await AsyncStorage.getItem('userInfo') != null) {
             props.navigation.navigate('MyPage')
         } else {
             props.navigation.navigate('Login')
