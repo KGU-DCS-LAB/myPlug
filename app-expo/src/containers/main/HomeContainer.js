@@ -3,18 +3,28 @@ import { Dimensions, ScrollView, StyleSheet, TouchableOpacity, Button } from "re
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import PressableButton from "../../components/common/PressableButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeContainer = (props) => {
     const windowWidth = Dimensions.get('window').width;
     const colNum2 = 2;
     const colNum3 = 3;
+
+    const userCheck = async () => {
+        if(await AsyncStorage.getItem('user') != null) {
+            props.navigation.navigate('MyPage')
+        } else {
+            props.navigation.navigate('Login')
+        }
+    }
+    
     return (
         <>
             <Box style={styles.headingBackground}>
             <HStack>
             <Heading style={styles.heading}>나만의 충전소</Heading>
             <View style={styles.container}>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Login')}>
+            <TouchableOpacity onPress={() => userCheck()}>
             <Avatar mr={2} bg="indigo.500" source={{
                 uri: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
                 }} space={2}/>

@@ -4,6 +4,7 @@ import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/
 import EvChargerContainer from "../ev_charger_map/EvChargerMapContainer";
 import HomeContainer from "./HomeContainer";
 import LoginContainer from '../user/LoginContainer';
+import SignUpContainer from '../user/SignUpContainer';
 
 const MainContainer = () => {
 
@@ -19,7 +20,19 @@ const MainContainer = () => {
         );
     }
 
-    const UserScreen = ({ navigation }) => {
+    const LoginScreen = ({ navigation }) => {
+        return (
+            <LoginContainer navigation={navigation} />
+        );
+    }
+
+    const SignUpScreen = ({ navigation }) => {
+        return (
+            <SignUpContainer navigation={navigation} />
+        );
+    }
+
+    const MyPageScreen = ({ navigation }) => {
         return (
             <LoginContainer navigation={navigation} />
         );
@@ -41,7 +54,15 @@ const MainContainer = () => {
             />
              <Stack.Screen
                 name="Login"
-                component={UserScreen}
+                component={LoginScreen}
+            />
+             <Stack.Screen
+                name="SignUp"
+                component={SignUpScreen}
+            />
+            <Stack.Screen
+                name="MyPage"
+                component={MyPageScreen}
             />
         </Stack.Navigator>
     )

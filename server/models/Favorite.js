@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const chargerSchema = mongoose.Schema({
+const FavoriteSchema = mongoose.Schema({
     user_id: {
         type: String,
         maxlength: 100,
@@ -13,6 +13,6 @@ const chargerSchema = mongoose.Schema({
     },
 })
 
-const Charger = mongoose.model('chargers', chargerSchema)
+const Favorite = mongoose.model('favorites', FavoriteSchema)
 
-module.exports = { Charger }
+module.exports = { Favorite }

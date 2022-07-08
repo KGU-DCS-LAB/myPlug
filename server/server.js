@@ -3,10 +3,12 @@ const app = express()
 const port = 5000
 const bodyParser = require('body-parser');
 const { Station } = require("./models/Station");
+const { User } = require("./models/User");
 require('dotenv').config();
 // const dbpw = process.env;
 
-const  stationsRouter = require('./routes/Stations'); // 추가된 코드
+const stationsRouter = require('./routes/Stations'); // 추가된 코드
+const usersRouter = require('./routes/Users'); 
 
 //application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
@@ -32,6 +34,7 @@ app.listen(port, () => {
 })
 
 app.use('/stationsRouter', stationsRouter);
+app.use('/usersRouter', usersRouter);
 
 // const express = require('express');
 // const app = express();
