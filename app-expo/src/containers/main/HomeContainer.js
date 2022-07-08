@@ -1,5 +1,5 @@
-import { Box, Heading, HStack, Spacer, Text } from "native-base";
-import { Dimensions, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { Box, Heading, HStack, Spacer, Text, View, Avatar } from "native-base";
+import { Dimensions, ScrollView, StyleSheet, TouchableOpacity, Button } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import PressableButton from "../../components/common/PressableButton";
@@ -10,7 +10,21 @@ const HomeContainer = (props) => {
     const colNum3 = 3;
     return (
         <>
+            <Box style={styles.headingBackground}>
+            <HStack>
             <Heading style={styles.heading}>나만의 충전소</Heading>
+            <View style={styles.container}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Login')}>
+            <Avatar mr={2} bg="indigo.500" source={{
+                uri: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+                }} space={2}/>
+            </TouchableOpacity>
+            </View>
+            
+            </HStack>
+            
+            </Box>
+            
             <Box px={2} flex="1">
                 <ScrollView>
                     <Box py={1} />
@@ -86,9 +100,20 @@ const HomeContainer = (props) => {
 export default HomeContainer;
 
 const styles = StyleSheet.create({
+    headingBackground: {
+        backgroundColor: '#fff',
+    },
     heading: {
         paddingHorizontal: 20,
         paddingVertical: 10,
-        backgroundColor: '#fff',
     },
+    headingProfile: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+    },
+    container: {
+        flex: 1,
+        flexDirection:'column',
+        alignItems:'flex-end',
+      },
 });

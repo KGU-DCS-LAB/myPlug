@@ -3,6 +3,7 @@ import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/
 // import HomeView from "../../views/main/HomeView";
 import EvChargerContainer from "../ev_charger_map/EvChargerMapContainer";
 import HomeContainer from "./HomeContainer";
+import LoginContainer from '../user/LoginContainer';
 
 const MainContainer = () => {
 
@@ -15,6 +16,12 @@ const MainContainer = () => {
     const EvChargerScreen = ({ navigation }) => {
         return (
             <EvChargerContainer navigation={navigation} />
+        );
+    }
+
+    const UserScreen = ({ navigation }) => {
+        return (
+            <LoginContainer navigation={navigation} />
         );
     }
 
@@ -31,6 +38,10 @@ const MainContainer = () => {
                 options={{
                     cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
                 }}
+            />
+             <Stack.Screen
+                name="Login"
+                component={UserScreen}
             />
         </Stack.Navigator>
     )
