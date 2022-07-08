@@ -1,9 +1,19 @@
+import React, { useState } from 'react';
 import { Alert, Modal, Pressable, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import { Box, Button, HStack, Spacer } from "native-base";
 import PressableButton from "../../common/PressableButton";
+import { config } from '../../../../config';
+import axios from 'axios';
 
 const StationSmallModal = (props) => {
+    const [star, setStar] = useState('star-border');
+    
+
+    const addToFavorites = () => {
+        setStar('star');
+    }
+
     return (
         <>
             {
@@ -21,8 +31,8 @@ const StationSmallModal = (props) => {
                         <View style={styles.flexEndView}>
                             <View style={styles.smallModalView}>
                                 <Text style={styles.modalText}>{props.station.statNm}
-                                    <TouchableOpacity activeOpacity={0.8} onPress={() => console.log('ㅇㅇ')}>
-                                        <MaterialIcons name={"star-border"} size={24} color={"black"} />
+                                    <TouchableOpacity activeOpacity={0.8} onPress={() => addToFavorites()}>
+                                        <MaterialIcons name={star} size={24} color={"black"} />
                                     </TouchableOpacity>
                                 </Text>
                                 <Text>{props.station.addr}</Text>
