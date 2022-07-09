@@ -1,25 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Heading, HStack, Spacer, Text, View, Avatar } from "native-base";
 import { Dimensions, ScrollView, StyleSheet, TouchableOpacity, Button } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import PressableButton from "../../components/common/PressableButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import FavoritesButton from '../../components/common/FavoritesButton';
+import { useIsFocused } from '@react-navigation/native';
+import { config } from '../../../config';
+import axios from 'axios';
 
 const HomeContainer = (props) => {
     const windowWidth = Dimensions.get('window').width;
     const colNum2 = 2;
     const colNum3 = 3;
-    const [userInfo, setUserInfo] = useState([]);
 
     const userCheck = async () => {
-        
         if(await AsyncStorage.getItem('userInfo') != null) {
             props.navigation.navigate('MyPage')
         } else {
             props.navigation.navigate('Login')
         }
     }
+
+    const [userId, setUserId] = useState('');
+    const isFocused = useIsFocused();
+    const favorites = [];
+
+    React.useEffect(() => {
+        if(isFocused){
+            console.log(1);
+            try {
+                AsyncStorage.getItem('userInfo')
+                    .then(value => {
+                        if (value != null) {
+                            const UserInfo = JSON.parse(value);
+                            setUserId(UserInfo[0].user_id);
+                            // console.log(UserInfo[0]);
+                        }
+                    }
+                    )
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }, [isFocused])
+
+    useEffect(() => {
+        getFavorites();
+    }, [isFocused, props]);
+
+    const getFavorites = async () => {
+        let result = []
+        await axios.post(config.ip + ':5000/favoritesRouter/findOwn', {
+            user_id: userId
+        }).then((response) => {
+            // console.log(response.data);
+            if (response.data.length == 0) {
+                console.log('즐겨찾기된 충전소 없음');
+              } else {
+                result.push(response.data[0].station)
+
+                let size = 0;
+                if(result[0].length>3) size = 3;
+                else size = result[0].length;
+
+                for(let i=0; i<size; i++){
+                    favorites.push(result[0][i].statNm)
+                }
+                console.log(favorites[0]);
+              }
+            }).catch(function (error) {
+              console.log(error);
+              setFirstRecord(true)
+            })
+    }
+
     
     return (
         <>
@@ -67,27 +123,7 @@ const HomeContainer = (props) => {
                         />
                     </HStack>
                     <HStack justifyContent="center">
-                        <PressableButton
-                            numOfCol={colNum3}
-                            width={windowWidth / colNum3 * 0.875}
-                            height={windowWidth / colNum3 * 0.9}
-                            onPress={() => console.log('ㅇㅇ')}
-                            // title="충전 기록하기"
-                        />
-                        <PressableButton
-                            numOfCol={colNum3}
-                            width={windowWidth / colNum3 * 0.875}
-                            height={windowWidth / colNum3 * 0.9}
-                            onPress={() => console.log('ㅇㅇ')}
-                            // title="충전 기록하기"
-                        />
-                        <PressableButton
-                            numOfCol={colNum3}
-                            width={windowWidth / colNum3 * 0.875}
-                            height={windowWidth / colNum3 * 0.9}
-                            onPress={() => console.log('ㅇㅇ')}
-                            // title="충전 기록하기"
-                        />
+                        <FavoritesButton favorites={favorites}/>
                     </HStack>
                     <HStack justifyContent="center">
                         <PressableButton

@@ -48,9 +48,6 @@ const StationSmallModal = (props) => {
                             <View style={styles.smallModalView}>
                                 <Text style={styles.modalText}>{props.station.statNm}
                                     <FindFavorites user_id={userId} statNm={props.station.statNm}/>
-                                    {/* <TouchableOpacity activeOpacity={0.8} onPress={() => addToFavorites()}>
-                                        <MaterialIcons name={star} size={24} color={"black"} />
-                                    </TouchableOpacity> */}
                                 </Text>
                                 <Text>{props.station.addr}</Text>
                                 <Text>[[충전기 목록]]</Text>
