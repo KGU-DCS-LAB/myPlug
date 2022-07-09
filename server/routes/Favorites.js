@@ -43,4 +43,25 @@ router.post('/findOwn', function(req, res, next) {
     });
 });
 
+router.post('/favoirteDelete', (req, res) => {
+    Favorite.updateMany(
+        { user_id: req.body.data.user_id },
+        {
+            $pull: {
+                station: {
+                    "statNm": req.body.data.statNm,
+                }
+            }
+        })
+        .exec((error, favorite) => {
+            if (error) {
+                console.log(error);
+                res.json({ status: 'error', error })
+            } else {
+                console.log('deleted!')
+                res.json({ status: 'success' })
+            }
+        });
+})
+
 module.exports = router;
