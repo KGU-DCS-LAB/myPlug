@@ -5,7 +5,6 @@ import java.util.Date;
 public class ChargerInfoDTO {
     private String api="null";
     private Date date=null;
-    private boolean checked = false;
     private String statNm; //충전소명
     private String statId; //충전소ID
     private String chgerId; //충전기ID
@@ -176,11 +175,4 @@ public class ChargerInfoDTO {
         this.date = date;
     }
 
-    public boolean getChecked() {
-        return checked;
-    }
-
-    public void setChecked(boolean checked) {
-        this.checked = checked;
-    }
 }
