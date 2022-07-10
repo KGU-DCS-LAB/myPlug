@@ -65,6 +65,17 @@ const FilterModal = (props) => {
                                         // console.log(selectedType.findIndex((type) => type === item._id))
                                     )}
                                 </HStack>
+                                <Text>회사명</Text>
+                                <HStack>
+                                    {props.busiNm.map((item) =>
+                                        props.selectedType.findIndex((type) => type === item._id) !== -1 ?
+                                            <Button key={item._id} onPress={() => props.cancleSelect(item._id)}>{item._id}</Button>
+                                            :
+                                            <Button style={{ backgroundColor: "grey" }} key={item._id} onPress={() => props.selectType(item._id)}>{item._id}</Button>
+                                        // console.log(selectedType.findIndex((type) => type === item._id))
+                                    )}
+                                </HStack>
+                                <Text>주차무료</Text>
                             </View>
 
                             <Pressable

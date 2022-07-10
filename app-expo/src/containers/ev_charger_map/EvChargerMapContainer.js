@@ -29,6 +29,7 @@ const EvChargerContainer = (props) => {
     const [chargingStations, setChargingStations] = useState([]); //서버로 부터 받아온 충전소 데이터 리스트
     const [chargers, setChargers] = useState([]); // 서버로 부터 받아온 충전기 리스트
     const [chgerType, setChgerType] = useState([]); // 서버로 부터 받아온 충전기 타입
+    const [busiNm, setBusiNm] = useState([]); // 서버로 부터 받아온 충전소 회사 리스트
     const [selectedType, setSelectedType] = useState([]);
     const [filteredChargingStations, setFilteredChargingStations] = useState([]); // 필터링 한 결과 충전소 데이터 리스트
 
@@ -80,6 +81,7 @@ const EvChargerContainer = (props) => {
                 // getFilterRange(); //영업시간을 group으로 묶어 받아오기
                 // group으로 묶은 결과 126개 데이터가 있어서 버튼을 생성하기 부적합하다고 생각 -> 0시, 1시, ... 으로 버튼 만들기로 함
                 getchgerType();
+                getbusiNm();
             })();
         }
         return () => {
@@ -104,21 +106,23 @@ const EvChargerContainer = (props) => {
         }
     }
 
-    const getFilterRange = async () => {
-        let key = "useTime";
-        console.log("key", key);
-        let result = await fetch(config.ip + `:5000/stationsRouter/keco/filteredStations/${key}`);
-        result = await result.json();
-        console.log("size", result.length);
+    const getbusiNm = async () => {
+        let key = "busiNm";
+        axios.get(config.ip + ':5000/stationsRouter/keco/filteredStations/' + key
+        ).then((response) => {
+            setBusiNm(response.data);
+        }).catch(function (error) {
+            console.log(error);
+        })
     }
 
     const getchgerType = () => {
         let key = "chgerType";
         console.log(key);
-        axios.get(config.ip + ':5000/stationsRouter/keco/filteredStations/' + key
+        axios.get(config.ip + ':5000/stationsRouter/keco/filteredCharger/' + key
         ).then((response) => {
             setChgerType(response.data);
-            console.log(response.data)
+            // console.log(response.data)
         }).catch(function (error) {
             console.log(error);
         })
@@ -269,6 +273,7 @@ const EvChargerContainer = (props) => {
                                 cancleSelect={cancleSelect}
                                 selectType={selectType}
                                 chgerType={chgerType}
+                                busiNm={busiNm}
                                 setFilterModalVisible={setFilterModalVisible}
                                 setFilterKeyword={setFilterKeyword}
                                 setFilteredChargingStations={setFilteredChargingStations}

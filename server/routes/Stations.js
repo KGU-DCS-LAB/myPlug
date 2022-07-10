@@ -104,20 +104,41 @@ router.post('/filterStations', async function (req, res, next) {
   });
 });
 
-router.get("/keco/filteredStations/:key", async (req, res) => {
+router.get("/keco/filteredCharger/:key", (req, res) => {
     const keyword = "$" + req.params.key;
     console.log(keyword)
     // 전체 데이터 가져오기
-    let result = await Charger.aggregate([{
-        "$group": 
-          {
-            _id: keyword.toString()
-          }
-      }, {
-        "$sort": {_id: 1}
-      }]);
+  Charger.aggregate([{
+    "$group":
+    {
+      _id: keyword.toString(),
+    }
+  }, {
+    "$sort": { _id: 1 }
+  }]).then((result) => {
+    res.send(result);
+  });
     //   console.log(result);
-      res.send(result);
+      // res.send(result);
+});
+
+router.get("/keco/filteredStations/:key", (req, res) => {
+  const keyword = "$" + req.params.key;
+  console.log(keyword)
+  // 전체 데이터 가져오기
+  Station.aggregate([{
+    "$group":
+    {
+      _id: keyword.toString(),
+      count: { "$sum": 1 }
+    }
+  }, {
+    "$sort": { count: 1 }
+  }]).then((result) => {
+    res.send(result);
+  });
+  //   console.log(result);
+  // res.send(result);
 });
 
 // 충전소 검색
