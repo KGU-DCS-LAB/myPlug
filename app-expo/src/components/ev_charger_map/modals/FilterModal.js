@@ -28,20 +28,21 @@ const FilterModal = (props) => {
                         props.setFilterModalVisible(!props.filterModalVisible);
                     }}
                 >
-                    <View style={styles.flexEndView}>
-                        <View style={styles.bigModalView}>
-                            <TouchableWithoutFeedback
-                                onPressOut={(e) => {
-                                    if (e.nativeEvent.locationY > 150) {
-                                        console.log(e.nativeEvent.locationY)
-                                        props.setFilterModalVisible(false)
-                                    }
-                                }}>
-                                <View style={styles.modalCloseIcon}>
-                                    <MaterialIcons name="drag-handle" size={40} color="black" />
-                                </View>
+                    <ScrollView>
+                        <View style={styles.flexEndView}>
+                            <View style={styles.bigModalView}>
+                                <TouchableWithoutFeedback
+                                    onPressOut={(e) => {
+                                        if (e.nativeEvent.locationY > 20) {
+                                            console.log(e.nativeEvent.locationY)
+                                            props.setFilterModalVisible(false)
+                                        }
+                                    }}>
+                                    <View style={styles.modalCloseIcon}>
+                                        <MaterialIcons name="drag-handle" size={40} color="black" />
+                                    </View>
 
-                                {/* <TimeSlider />
+                                    {/* <TimeSlider />
 
                                 <View>
                                     <Pressable
@@ -51,31 +52,43 @@ const FilterModal = (props) => {
                                         <Text style={styles.textStyle}>Hide Modal</Text>
                                     </Pressable>
                                 </View> */}
-                            </TouchableWithoutFeedback>
-                            {/* <TimeSlider selected={selected} timeChanged={timeChanged} /> */}
+                                </TouchableWithoutFeedback>
+                                {/* <TimeSlider selected={selected} timeChanged={timeChanged} /> */}
 
-                            <View style={styles.wrapper}>
-                                <Text>충전기 종류</Text>
-                                <HStack>
-                                    {props.chgerType.map((item) =>
-                                        props.selectedType.findIndex((type) => type === item._id) !== -1 ?
-                                            <Button key={item._id} onPress={() => props.cancleSelect(item._id)}>{item._id}</Button>
-                                            :
-                                            <Button style={{ backgroundColor: "grey" }} key={item._id} onPress={() => props.selectType(item._id)}>{item._id}</Button>
-                                        // console.log(selectedType.findIndex((type) => type === item._id))
-                                    )}
+                                <View style={styles.wrapper}>
+                                    <Text>충전기 종류</Text>
+                                    <HStack>
+                                        {props.chgerType.map((item) =>
+                                            props.selectedType.findIndex((type) => type === item._id) !== -1 ?
+                                                <Button key={item._id} onPress={() => props.cancleSelect(item._id)}>{item._id}</Button>
+                                                :
+                                                <Button style={{ backgroundColor: "grey" }} key={item._id} onPress={() => props.selectType(item._id)}>{item._id}</Button>
+                                        )}
+                                    </HStack>
+                                    <Text>주차무료</Text>
+                                    <HStack>
+                                        {
+                                            props.selectedType.findIndex((type) => type === "무료") !== -1 ?
+                                                <Button>무료</Button>
+                                                :
+                                                <Button style={{ backgroundColor: "grey" }}>무료</Button>
+                                        }
+                                        {
+                                            props.selectedType.findIndex((type) => type === "유료") !== -1 ?
+                                                <Button>유료</Button>
+                                                :
+                                                <Button style={{ backgroundColor: "grey" }}>유료</Button>
+                                        }
                                 </HStack>
                                 <Text>회사명</Text>
-                                <HStack>
+                                <View style={styles.container}>
                                     {props.busiNm.map((item) =>
                                         props.selectedType.findIndex((type) => type === item._id) !== -1 ?
                                             <Button key={item._id} onPress={() => props.cancleSelect(item._id)}>{item._id}</Button>
                                             :
                                             <Button style={{ backgroundColor: "grey" }} key={item._id} onPress={() => props.selectType(item._id)}>{item._id}</Button>
-                                        // console.log(selectedType.findIndex((type) => type === item._id))
                                     )}
-                                </HStack>
-                                <Text>주차무료</Text>
+                                </View>
                             </View>
 
                             <Pressable
@@ -92,6 +105,7 @@ const FilterModal = (props) => {
                             </Pressable>
                         </View>
                     </View>
+                    </ScrollView>
                 </Modal>
             }
         </>
@@ -101,13 +115,20 @@ const FilterModal = (props) => {
 export default FilterModal;
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexWrap: "wrap",
+        flexDirection: "row",
+        // width: "95%"
+        // maxHeight: 3700,
+    },
     flexEndView: {
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'flex-end'
     },
     bigModalView: {
-        height: '95%',
+        // height: '95%',
         margin: 5,
         marginBottom: 0,
         backgroundColor: "white",
