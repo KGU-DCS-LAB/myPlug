@@ -5,6 +5,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import v2.DataManager;
+import v2.common.ConsoleColor;
 import v2.dto.ChargerInfoDTO;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -14,15 +15,7 @@ import java.util.HashMap;
 
 public class Receiver {
 
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
+    ConsoleColor cc = DataManager.cc;
 
     public static Receiver getInstance() {
         return new Receiver();  // Singleton
@@ -53,7 +46,7 @@ public class Receiver {
                 url+="&numOfRows="+numOfRows; //한 페이지 결과 수 : 한 페이지 결과 수 (최소 10, 최대 9999)
                 url+="&zcode="+zcode; //지역구분 코드 시도 코드 (행정구역코드 앞 2자리)
                 System.out.println("요청 url : "+url);
-                System.out.println(ANSI_RED +"약간의 시간이 소요됩니다. 절대 프로그램을 종료하지 마세요."+ANSI_RESET);
+                cc.print("danger","약간의 시간이 소요됩니다. 절대 프로그램을 종료하지 마세요.");
 
                 DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
                 DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
@@ -86,7 +79,7 @@ public class Receiver {
                     if(nNode.getNodeType() == Node.ELEMENT_NODE){
                         Element eElement = (Element) nNode;
                         info.setDate(new Date()); //수신 시각
-                        info.setChecked(false); //업데이트 확인 여부
+//                        info.setChecked(false); //업데이트 확인 여부
                         info.setApi("keco"); //수집된 api 종류
                         info.setStatNm(getTagValue("statNm",eElement)); //충전소명
                         info.setStatId(getTagValue("statId",eElement)); //충전소ID
@@ -108,7 +101,7 @@ public class Receiver {
                         DataManager.chargerInfoList.add(info);
                     }
                 }
-                System.out.println(ANSI_GREEN+"파싱 완료!"+ANSI_RESET);
+                cc.print("success","파싱 완료!");
                 System.out.println();
                 page++;
             }
@@ -138,13 +131,13 @@ public class Receiver {
         zcodes.put("50", "제주도");
 
         System.out.println();
-        System.out.println(ANSI_CYAN);
+        cc.prefix("info");
         System.out.println("**************************************");
         System.out.println("**************************************");
         System.out.println("***KECO 전기자동차 충전소 정보 수집 시작***");
         System.out.println("**************************************");
         System.out.println("**************************************");
-        System.out.println(ANSI_RESET);
+        cc.postfix();
         for (String z:zcodes.keySet()) {
             System.out.println();
             System.out.println("["+zcodes.get(z)+" 데이터 수집]");
@@ -152,7 +145,7 @@ public class Receiver {
             System.out.println("-------------------------------------");
             System.out.println();
         }
-        System.out.println(ANSI_YELLOW+"-----------수집 종료. 다음으로 2번을 눌러 '정리된 데이터를 저장'을 눌러주세요.-----------"+ANSI_RESET);
+        cc.print("warning","-----------수집 종료. 다음으로 2번을 눌러 '정리된 데이터를 저장'을 눌러주세요.-----------");
     }
 
 }
