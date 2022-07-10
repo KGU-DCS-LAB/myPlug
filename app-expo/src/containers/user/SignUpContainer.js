@@ -44,16 +44,18 @@ const SignUpContainer = (props) => {
                 Alert.alert('회원가입 되었습니다.');
                 props.navigation.navigate('Login');
             } else {
-                alert('회원가입 실패');
+                alert('사용할 수 없는 아이디입니다.');
             }
         }).catch(function (error) {
             console.log(error);
         })
-        
     }
 
-    const Container = () => {
-        return <Center w="100%">
+    return (
+        <>
+            <Button title="홈으로" 
+            onPress={() => props.navigation.navigate('Home')}>홈으로</Button>
+            <View style={styles.container}>
             <Box safeArea p="2" w="90%" maxW="290" py="8">
               <Heading size="lg" color="coolGray.800" _dark={{
               color: "warmGray.50"
@@ -82,15 +84,6 @@ const SignUpContainer = (props) => {
                 </Button>
               </VStack>
             </Box>
-          </Center>
-      }
-
-    return (
-        <>
-            <Button title="홈으로" 
-            onPress={() => props.navigation.navigate('Home')}>홈으로</Button>
-            <View style={styles.container}>
-                <Container/>
             </View>
         </>
     )

@@ -48,8 +48,11 @@ const LoginContainer = (props) => {
         }
     }
 
-    const Container = () => {
-        return <Center w="100%">
+    return (
+        <>
+            <Button title="홈으로" 
+            onPress={() => props.navigation.navigate('Home')}>홈으로</Button>
+            <View style={styles.container}>
             <Box safeArea p="2" py="8" w="90%" maxW="290">
               <Heading size="lg" fontWeight="600" color="coolGray.800" _dark={{
               color: "warmGray.50"
@@ -80,15 +83,6 @@ const LoginContainer = (props) => {
                 </HStack>
               </VStack>
             </Box>
-          </Center>
-      };
-
-    return (
-        <>
-            <Button title="홈으로" 
-            onPress={() => props.navigation.navigate('Home')}>홈으로</Button>
-            <View style={styles.container}>
-                <Container/>
             </View>
         </>
     )

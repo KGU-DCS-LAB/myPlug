@@ -95,9 +95,13 @@ const FindFavorites = ({user_id, statNm}) => {
     }
 
     return (
+        <>
+        {user_id != 'unknown' && 
         <TouchableOpacity activeOpacity={0.8} onPress={() => addToFavorites()}>
             <MaterialIcons name={star} size={24} color={"black"} />
-        </TouchableOpacity>
+        </TouchableOpacity>}
+        </>
+        
     )
 }
 
