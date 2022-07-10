@@ -19,7 +19,7 @@ const FindFavorites = ({user_id, statNm}) => {
         axios.post(config.ip + ':5000/favoritesRouter/findOwn', {
             user_id: user_id
         }).then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             if (response.data.length == 0) {
                 setFirstRecord(true)
               } else {
@@ -31,7 +31,7 @@ const FindFavorites = ({user_id, statNm}) => {
                         break;
                     }
                 }
-                console.log(result[0][0]);
+                // console.log(result[0][0]);
               }
             }).catch(function (error) {
               console.log(error);
