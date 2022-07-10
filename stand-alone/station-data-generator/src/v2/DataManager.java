@@ -2,6 +2,7 @@ package v2;
 
 import v2.common.ConsoleColor;
 import v2.dto.ChargerInfoDTO;
+import v2.dto.KecoChargerInfoDTO;
 import v2.manager.ManagerController;
 import v2.receiver.ReceiverController;
 import v2.saver.Saver;
@@ -25,7 +26,8 @@ import java.util.Scanner;
 
 public class DataManager {
     public static DataManager dataManager = new DataManager();
-    public static ArrayList<ChargerInfoDTO> chargerInfoList = new ArrayList<ChargerInfoDTO>();
+    public static ArrayList<KecoChargerInfoDTO> chargerInfoList = new ArrayList<KecoChargerInfoDTO>();
+//    public static ArrayList<ChargerInfoDTO> chargerInfoList = new ArrayList<ChargerInfoDTO>();
     public static ConsoleColor cc = new ConsoleColor();
     long startTime, finishTime ,elapsedTime;
 

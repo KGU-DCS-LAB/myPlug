@@ -34,7 +34,7 @@ public class ManagerController {
             System.out.println("뒤로가기 : 이외의 글자 아무거나");
             System.out.println("-----------------------------");
 
-            String mode = scan.next();
+            String mode = scan.nextLine();
             switch (mode) { //위험한 작업일 수록 키워드를 길게 해주세요
                 case "destroy stations":
                     if(check()){

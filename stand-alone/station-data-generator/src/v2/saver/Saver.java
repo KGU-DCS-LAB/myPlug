@@ -14,6 +14,7 @@ import v2.DataManager;
 import v2.common.ConsoleColor;
 import v2.common.MongoConfig;
 import v2.dto.ChargerInfoDTO;
+import v2.dto.KecoChargerInfoDTO;
 
 import java.util.*;
 
@@ -24,7 +25,8 @@ import java.util.*;
 public class Saver {
 
     ConsoleColor cc = DataManager.cc;
-    ArrayList<ChargerInfoDTO> chargerInfoList = DataManager.chargerInfoList;
+    ArrayList<KecoChargerInfoDTO> chargerInfoList = DataManager.chargerInfoList;
+    //    ArrayList<ChargerInfoDTO> chargerInfoList = DataManager.chargerInfoList;
     MongoDatabase database;
     MongoCollection<Document> collection_version, collection_raw, collection_stations, collection_chargers;
     List<Document> list_raw = new ArrayList<Document>();
@@ -35,7 +37,7 @@ public class Saver {
     int count = 0;
     int currentVersion = -1;
     int newVersion = 0;
-    long startTime, finishTime ,elapsedTime;
+    long startTime, finishTime, elapsedTime;
 
     public static Saver getInstance() {
         return new Saver();  // Singleton
@@ -86,7 +88,8 @@ public class Saver {
         System.out.println("Collection selected successfully");
 
         int length = chargerInfoList.size();
-        for (ChargerInfoDTO ci : chargerInfoList) {
+        for (KecoChargerInfoDTO ci : chargerInfoList) {
+//            for (ChargerInfoDTO ci : chargerInfoList) {
             //Raw 데이터 정리
             addRawDocument(ci);
 
@@ -108,64 +111,129 @@ public class Saver {
 
     }
 
-    public void addRawDocument(ChargerInfoDTO ci) {
-        Document document = new Document("_id", ci.getStatId()+ci.getChgerId()+ci.getDate())
-                .append("api", ci.getApi())
-                .append("date", ci.getDate())
-                .append("statNm", ci.getStatNm())
-                .append("statId", ci.getStatId())
-                .append("chgerId", ci.getChgerId())
-                .append("chgerType", ci.getChgerType())
-                .append("addr", ci.getAddr())
-                .append("lat", ci.getLat())
-                .append("lng", ci.getLng())
-                .append("useTime", ci.getUseTime())
-                .append("busiId", ci.getBusiId())
-                .append("busiNm", ci.getBusiNm())
-                .append("busiCall", ci.getBusiCall())
-                .append("stat", ci.getStat())
-                .append("statUpdDt", ci.getStatUpdDt())
-                .append("powerType", ci.getPowerType())
-                .append("zcode", ci.getZcode())
-                .append("parkingFree", ci.getParkingFree())
-                .append("note", ci.getNote())
+    public void addRawDocument(KecoChargerInfoDTO ci) {
+//        public void addRawDocument(ChargerInfoDTO ci) {
+        Document document = new Document("_id", ci.getStatId() + ci.getChgerId() + ci.getDate())
+//                .append("api", ci.getApi())
+//                .append("date", ci.getDate())
+//                .append("statNm", ci.getStatNm())
+//                .append("statId", ci.getStatId())
+//                .append("chgerId", ci.getChgerId())
+//                .append("chgerType", ci.getChgerType())
+//                .append("addr", ci.getAddr())
+//                .append("lat", ci.getLat())
+//                .append("lng", ci.getLng())
+//                .append("useTime", ci.getUseTime())
+//                .append("busiId", ci.getBusiId())
+//                .append("busiNm", ci.getBusiNm())
+//                .append("busiCall", ci.getBusiCall())
+//                .append("stat", ci.getStat())
+//                .append("statUpdDt", ci.getStatUpdDt())
+//                .append("powerType", ci.getPowerType())
+//                .append("zcode", ci.getZcode())
+//                .append("parkingFree", ci.getParkingFree())
+//                .append("note", ci.getNote())
+                .append("api", ci.getApi()) //수집된 api
+                .append("date", ci.getDate()) // 수집 일시
+                .append("statNm", ci.getStatNm())//	충전소명
+                .append("statId", ci.getStatId())//	충전소ID
+                .append("chgerId", ci.getChgerId())//	충전기ID
+                .append("chgerType", ci.getChgerType())//	충전기타입
+                .append("addr", ci.getAddr())//	주소
+                .append("location", ci.getLocation())//	상세위치
+                .append("lat", ci.getLat())//	위도
+                .append("lng", ci.getLng())//	경도
+                .append("useTime", ci.getUseTime())//	이용가능시간
+                .append("busiId", ci.getBusiId())//	기관 아이디
+                .append("bnm", ci.getBnm())//	기관명
+                .append("busiNm", ci.getBusiNm())//	운영기관명
+                .append("busiCall", ci.getBusiCall())//	운영기관연락처
+                .append("stat", ci.getStat())//	충전기상태
+                .append("statUpdDt", ci.getStatUpdDt())//	상태갱신일시
+                .append("lastTsdt", ci.getLastTsdt())//	마지막 충전시작일시
+                .append("lastTedt", ci.getLastTedt())//	마지막 충전종료일시
+                .append("nowTsdt", ci.getNowTsdt())//	충전중 시작일시
+                .append("output", ci.getOutput())//	충전용량
+                .append("method", ci.getMethod())//	충전방식
+                .append("zcode", ci.getZcode())//	지역코드
+                .append("parkingFree", ci.getParkingFree())//	주차료무료
+                .append("note", ci.getNote())//	충전소 안내
+                .append("limitYn", ci.getLimitYn())//	이용자 제한
+                .append("limitDetail", ci.getLimitDetail())//	이용제한 사유
+                .append("delYn", ci.getDelYn())//	삭제 여부
+                .append("delDetail", ci.getDelDetail())//	삭제 사유
                 .append("version", newVersion);
         list_raw.add(document);
     }
 
-    public void addStationDocument(ChargerInfoDTO ci) {
-        Document document_stations = new Document("_id", ci.getStatId()+ci.getChgerId()+ci.getDate())
-                .append("api", ci.getApi())
-                .append("date", ci.getDate())
-                .append("statNm", ci.getStatNm())
-                .append("statId", ci.getStatId())
-                .append("addr", ci.getAddr())
-                .append("lat", ci.getLat())
-                .append("lng", ci.getLng())
-                .append("useTime", ci.getUseTime())
-                .append("busiId", ci.getBusiId())
-                .append("busiNm", ci.getBusiNm())
-                .append("busiCall", ci.getBusiCall())
-                .append("zcode", ci.getZcode())
-                .append("parkingFree", ci.getParkingFree())
-                .append("note", ci.getNote())
+    public void addStationDocument(KecoChargerInfoDTO ci) {
+//        public void addStationDocument(ChargerInfoDTO ci) {
+        Document document_stations = new Document("_id", ci.getStatId() + ci.getDate())
+//                .append("api", ci.getApi())
+//                .append("date", ci.getDate())
+//                .append("statNm", ci.getStatNm())
+//                .append("statId", ci.getStatId())
+//                .append("addr", ci.getAddr())
+//                .append("lat", ci.getLat())
+//                .append("lng", ci.getLng())
+//                .append("useTime", ci.getUseTime())
+//                .append("busiId", ci.getBusiId())
+//                .append("busiNm", ci.getBusiNm())
+//                .append("busiCall", ci.getBusiCall())
+//                .append("zcode", ci.getZcode())
+//                .append("parkingFree", ci.getParkingFree())
+//                .append("note", ci.getNote())
+                .append("api", ci.getApi()) //수집된 api
+                .append("date", ci.getDate()) // 수집 일시
+                .append("statNm", ci.getStatNm())//	충전소명
+                .append("statId", ci.getStatId())//	충전소ID
+                .append("addr", ci.getAddr())//	주소
+                .append("location", ci.getLocation())//	상세위치
+                .append("lat", ci.getLat())//	위도
+                .append("lng", ci.getLng())//	경도
+                .append("useTime", ci.getUseTime())//	이용가능시간
+                .append("busiId", ci.getBusiId())//	기관 아이디
+                .append("bnm", ci.getBnm())//	기관명
+                .append("busiNm", ci.getBusiNm())//	운영기관명
+                .append("busiCall", ci.getBusiCall())//	운영기관연락처
+                .append("zcode", ci.getZcode())//	지역코드
+                .append("parkingFree", ci.getParkingFree())//	주차료무료
+                .append("note", ci.getNote())//	충전소 안내
+                .append("limitYn", ci.getLimitYn())//	이용자 제한
+                .append("limitDetail", ci.getLimitDetail())//	이용제한 사유
+                .append("delYn", ci.getDelYn())//	삭제 여부
+                .append("delDetail", ci.getDelDetail())//	삭제 사유
                 .append("version", newVersion);
         list_stations.add(document_stations);
         duplicateStationSet.add(ci.getStatId());
     }
 
-    public void addChargerDocument(ChargerInfoDTO ci) {
-        Document document_chargers = new Document("_id", ci.getStatId()+ci.getChgerId()+ci.getDate())
-                .append("api", ci.getApi())
-                .append("date", ci.getDate())
-                .append("statNm", ci.getStatNm())
-                .append("statId", ci.getStatId())
-                .append("chgerId", ci.getChgerId())
-                .append("chgerType", ci.getChgerType())
-                .append("stat", ci.getStat())
-                .append("statUpdDt", ci.getStatUpdDt())
-                .append("powerType", ci.getPowerType())
-                .append("zcode", ci.getZcode())
+    public void addChargerDocument(KecoChargerInfoDTO ci) {
+//        public void addChargerDocument(ChargerInfoDTO ci) {
+        Document document_chargers = new Document("_id", ci.getStatId() + ci.getChgerId() + ci.getDate())
+//                .append("api", ci.getApi())
+//                .append("date", ci.getDate())
+//                .append("statNm", ci.getStatNm())
+//                .append("statId", ci.getStatId())
+//                .append("chgerId", ci.getChgerId())
+//                .append("chgerType", ci.getChgerType())
+//                .append("stat", ci.getStat())
+//                .append("statUpdDt", ci.getStatUpdDt())
+//                .append("powerType", ci.getPowerType())
+//                .append("zcode", ci.getZcode())
+                .append("api", ci.getApi()) //수집된 api
+                .append("date", ci.getDate()) // 수집 일시
+                .append("statNm", ci.getStatNm())//	충전소명
+                .append("statId", ci.getStatId())//	충전소ID
+                .append("chgerId", ci.getChgerId())//	충전기ID
+                .append("chgerType", ci.getChgerType())//	충전기타입
+                .append("stat", ci.getStat())//	충전기상태
+                .append("statUpdDt", ci.getStatUpdDt())//	상태갱신일시
+                .append("lastTsdt", ci.getLastTsdt())//	마지막 충전시작일시
+                .append("lastTedt", ci.getLastTedt())//	마지막 충전종료일시
+                .append("nowTsdt", ci.getNowTsdt())//	충전중 시작일시
+                .append("output", ci.getOutput())//	충전용량
+                .append("method", ci.getMethod())//	충전방식
                 .append("version", newVersion);
         list_chargers.add(document_chargers);
     }
@@ -180,7 +248,7 @@ public class Saver {
         finishTime = System.currentTimeMillis();
         elapsedTime = finishTime - startTime;
         System.out.println("버전이 " + currentVersion + "에서 " + newVersion + "으로 업데이트됨");
-        cc.print("secondary", "수행에 걸린 시간 : "+elapsedTime+"ms\n");
+        cc.print("secondary", "수행에 걸린 시간 : " + elapsedTime + "ms\n");
 
         cc.print("warning", "새 raw 데이터 추가 중...");
         startTime = System.currentTimeMillis();
@@ -190,7 +258,7 @@ public class Saver {
         finishTime = System.currentTimeMillis();
         elapsedTime = finishTime - startTime;
         cc.print("success", "새 raw 데이터 추가 완료!");
-        cc.print("secondary", "수행에 걸린 시간 : "+elapsedTime+"ms\n");
+        cc.print("secondary", "수행에 걸린 시간 : " + elapsedTime + "ms\n");
 
         cc.print("warning", "새 충전소 데이터 추가 중...");
         startTime = System.currentTimeMillis();
@@ -200,7 +268,7 @@ public class Saver {
         finishTime = System.currentTimeMillis();
         elapsedTime = finishTime - startTime;
         cc.print("success", "새 충전소 데이터 추가 완료!");
-        cc.print("secondary", "수행에 걸린 시간 : "+elapsedTime+"ms\n");
+        cc.print("secondary", "수행에 걸린 시간 : " + elapsedTime + "ms\n");
 
 
         cc.print("warning", "오래된 충전소 데이터 삭제중...");
@@ -209,7 +277,7 @@ public class Saver {
         finishTime = System.currentTimeMillis();
         elapsedTime = finishTime - startTime;
         cc.print("success", "오래된 충전소 데이터 삭제 완료!");
-        cc.print("secondary", "수행에 걸린 시간 : "+elapsedTime+"ms\n");
+        cc.print("secondary", "수행에 걸린 시간 : " + elapsedTime + "ms\n");
 
         cc.print("warning", "새 충전기 데이터 추가 중...");
         startTime = System.currentTimeMillis();
@@ -219,7 +287,7 @@ public class Saver {
         finishTime = System.currentTimeMillis();
         elapsedTime = finishTime - startTime;
         cc.print("success", "새 충전기 데이터 추가 완료!");
-        cc.print("secondary", "수행에 걸린 시간 : "+elapsedTime+"ms\n");
+        cc.print("secondary", "수행에 걸린 시간 : " + elapsedTime + "ms\n");
 
         cc.print("warning", "오래된 충전기 데이터 삭제중...");
         startTime = System.currentTimeMillis();
@@ -227,7 +295,7 @@ public class Saver {
         finishTime = System.currentTimeMillis();
         elapsedTime = finishTime - startTime;
         cc.print("success", "오래된 충전소 데이터 삭제 완료!");
-        cc.print("secondary", "수행에 걸린 시간 : "+elapsedTime+"ms\n");
+        cc.print("secondary", "수행에 걸린 시간 : " + elapsedTime + "ms\n");
 
         cc.print("success", "새로 수신한 데이터 " + count + "개 처리 완료..!");
     }
