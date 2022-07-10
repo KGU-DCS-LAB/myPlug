@@ -4,6 +4,10 @@ import { Box, Button, Center, Flex, Heading, HStack, ScrollView } from "native-b
 import { useState } from "react";
 
 const StationListModal = (props) => {
+    const sortDistance = () => {
+    
+    }
+
     return (
         <>
             {
@@ -22,7 +26,9 @@ const StationListModal = (props) => {
                                 <Box my={3}>
                                     <Heading>인근 충전소 목록으로 보기</Heading>
                                 </Box>
-
+                                <Button
+                                    title="거리순"
+                                    onPress={() => sortDistance()}>거리순 정렬</Button>
                                 <ScrollView>
                                     {
                                         props.chargingStations.length < 0
@@ -37,6 +43,8 @@ const StationListModal = (props) => {
                                                         p={1}
                                                     >
                                                         <Text fontSize="md">{stations.statNm}</Text>
+                                                        <Text>{stations.useTime}</Text>
+                                                        <Text>{stations.busiNm}</Text>
                                                     </Box>
                                                 </TouchableOpacity>
                                                 // <Text key={stations.statId}>{stations.statNm}</Text>
