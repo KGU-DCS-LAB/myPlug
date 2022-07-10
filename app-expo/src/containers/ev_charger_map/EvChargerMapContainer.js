@@ -281,6 +281,7 @@ const EvChargerContainer = (props) => {
 
                             <StationListModal
                                 // chargingStations={chargingStations}
+                                location={location}
                                 chargingStations={filteredChargingStations}
                                 stationListModalVisible={stationListModalVisible}
                                 setStationListModalVisible={setStationListModalVisible}
