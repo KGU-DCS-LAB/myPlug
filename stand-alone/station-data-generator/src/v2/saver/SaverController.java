@@ -36,11 +36,32 @@ public class SaverController {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
+    ArrayList<ChargerInfoDTO> chargerInfoList;
+
+    MongoDatabase database;
+    MongoCollection<Document> collection_version;
+    MongoCollection<Document> collection_raw;
+    List<Document> list_raw = new ArrayList<Document>();
+
+    MongoCollection<Document> collection_stations;
+    List<Document> list_stations = new ArrayList<Document>();
+
+    MongoCollection<Document> collection_chargers;
+    List<Document> list_chargers = new ArrayList<Document>();
+
+    Set<String> duplicateStationSet = new HashSet<String>();
+
+    int count = 0;
+    int currentVersion = -1;
+    int newVersion = 0;
+
+
     public static SaverController getInstance() {
         return new SaverController();  // Singleton
     }
 
     public void start(ArrayList<ChargerInfoDTO> chargerInfoList) {
+        this.chargerInfoList = chargerInfoList;
         ConnectionString connectionString = new ConnectionString("mongodb+srv://gabrielyoon7:0000@gabrielyoon7.aq0fu.mongodb.net/myplug?retryWrites=true&w=majority");
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
@@ -49,12 +70,11 @@ public class SaverController {
         MongoClient mongo = MongoClients.create(settings);
 
         System.out.println("Connected");
-        MongoDatabase database = mongo.getDatabase("myplug");
+        database = mongo.getDatabase("myplug");
         System.out.println("Collection created successfully");
 
-        MongoCollection<Document> collection_version = database.getCollection("version"); // 데이터 버전 관리용
+        collection_version = database.getCollection("version"); // 데이터 버전 관리용
         Document version = collection_version.find().sort(new BasicDBObject("version", -1)).limit(1).first(); //현재 최신 버전 상태를 가져옴
-        int currentVersion = -1; //버전이라는 것 조차 존재하지 않는다면 (초기 프로그램 상태라면)
         if (version != null) {
             JsonObject versionJSON = new JsonObject(version.toJson()); //JSON 파싱
             String versionStringJSON = versionJSON.getJson();
@@ -64,21 +84,16 @@ public class SaverController {
                 JSONObject jsonObj = (JSONObject) obj;
                 currentVersion = Integer.parseInt(jsonObj.get("version").toString()); //json으로 부터 현재 버전 값을 얻어옴
             } catch (Exception e) {
-
+                System.out.println("버전 값 수신 중 오류가 발생했습니다.");
             }
         }
         System.out.println("current version is : " + currentVersion); //그래서 알게된 현재 버전
 
-        int newVersion = currentVersion + 1; //새로운 버전은 1 증가 시킴
+        newVersion = currentVersion + 1; //새로운 버전은 1 증가 시킴
 
-        MongoCollection<Document> collection_raw = database.getCollection("raw_charger_infos");
-        List<Document> list_raw = new ArrayList<Document>();
-
-        MongoCollection<Document> collection_stations = database.getCollection("stations");
-        List<Document> list_stations = new ArrayList<Document>();
-
-        MongoCollection<Document> collection_chargers = database.getCollection("chargers");
-        List<Document> list_chargers = new ArrayList<Document>();
+        collection_raw = database.getCollection("raw_charger_infos");
+        collection_stations = database.getCollection("stations");
+        collection_chargers = database.getCollection("chargers");
 
         System.out.println("Collection myCollection selected successfully");
         System.out.println(ANSI_YELLOW);
@@ -88,9 +103,15 @@ public class SaverController {
         System.out.println("************************************");
         System.out.println("************************************");
         System.out.println(ANSI_RESET);
-        int count = 0;
+
+        makeDocuments();
+        updateDocuments();
+
+        System.out.println(ANSI_CYAN + "오류 방지를 위해 프로그램을 종료해주세요." + ANSI_RESET);
+    }
+
+    public void makeDocuments() {
         int length = chargerInfoList.size();
-        Set<String> duplicateStationSet = new HashSet<String>();
         for (ChargerInfoDTO ci : chargerInfoList) {
             //Raw 데이터 정리
             Document document = new Document("checked", ci.getChecked())
@@ -117,7 +138,7 @@ public class SaverController {
             list_raw.add(document);
 
             //충전소 데이터 정리
-            if (!duplicateStationSet.contains(ci.getStatId()+"")) {
+            if (!duplicateStationSet.contains(ci.getStatId() + "")) {
                 Document document_stations = new Document()
                         .append("api", ci.getApi())
                         .append("date", ci.getDate())
@@ -154,14 +175,18 @@ public class SaverController {
             list_chargers.add(document_chargers);
 
             count++;
-//            System.out.println(duplicateStationSet);
             System.out.println("(" + count + "/" + length + ")" + ci.getStatNm() + "/" + ci.getChgerId());
         }
+
         System.out.println(ANSI_PURPLE);
-        System.out.println("준비된 Raw 데이터 건수 : "+list_raw.size());
-        System.out.println("준비된 충전소 데이터 건수 : "+list_stations.size());
-        System.out.println("준비된 충전기 데이터 건수 : "+list_chargers.size());
+        System.out.println("준비된 Raw 데이터 건수 : " + list_raw.size());
+        System.out.println("준비된 충전소 데이터 건수 : " + list_stations.size());
+        System.out.println("준비된 충전기 데이터 건수 : " + list_chargers.size());
         System.out.println(ANSI_RESET);
+
+    }
+
+    public void updateDocuments() {
         System.out.println(ANSI_GREEN + "Collection 구성 완료... MongoDB cluster로 데이터 입력을 시도합니다." + ANSI_RESET);
         System.out.println("새로운 데이터 버전은... " + newVersion + " 입니다.");
         System.out.println(ANSI_YELLOW);
@@ -192,37 +217,6 @@ public class SaverController {
         System.out.println("오래된 충전소 데이터 삭제 완료!");
 
         System.out.println(ANSI_GREEN + "총 " + count + "개 정보 저장 완료" + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "오류 방지를 위해 프로그램을 종료해주세요." + ANSI_RESET);
-    }
-
-    public static void main(String[] args) {
-        ConnectionString connectionString = new ConnectionString("mongodb+srv://gabrielyoon7:0000@gabrielyoon7.aq0fu.mongodb.net/myplug?retryWrites=true&w=majority");
-        MongoClientSettings settings = MongoClientSettings.builder()
-                .applyConnectionString(connectionString)
-                .serverApi(ServerApi.builder()
-                        .version(ServerApiVersion.V1)
-                        .build())
-                .build();
-        MongoClient mongo = MongoClients.create(settings);
-
-        System.out.println("Connected");
-
-        MongoDatabase database = mongo.getDatabase("myDb");
-        System.out.println("Collection created successfully");
-
-//        System.out.println("Credentials : "+credential);
-        MongoCollection<Document> collection = database.getCollection("myCollection");
-        System.out.println("Collection myCollection selected successfully");
-        Document document = new Document("title", "MongoDB")
-                .append("id", 1)
-                .append("description", "database")
-                .append("likes", 100)
-                .append("url", "http://www.tutorialspoint.com/mongodb/")
-                .append("by", "tutorials point");
-        collection.insertOne(document);
-
-        System.out.println("Document inserted successfully");
-
     }
 
 }

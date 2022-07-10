@@ -1,6 +1,7 @@
 package v2;
 
 import v2.dto.ChargerInfoDTO;
+import v2.manager.ManagerController;
 import v2.receiver.ReceiverController;
 import v2.saver.SaverController;
 
@@ -30,8 +31,10 @@ public class DataManager {
         while (true) {
             System.out.println("--------Version2--------");
             System.out.println("[메뉴] 숫자를 입력 후 엔터를 누르세요. (순서대로 작업해야 합니다.)");
-            System.out.println("1. 데이터 수신 및 정리");
-            System.out.println("2. 정리된 데이터를 저장");
+            System.out.println("1. API 서버로 부터 데이터 수신 및 정리");
+            System.out.println("2. 수신 받은 데이터를 클라우드로 저장하기");
+            System.out.println("8507. 고급모드");
+            System.out.println("------------------------");
             int mode = scan.nextInt();
             switch (mode) {
                 case 1:
@@ -41,6 +44,12 @@ public class DataManager {
                 case 2:
                     SaverController sc = SaverController.getInstance();
                     sc.start(chargerInfoList);
+                    System.out.println("안전을 위해 프로그램을 종료합니다.");
+                    System.exit(0);
+                    break;
+                case 8507:
+                    ManagerController mc = ManagerController.getInstance();
+                    mc.start();
                     break;
                 default:
                     System.out.println("잘못된 입력입니다.");
