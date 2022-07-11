@@ -78,6 +78,9 @@ const stationSchema = mongoose.Schema(
             type: String,
             maxlength: 100,
         },
+        distance:{
+            type:Number,
+        }
     }
 
     // {

@@ -79,30 +79,45 @@ const StationSmallModal = (props) => {
                                         }}
                                     /> */}
 
-                                        <Pressable>
+                                        <Pressable
+                                            onPress={() => {
+                                                props.setSmallModalVisible(!props.smallModalVisible);
+                                            }}
+                                        >
                                             <Box
                                                 width="150"
                                                 borderWidth="1"
                                                 borderColor="coolGray.300"
                                                 shadow="3"
-                                                bg="red.500"
+                                                bg="red.300"
                                                 p="5"
                                                 rounded="8"
                                             >
-                                                <Text>닫기</Text>
+                                                <Center>
+                                                    <Text>닫 기</Text>
+                                                </Center>
                                             </Box>
                                         </Pressable>
-                                        <Pressable>
+                                        <Spacer/>
+                                        <Pressable
+                                            onPress={() => {
+                                                props.setSmallModalVisible(!props.smallModalVisible);
+                                                props.setBigModalVisible(!props.bigModalVisible);
+                                            }}
+
+                                        >
                                             <Box
                                                 width="150"
                                                 borderWidth="1"
                                                 borderColor="coolGray.300"
                                                 shadow="3"
-                                                bg="red.500"
+                                                bg="green.300"
                                                 p="5"
                                                 rounded="8"
                                             >
-                                                <Text>상세보기</Text>
+                                                <Center>
+                                                    <Text>상세보기</Text>
+                                                </Center>
                                             </Box>
                                         </Pressable>
                                     </HStack>
