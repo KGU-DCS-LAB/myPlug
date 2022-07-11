@@ -1,5 +1,6 @@
-import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { Modal, Pressable, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
+import { Box, ScrollView, Spacer, Text } from "native-base";
 
 
 const StationBigModal = (props) => {
@@ -21,16 +22,32 @@ const StationBigModal = (props) => {
                             <View style={styles.bigModalView}>
                                 {/* <Text>This is Big Modal</Text> */}
                                 <Text style={styles.modalText}>{props.station.statNm + "(" + props.station.statId + ")"}</Text>
-                                <Text>{props.station.addr}</Text>
-                                <Text>{props.station.busiCall}</Text>
-                                <Text>{props.station.busiId}</Text>
-                                <Text>{props.station.note ? 'note가 없습니다.' : props.station.note}</Text>
-                                <Text>{props.station.parkingFree}</Text>
-                                <Text>{props.station.useTime}</Text>
-                                <Text>[[충전기 목록]]</Text>
-                                {props.chargers.map((charger)=>(
-                                    <Text key={charger._id}>충전기 번호 : {charger.chgerId}</Text>
-                                ))}
+                                <Text>주소 : {props.station.addr}</Text>
+                                <Text>상세주소 : {props.station.location}</Text>
+                                <Text>이용시간 : {props.station.useTime}</Text>
+                                <Text>사업자 코드? : {props.station.busiId}</Text>
+                                <Text>사업자 이름? : {props.station.bnm}</Text>
+                                <Text>사업자 이름 : {props.station.busiNm}</Text>
+                                <Text>사업자 전화번호 : {props.station.busiCall}</Text>
+                                <Text>주차무료여부 : {props.station.parkingFree}</Text>
+                                <Text>추가설명 : {props.station.note}</Text>
+                                <Text>제한사유 : {props.station.limitYn}</Text>
+                                <Text>제한사유상세 : {props.station.limitDetail}</Text>
+                                <Text>-------------------</Text>
+                                <ScrollView>
+                                    <Text>[[충전기 목록]]</Text>
+                                    {props.chargers.map((charger) => (
+                                        <Box key={charger._id}>
+                                            <Text>[충전기{charger.chgerId}]</Text>
+                                            <Text>{charger.chgerType}</Text>
+                                            <Text>{charger.stat}</Text>
+                                            <Text>{charger.statUpdDt}</Text>
+                                            <Text>작업하다 말음... 여기서 부터 더 보여줘야함</Text>
+                                        </Box>
+                                    ))}
+
+                                </ScrollView>
+                                <Spacer />
                                 <View>
                                     <Pressable
                                         style={[styles.button, styles.buttonClose]}
