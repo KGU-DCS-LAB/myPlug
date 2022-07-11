@@ -21,9 +21,9 @@ router.post('/keco/find/regionStations', function (req, res, next) {
     const x2 = req.body.data.x2;
     const y1 = req.body.data.y1;
     const y2 = req.body.data.y2;
-    console.log(req.body.data.count);
-    console.log(x1, x2);
-    console.log(y1, y2);
+    // console.log(req.body.data.count);
+    // console.log(x1, x2);
+    // console.log(y1, y2);
     Station.find({
 
         $and: [
@@ -35,6 +35,7 @@ router.post('/keco/find/regionStations', function (req, res, next) {
 
     }).then((stations) => {
         // console.log(stations);
+        console.log(stations.length)
         res.json(stations)
     }).catch((err) => {
         console.log(err);
@@ -74,24 +75,53 @@ router.post('/filterStations', async function (req, res, next) {
   const x2 = req.body.data.x2;
   const y1 = req.body.data.y1;
   const y2 = req.body.data.y2;
-  let result = await Charger.aggregate([
-    {
-      "$match": { chgerType: { "$in": req.body.data.types }}
-    },
-    {
-    "$group": 
-      {
-        _id: "$statNm"
-      }
-  }]);
+  const types = req.body.data.types
+  let result = null;
+  let statNmAgg = null;
+  let parkingFreeAgg = null;
+  let busiNmAgg = null;
+  const chgerType = "chgerType"
+  const parkingFree = "parkingFree"
+  const busiNm = "busiNm"
+  const typeArr = [];
+  const parkingArr = types[parkingFree]
+  const busiNmArr = types[busiNm]
 
-  statNmAgg = '$in'
-  const newArr = [];
-  result.map((item) => newArr.push(item._id))
+  if (types[chgerType].length !== 0){
+    result = await Charger.aggregate([
+      {
+        "$match": { chgerType: { "$in": types[chgerType] }}
+      },
+      {
+      "$group": 
+        {
+          _id: "$statNm"
+        }
+    }]);
+    result.map((item) => typeArr.push(item._id))
+    statNmAgg = "statNm: { $in : typeArr }"
+  }
+
+  // console.log("len", result.length);
+
+  if (types[parkingFree].length !== 0){
+    parkingFreeAgg = "parkingFree: { $in : parkingArr }"
+  }
+
+  if (types[busiNm].length !== 0){
+    busiNmAgg = "busiNm: { $in : busiNmArr }"
+  }
+
+  console.log(statNmAgg);
+  // console.log(newArr);
+
 
   Station.find({
-    'statNm': { $in : newArr },
+    statNmAgg,
     $and: [
+      // {statNmAgg},
+      // {parkingFreeAgg},
+      // {busiNmAgg},
       { lng: { $gte: x1 } },
       { lng: { $lte: x2 } },
       { lat: { $gte: y1 } },
