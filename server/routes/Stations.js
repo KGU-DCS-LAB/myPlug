@@ -77,9 +77,9 @@ router.post('/filterStations', async function (req, res, next) {
   const y2 = req.body.data.y2;
   const types = req.body.data.types
   let result = null;
-  let statNmAgg = null;
-  let parkingFreeAgg = null;
-  let busiNmAgg = null;
+  let statNmAgg = {'statNm': { $exists: true }};
+  let parkingFreeAgg = {parkingFree: { $exists: true }};
+  let busiNmAgg = {busiNm: { $exists: true }};
   const chgerType = "chgerType"
   const parkingFree = "parkingFree"
   const busiNm = "busiNm"
@@ -99,29 +99,29 @@ router.post('/filterStations', async function (req, res, next) {
         }
     }]);
     result.map((item) => typeArr.push(item._id))
-    statNmAgg = "statNm: { $in : typeArr }"
+    statNmAgg = {'statNm': { $in : typeArr }}
   }
 
   // console.log("len", result.length);
 
   if (types[parkingFree].length !== 0){
-    parkingFreeAgg = "parkingFree: { $in : parkingArr }"
+    parkingFreeAgg = {parkingFree: { $in : parkingArr }}
   }
 
   if (types[busiNm].length !== 0){
-    busiNmAgg = "busiNm: { $in : busiNmArr }"
+    busiNmAgg = {busiNm: { $in : busiNmArr }}
   }
 
-  console.log(statNmAgg);
+  // console.log(statNmAgg);
   // console.log(newArr);
 
 
   Station.find({
-    statNmAgg,
+    // statNmAgg,
     $and: [
-      // {statNmAgg},
-      // {parkingFreeAgg},
-      // {busiNmAgg},
+      statNmAgg,
+      parkingFreeAgg,
+      busiNmAgg,
       { lng: { $gte: x1 } },
       { lng: { $lte: x2 } },
       { lat: { $gte: y1 } },
@@ -134,6 +134,7 @@ router.post('/filterStations', async function (req, res, next) {
     console.log(err);
     next(err)
   });
+  Station.find().and()
 });
 
 router.get("/keco/filteredCharger/:key", (req, res) => {
