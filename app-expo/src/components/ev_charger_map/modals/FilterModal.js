@@ -10,6 +10,9 @@ import { config } from "../../../../config";
 
 const FilterModal = (props) => {
     const [selected, setSelected] = useState([0, 24]);
+    const chgerType = 'chgerType';
+    const parkingFree = 'parkingFree';
+    const busiNm = 'busiNm';
 
     const timeChanged = (value) => {
         console.log(value);
@@ -59,37 +62,37 @@ const FilterModal = (props) => {
                                     <Text>충전기 종류</Text>
                                     <HStack>
                                         {props.chgerType.map((item) =>
-                                            props.selectedType.findIndex((type) => type === item._id) !== -1 ?
-                                                <Button key={item._id} onPress={() => props.cancleSelect(item._id)}>{item._id}</Button>
+                                            props.selectedType[chgerType].findIndex((type) => type === item._id) !== -1 ?
+                                                <Button key={item._id} onPress={() => props.cancleSelect(chgerType, item._id)}>{item._id}</Button>
                                                 :
-                                                <Button style={{ backgroundColor: "grey" }} key={item._id} onPress={() => props.selectType(item._id)}>{item._id}</Button>
+                                                <Button style={{ backgroundColor: "grey" }} key={item._id} onPress={() => props.selectType(chgerType, item._id)}>{item._id}</Button>
                                         )}
                                     </HStack>
                                     <Text>주차무료</Text>
                                     <HStack>
                                         {
-                                            props.selectedType.findIndex((type) => type === "무료") !== -1 ?
-                                                <Button>무료</Button>
+                                            props.selectedType[parkingFree].findIndex((type) => type === "무료") !== -1 ?
+                                                <Button onPress={() => props.cancleSelect(parkingFree, item._id)}>무료</Button>
                                                 :
-                                                <Button style={{ backgroundColor: "grey" }}>무료</Button>
+                                                <Button style={{ backgroundColor: "grey" }} onPress={() => props.selectType(parkingFree, "Y")}>무료</Button>
                                         }
                                         {
-                                            props.selectedType.findIndex((type) => type === "유료") !== -1 ?
-                                                <Button>유료</Button>
+                                            props.selectedType[parkingFree].findIndex((type) => type === "유료") !== -1 ?
+                                                <Button onPress={() => props.cancleSelect(parkingFree, item._id)}>유료</Button>
                                                 :
-                                                <Button style={{ backgroundColor: "grey" }}>유료</Button>
+                                                <Button style={{ backgroundColor: "grey" }} onPress={() => props.selectType(parkingFree, "N")}>유료</Button>
                                         }
-                                </HStack>
-                                <Text>회사명</Text>
-                                <View style={styles.container}>
-                                    {props.busiNm.map((item) =>
-                                        props.selectedType.findIndex((type) => type === item._id) !== -1 ?
-                                            <Button key={item._id} onPress={() => props.cancleSelect(item._id)}>{item._id}</Button>
-                                            :
-                                            <Button style={{ backgroundColor: "grey" }} key={item._id} onPress={() => props.selectType(item._id)}>{item._id}</Button>
-                                    )}
+                                    </HStack>
+                                    <Text>회사명</Text>
+                                    <View style={styles.container}>
+                                        {props.busiNm.map((item) =>
+                                            props.selectedType[busiNm].findIndex((type) => type === item._id) !== -1 ?
+                                                <Button key={item._id} onPress={() => props.cancleSelect(busiNm, item._id)}>{item._id}</Button>
+                                                :
+                                                <Button style={{ backgroundColor: "grey" }} key={item._id} onPress={() => props.selectType(busiNm, item._id)}>{item._id}</Button>
+                                        )}
+                                    </View>
                                 </View>
-                            </View>
 
                             <Pressable
                                 style={[styles.button, styles.buttonClose]}

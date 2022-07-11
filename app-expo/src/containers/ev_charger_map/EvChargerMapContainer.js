@@ -30,7 +30,7 @@ const EvChargerContainer = (props) => {
     const [chargers, setChargers] = useState([]); // 서버로 부터 받아온 충전기 리스트
     const [chgerType, setChgerType] = useState([]); // 서버로 부터 받아온 충전기 타입
     const [busiNm, setBusiNm] = useState([]); // 서버로 부터 받아온 충전소 회사 리스트
-    const [selectedType, setSelectedType] = useState([]);
+    const [selectedType, setSelectedType] = useState({chgerType: [], parkingFree: [], busiNm: []});
     const [filteredChargingStations, setFilteredChargingStations] = useState([]); // 필터링 한 결과 충전소 데이터 리스트
 
     const [count, setCount] = useState(0); // 리프레시 횟수 검사 용 (테스트 할 때 사용됨)
@@ -134,12 +134,30 @@ const EvChargerContainer = (props) => {
         setFilterModalVisible(false);
     }
 
-    const selectType = (type) => {
-        setSelectedType([ ...selectedType, type ])
+    const selectType = (type, selected) => {
+        let select = selectedType;
+        select[type].push(selected)
+        console.log(select)
+        setSelectedType(select)
     }
-    const cancleSelect = (type) => {
-        setSelectedType(selectedType.filter((item) => item !== type))
+    const cancleSelect = (type, selected) => {
+        let select = selectedType;
+        select[type] = select[type].filter((item) => item !== selected)
+        console.log(select)
+        setSelectedType(select)
     }
+    // const selectFeeType = (type) => {
+    //     setSelectedFeeType([ ...selectedType, type ])
+    // }
+    // const cancleFeeSelect = (type) => {
+    //     setSelectedFeeType(selectedType.filter((item) => item !== type))
+    // }
+    // const selectBusiNm = (type) => {
+    //     setSelectedBusiNm([ ...selectedType, type ])
+    // }
+    // const cancleBusiNmSelect = (type) => {
+    //     setSelectedBusiNm(selectedType.filter((item) => item !== type))
+    // }
 
     const getFilteredData = () => {
         axios.post(config.ip + ':5000/stationsRouter/filterStations', {
