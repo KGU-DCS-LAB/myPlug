@@ -4,6 +4,28 @@ import { Box, ScrollView, Spacer, Text } from "native-base";
 
 
 const StationBigModal = (props) => {
+
+    const chargerStat = (n) => {
+        if (n == '1') { return "통신이상" }
+        else if (n == '2') { return "충전대기" }
+        else if (n == '3') { return "충전중" }
+        else if (n == '4') { return "운영중지" }
+        else if (n == '5') { return "점검중" }
+        else if (n == '9') { return "상태미확인" }
+        else { return "?" }
+    }
+
+    const chargerType = (n) => {
+        if (n == '01') { return "DC차데모" }
+        else if (n == '02') { return "AC완속" }
+        else if (n == '03') { return "DC차데모+AC3상" }
+        else if (n == '04') { return "DC콤보" }
+        else if (n == '05') { return "DC차데모+DC콤보" }
+        else if (n == '06') { return "DC차데모+AC3상+DC콤보" }
+        else if (n == '07') { return "AC3상" }
+        else { return "?" }            
+    }
+
     return (
         <>
             {
@@ -39,10 +61,11 @@ const StationBigModal = (props) => {
                                     {props.chargers.map((charger) => (
                                         <Box key={charger._id}>
                                             <Text>[충전기{charger.chgerId}]</Text>
-                                            <Text>{charger.chgerType}</Text>
-                                            <Text>{charger.stat}</Text>
-                                            <Text>{charger.statUpdDt}</Text>
-                                            <Text>작업하다 말음... 여기서 부터 더 보여줘야함</Text>
+                                            <Text>충전기타입: {chargerType(charger.chgerType)}</Text>
+                                            <Text>충전기상태: {chargerStat(charger.stat)}</Text>
+                                            <Text>충전용량: {charger.output}kW</Text>
+                                            <Text>충전방식: {charger.method}</Text>
+                                            <Text>statUpdDt,lastTsdt,lastTedt,nowTsdt</Text>
                                         </Box>
                                     ))}
 
