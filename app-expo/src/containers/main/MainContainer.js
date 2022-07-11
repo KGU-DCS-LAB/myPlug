@@ -6,6 +6,7 @@ import HomeContainer from "./HomeContainer";
 import LoginContainer from '../user/LoginContainer';
 import SignUpContainer from '../user/SignUpContainer';
 import MyPageContainer from '../user/MyPageContainer';
+import ModalExample from '../example/ModalExample';
 
 const MainContainer = () => {
 
@@ -64,6 +65,10 @@ const MainContainer = () => {
             <Stack.Screen
                 name="MyPage"
                 component={MyPageScreen}
+            />
+            <Stack.Screen
+            name="example"
+            component={ModalExample}
             />
         </Stack.Navigator>
     )

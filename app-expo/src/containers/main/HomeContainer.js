@@ -130,7 +130,8 @@ const HomeContainer = (props) => {
                             numOfCol={colNum2}
                             width={windowWidth / colNum2 * 0.9}
                             height={windowWidth / colNum2 * 0.9}
-                            onPress={() => console.log('ㅇㅇ')}
+                            onPress={() => props.navigation.navigate('example')}
+                            title="모달 테스트"
                         />
                         <PressableButton
                             numOfCol={colNum2}

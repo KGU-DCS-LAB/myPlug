@@ -43,7 +43,7 @@ const StationSmallModal = (props) => {
                         props.setSmallModalVisible(!props.smallModalVisible);
                     }}
                 >
-                    <TouchableWithoutFeedback onPress={() => props.setSmallModalVisible(!props.smallModalVisible)}>
+                    {/* <TouchableWithoutFeedback onPress={() => props.setSmallModalVisible(!props.smallModalVisible)}> */}
                         <View style={styles.flexEndView}>
                             <View style={styles.smallModalView}>
                                 <ScrollView>
@@ -90,7 +90,7 @@ const StationSmallModal = (props) => {
                                                 borderColor="coolGray.300"
                                                 shadow="3"
                                                 bg="red.300"
-                                                p="5"
+                                                px="5"
                                                 rounded="8"
                                             >
                                                 <Center>
@@ -98,7 +98,7 @@ const StationSmallModal = (props) => {
                                                 </Center>
                                             </Box>
                                         </Pressable>
-                                        <Spacer/>
+                                        <Spacer />
                                         <Pressable
                                             onPress={() => {
                                                 props.setSmallModalVisible(!props.smallModalVisible);
@@ -112,7 +112,7 @@ const StationSmallModal = (props) => {
                                                 borderColor="coolGray.300"
                                                 shadow="3"
                                                 bg="green.300"
-                                                p="5"
+                                                px="5"
                                                 rounded="8"
                                             >
                                                 <Center>
@@ -124,7 +124,7 @@ const StationSmallModal = (props) => {
                                 </Center>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
+                    {/* </TouchableWithoutFeedback> */}
                 </Modal>
             }
         </>
