@@ -85,11 +85,12 @@ router.post('/filterStations', async function (req, res, next) {
       }
   }]);
 
+  statNmAgg = '$in'
   const newArr = [];
   result.map((item) => newArr.push(item._id))
 
   Station.find({
-    'statNm': { $in: newArr },
+    'statNm': { $in : newArr },
     $and: [
       { lng: { $gte: x1 } },
       { lng: { $lte: x2 } },
@@ -97,6 +98,7 @@ router.post('/filterStations', async function (req, res, next) {
       { lat: { $lte: y2 } },
     ]
   }).then((stations) => {
+    console.log(stations.length)
     res.json(stations)
   }).catch((err) => {
     console.log(err);
@@ -118,8 +120,6 @@ router.get("/keco/filteredCharger/:key", (req, res) => {
   }]).then((result) => {
     res.send(result);
   });
-    //   console.log(result);
-      // res.send(result);
 });
 
 router.get("/keco/filteredStations/:key", (req, res) => {
@@ -137,8 +137,7 @@ router.get("/keco/filteredStations/:key", (req, res) => {
   }]).then((result) => {
     res.send(result);
   });
-  //   console.log(result);
-  // res.send(result);
+
 });
 
 // 충전소 검색
