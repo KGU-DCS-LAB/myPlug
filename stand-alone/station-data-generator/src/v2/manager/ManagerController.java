@@ -31,6 +31,7 @@ public class ManagerController {
             System.out.println("-----------------------------");
             System.out.println("원하시는 메뉴를 입력하세요");
             System.out.println("충전소 관련 데이터 초기화 : destroy stations");
+            System.out.println("insert 고급 예제 해보기 : insert example");
             System.out.println("뒤로가기 : 이외의 글자 아무거나");
             System.out.println("-----------------------------");
 
@@ -40,7 +41,14 @@ public class ManagerController {
                     if(check()){
                         System.out.println("충전기/충전소에 관련된 모든 데이터를 삭제합니다.");
                         Destroyer destroyer = new Destroyer();
-                        destroyer.removeStationRelatedDataAll();
+                        destroyer.getInstance().removeStationRelatedDataAll();
+                    }
+                    break;
+                case "insert example":
+                    if(check()){
+                        System.out.println("테스트 예제 1개를 넣어봅니다.");
+                        InsertExample insertExample = new InsertExample();
+                        insertExample.getInstance().start();
                     }
                     break;
                 default:

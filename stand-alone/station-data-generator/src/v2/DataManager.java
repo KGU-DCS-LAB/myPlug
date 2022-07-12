@@ -47,7 +47,7 @@ public class DataManager {
                     break;
                 case 1:
                     startTime = System.currentTimeMillis();
-                    dataManager = new DataManager();
+//                    chargerInfoList.clear();
                     ReceiverController rc2 = ReceiverController.getInstance();
                     rc2.start();
                     finishTime = System.currentTimeMillis();
