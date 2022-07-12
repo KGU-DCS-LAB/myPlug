@@ -1,7 +1,6 @@
 package v2;
 
 import v2.common.ConsoleColor;
-import v2.dto.ChargerInfoDTO;
 import v2.dto.KecoChargerInfoDTO;
 import v2.manager.ManagerController;
 import v2.receiver.ReceiverController;
@@ -25,9 +24,8 @@ import java.util.Scanner;
 
 
 public class DataManager {
-    public static DataManager dataManager = new DataManager();
+    public static DataManager dataManager = new DataManager();;
     public static ArrayList<KecoChargerInfoDTO> chargerInfoList = new ArrayList<KecoChargerInfoDTO>();
-//    public static ArrayList<ChargerInfoDTO> chargerInfoList = new ArrayList<ChargerInfoDTO>();
     public static ConsoleColor cc = new ConsoleColor();
     long startTime, finishTime ,elapsedTime;
 
@@ -38,8 +36,7 @@ public class DataManager {
             System.out.println("--------Version2--------");
             System.out.println("[메뉴] 숫자를 입력 후 엔터를 누르세요. (순서대로 작업해야 합니다.)");
             System.out.println("0. 프로그램 종료");
-            System.out.println("1. API 서버로 부터 데이터 수신 및 정리");
-            System.out.println("2. 수신 받은 데이터를 클라우드로 저장하기");
+            System.out.println("1. API 서버로 부터 데이터 수신 후 클라우드로 저장하기");
             cc.print("danger","8507. 고급모드");
             System.out.println("------------------------");
             int mode = scan.nextInt();
@@ -50,13 +47,12 @@ public class DataManager {
                     break;
                 case 1:
                     startTime = System.currentTimeMillis();
+                    dataManager = new DataManager();
                     ReceiverController rc2 = ReceiverController.getInstance();
                     rc2.start();
                     finishTime = System.currentTimeMillis();
                     elapsedTime = finishTime - startTime;
                     cc.print("secondary", "수행에 걸린 시간 : "+elapsedTime+"ms\n");
-                    break;
-                case 2:
                     if(chargerInfoList.size()>0){
                         Saver sc = Saver.getInstance();
                         sc.start();
@@ -66,6 +62,17 @@ public class DataManager {
                     else{
                         cc.print("danger","외부로부터 수신한 데이터가 없습니다.");
                     }
+                    break;
+                case 2:
+//                    if(chargerInfoList.size()>0){
+//                        Saver sc = Saver.getInstance();
+//                        sc.start();
+//                        System.out.println("안전을 위해 프로그램을 종료합니다.");
+//                        System.exit(0);
+//                    }
+//                    else{
+//                        cc.print("danger","외부로부터 수신한 데이터가 없습니다.");
+//                    }
                     break;
                 case 8507:
                     ManagerController mc = ManagerController.getInstance();

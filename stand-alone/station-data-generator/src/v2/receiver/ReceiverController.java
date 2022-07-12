@@ -1,7 +1,6 @@
 package v2.receiver;
 
 import java.util.Scanner;
-//import receiver.ReceiverController;
 
 public class ReceiverController {
     public static ReceiverController getInstance() {
