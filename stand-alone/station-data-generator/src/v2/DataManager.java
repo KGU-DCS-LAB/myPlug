@@ -1,7 +1,7 @@
 package v2;
 
 import v2.common.ConsoleColor;
-import v2.dto.KecoChargerInfoDTO;
+import v2.common.KecoChargerInfoDTO;
 import v2.manager.ManagerController;
 import v2.receiver.ReceiverController;
 import v2.saver.Saver;

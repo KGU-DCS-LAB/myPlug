@@ -13,7 +13,7 @@ import org.json.simple.parser.JSONParser;
 import v2.DataManager;
 import v2.common.ConsoleColor;
 import v2.common.MongoConfig;
-import v2.dto.KecoChargerInfoDTO;
+import v2.common.KecoChargerInfoDTO;
 
 import java.util.*;
 

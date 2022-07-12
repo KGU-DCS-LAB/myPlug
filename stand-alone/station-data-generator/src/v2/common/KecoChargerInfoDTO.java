@@ -1,4 +1,4 @@
-package v2.dto;
+package v2.common;
 
 import java.util.Date;
 
