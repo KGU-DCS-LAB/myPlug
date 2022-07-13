@@ -135,29 +135,16 @@ const EvChargerContainer = (props) => {
     }
 
     const selectType = (type, selected) => {
-        let select = selectedType;
-        select[type].push(selected)
-        console.log(select)
-        setSelectedType(select)
+        let select = selectedType[type];
+        select.push(selected)
+        setSelectedType({...selectedType, [type]: select})
     }
     const cancleSelect = (type, selected) => {
-        let select = selectedType;
-        select[type] = select[type].filter((item) => item !== selected)
-        console.log(select)
-        setSelectedType(select)
+        let select = selectedType[type];
+        select = select[type].filter((item) => item !== selected)
+        // console.log(select)
+        setSelectedType({...selectedType, [type]: select})
     }
-    // const selectFeeType = (type) => {
-    //     setSelectedFeeType([ ...selectedType, type ])
-    // }
-    // const cancleFeeSelect = (type) => {
-    //     setSelectedFeeType(selectedType.filter((item) => item !== type))
-    // }
-    // const selectBusiNm = (type) => {
-    //     setSelectedBusiNm([ ...selectedType, type ])
-    // }
-    // const cancleBusiNmSelect = (type) => {
-    //     setSelectedBusiNm(selectedType.filter((item) => item !== type))
-    // }
 
     const getFilteredData = () => {
         axios.post(config.ip + ':5000/stationsRouter/filterStations', {
@@ -288,8 +275,6 @@ const EvChargerContainer = (props) => {
                                 chgerType={chgerType}
                                 busiNm={busiNm}
                                 setFilterModalVisible={setFilterModalVisible}
-                                setFilterKeyword={setFilterKeyword}
-                                setFilteredChargingStations={setFilteredChargingStations}
                             />
 
                             <StationListModal

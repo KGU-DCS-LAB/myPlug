@@ -2,27 +2,23 @@ import { Alert, Modal, Pressable, StyleSheet, Text, TouchableOpacity, TouchableW
 import { MaterialIcons } from '@expo/vector-icons';
 import { Button, Center, Flex, HStack, ScrollView, VStack } from "native-base";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SliderCustomLabel from "../SliderCustomLabel";
 import TimeSlider from "../TimeSlider";
 import axios from "axios";
 import { config } from "../../../../config";
+import SelectBusiNm from "./filterModal/SelectBusiNm";
+import SelectParkingFree from "./filterModal/SelectParkingFree";
+import SelectChgerType from "./filterModal/SelectChgerType";
 
-const FilterModal = (props) => {
-    const [selected, setSelected] = useState([0, 24]);
-    const chgerType = 'chgerType';
-    const parkingFree = 'parkingFree';
-    const busiNm = 'busiNm';
-
-    const timeChanged = (value) => {
-        console.log(value);
-        setSelected(value);
-    }
+const FilterModal = (props) => {    
+    useEffect(() => {
+        console.log(props.selectedType)
+    },[props.selectedType])
 
     return (
         <>
             {
-
                 <Modal
                     animationType="slide"
                     transparent={true}
@@ -44,54 +40,14 @@ const FilterModal = (props) => {
                                     <View style={styles.modalCloseIcon}>
                                         <MaterialIcons name="drag-handle" size={40} color="black" />
                                     </View>
-
-                                    {/* <TimeSlider />
-
-                                <View>
-                                    <Pressable
-                                        style={[styles.button, styles.buttonClose]}
-                                        onPress={() => props.setFilterModalVisible(!props.filterModalVisible)}
-                                    >
-                                        <Text style={styles.textStyle}>Hide Modal</Text>
-                                    </Pressable>
-                                </View> */}
                                 </TouchableWithoutFeedback>
-                                {/* <TimeSlider selected={selected} timeChanged={timeChanged} /> */}
 
                                 <View style={styles.wrapper}>
-                                    <Text>충전기 종류</Text>
-                                    <HStack>
-                                        {props.chgerType.map((item) =>
-                                            props.selectedType[chgerType].findIndex((type) => type === item._id) !== -1 ?
-                                                <Button key={item._id} onPress={() => props.cancleSelect(chgerType, item._id)}>{item._id}</Button>
-                                                :
-                                                <Button style={{ backgroundColor: "grey" }} key={item._id} onPress={() => props.selectType(chgerType, item._id)}>{item._id}</Button>
-                                        )}
-                                    </HStack>
-                                    <Text>주차무료</Text>
-                                    <HStack>
-                                        {
-                                            props.selectedType[parkingFree].findIndex((type) => type === "무료") !== -1 ?
-                                                <Button onPress={() => props.cancleSelect(parkingFree, item._id)}>무료</Button>
-                                                :
-                                                <Button style={{ backgroundColor: "grey" }} onPress={() => props.selectType(parkingFree, "Y")}>무료</Button>
-                                        }
-                                        {
-                                            props.selectedType[parkingFree].findIndex((type) => type === "유료") !== -1 ?
-                                                <Button onPress={() => props.cancleSelect(parkingFree, item._id)}>유료</Button>
-                                                :
-                                                <Button style={{ backgroundColor: "grey" }} onPress={() => props.selectType(parkingFree, "N")}>유료</Button>
-                                        }
-                                    </HStack>
-                                    <Text>회사명</Text>
-                                    <View style={styles.container}>
-                                        {props.busiNm.map((item) =>
-                                            props.selectedType[busiNm].findIndex((type) => type === item._id) !== -1 ?
-                                                <Button key={item._id} onPress={() => props.cancleSelect(busiNm, item._id)}>{item._id}</Button>
-                                                :
-                                                <Button style={{ backgroundColor: "grey" }} key={item._id} onPress={() => props.selectType(busiNm, item._id)}>{item._id}</Button>
-                                        )}
-                                    </View>
+                                    <SelectChgerType chgerType={props.chgerType} selectedType={props.selectedType} cancleSelect={props.cancleSelect} selectType={props.selectType} />
+
+                                    <SelectParkingFree selectedType={props.selectedType} cancleSelect={props.cancleSelect} selectType={props.selectType} />
+
+                                    <SelectBusiNm busiNm={props.busiNm} selectedType={props.selectedType} cancleSelect={props.cancleSelect} selectType={props.selectType} />
                                 </View>
 
                             <Pressable
