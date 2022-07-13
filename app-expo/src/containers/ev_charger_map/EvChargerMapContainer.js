@@ -8,12 +8,14 @@ import { Box, Center, HStack, Spacer, Text, View } from "native-base";
 
 import CoverMenu from "./cover_menu/CoverMenu";
 import LoadingSpinner from "../../components/Loading/LoadingSpinner";
-import StationSmallModal from "../../components/ev_charger_map/modals/StationSmallModal";
+// import StationSmallModal from "../../components/ev_charger_map/modals/StationSmallModal";
+
 import StationBigModal from "../../components/ev_charger_map/modals/StationBigModal";
 import FilterModal from "../../components/ev_charger_map/modals/FilterModal";
 import { Image } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import StationListModal from "../../components/ev_charger_map/modals/StationListModal";
+import StationSmallModal from "../../components/ev_charger_map/modals_v2/StationSmallModal";
 
 const EvChargerContainer = (props) => {
 
@@ -46,6 +48,10 @@ const EvChargerContainer = (props) => {
     const [stationListModalVisible, setStationListModalVisible] = useState(false); // 충전소 목록 모달 온오프
     const [didCancel, setCancel] = useState(false);
     const [isFiltering, setIsFiltering] = useState(false);
+
+
+    const [isOpen, setOpen] = useState(false);
+
 
     // const source = useRef(); //취소 토큰 용
     const mapRef = useRef(); //몰라
@@ -227,7 +233,7 @@ const EvChargerContainer = (props) => {
     }
 
     const focuseToStation = (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
-        setSmallModalVisible(true)
+        // setSmallModalVisible(true)
         setStationListModalVisible(false)
         setSelectedStation(station)
         setLocation({
@@ -238,6 +244,7 @@ const EvChargerContainer = (props) => {
             // latitudeDelta: location.latitudeDelta,
             // longitudeDelta: location.longitudeDelta,
         });
+        setOpen(true);
         getChargers(station.statId)
     }
 
@@ -248,7 +255,7 @@ const EvChargerContainer = (props) => {
                     ?
                     <>
                         <View style={{ flex: 1 }}>
-
+{/* 
                             <StationSmallModal //마커 클릭 시 작은 모달 띄우기 용
                                 station={selectedStation}
                                 smallModalVisible={smallModalVisible}
@@ -256,7 +263,7 @@ const EvChargerContainer = (props) => {
                                 bigModalVisible={bigModalVisible}
                                 setBigModalVisible={setBigModalVisible}
                                 chargers={chargers}
-                            />
+                            /> */}
                             <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
                                 station={selectedStation}
                                 smallModalVisible={smallModalVisible}
@@ -284,6 +291,17 @@ const EvChargerContainer = (props) => {
                                 stationListModalVisible={stationListModalVisible}
                                 setStationListModalVisible={setStationListModalVisible}
                                 focuseToStation={focuseToStation}
+                            />
+
+                            <StationSmallModal
+                                isOpen={isOpen}
+                                setOpen={setOpen}
+                                station={selectedStation}
+                                // smallModalVisible={smallModalVisible}
+                                // setSmallModalVisible={setSmallModalVisible}
+                                bigModalVisible={bigModalVisible}
+                                setBigModalVisible={setBigModalVisible}
+                                chargers={chargers}
                             />
 
                             <MapView
