@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Heading, HStack, Spacer, Text, View, Avatar } from "native-base";
-import { Dimensions, ScrollView, StyleSheet, TouchableOpacity, Button } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import PressableButton from "../../components/common/PressableButton";
@@ -14,6 +14,8 @@ const HomeContainer = (props) => {
     const windowWidth = Dimensions.get('window').width;
     const colNum2 = 2;
     const colNum3 = 3;
+    const isFocused = useIsFocused();
+    const [user, setUser] = useState(false);
 
     const userCheck = async () => {
         if(await AsyncStorage.getItem('userInfo') != null) {
@@ -23,58 +25,24 @@ const HomeContainer = (props) => {
         }
     }
 
-    const [userId, setUserId] = useState('');
-    const isFocused = useIsFocused();
-    const favorites = [];
-
     React.useEffect(() => {
-        if(isFocused){
-            console.log(1);
             try {
                 AsyncStorage.getItem('userInfo')
                     .then(value => {
                         if (value != null) {
-                            const UserInfo = JSON.parse(value);
-                            setUserId(UserInfo[0].user_id);
-                            // console.log(UserInfo[0]);
+                            setUser(true);
+                            console.log("true");
+                        } else {
+                            setUser(false);
+                            console.log("false");
                         }
                     }
                     )
             } catch (error) {
                 console.log(error);
             }
-        }
+        
     }, [isFocused])
-
-    useEffect(() => {
-        getFavorites();
-    }, [isFocused, props]);
-
-    const getFavorites = async () => {
-        let result = []
-        await axios.post(config.ip + ':5000/favoritesRouter/findOwn', {
-            user_id: userId
-        }).then((response) => {
-            // console.log(response.data);
-            if (response.data.length == 0) {
-                console.log('즐겨찾기된 충전소 없음');
-              } else {
-                result.push(response.data[0].station)
-
-                let size = 0;
-                if(result[0].length>3) size = 3;
-                else size = result[0].length;
-
-                for(let i=0; i<size; i++){
-                    favorites.push(result[0][i].statNm)
-                }
-                console.log(favorites[0]);
-              }
-            }).catch(function (error) {
-              console.log(error);
-              setFirstRecord(true)
-            })
-    }
 
     
     return (
@@ -123,7 +91,10 @@ const HomeContainer = (props) => {
                         />
                     </HStack>
                     <HStack justifyContent="center">
-                        <FavoritesButton favorites={favorites}/>
+                    {user == true && <ScrollView horizontal={true}>
+                        <FavoritesButton/>
+                        </ScrollView>}
+                        
                     </HStack>
                     <HStack justifyContent="center">
                         <PressableButton
