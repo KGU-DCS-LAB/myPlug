@@ -31,10 +31,10 @@ const HomeContainer = (props) => {
                     .then(value => {
                         if (value != null) {
                             setUser(true);
-                            console.log("true");
+                            // console.log("true");
                         } else {
                             setUser(false);
-                            console.log("false");
+                            // console.log("false");
                         }
                     }
                     )
