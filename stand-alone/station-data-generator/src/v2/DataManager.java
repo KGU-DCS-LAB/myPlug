@@ -1,5 +1,6 @@
 package v2;
 
+import v2.analyzer.Analyzer;
 import v2.common.ConsoleColor;
 import v2.common.KecoChargerInfoDTO;
 import v2.manager.ManagerController;
@@ -37,6 +38,7 @@ public class DataManager {
             System.out.println("[메뉴] 숫자를 입력 후 엔터를 누르세요. (순서대로 작업해야 합니다.)");
             System.out.println("0. 프로그램 종료");
             System.out.println("1. API 서버로 부터 데이터 수신 후 클라우드로 저장하기");
+            System.out.println("2. 수신받은 데이터 분석하기");
             cc.print("danger","8507. 고급모드");
             System.out.println("------------------------");
             int mode = scan.nextInt();
@@ -64,15 +66,13 @@ public class DataManager {
                     }
                     break;
                 case 2:
-//                    if(chargerInfoList.size()>0){
-//                        Saver sc = Saver.getInstance();
-//                        sc.start();
-//                        System.out.println("안전을 위해 프로그램을 종료합니다.");
-//                        System.exit(0);
-//                    }
-//                    else{
-//                        cc.print("danger","외부로부터 수신한 데이터가 없습니다.");
-//                    }
+                    if(chargerInfoList.size()>0){
+                        Analyzer analyzer = Analyzer.getInstance();
+                        analyzer.start();
+                    }
+                    else{
+                        cc.print("danger","외부로부터 수신한 데이터가 없습니다.");
+                    }
                     break;
                 case 8507:
                     ManagerController mc = ManagerController.getInstance();

@@ -14,6 +14,7 @@ public class Destroyer {
     MongoCollection<Document> collection_raw;
     MongoCollection<Document> collection_stations;
     MongoCollection<Document> collection_chargers;
+    MongoCollection<Document> collection_stations_logs;
     long startTime, finishTime ,elapsedTime;
 
     public static Destroyer getInstance() {
@@ -24,6 +25,7 @@ public class Destroyer {
         collection_raw = database.getCollection("raw_charger_infos");
         collection_stations = database.getCollection("stations");
         collection_chargers = database.getCollection("chargers");
+        collection_stations_logs = database.getCollection("stations_logs");
 
         cc.print("warning","버전 삭제를 시도합니다..");
         startTime = System.currentTimeMillis();
@@ -57,6 +59,13 @@ public class Destroyer {
         cc.print("success","삭제 완료.");
         cc.print("secondary", "수행에 걸린 시간 : "+elapsedTime+"ms\n");
 
+        cc.print("warning","충전소 분석 이력 삭제를 시도합니다..");
+        startTime = System.currentTimeMillis();
+        collection_stations_logs.drop();
+        finishTime = System.currentTimeMillis();
+        elapsedTime = finishTime - startTime;
+        cc.print("success","삭제 완료.");
+        cc.print("secondary", "수행에 걸린 시간 : "+elapsedTime+"ms\n");
 
         System.out.println("충전소와 관련된 데이터를 모두 삭제했습니다.");
     }
