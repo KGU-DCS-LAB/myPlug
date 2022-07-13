@@ -47,7 +47,7 @@ public class DataManager {
                     break;
                 case 1:
                     startTime = System.currentTimeMillis();
-//                    chargerInfoList.clear();
+                    chargerInfoList.clear();
                     ReceiverController rc2 = ReceiverController.getInstance();
                     rc2.start();
                     finishTime = System.currentTimeMillis();
@@ -56,8 +56,8 @@ public class DataManager {
                     if(chargerInfoList.size()>0){
                         Saver sc = Saver.getInstance();
                         sc.start();
-                        System.out.println("안전을 위해 프로그램을 종료합니다.");
-                        System.exit(0);
+//                        System.out.println("안전을 위해 프로그램을 종료합니다.");
+//                        System.exit(0);
                     }
                     else{
                         cc.print("danger","외부로부터 수신한 데이터가 없습니다.");
