@@ -35,7 +35,7 @@ router.post('/saveMore', function(req, res) {
 router.post('/findOwn', function(req, res, next) {
     Favorite.find().where('user_id').equals(req.body.user_id)
     .then( (favorite) => {
-        console.log(favorite);
+        // console.log(favorite);
         res.json(favorite)
     }).catch( (err) => {
         console.log(err);

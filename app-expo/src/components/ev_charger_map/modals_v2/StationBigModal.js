@@ -1,13 +1,16 @@
 import { Dimensions, Pressable, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
-import { Box, Center, Heading, ScrollView, Spacer, Text } from "native-base";
-import { useRef } from "react";
+import { Box, Center, Heading, HStack, ScrollView, Spacer, Text, VStack } from "native-base";
+import { useEffect, useRef, useState } from "react";
 import Modal from 'react-native-modalbox'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 var screen = Dimensions.get('window');
 
 const StationBigModal = (props) => {
+
+    const [userId, setUserId] = useState(null);
 
     const show = useRef()
 
@@ -66,6 +69,33 @@ const StationBigModal = (props) => {
                             <Text>추가설명 : {props.station.note}</Text>
                             <Text>제한사유 : {props.station.limitYn}</Text>
                             <Text>제한사유상세 : {props.station.limitDetail}</Text>
+                            <Text>-------------------</Text>
+                            {/* <Text>{JSON.stringify(props.stationLogs)}</Text> */}
+                            <ScrollView horizontal={true}>
+                                <HStack>
+                                    <VStack alignItems="center">
+                                    <Text> </Text>
+                                    <Text>월</Text>
+                                    <Text>화</Text>
+                                    <Text>수</Text>
+                                    <Text>목</Text>
+                                    <Text>금</Text>
+                                    <Text>토</Text>
+                                    <Text>일</Text>
+                                    </VStack>
+                                    <VStack alignItems="center">
+                                        <Text>00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23</Text>
+                                        <Text>🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥</Text>
+                                        <Text>🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥</Text>
+                                        <Text>🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥</Text>
+                                        <Text>🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥</Text>
+                                        <Text>🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥</Text>
+                                        <Text>🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥</Text>
+                                        <Text>🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥</Text>
+                                    </VStack>
+                                </HStack>
+                            </ScrollView>
+                            {/* <Text>{JSON.stringify(props.stationLogs.logs.mon)}</Text> */}
                             <Text>-------------------</Text>
                             <Text>[[충전기 목록]]</Text>
                             {props.chargers.map((charger) => (

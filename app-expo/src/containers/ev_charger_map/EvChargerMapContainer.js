@@ -30,7 +30,9 @@ const EvChargerContainer = (props) => {
     const [isLoaded, setLoaded] = useState(false); // GPS 로딩 여부 검사용
 
     const [chargingStations, setChargingStations] = useState([]); //서버로 부터 받아온 충전소 데이터 리스트
-    const [chargers, setChargers] = useState([]); // 서버로 부터 받아온 충전기 리스트
+    const [chargers, setChargers] = useState([]); // 서버로 부터 받아온 특정 충전소의 충전기 리스트
+    const [stationLogs, setStationLogs] = useState([]); //서버로 부터 받아온 특정 충전소의 충전 분석 로그
+
     const [chgerType, setChgerType] = useState([]); // 서버로 부터 받아온 충전기 타입
     const [busiNm, setBusiNm] = useState([]); // 서버로 부터 받아온 충전소 회사 리스트
     const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [] });
@@ -234,6 +236,20 @@ const EvChargerContainer = (props) => {
         })
     }
 
+    const getStationLogs = (statId) => {
+        //선택한 충전소id에 속한 충전기를 요청 
+                console.log("getstationlogs : "+statId)
+
+        axios.post(config.ip + ':5000/stationsRouter/keco/find/stationLogs', {
+            data: statId
+        }).then((response) => {
+            // console.log(response.data)
+            setStationLogs(response.data)
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
+
     const focuseToStation = (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
         // setSmallModalVisible(true)
         setStationListModalVisible(false)
@@ -243,11 +259,10 @@ const EvChargerContainer = (props) => {
             latitude: Number(station.lat),
             latitudeDelta: 0.007,
             longitudeDelta: 0.007,
-            // latitudeDelta: location.latitudeDelta,
-            // longitudeDelta: location.longitudeDelta,
         });
         setSmallModalOpen(true);
         getChargers(station.statId)
+        getStationLogs(station.statId)
     }
 
     return (
@@ -257,23 +272,6 @@ const EvChargerContainer = (props) => {
                     ?
                     <>
                         <View style={{ flex: 1 }}>
-                            {/* 
-                            <StationSmallModal //마커 클릭 시 작은 모달 띄우기 용
-                                station={selectedStation}
-                                smallModalVisible={smallModalVisible}
-                                setSmallModalVisible={setSmallModalVisible}
-                                bigModalVisible={bigModalVisible}
-                                setBigModalVisible={setBigModalVisible}
-                                chargers={chargers}
-                            /> */}
-                            {/* <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
-                                station={selectedStation}
-                                smallModalVisible={smallModalVisible}
-                                setSmallModalVisible={setSmallModalVisible}
-                                bigModalVisible={bigModalVisible}
-                                setBigModalVisible={setBigModalVisible}
-                                chargers={chargers}
-                            /> */}
                             <FilterModal
                                 filterModalVisible={filterModalVisible}
                                 selectedType={selectedType}
@@ -287,7 +285,6 @@ const EvChargerContainer = (props) => {
                             />
 
                             <StationListModal
-                                // chargingStations={chargingStations}
                                 location={location}
                                 chargingStations={filteredChargingStations}
                                 stationListModalVisible={stationListModalVisible}
@@ -299,10 +296,6 @@ const EvChargerContainer = (props) => {
                                 isSmallModalOpen={isSmallModalOpen}
                                 setSmallModalOpen={setSmallModalOpen}
                                 station={selectedStation}
-                                // smallModalVisible={smallModalVisible}
-                                // setSmallModalVisible={setSmallModalVisible}
-                                // bigModalVisible={bigModalVisible}
-                                // setBigModalVisible={setBigModalVisible}
                                 setBigModalOpen={setBigModalOpen}
                                 chargers={chargers}
                             />
@@ -311,11 +304,8 @@ const EvChargerContainer = (props) => {
                                 isBigModalOpen={isBigModalOpen}
                                 setBigModalOpen={setBigModalOpen}
                                 station={selectedStation}
-                                // smallModalVisible={smallModalVisible}
-                                // setSmallModalVisible={setSmallModalVisible}
-                                // bigModalVisible={bigModalVisible}
-                                // setBigModalVisible={setBigModalVisible}
                                 chargers={chargers}
+                                stationLogs={stationLogs}
                             />
 
                             <MapView
@@ -393,7 +383,6 @@ const EvChargerContainer = (props) => {
                     :
                     <>
                         <LoadingSpinner description="디바이스가 어디에 있는지 찾고 있어요..." />
-                        {/* <LoadingSpinner/> */}
                     </>
             }
         </>

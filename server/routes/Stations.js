@@ -3,6 +3,7 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const { Station } = require("../models/Station");
 const { Charger } = require('../models/Charger');
+const { StationLogs } = require('../models/StationLogs');
 
 /* GET. */
 router.get('/keco/find/stations', function (req, res, next) {
@@ -35,7 +36,7 @@ router.post('/keco/find/regionStations', function (req, res, next) {
 
     }).then((stations) => {
         // console.log(stations);
-        console.log(stations.length)
+        // console.log(stations.length)
         res.json(stations)
     }).catch((err) => {
         console.log(err);
@@ -44,8 +45,21 @@ router.post('/keco/find/regionStations', function (req, res, next) {
 });
 
 router.post('/keco/find/chargers', function (req, res, next) {
-  console.log(req.body.data);
+  // console.log(req.body.data);
   Charger.find({
+    statId:req.body.data
+  }).then((response)=>{
+    // console.log(response)
+    res.json(response)
+  }).catch((err) => {
+    console.log(err);
+    next(err)
+});
+});
+
+router.post('/keco/find/stationLogs', function (req, res, next) {
+  console.log(req.body.data);
+  StationLogs.findOne({
     statId:req.body.data
   }).then((response)=>{
     console.log(response)
@@ -55,17 +69,6 @@ router.post('/keco/find/chargers', function (req, res, next) {
     next(err)
 });
 });
-
-// router.get('/keco/find/chargers', function (req, res, next) {
-//     // 전체 데이터 가져오기
-//     Station.find({}).then((chargers) => {
-//         // console.log(chargers);
-//         res.json(chargers)
-//     }).catch((err) => {
-//         console.log(err);
-//         next(err)
-//     });
-// });
 
 router.post('/filterStations', async function (req, res, next) {
   // 필터링된 데이터 가져오기
@@ -128,7 +131,7 @@ router.post('/filterStations', async function (req, res, next) {
       { lat: { $lte: y2 } },
     ]
   }).then((stations) => {
-    console.log(stations.length)
+    // console.log(stations.length)
     res.json(stations)
   }).catch((err) => {
     console.log(err);
