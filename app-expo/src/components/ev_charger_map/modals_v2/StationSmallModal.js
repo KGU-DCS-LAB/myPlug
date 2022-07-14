@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 // import { Text, View, Dimensions, StyleSheet, ScrollView } from 'react-native'
-import { Alert, Dimensions, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import { Box, Button, Center, Heading, HStack, Spacer, VStack } from "native-base";
+import { Alert, Dimensions, Pressable, ScrollView, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { Box, Button, Center, Heading, HStack, Spacer, Text, VStack } from "native-base";
 import Modal from 'react-native-modalbox'
 import { useState } from 'react'
 import { config } from '../../../../config';
@@ -48,18 +48,26 @@ const StationSmallModal = (props) => {
                 position={"bottom"}
                 entry={"bottom"}
             >
-                {/* <View style={styles.flexEndView}> */}
                 <View style={styles.smallModalView}>
                     <ScrollView>
-                        <Text style={styles.modalText}>
-                            충전소명 : {props.station.statNm}({props.station.statId})
-                            <FindFavorites user_id={userId} statNm={props.station.statNm} />
-                        </Text>
-                        <Text>도로명 주소 : {props.station.addr}</Text>
-                        <Text>상세 위치 : {props.station.location}</Text>
+                        <HStack>
+                            <Heading size="md" isTruncated >
+                                {props.station.statNm}({props.station.statId})
+                            </Heading>
+                        </HStack>
+                        <HStack>
+                            <VStack>
+                                <Heading size="sm">{props.station.addr}</Heading>
+                                <Text>{props.station.location}</Text>
+                            </VStack>
+                            <Spacer />
+                            <VStack py={1}>
+                                <FindFavorites user_id={userId} statNm={props.station.statNm} />
+                            </VStack>
+                        </HStack>
                         <Text>운영 시간 : {props.station.useTime}</Text>
                         <Center>[[충전기 목록]]</Center>
-                        <HStack space={3} justifyContent="center">
+                        <HStack space={1} justifyContent="center">
                             {props.chargers.map((charger) => (
                                 <Text key={charger._id}>[충전기{charger.chgerId}]</Text>
                             ))}
