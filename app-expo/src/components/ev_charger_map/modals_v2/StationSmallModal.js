@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 // import { Text, View, Dimensions, StyleSheet, ScrollView } from 'react-native'
 import { Alert, Dimensions, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import { Box, Button, Center, HStack, Spacer, VStack } from "native-base";
+import { Box, Button, Center, Heading, HStack, Spacer, VStack } from "native-base";
 import Modal from 'react-native-modalbox'
 import { useState } from 'react'
 import { config } from '../../../../config';
@@ -14,7 +14,6 @@ var screen = Dimensions.get('window')
 
 const StationSmallModal = (props) => {
 
-    var screen = Dimensions.get('window');
     const show = useRef()
 
     const [star, setStar] = useState('star-border');
@@ -44,8 +43,8 @@ const StationSmallModal = (props) => {
                 position='center'
                 backdrop={true}
                 ref={show}
-                isOpen={props.isOpen}
-                onClosed={() => props.setOpen(false)}
+                isOpen={props.isSmallModalOpen}
+                onClosed={() => props.setSmallModalOpen(false)}
                 position={"bottom"}
                 entry={"bottom"}
             >
@@ -70,21 +69,48 @@ const StationSmallModal = (props) => {
                         <HStack>
                             <Pressable
                                 onPress={() => {
-                                    props.setBigModalVisible(!props.bigModalVisible);
+                                    // props.setBigModalVisible(!props.bigModalVisible);
+                                    props.setSmallModalOpen(false);
                                 }}
 
                             >
                                 <Box
+                                    height="30"
+                                    width="150"
+                                    borderWidth="1"
+                                    borderColor="coolGray.300"
+                                    shadow="3"
+                                    bg="red.300"
+                                    px="5"
+                                    mx="2"
+                                    rounded="8"
+                                >
+                                    <Center>
+                                        <Heading size="md">닫 기</Heading>
+                                    </Center>
+                                </Box>
+                            </Pressable>
+                            <Pressable
+                                onPress={() => {
+                                    // props.setBigModalVisible(!props.bigModalVisible);
+                                    props.setBigModalOpen(true);
+
+                                }}
+
+                            >
+                                <Box
+                                    height="30"
                                     width="150"
                                     borderWidth="1"
                                     borderColor="coolGray.300"
                                     shadow="3"
                                     bg="green.300"
                                     px="5"
+                                    mx="2"
                                     rounded="8"
                                 >
                                     <Center>
-                                        <Text>상세보기</Text>
+                                        <Heading size="md">상세보기</Heading>
                                     </Center>
                                 </Box>
                             </Pressable>
@@ -108,7 +134,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-        padding: 35,
+        padding: 15,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {

@@ -10,12 +10,13 @@ import CoverMenu from "./cover_menu/CoverMenu";
 import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 // import StationSmallModal from "../../components/ev_charger_map/modals/StationSmallModal";
 
-import StationBigModal from "../../components/ev_charger_map/modals/StationBigModal";
+// import StationBigModal from "../../components/ev_charger_map/modals/StationBigModal";
 import FilterModal from "../../components/ev_charger_map/modals/FilterModal";
 import { Image } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import StationListModal from "../../components/ev_charger_map/modals/StationListModal";
 import StationSmallModal from "../../components/ev_charger_map/modals_v2/StationSmallModal";
+import StationBigModal from "../../components/ev_charger_map/modals_v2/StationBigModal";
 
 const EvChargerContainer = (props) => {
 
@@ -32,7 +33,7 @@ const EvChargerContainer = (props) => {
     const [chargers, setChargers] = useState([]); // 서버로 부터 받아온 충전기 리스트
     const [chgerType, setChgerType] = useState([]); // 서버로 부터 받아온 충전기 타입
     const [busiNm, setBusiNm] = useState([]); // 서버로 부터 받아온 충전소 회사 리스트
-    const [selectedType, setSelectedType] = useState({chgerType: [], parkingFree: [], busiNm: []});
+    const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [] });
     const [filteredChargingStations, setFilteredChargingStations] = useState([]); // 필터링 한 결과 충전소 데이터 리스트
 
     const [count, setCount] = useState(0); // 리프레시 횟수 검사 용 (테스트 할 때 사용됨)
@@ -50,7 +51,8 @@ const EvChargerContainer = (props) => {
     const [isFiltering, setIsFiltering] = useState(false);
 
 
-    const [isOpen, setOpen] = useState(false);
+    const [isSmallModalOpen, setSmallModalOpen] = useState(false);
+    const [isBigModalOpen, setBigModalOpen] = useState(false);
 
 
     // const source = useRef(); //취소 토큰 용
@@ -143,13 +145,13 @@ const EvChargerContainer = (props) => {
     const selectType = (type, selected) => {
         let select = selectedType[type];
         select.push(selected)
-        setSelectedType({...selectedType, [type]: select})
+        setSelectedType({ ...selectedType, [type]: select })
     }
     const cancleSelect = (type, selected) => {
         let select = selectedType[type];
         select = select[type].filter((item) => item !== selected)
         // console.log(select)
-        setSelectedType({...selectedType, [type]: select})
+        setSelectedType({ ...selectedType, [type]: select })
     }
 
     const getFilteredData = () => {
@@ -181,7 +183,7 @@ const EvChargerContainer = (props) => {
             setChargingStations([]);
             setFilteredChargingStations([]);
         }
-        
+
     }, [location]);
 
     const refresh = () => {
@@ -191,7 +193,7 @@ const EvChargerContainer = (props) => {
     }
 
     const getStations = () => {
-        if(isFiltering){
+        if (isFiltering) {
             getFilteredData();
         }
         else {
@@ -208,10 +210,10 @@ const EvChargerContainer = (props) => {
                 x2: location.longitude + (location.longitudeDelta / 2),
                 y1: location.latitude - (location.latitudeDelta / 2),
                 y2: location.latitude + (location.latitudeDelta / 2),
-                count:count,
+                count: count,
             }
         }).then((response) => {
-            
+
             setChargingStations(response.data); //서버에서 받아온 충전소 데이터 리스트를 업데이트
             setFilteredChargingStations(response.data);
         }).catch(function (error) {
@@ -244,7 +246,7 @@ const EvChargerContainer = (props) => {
             // latitudeDelta: location.latitudeDelta,
             // longitudeDelta: location.longitudeDelta,
         });
-        setOpen(true);
+        setSmallModalOpen(true);
         getChargers(station.statId)
     }
 
@@ -255,7 +257,7 @@ const EvChargerContainer = (props) => {
                     ?
                     <>
                         <View style={{ flex: 1 }}>
-{/* 
+                            {/* 
                             <StationSmallModal //마커 클릭 시 작은 모달 띄우기 용
                                 station={selectedStation}
                                 smallModalVisible={smallModalVisible}
@@ -264,14 +266,14 @@ const EvChargerContainer = (props) => {
                                 setBigModalVisible={setBigModalVisible}
                                 chargers={chargers}
                             /> */}
-                            <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
+                            {/* <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
                                 station={selectedStation}
                                 smallModalVisible={smallModalVisible}
                                 setSmallModalVisible={setSmallModalVisible}
                                 bigModalVisible={bigModalVisible}
                                 setBigModalVisible={setBigModalVisible}
                                 chargers={chargers}
-                            />
+                            /> */}
                             <FilterModal
                                 filterModalVisible={filterModalVisible}
                                 selectedType={selectedType}
@@ -294,13 +296,25 @@ const EvChargerContainer = (props) => {
                             />
 
                             <StationSmallModal
-                                isOpen={isOpen}
-                                setOpen={setOpen}
+                                isSmallModalOpen={isSmallModalOpen}
+                                setSmallModalOpen={setSmallModalOpen}
                                 station={selectedStation}
                                 // smallModalVisible={smallModalVisible}
                                 // setSmallModalVisible={setSmallModalVisible}
-                                bigModalVisible={bigModalVisible}
-                                setBigModalVisible={setBigModalVisible}
+                                // bigModalVisible={bigModalVisible}
+                                // setBigModalVisible={setBigModalVisible}
+                                setBigModalOpen={setBigModalOpen}
+                                chargers={chargers}
+                            />
+
+                            <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
+                                isBigModalOpen={isBigModalOpen}
+                                setBigModalOpen={setBigModalOpen}
+                                station={selectedStation}
+                                // smallModalVisible={smallModalVisible}
+                                // setSmallModalVisible={setSmallModalVisible}
+                                // bigModalVisible={bigModalVisible}
+                                // setBigModalVisible={setBigModalVisible}
                                 chargers={chargers}
                             />
 

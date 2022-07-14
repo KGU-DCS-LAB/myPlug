@@ -3,8 +3,6 @@ import { useState } from "react";
 import SearchBar from "react-native-dynamic-search-bar";
 import { FlatList, TouchableOpacity } from 'react-native';
 import { config } from '../../../../config'
-import StationSmallModal from "../../../components/ev_charger_map/modals/StationSmallModal";
-import StationBigModal from "../../../components/ev_charger_map/modals/StationBigModal";
 import { Marker } from "react-native-maps";
 import MapView from "react-native-map-clustering";
 
