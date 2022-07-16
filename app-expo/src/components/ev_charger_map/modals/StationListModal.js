@@ -55,7 +55,7 @@ const StationListModal = (props) => {
                                             <><Text>근처에 충전소가 없습니다.</Text></>
                                             :
                                             props.chargingStations.map((stations) => (
-                                                <TouchableOpacity key={stations.statId} onPress={() => props.focuseToStation(stations)}>
+                                                <TouchableOpacity key={stations.statId} onPress={() => props.focusToStation(stations)}>
                                                     <Box
                                                         borderBottomWidth="1"
                                                         borderColor="coolGray.200"

@@ -30,7 +30,7 @@ const ChargerSearchBar = (props) => {
     }
 
     const renderItem = ({ item }) => (
-        <TouchableOpacity onPress={() => props.focuseToStation(item)}>
+        <TouchableOpacity onPress={() => props.focusToStation(item)}>
             <Box
              borderBottomWidth="1"
              borderColor="coolGray.200"

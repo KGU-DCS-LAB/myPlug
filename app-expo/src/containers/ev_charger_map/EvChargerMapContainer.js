@@ -265,26 +265,18 @@ const EvChargerContainer = (props) => {
         })
     }
 
-    const focuseToStation = (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
+    const focusToStation = (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
         // setSmallModalVisible(true)
-        setStationListModalVisible(false)
-        setSelectedStation(station)
-        setLocation({
+        const stationLocation = {
             longitude: Number(station.lng),
             latitude: Number(station.lat),
             latitudeDelta: 0.007,
             longitudeDelta: 0.007,
-        });
-
-        if (location && location.latitudeDelta < 0.13 && location.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
-            getStations(location);
         }
-        else { // 델타 값이 너무 크면 값을 그냥 비워버림
-            setChargingStations([]);
-            setFilteredChargingStations([]);
-        }
-
-
+        setStationListModalVisible(false)
+        setSelectedStation(station)
+        setLocation(stationLocation);
+        getStations(stationLocation);
         setSmallModalOpen(true);
         getChargers(station.statId)
         getStationLogs(station.statId)
@@ -314,7 +306,7 @@ const EvChargerContainer = (props) => {
                                 chargingStations={filteredChargingStations}
                                 stationListModalVisible={stationListModalVisible}
                                 setStationListModalVisible={setStationListModalVisible}
-                                focuseToStation={focuseToStation}
+                                focusToStation={focusToStation}
                             />
 
                             <StationSmallModal
@@ -375,7 +367,7 @@ const EvChargerContainer = (props) => {
                                             }}
                                             onPress={
                                                 () => {
-                                                    focuseToStation(marker)
+                                                    focusToStation(marker)
                                                 }}
                                             pinColor={
                                                 ((marker.statId == selectedStation.statId) ? "green" : "red")
@@ -402,7 +394,7 @@ const EvChargerContainer = (props) => {
                             setFilterModalVisible={setFilterModalVisible}
                             setStationListModalVisible={setStationListModalVisible}
                             getStations={getStations}
-                            focuseToStation={focuseToStation}
+                            focusToStation={focusToStation}
                             refresh={refresh}
                         />
                     </>
