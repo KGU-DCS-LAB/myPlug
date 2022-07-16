@@ -110,41 +110,6 @@ public class Saver {
 
     }
 
-//    public void addRawDocument(KecoChargerInfoDTO ci) {
-//        Document document = new Document("_id", ci.getStatId() + ci.getChgerId() + ci.getDate())
-//                .append("api", ci.getApi()) //수집된 api
-//                .append("date", ci.getDate()) // 수집 일시
-//                .append("statNm", ci.getStatNm())//	충전소명
-//                .append("statId", ci.getStatId())//	충전소ID
-//                .append("chgerId", ci.getChgerId())//	충전기ID
-//                .append("chgerType", ci.getChgerType())//	충전기타입
-//                .append("addr", ci.getAddr())//	주소
-//                .append("location", ci.getLocation())//	상세위치
-//                .append("lat", ci.getLat())//	위도
-//                .append("lng", ci.getLng())//	경도
-//                .append("useTime", ci.getUseTime())//	이용가능시간
-//                .append("busiId", ci.getBusiId())//	기관 아이디
-//                .append("bnm", ci.getBnm())//	기관명
-//                .append("busiNm", ci.getBusiNm())//	운영기관명
-//                .append("busiCall", ci.getBusiCall())//	운영기관연락처
-//                .append("stat", ci.getStat())//	충전기상태
-//                .append("statUpdDt", ci.getStatUpdDt())//	상태갱신일시
-//                .append("lastTsdt", ci.getLastTsdt())//	마지막 충전시작일시
-//                .append("lastTedt", ci.getLastTedt())//	마지막 충전종료일시
-//                .append("nowTsdt", ci.getNowTsdt())//	충전중 시작일시
-//                .append("output", ci.getOutput())//	충전용량
-//                .append("method", ci.getMethod())//	충전방식
-//                .append("zcode", ci.getZcode())//	지역코드
-//                .append("parkingFree", ci.getParkingFree())//	주차료무료
-//                .append("note", ci.getNote())//	충전소 안내
-//                .append("limitYn", ci.getLimitYn())//	이용자 제한
-//                .append("limitDetail", ci.getLimitDetail())//	이용제한 사유
-//                .append("delYn", ci.getDelYn())//	삭제 여부
-//                .append("delDetail", ci.getDelDetail())//	삭제 사유
-//                .append("version", newVersion);
-//        list_raw.add(document);
-//    }
-
     public void addStationDocument(KecoChargerInfoDTO ci) {
         Document document_stations = new Document("_id", ci.getStatId() + ci.getDate())
                 .append("api", ci.getApi()) //수집된 api
@@ -167,6 +132,7 @@ public class Saver {
                 .append("limitDetail", ci.getLimitDetail())//	이용제한 사유
                 .append("delYn", ci.getDelYn())//	삭제 여부
                 .append("delDetail", ci.getDelDetail())//	삭제 사유
+                .append("distance", 0)
                 .append("version", newVersion);
         list_stations.add(document_stations);
         duplicateStationSet.add(ci.getStatId());

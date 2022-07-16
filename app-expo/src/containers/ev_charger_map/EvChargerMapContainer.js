@@ -102,8 +102,6 @@ const EvChargerContainer = (props) => {
 
     
     const setLocationAndGetStations = (region) => {
-        // setChargingStations([]);
-        // setFilteredChargingStations([]);
         setLocation(region);
         if (region.latitudeDelta < 0.13 && region.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
             getStations(region);
@@ -171,38 +169,6 @@ const EvChargerContainer = (props) => {
         setSelectedType({ ...selectedType, [type]: select })
     }
 
-    const getFilteredData = (location) => {
-        axios.post(config.ip + ':5000/stationsRouter/filterStations', {
-            data: {
-                // min: selected[0],
-                // max: selected[1],
-                x1: location.longitude - (location.longitudeDelta / 2),
-                x2: location.longitude + (location.longitudeDelta / 2),
-                y1: location.latitude - (location.latitudeDelta / 2),
-                y2: location.latitude + (location.latitudeDelta / 2),
-                types: selectedType
-            }
-        }).then((response) => {
-            // console.log(response.data);
-            setFilteredChargingStations(response.data);
-        }).catch(function (error) {
-            console.log(error);
-        })
-    }
-
-    //위치 값이 변할 때 마다 서버로 데이터 요청을 함
-    // useEffect(() => {
-    //     // console.log(mapRef?.current?.getCamera());
-    //     if (location && location.latitudeDelta < 0.13 && location.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
-    //         getStations();
-    //     }
-    //     else { // 델타 값이 너무 크면 값을 그냥 비워버림
-    //         setChargingStations([]);
-    //         setFilteredChargingStations([]);
-    //     }
-
-    // }, [location]);
-
     const refresh = () => {
         setIsFiltering(false);
         setSelectedType([]);
@@ -219,6 +185,24 @@ const EvChargerContainer = (props) => {
         // getAllData();
     }
 
+    
+    const getFilteredData = (location) => {
+        axios.post(config.ip + ':5000/stationsRouter/filterStations', {
+            data: {
+                x1: location.longitude - (location.longitudeDelta / 2),
+                x2: location.longitude + (location.longitudeDelta / 2),
+                y1: location.latitude - (location.latitudeDelta / 2),
+                y2: location.latitude + (location.latitudeDelta / 2),
+                types: selectedType
+            }
+        }).then((response) => {
+            // console.log(response.data);
+            setFilteredChargingStations(response.data);
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
+
     const getAllData = async (location) => {
         await axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
             // cancelToken: source.current.token,
@@ -230,12 +214,18 @@ const EvChargerContainer = (props) => {
                 // count: count,
             }
         }).then((response) => {
-
+            sortStations(response.data);
             setChargingStations(response.data); //서버에서 받아온 충전소 데이터 리스트를 업데이트
             setFilteredChargingStations(response.data);
         }).catch(function (error) {
             console.log(error);
         })
+    }
+
+    const sortStations = (stations) => {
+        // console.log(stations)
+        let sortedList = []
+        return sortedList;
     }
 
     const getChargers = (statId) => {
