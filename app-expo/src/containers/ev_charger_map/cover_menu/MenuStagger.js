@@ -1,7 +1,5 @@
 import { Box, Center, Fab, HStack, Icon, IconButton, Spacer, Stagger, useDisclose } from "native-base";
 import { AntDesign, MaterialCommunityIcons, MaterialIcons, FontAwesome5, Ionicons } from "@expo/vector-icons";
-import * as Location from 'expo-location';
-
 
 const MenuStagger = (props) => {
 

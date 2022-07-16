@@ -38,8 +38,8 @@ const EvChargerContainer = (props) => {
     const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [] });
     const [filteredChargingStations, setFilteredChargingStations] = useState([]); // 필터링 한 결과 충전소 데이터 리스트
 
-    const [count, setCount] = useState(0); // 리프레시 횟수 검사 용 (테스트 할 때 사용됨)
-    const [requestTime, setRequestTime] = useState(new Date().getTime()); //제스처 검출용 (손 끝에서 지도를 탈출했을 때, 특정 상황에서 부드러운 화면 업데이트를 위해 위치 상태 값이 강제러 리프레시 되는 현상이 있어 서버에 과도한 데이터 요청을 하는 것을 발견함. 따라서 이를 방지하기 위해 특정한 로직을 추가하여 위치 값이 수정될 때 마다 이 값이 갱신되도록 함)
+    // const [count, setCount] = useState(0); // 리프레시 횟수 검사 용 (테스트 할 때 사용됨)
+    // const [requestTime, setRequestTime] = useState(new Date().getTime()); //제스처 검출용 (손 끝에서 지도를 탈출했을 때, 특정 상황에서 부드러운 화면 업데이트를 위해 위치 상태 값이 강제러 리프레시 되는 현상이 있어 서버에 과도한 데이터 요청을 하는 것을 발견함. 따라서 이를 방지하기 위해 특정한 로직을 추가하여 위치 값이 수정될 때 마다 이 값이 갱신되도록 함)
 
     // const [searchedStation, setSearchedStation] = useState([]); // 검색하고 선택한 충전소
     const [selectedStation, setSelectedStation] = useState([lat = 0, lng = 0]); //마커 선택 시 모달에 띄워줄 데이터
@@ -72,13 +72,14 @@ const EvChargerContainer = (props) => {
                 }
 
                 let location = await Location.getCurrentPositionAsync({}); //현 위치 수신
-                // console.log(location);
-                setLocation({
+                let initLocation = {
                     longitude: location.coords.longitude,
                     latitude: location.coords.latitude,
                     latitudeDelta: 0.007,
                     longitudeDelta: 0.007,
-                });
+                }
+                // console.log(location);
+                setLocationAndGetStations(initLocation);
                 setLoaded(true);
                 // 실시간으로 위치 변화 감지 (권한 거부 시 아예 동작하지 않음 / 델타 값 관련 버그가 있어서 일단 주석 처리. 동작 자체는 아무 이상 없음)
                 // Location.watchPositionAsync({ accuracy: Location.Accuracy.Balanced, timeInterval: 100, distanceInterval: 1 },
@@ -99,22 +100,36 @@ const EvChargerContainer = (props) => {
         }
     }, []);
 
-    //현 위치의 충전소 데이터 수신
-    const getRegionStations = (region) => {
-        if (isLoaded) {
-            setCount(count + 1)
-            const newTime = new Date().getTime();
-            // console.log('--------')
-            // console.log(requestTime); //마지막 위치 요청 시간
-            setRequestTime(newTime);
-            // console.log(newTime); //새로운 위치 요청 시간
-            console.log('diff : ', newTime - requestTime);
-            if (newTime - requestTime > 300) { //두 요청 시간 차이가 300보다 큰 경우에만 정상적인 요청임 (그 이하는 지도 화면이 자동으로 부드럽게 밀리는 과정에서 위치 값을 갱신하는 것으로 간주함)
-                console.log('updated at count:', count); //실제로 서버로 요청이 들어간 refresh count 값이 얼마인지 확인하기 위해 추가
-                setLocation(region); //위치 값 갱신
-            }
+    
+    const setLocationAndGetStations = (region) => {
+        // setChargingStations([]);
+        // setFilteredChargingStations([]);
+        setLocation(region);
+        if (region.latitudeDelta < 0.13 && region.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
+            getStations(region);
+        }
+        else { // 델타 값이 너무 크면 값을 그냥 비워버림
+            setChargingStations([]);
+            setFilteredChargingStations([]);
         }
     }
+
+    // //현 위치의 충전소 데이터 수신
+    // const getRegionStations = (region) => {
+    //     if (isLoaded) {
+    //         setCount(count + 1)
+    //         const newTime = new Date().getTime();
+    //         // console.log('--------')
+    //         // console.log(requestTime); //마지막 위치 요청 시간
+    //         setRequestTime(newTime);
+    //         // console.log(newTime); //새로운 위치 요청 시간
+    //         console.log('diff : ', newTime - requestTime);
+    //         if (newTime - requestTime > 300) { //두 요청 시간 차이가 300보다 큰 경우에만 정상적인 요청임 (그 이하는 지도 화면이 자동으로 부드럽게 밀리는 과정에서 위치 값을 갱신하는 것으로 간주함)
+    //             console.log('updated at count:', count); //실제로 서버로 요청이 들어간 refresh count 값이 얼마인지 확인하기 위해 추가
+    //             setLocation(region); //위치 값 갱신
+    //         }
+    //     }
+    // }
 
     const getbusiNm = async () => {
         let key = "busiNm";
@@ -140,7 +155,7 @@ const EvChargerContainer = (props) => {
 
     const dataFiltering = () => {
         setIsFiltering(true);
-        getFilteredData();
+        getFilteredData(location);
         setFilterModalVisible(false);
     }
 
@@ -156,7 +171,7 @@ const EvChargerContainer = (props) => {
         setSelectedType({ ...selectedType, [type]: select })
     }
 
-    const getFilteredData = () => {
+    const getFilteredData = (location) => {
         axios.post(config.ip + ':5000/stationsRouter/filterStations', {
             data: {
                 // min: selected[0],
@@ -176,35 +191,35 @@ const EvChargerContainer = (props) => {
     }
 
     //위치 값이 변할 때 마다 서버로 데이터 요청을 함
-    useEffect(() => {
-        // console.log(mapRef?.current?.getCamera());
-        if (location && location.latitudeDelta < 0.13 && location.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
-            getStations();
-        }
-        else { // 델타 값이 너무 크면 값을 그냥 비워버림
-            setChargingStations([]);
-            setFilteredChargingStations([]);
-        }
+    // useEffect(() => {
+    //     // console.log(mapRef?.current?.getCamera());
+    //     if (location && location.latitudeDelta < 0.13 && location.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
+    //         getStations();
+    //     }
+    //     else { // 델타 값이 너무 크면 값을 그냥 비워버림
+    //         setChargingStations([]);
+    //         setFilteredChargingStations([]);
+    //     }
 
-    }, [location]);
+    // }, [location]);
 
     const refresh = () => {
         setIsFiltering(false);
         setSelectedType([]);
-        getAllData();
+        getAllData(location);
     }
 
-    const getStations = () => {
+    const getStations = (location) => {
         if (isFiltering) {
-            getFilteredData();
+            getFilteredData(location);
         }
         else {
-            getAllData();
+            getAllData(location);
         }
         // getAllData();
     }
 
-    const getAllData = async () => {
+    const getAllData = async (location) => {
         await axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
             // cancelToken: source.current.token,
             data: { // 현재 화면 모서리의 좌표 값을 전송함. 같은 축이여도 숫자가 작을 수록 값이 작음 (ex. x1<x2,  y1<y2)
@@ -212,7 +227,7 @@ const EvChargerContainer = (props) => {
                 x2: location.longitude + (location.longitudeDelta / 2),
                 y1: location.latitude - (location.latitudeDelta / 2),
                 y2: location.latitude + (location.latitudeDelta / 2),
-                count: count,
+                // count: count,
             }
         }).then((response) => {
 
@@ -238,7 +253,7 @@ const EvChargerContainer = (props) => {
 
     const getStationLogs = (statId) => {
         //선택한 충전소id에 속한 충전기를 요청 
-                console.log("getstationlogs : "+statId)
+        console.log("getstationlogs : " + statId)
 
         axios.post(config.ip + ':5000/stationsRouter/keco/find/stationLogs', {
             data: statId
@@ -260,6 +275,16 @@ const EvChargerContainer = (props) => {
             latitudeDelta: 0.007,
             longitudeDelta: 0.007,
         });
+
+        if (location && location.latitudeDelta < 0.13 && location.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
+            getStations(location);
+        }
+        else { // 델타 값이 너무 크면 값을 그냥 비워버림
+            setChargingStations([]);
+            setFilteredChargingStations([]);
+        }
+
+
         setSmallModalOpen(true);
         getChargers(station.statId)
         getStationLogs(station.statId)
@@ -329,8 +354,8 @@ const EvChargerContainer = (props) => {
                                 onRegionChange={region => {
 
                                 }}
-                                onRegionChangeComplete={(region, gesture) => { //손가락이 지도에서 떨어지는 순간 처리할 일
-                                    getRegionStations(region)
+                                onRegionChangeComplete={(region) => { //손가락이 지도에서 떨어지는 순간 처리할 일 + 굳이 손가락을 대지 않아도 위치 변경 시 이것을 통해 동작하기도 하는 것을 발견함.
+                                    setLocationAndGetStations(region);
                                 }}
                                 onMapReady={() => {
                                     // updateMapStyle()
@@ -363,7 +388,7 @@ const EvChargerContainer = (props) => {
 
                             </MapView>
                             {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
-                            <HStack><Text>{location.latitude}</Text><Spacer /><Text>{count}</Text><Spacer /><Text>{location.longitude}</Text></HStack>
+                            <HStack><Text>{location.latitude}</Text><Spacer /><Text>{location.longitude}</Text></HStack>
                             <HStack><Text>{location.latitudeDelta}</Text><Spacer /><Text>{location.longitudeDelta}</Text></HStack>
                             {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
 
@@ -372,6 +397,7 @@ const EvChargerContainer = (props) => {
                             navigation={props.navigation}
                             location={location}
                             setLocation={setLocation}
+                            setLocationAndGetStations={setLocationAndGetStations}
                             smallModalVisible={smallModalVisible}
                             setFilterModalVisible={setFilterModalVisible}
                             setStationListModalVisible={setStationListModalVisible}

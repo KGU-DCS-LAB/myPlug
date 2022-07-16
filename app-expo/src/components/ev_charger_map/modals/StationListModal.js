@@ -47,9 +47,7 @@ const StationListModal = (props) => {
                                 <Box my={3}>
                                     <Heading>인근 충전소 목록으로 보기</Heading>
                                 </Box>
-                                <Button
-                                    title="거리순"
-                                    onPress={() => sortDistance()}>거리순 정렬</Button>
+                                <Text>{props.chargingStations.length}개의 충전소를 로드했습니다.</Text>
                                 <ScrollView>
                                     {
                                         props.chargingStations.length < 0

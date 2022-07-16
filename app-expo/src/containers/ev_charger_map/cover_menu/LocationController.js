@@ -10,7 +10,7 @@ export default (props) => {
     const goToCurrentLocation = async () => {
         let location = await Location.getCurrentPositionAsync({}); //현 위치 수신
         // console.log(location);
-        props.setLocation({
+        props.setLocationAndGetStations({
             longitude: location.coords.longitude,
             latitude: location.coords.latitude,
             latitudeDelta: 0.007,
@@ -33,7 +33,7 @@ export default (props) => {
                 break;
         }
         if (location.latitudeDelta + magnification > 0 && location.longitudeDelta + magnification > 0) {
-            props.setLocation({
+            props.setLocationAndGetStations({
                 longitude: location.longitude,
                 latitude: location.latitude,
                 latitudeDelta: location.latitudeDelta + magnification,

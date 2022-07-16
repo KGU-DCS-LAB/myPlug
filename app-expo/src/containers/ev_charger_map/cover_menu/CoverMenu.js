@@ -19,13 +19,12 @@ const CoverMenu = (props) => {
                 <LocationController
                     location={props.location}
                     setLocation={props.setLocation}
+                    setLocationAndGetStations={props.setLocationAndGetStations}
                 />
             </Center>
             <Center style={{ position: 'absolute', right: 20, bottom: 150, height: 30, }} >
                 <MenuStagger
                     navigation={props.navigation}
-                    location={props.location}
-                    setLocation={props.setLocation}
                     setFilterModalVisible={props.setFilterModalVisible}
                     setStationListModalVisible={props.setStationListModalVisible}
                     getStations={props.getStations}
