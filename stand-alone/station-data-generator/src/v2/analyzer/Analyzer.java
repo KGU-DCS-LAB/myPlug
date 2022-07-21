@@ -27,18 +27,23 @@ public class Analyzer {
     public void start() {
         database = MongoConfig.getInstance().config();
         collection_stations_logs = database.getCollection("stations_logs");
-        insertExample();
         findLogs();
     }
 
     public void findLogs() {
         MongoCursor<Document> cursor = collection_stations_logs.find().iterator();
-        try {
-            while (cursor.hasNext()) {
-                System.out.println(cursor.next().toJson());
+        if(cursor.hasNext()){
+            try {
+                while (cursor.hasNext()) {
+                    System.out.println(cursor.next().toJson());
+                }
+            } finally {
+                cursor.close();
             }
-        } finally {
-            cursor.close();
+        }
+        else {
+            System.out.println("아무것도 없으므로 기본 데이터 추가!");
+            insertExample();
         }
     }
 
@@ -57,6 +62,7 @@ public class Analyzer {
             station_log.put("logs", logs); //json 내부 배열 넣을때 사용
             list_stations_logs.add(station_log);
         }
+        System.out.println("기본 데이터 생성 완료... 서버로 입력 시도!");
         collection_stations_logs.insertMany(list_stations_logs);
     }
 }
