@@ -69,11 +69,11 @@ public class Analyzer {
         }
         else {
             System.out.println("아무것도 없으므로 기본 데이터 추가!");
-            insertExample();
+            insertDefaultLogs();
         }
     }
 
-    public void insertExample() {
+    public void insertDefaultLogs() {
         for (KecoChargerInfoDTO ci : chargerInfoList) {
             Document station_log = new Document()
                     .append("statId", ci.getStatId());
@@ -81,7 +81,12 @@ public class Analyzer {
             for (int i = 0; i < 7; i++) {
                 Document day = new Document();
                 for (int j = 0; j < 24; j++) {
-                    day.append(j + "", 0);
+                    if(d[i].equals(this.day) && j==hour){
+                        day.append(j + "", 1);
+                    }
+                    else {
+                        day.append(j + "", 0);
+                    }
                 }
                 logs.append(d[i], day);
             }

@@ -8,25 +8,28 @@ public class ReceiverController {
     }
 
     public void start(){
-        Scanner scan = new Scanner(System.in);
-        while (true) {
-            System.out.println("-----------------------------");
-            System.out.println("원하시는 API를 입력하세요");
-            System.out.println("한국환경공단 : keco");
-            System.out.println("뒤로가기 : 이외의 글자 아무거나");
-            System.out.println("-----------------------------");
+        /**
+         * 추가 API가 올때 까지 switch 처리 하지 않겠음
+         * */
+//        Scanner scan = new Scanner(System.in);
+//        while (true) {
+//            System.out.println("-----------------------------");
+//            System.out.println("원하시는 API를 입력하세요");
+//            System.out.println("한국환경공단 : keco");
+//            System.out.println("뒤로가기 : 이외의 글자 아무거나");
+//            System.out.println("-----------------------------");
             Receiver receiver = Receiver.getInstance();
-
-            String mode = scan.next();
-            switch (mode) {
-                case "keco":
+//
+//            String mode = scan.next();
+//            switch (mode) {
+//                case "keco":
                     receiver.receiveKECO();
-                    break;
-                default:
-                    break;
-            }
-            break;
-        }
+//                    break;
+//                default:
+//                    break;
+//            }
+//            break;
+//        }
     }
 
 }
