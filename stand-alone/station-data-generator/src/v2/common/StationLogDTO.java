@@ -2,6 +2,7 @@ package v2.common;
 
 public class StationLogDTO {
     public String statId;
+    public String chgerId;
     public String mon;
     public String tue;
     public String wed;
@@ -9,6 +10,14 @@ public class StationLogDTO {
     public String fri;
     public String sat;
     public String sun;
+
+    public String getChgerId() {
+        return chgerId;
+    }
+
+    public void setChgerId(String chgerId) {
+        this.chgerId = chgerId;
+    }
 
     public String getStatId() {
         return statId;

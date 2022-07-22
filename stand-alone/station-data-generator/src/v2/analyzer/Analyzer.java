@@ -72,6 +72,7 @@ public class Analyzer {
                         Object obj = parser.parse(logStringJSON);
                         JSONObject jsonObj = (JSONObject) obj;
                         String statId = jsonObj.get("statId").toString();
+                        String chgerId = jsonObj.get("chgerId").toString();
 
                         JSONParser parser2 = new JSONParser();
                         Object obj2 = parser2.parse(jsonObj.get("logs").toString());
@@ -79,6 +80,7 @@ public class Analyzer {
 
                         StationLogDTO log = new StationLogDTO();
                         log.setStatId(statId);
+                        log.setChgerId(chgerId);
                         log.setMon(jsonObj2.get("mon").toString());
                         log.setTue(jsonObj2.get("tue").toString());
                         log.setWed(jsonObj2.get("wed").toString());
@@ -93,9 +95,60 @@ public class Analyzer {
                     }
                 }
                 for (StationLogDTO sl : stationsLogList) {
-                    System.out.println(sl.getStatId());
-                    System.out.println(sl.getSat());
+                    Document station_log = new Document()
+                            .append("statId", sl.getStatId())
+                            .append("chgerId", sl.getChgerId())
+                            ;
+                    Document logs = new Document();
+                    for (int i = 0; i < 7; i++) {
+                        Document day = new Document();
+                        String temp;
+                        switch (d[i]){
+                            case "mon":
+                                temp=sl.getMon();
+                                break;
+                            case "tue":
+                                temp=sl.getTue();
+                                break;
+                            case "wed":
+                                temp=sl.getWed();
+                                break;
+                            case "thu":
+                                temp=sl.getThu();
+                                break;
+                            case "fri":
+                                temp=sl.getFri();
+                                break;
+                            case "sat":
+                                temp=sl.getSat();
+                                break;
+                            case "sun":
+                                temp=sl.getSun();
+                                break;
+                            default:
+                                temp="error";
+                                break;
+                        }
+
+                        JSONParser parser3 = new JSONParser();
+                        Object obj3 = parser3.parse(temp);
+                        JSONObject jsonObj3 = (JSONObject) obj3;
+                        for (int j = 0; j < 24; j++) {
+                            String count = jsonObj3.get(j+"").toString();
+//                            System.out.println(count);
+                            if (d[i].equals(this.day) && j == hour) {
+                                day.append(j + "", ""+(Integer.parseInt(count)+1));
+                            } else {
+                                day.append(j + "", count);
+                            }
+                        }
+                        logs.append(d[i], day);
+                    }
+                    station_log.put("logs", logs); //json 내부 배열 넣을때 사용
+                    list_stations_logs.add(station_log);
                 }
+                collection_stations_logs.drop();
+                collection_stations_logs.insertMany(list_stations_logs);
             } catch (Exception e) {
                 System.out.println(e);
             } finally {
@@ -110,7 +163,9 @@ public class Analyzer {
     public void insertDefaultLogs() {
         for (KecoChargerInfoDTO ci : chargerInfoList) {
             Document station_log = new Document()
-                    .append("statId", ci.getStatId());
+                    .append("statId", ci.getStatId())
+                    .append("chgerId", ci.getChgerId())
+                    ;
             Document logs = new Document();
             for (int i = 0; i < 7; i++) {
                 Document day = new Document();
