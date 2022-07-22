@@ -165,10 +165,13 @@ public class Saver {
         startTime = System.currentTimeMillis();
         LocalDateTime now = LocalDateTime.now();
         System.out.println(now);
-        String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초"));
-        System.out.println(formatedNow);
         DayOfWeek dayOfWeek = now.getDayOfWeek();
-        collection_version.insertOne(new Document("version", newVersion).append("date", formatedNow).append("day",dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.US).toLowerCase(Locale.ROOT)));
+        collection_version.insertOne(
+                new Document("version", newVersion)
+                        .append("date", now.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초")))
+                        .append("day", dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.US).toLowerCase(Locale.ROOT))
+                        .append("hour", now.getHour())
+        );
         finishTime = System.currentTimeMillis();
         elapsedTime = finishTime - startTime;
         System.out.println("버전이 " + currentVersion + "에서 " + newVersion + "으로 업데이트됨");
