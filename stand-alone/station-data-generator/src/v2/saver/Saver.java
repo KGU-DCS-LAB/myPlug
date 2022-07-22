@@ -15,6 +15,10 @@ import v2.common.ConsoleColor;
 import v2.common.MongoConfig;
 import v2.common.KecoChargerInfoDTO;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.*;
 
 /**
@@ -26,9 +30,9 @@ public class Saver {
     ConsoleColor cc = DataManager.cc;
     ArrayList<KecoChargerInfoDTO> chargerInfoList = DataManager.chargerInfoList;
     MongoDatabase database;
-//    MongoCollection<Document> collection_version, collection_raw, collection_stations, collection_chargers;
-    MongoCollection<Document> collection_version, collection_raw, collection_stations_log, collection_stations, collection_chargers;
-    List<Document> list_raw = new ArrayList<Document>();
+
+    MongoCollection<Document> collection_version, collection_stations, collection_chargers;
+
     List<Document> list_stations = new ArrayList<Document>();
     List<Document> list_chargers = new ArrayList<Document>();
     Set<String> duplicateStationSet = new HashSet<String>(); //충전소 중복 검사용
@@ -81,7 +85,6 @@ public class Saver {
         System.out.println("************************************");
         cc.postfix();
 
-        collection_raw = database.getCollection("raw_charger_infos");
         collection_stations = database.getCollection("stations");
         collection_chargers = database.getCollection("chargers");
         System.out.println("Collection selected successfully");
@@ -89,8 +92,6 @@ public class Saver {
         int length = chargerInfoList.size();
         for (KecoChargerInfoDTO ci : chargerInfoList) {
 
-            //Raw 데이터 정리 (일단 중지)
-//            addRawDocument(ci);
 
             //충전소 데이터 정리
             if (!duplicateStationSet.contains(ci.getStatId() + "")) {
@@ -104,7 +105,6 @@ public class Saver {
             System.out.println("(" + count + "/" + length + ")" + ci.getStatNm() + "/" + ci.getChgerId());
         }
 
-        cc.print("secondary", "준비된 Raw 데이터 건수 : " + list_raw.size());
         cc.print("secondary", "준비된 충전소 데이터 건수 : " + list_stations.size());
         cc.print("secondary", "준비된 충전기 데이터 건수 : " + list_chargers.size());
 
@@ -163,21 +163,17 @@ public class Saver {
         cc.bigPrint("warning", "**약간의 시간이 걸립니다. 기다려주세요.**");
 
         startTime = System.currentTimeMillis();
-        collection_version.insertOne(new Document("version", newVersion).append("date", new Date().toString()));
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(now);
+        String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초"));
+        System.out.println(formatedNow);
+        DayOfWeek dayOfWeek = now.getDayOfWeek();
+        collection_version.insertOne(new Document("version", newVersion).append("date", formatedNow +" / "+ dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.US).toLowerCase(Locale.ROOT)));
         finishTime = System.currentTimeMillis();
         elapsedTime = finishTime - startTime;
         System.out.println("버전이 " + currentVersion + "에서 " + newVersion + "으로 업데이트됨");
         cc.print("secondary", "수행에 걸린 시간 : " + elapsedTime + "ms\n");
 
-        cc.print("warning", "새 raw 데이터 추가 중...");
-        startTime = System.currentTimeMillis();
-        if (list_raw.size() > 0) {
-            collection_raw.insertMany(list_raw); // raw 데이터는 그냥 추가해줘도 문제 없음
-        }
-        finishTime = System.currentTimeMillis();
-        elapsedTime = finishTime - startTime;
-        cc.print("success", "새 raw 데이터 추가 완료!");
-        cc.print("secondary", "수행에 걸린 시간 : " + elapsedTime + "ms\n");
 
         cc.print("warning", "새 충전소 데이터 추가 중...");
         startTime = System.currentTimeMillis();
