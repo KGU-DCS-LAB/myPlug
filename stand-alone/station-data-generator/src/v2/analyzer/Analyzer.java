@@ -11,7 +11,9 @@ import org.json.simple.parser.JSONParser;
 import v2.DataManager;
 import v2.common.KecoChargerInfoDTO;
 import v2.common.MongoConfig;
+import v2.common.StationLogDTO;
 
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class Analyzer {
     MongoDatabase database;
     MongoCollection<Document> collection_version, collection_stations_logs;
     ArrayList<KecoChargerInfoDTO> chargerInfoList = DataManager.chargerInfoList;
+    ArrayList<StationLogDTO> stationsLogList = new ArrayList<StationLogDTO>();
     List<Document> list_stations_logs = new ArrayList<Document>();
     String[] d = {"mon", "tue", "wed", "thu", "fri", "sat", "sun"};
     String day = null;
@@ -58,16 +61,47 @@ public class Analyzer {
     public void updateLogs() {
         collection_stations_logs = database.getCollection("stations_logs");
         MongoCursor<Document> cursor = collection_stations_logs.find().iterator();
-        if(cursor.hasNext()){
+        if (cursor.hasNext()) {
             try {
                 while (cursor.hasNext()) {
-                    System.out.println(cursor.next().toJson());
+//                    System.out.println(cursor.next().toJson());
+                    JsonObject logJSON = new JsonObject(cursor.next().toJson()); //JSON 파싱
+                    String logStringJSON = logJSON.getJson();
+                    try {
+                        JSONParser parser = new JSONParser();
+                        Object obj = parser.parse(logStringJSON);
+                        JSONObject jsonObj = (JSONObject) obj;
+                        String statId = jsonObj.get("statId").toString();
+
+                        JSONParser parser2 = new JSONParser();
+                        Object obj2 = parser2.parse(jsonObj.get("logs").toString());
+                        JSONObject jsonObj2 = (JSONObject) obj2;
+
+                        StationLogDTO log = new StationLogDTO();
+                        log.setStatId(statId);
+                        log.setMon(jsonObj2.get("mon").toString());
+                        log.setTue(jsonObj2.get("tue").toString());
+                        log.setWed(jsonObj2.get("wed").toString());
+                        log.setThu(jsonObj2.get("thu").toString());
+                        log.setFri(jsonObj2.get("fri").toString());
+                        log.setSat(jsonObj2.get("sat").toString());
+                        log.setSun(jsonObj2.get("sun").toString());
+
+                        stationsLogList.add(log);
+                    } catch (Exception e) {
+                        System.out.println("버전 값 처리 중 오류가 발생했습니다.");
+                    }
                 }
+                for (StationLogDTO sl : stationsLogList) {
+                    System.out.println(sl.getStatId());
+                    System.out.println(sl.getSat());
+                }
+            } catch (Exception e) {
+                System.out.println(e);
             } finally {
                 cursor.close();
             }
-        }
-        else {
+        } else {
             System.out.println("아무것도 없으므로 기본 데이터 추가!");
             insertDefaultLogs();
         }
@@ -81,10 +115,9 @@ public class Analyzer {
             for (int i = 0; i < 7; i++) {
                 Document day = new Document();
                 for (int j = 0; j < 24; j++) {
-                    if(d[i].equals(this.day) && j==hour){
+                    if (d[i].equals(this.day) && j == hour) {
                         day.append(j + "", 1);
-                    }
-                    else {
+                    } else {
                         day.append(j + "", 0);
                     }
                 }
