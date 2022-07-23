@@ -15,6 +15,7 @@ import v2.common.StationLogDTO;
 
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Analyzer {
@@ -57,8 +58,7 @@ public class Analyzer {
         }
     }
 
-
-    public void updateLogs() {
+    public void updateLogs() { //코드 정리가 필요한 부분!
         collection_stations_logs = database.getCollection("stations_logs");
         MongoCursor<Document> cursor = collection_stations_logs.find().iterator();
         if (cursor.hasNext()) {
@@ -95,38 +95,38 @@ public class Analyzer {
                     }
                 }
                 for (StationLogDTO sl : stationsLogList) {
+                    KecoChargerInfoDTO ci = findByUniqueId(chargerInfoList, sl.getStatId() + sl.getChgerId());
                     Document station_log = new Document()
                             .append("statId", sl.getStatId())
-                            .append("chgerId", sl.getChgerId())
-                            ;
+                            .append("chgerId", sl.getChgerId());
                     Document logs = new Document();
                     for (int i = 0; i < 7; i++) {
                         Document day = new Document();
                         String temp;
-                        switch (d[i]){
+                        switch (d[i]) {
                             case "mon":
-                                temp=sl.getMon();
+                                temp = sl.getMon();
                                 break;
                             case "tue":
-                                temp=sl.getTue();
+                                temp = sl.getTue();
                                 break;
                             case "wed":
-                                temp=sl.getWed();
+                                temp = sl.getWed();
                                 break;
                             case "thu":
-                                temp=sl.getThu();
+                                temp = sl.getThu();
                                 break;
                             case "fri":
-                                temp=sl.getFri();
+                                temp = sl.getFri();
                                 break;
                             case "sat":
-                                temp=sl.getSat();
+                                temp = sl.getSat();
                                 break;
                             case "sun":
-                                temp=sl.getSun();
+                                temp = sl.getSun();
                                 break;
                             default:
-                                temp="error";
+                                temp = "error";
                                 break;
                         }
 
@@ -134,10 +134,9 @@ public class Analyzer {
                         Object obj3 = parser3.parse(temp);
                         JSONObject jsonObj3 = (JSONObject) obj3;
                         for (int j = 0; j < 24; j++) {
-                            String count = jsonObj3.get(j+"").toString();
-//                            System.out.println(count);
-                            if (d[i].equals(this.day) && j == hour) {
-                                day.append(j + "", ""+(Integer.parseInt(count)+1));
+                            String count = jsonObj3.get(j + "").toString();
+                            if (ci.getStat().equals("3") && d[i].equals(this.day) && j == hour) {
+                                day.append(j + "", "" + (Integer.parseInt(count) + 1));
                             } else {
                                 day.append(j + "", count);
                             }
@@ -160,17 +159,20 @@ public class Analyzer {
         }
     }
 
+    public static KecoChargerInfoDTO findByUniqueId(Collection<KecoChargerInfoDTO> listChargerInfo, String uniqueId) { //java 8 이상에서만 사용 가능한 steam 기능 추가
+        return listChargerInfo.stream().filter(chargerInfo -> uniqueId.equals(chargerInfo.getUniqueId())).findFirst().orElse(null);
+    }
+
     public void insertDefaultLogs() {
         for (KecoChargerInfoDTO ci : chargerInfoList) {
             Document station_log = new Document()
                     .append("statId", ci.getStatId())
-                    .append("chgerId", ci.getChgerId())
-                    ;
+                    .append("chgerId", ci.getChgerId());
             Document logs = new Document();
             for (int i = 0; i < 7; i++) {
                 Document day = new Document();
                 for (int j = 0; j < 24; j++) {
-                    if (d[i].equals(this.day) && j == hour) {
+                    if (ci.getStat().equals("3") && d[i].equals(this.day) && j == hour) {
                         day.append(j + "", 1);
                     } else {
                         day.append(j + "", 0);

@@ -5,6 +5,7 @@ import java.util.Date;
 public class KecoChargerInfoDTO {
     private String api; //수집된 api
     private Date date; // 수집 일시
+    private String uniqueId; //충전소ID+충전기ID로 구성된 아이디 (나중에 빨리 찾기 위함 ... indexing 용)
     private String statNm;//	충전소명
     private String statId;//	충전소ID
     private String chgerId;//	충전기ID
@@ -18,7 +19,7 @@ public class KecoChargerInfoDTO {
     private String bnm;//	기관명
     private String busiNm;//	운영기관명
     private String busiCall;//	운영기관연락처
-    private String stat;//	충전기상태
+    private String stat;//	충전기상태 (3:사용중)
     private String statUpdDt;//	상태갱신일시
     private String lastTsdt;//	마지막 충전시작일시
     private String lastTedt;//	마지막 충전종료일시
@@ -32,6 +33,14 @@ public class KecoChargerInfoDTO {
     private String limitDetail;//	이용제한 사유
     private String delYn;//	삭제 여부
     private String delDetail;//	삭제 사유
+
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+    }
 
     public String getApi() {
         return api;

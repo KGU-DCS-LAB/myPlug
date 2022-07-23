@@ -81,6 +81,7 @@ public class Receiver {
 
                         info.setApi("keco"); //수집된 api 종류
                         info.setDate(new Date()); //수신 시각
+                        info.setUniqueId(getTagValue("statId",eElement)+getTagValue("chgerId",eElement));
                         info.setStatNm(getTagValue("statNm",eElement)); //충전소명
                         info.setStatId(getTagValue("statId",eElement)); //충전소ID
                         info.setChgerId(getTagValue("chgerId",eElement)); //충전기ID
