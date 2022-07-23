@@ -1,6 +1,6 @@
 import { Dimensions, Pressable, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
-import { Box, Center, Heading, HStack, ScrollView, Spacer, Text, VStack } from "native-base";
+import { Box, Center, Divider, Heading, HStack, ScrollView, Spacer, Text, VStack } from "native-base";
 import { useEffect, useRef, useState } from "react";
 import Modal from 'react-native-modalbox'
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -53,35 +53,62 @@ const StationBigModal = (props) => {
                 >
                     <View style={{ flex: 1 }}>
                         <View>
-                            <Heading>충전소 상세보기</Heading>
+                            <Heading size="lg">{props.station.statNm + "(" + props.station.statId + ")"}</Heading>
                         </View>
                         <ScrollView>
+                            <Text fontSize="lg">{props.station.addr}</Text>
+                            <Text fontSize="md">{props.station.location}</Text>
+                            <Divider />
+                            <HStack justifyContent="center">
+                                <Text fontSize="md">이용가능시간</Text>
+                                <Spacer />
+                                <Text fontSize="md">{props.station.useTime}</Text>
+                            </HStack>
+                            <HStack justifyContent="center">
+                                <Text fontSize="md">운영기관명</Text>
+                                <Spacer />
+                                <Text fontSize="md">{"[" + props.station.busiId + "] " + props.station.bnm + " (" + props.station.busiNm + ")"}</Text>
+                            </HStack>
+                            <HStack justifyContent="center">
+                                <Text fontSize="md">운영기관 연락처</Text>
+                                <Spacer />
+                                <Text fontSize="md">{props.station.busiCall}</Text>
+                            </HStack>
+                            <HStack justifyContent="center">
+                                <Text fontSize="md">주차료</Text>
+                                <Spacer />
+                                <Text fontSize="md">{props.station.parkingFree == "Y" ? "무료" : "유료"}</Text>
+                            </HStack>
+                            <HStack justifyContent="center">
+                                {
+                                    props.station.note != null &&
+                                    <>
+                                        <Text fontSize="md">충전소 안내</Text>
+                                        <Spacer />
+                                        <Text fontSize="md">{props.station.note}</Text>
 
-                            <Text style={styles.modalText}>{props.station.statNm + "(" + props.station.statId + ")"}</Text>
-                            <Text>주소 : {props.station.addr}</Text>
-                            <Text>상세주소 : {props.station.location}</Text>
-                            <Text>이용시간 : {props.station.useTime}</Text>
-                            <Text>사업자 코드? : {props.station.busiId}</Text>
-                            <Text>사업자 이름? : {props.station.bnm}</Text>
-                            <Text>사업자 이름 : {props.station.busiNm}</Text>
-                            <Text>사업자 전화번호 : {props.station.busiCall}</Text>
-                            <Text>주차무료여부 : {props.station.parkingFree}</Text>
-                            <Text>추가설명 : {props.station.note}</Text>
-                            <Text>제한사유 : {props.station.limitYn}</Text>
-                            <Text>제한사유상세 : {props.station.limitDetail}</Text>
-                            <Text>-------------------</Text>
+                                    </>
+                                }
+                            </HStack>
+                            <HStack justifyContent="center">
+                                <Text fontSize="md">이용자 제한</Text>
+                                <Spacer />
+                                <Text fontSize="md">{props.station.limitYn == "Y" ? ("이용 제한 (" + props.station.limitDetail + ")") : "제한없음"}</Text>
+                            </HStack>
+                            <Divider />
+
                             {/* <Text>{JSON.stringify(props.stationLogs)}</Text> */}
                             <ScrollView horizontal={true}>
                                 <HStack>
                                     <VStack alignItems="center">
-                                    <Text> </Text>
-                                    <Text>월</Text>
-                                    <Text>화</Text>
-                                    <Text>수</Text>
-                                    <Text>목</Text>
-                                    <Text>금</Text>
-                                    <Text>토</Text>
-                                    <Text>일</Text>
+                                        <Text> </Text>
+                                        <Text>월</Text>
+                                        <Text>화</Text>
+                                        <Text>수</Text>
+                                        <Text>목</Text>
+                                        <Text>금</Text>
+                                        <Text>토</Text>
+                                        <Text>일</Text>
                                     </VStack>
                                     <VStack alignItems="center">
                                         <Text>00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23</Text>
@@ -96,7 +123,8 @@ const StationBigModal = (props) => {
                                 </HStack>
                             </ScrollView>
                             {/* <Text>{JSON.stringify(props.stationLogs.logs.mon)}</Text> */}
-                            <Text>-------------------</Text>
+                            <Divider />
+
                             <Text>[[충전기 목록]]</Text>
                             {props.chargers.map((charger) => (
                                 <Box key={charger._id}>
