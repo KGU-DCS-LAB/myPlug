@@ -57,7 +57,7 @@ const StationBigModal = (props) => {
                         </View>
                         <ScrollView>
                             <Text fontSize="lg">{props.station.addr}</Text>
-                            <Text fontSize="md">{props.station.location}</Text>
+                            <Text fontSize="md">{props.station.location!="null"&&props.station.location}</Text>
                             <Divider />
                             <HStack justifyContent="center">
                                 <Text fontSize="md">이용가능시간</Text>
@@ -122,10 +122,10 @@ const StationBigModal = (props) => {
                                     </VStack>
                                 </HStack>
                             </ScrollView>
-                            {/* <Text>{JSON.stringify(props.stationLogs.logs.mon)}</Text> */}
+                            {/* <Text>{JSON.stringify(props.stationLogs.logs)}</Text> */}
                             <Divider />
 
-                            <Text>[[충전기 목록]]</Text>
+                            <Heading size="md">충전기 목록</Heading>
                             {props.chargers.map((charger) => (
                                 <Box key={charger._id}>
                                     <Text>[충전기{charger.chgerId}]</Text>
