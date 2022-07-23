@@ -4,6 +4,7 @@ import { Box, Center, Divider, Heading, HStack, ScrollView, Spacer, Text, VStack
 import { useEffect, useRef, useState } from "react";
 import Modal from 'react-native-modalbox'
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ChargerCard from "../ChargerCard";
 
 
 var screen = Dimensions.get('window');
@@ -129,14 +130,15 @@ const StationBigModal = (props) => {
 
                             <Heading size="md">충전기 목록</Heading>
                             {props.chargers.map((charger) => (
-                                <Box key={charger._id}>
-                                    <Text>[충전기{charger.chgerId}]</Text>
-                                    <Text>충전기타입: {chargerType(charger.chgerType)}</Text>
-                                    <Text>충전기상태: {chargerStat(charger.stat)}</Text>
-                                    <Text>충전용량: {charger.output}kW</Text>
-                                    <Text>충전방식: {charger.method}</Text>
-                                    <Text>statUpdDt,lastTsdt,lastTedt,nowTsdt</Text>
-                                </Box>
+                                <ChargerCard  key={charger._id} charger={charger} />
+                                // <Box key={charger._id}>
+                                //     <Text>[충전기{charger.chgerId}]</Text>
+                                //     <Text>충전기타입: {chargerType(charger.chgerType)}</Text>
+                                //     <Text>충전기상태: {chargerStat(charger.stat)}</Text>
+                                //     <Text>충전용량: {charger.output}kW</Text>
+                                //     <Text>충전방식: {charger.method}</Text>
+                                //     <Text>statUpdDt,lastTsdt,lastTedt,nowTsdt</Text>
+                                // </Box>
                             ))}
                             <Spacer />
 
