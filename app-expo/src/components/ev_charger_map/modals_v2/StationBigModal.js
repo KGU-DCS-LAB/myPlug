@@ -98,6 +98,8 @@ const StationBigModal = (props) => {
                             <Divider />
 
                             {/* <Text>{JSON.stringify(props.stationLogs)}</Text> */}
+
+                            <Heading size="md">충전소 사용 분석</Heading>
                             <ScrollView horizontal={true}>
                                 <HStack>
                                     <VStack alignItems="center">
