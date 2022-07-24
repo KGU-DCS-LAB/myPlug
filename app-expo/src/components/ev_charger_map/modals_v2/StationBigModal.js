@@ -15,27 +15,6 @@ const StationBigModal = (props) => {
 
     const show = useRef()
 
-    const chargerStat = (n) => {
-        if (n == '1') { return "통신이상" }
-        else if (n == '2') { return "충전대기" }
-        else if (n == '3') { return "충전중" }
-        else if (n == '4') { return "운영중지" }
-        else if (n == '5') { return "점검중" }
-        else if (n == '9') { return "상태미확인" }
-        else { return "?" }
-    }
-
-    const chargerType = (n) => {
-        if (n == '01') { return "DC차데모" }
-        else if (n == '02') { return "AC완속" }
-        else if (n == '03') { return "DC차데모+AC3상" }
-        else if (n == '04') { return "DC콤보" }
-        else if (n == '05') { return "DC차데모+DC콤보" }
-        else if (n == '06') { return "DC차데모+AC3상+DC콤보" }
-        else if (n == '07') { return "AC3상" }
-        else { return "?" }
-    }
-
     return (
         <>
             {
@@ -58,49 +37,41 @@ const StationBigModal = (props) => {
                         </View>
                         <ScrollView>
                             <Text fontSize="lg">{props.station.addr}</Text>
-                            <Text fontSize="md">{props.station.location!="null"&&props.station.location}</Text>
-                            <Divider />
-                            <HStack justifyContent="center">
-                                <Text fontSize="md">이용가능시간</Text>
-                                <Spacer />
-                                <Text fontSize="md">{props.station.useTime}</Text>
-                            </HStack>
-                            <HStack justifyContent="center">
-                                <Text fontSize="md">운영기관명</Text>
-                                <Spacer />
-                                <Text fontSize="md">{"[" + props.station.busiId + "] " + props.station.bnm + " (" + props.station.busiNm + ")"}</Text>
-                            </HStack>
-                            <HStack justifyContent="center">
-                                <Text fontSize="md">운영기관 연락처</Text>
-                                <Spacer />
-                                <Text fontSize="md">{props.station.busiCall}</Text>
-                            </HStack>
-                            <HStack justifyContent="center">
-                                <Text fontSize="md">주차료</Text>
-                                <Spacer />
-                                <Text fontSize="md">{props.station.parkingFree == "Y" ? "무료" : "유료"}</Text>
-                            </HStack>
-                            <HStack justifyContent="center">
-                                {
-                                    props.station.note != null &&
-                                    <>
-                                        <Text fontSize="md">충전소 안내</Text>
-                                        <Spacer />
-                                        <Text fontSize="md">{props.station.note}</Text>
+                            <Text fontSize="md">{props.station.location != "null" && props.station.location}</Text>
+                            <Divider mt={5}/>
 
-                                    </>
-                                }
-                            </HStack>
-                            <HStack justifyContent="center">
-                                <Text fontSize="md">이용자 제한</Text>
-                                <Spacer />
-                                <Text fontSize="md">{props.station.limitYn == "Y" ? ("이용 제한 (" + props.station.limitDetail + ")") : "제한없음"}</Text>
-                            </HStack>
+                            <Text fontSize="lg">이용가능시간</Text>
+                            <Text fontSize="md">{props.station.useTime}</Text>
+                            <Divider />
+                            
+                            <Text fontSize="lg">운영기관명</Text>
+                            <Text fontSize="md">{"[" + props.station.busiId + "] " + props.station.bnm + " (" + props.station.busiNm + ")"}</Text>
+                            <Divider />
+
+                            <Text fontSize="lg">운영기관 연락처</Text>
+                            <Text fontSize="md">{props.station.busiCall}</Text>
+                            <Divider />
+
+                            <Text fontSize="lg">주차료</Text>
+                            <Text fontSize="md">{props.station.parkingFree == "Y" ? "무료" : "유료"}</Text>
+                            <Divider />
+
+                            {
+                                props.station.note != null &&
+                                <>
+                                    <Text fontSize="lg">충전소 안내</Text>
+                                    <Text fontSize="md">{props.station.note}</Text>
+                                    <Divider />
+                                </>
+                            }
+
+                            <Text fontSize="lg">이용자 제한</Text>
+                            <Text fontSize="md">{props.station.limitYn == "Y" ? ("이용 제한 (" + props.station.limitDetail + ")") : "제한없음"}</Text>
                             <Divider />
 
                             {/* <Text>{JSON.stringify(props.stationLogs)}</Text> */}
 
-                            <Heading size="md">충전소 사용 분석</Heading>
+                            <Heading size="md" mt={5}>충전소 사용 분석</Heading>
                             <ScrollView horizontal={true}>
                                 <HStack>
                                     <VStack alignItems="center">
@@ -126,11 +97,11 @@ const StationBigModal = (props) => {
                                 </HStack>
                             </ScrollView>
                             {/* <Text>{JSON.stringify(props.stationLogs.logs)}</Text> */}
-                            <Divider />
+                            <Divider mt={5}/>
 
-                            <Heading size="md">충전기 목록</Heading>
+                            <Heading size="md" mt={5}>충전기 목록</Heading>
                             {props.chargers.map((charger) => (
-                                <ChargerCard  key={charger._id} charger={charger} />
+                                <ChargerCard key={charger._id} charger={charger} />
                                 // <Box key={charger._id}>
                                 //     <Text>[충전기{charger.chgerId}]</Text>
                                 //     <Text>충전기타입: {chargerType(charger.chgerType)}</Text>
