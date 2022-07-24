@@ -19,26 +19,44 @@ export default (props) => {
                             <Text color="coolGray.800" _dark={{
                                 color: 'warmGray.50'
                             }} bold>
-                                {"충전기 번호 [" + props.charger.chgerId + "]"}
+                                {"충전기 " + props.charger.chgerId}
                             </Text>
                             <Text color="coolGray.600" _dark={{
                                 color: 'warmGray.200'
                             }}>
                                 {statText(props.charger.stat)}
+                                {/* 충전중인 경우 언제부터 충전중인지 표시하기 위한 코드 */}
+                                {props.charger.stat=="3"&&props.charger.nowTsdt[0]}
                                 {" | " + chargerType(props.charger.chgerType)}
-                                {props.charger.output && " | " + props.charger.output+"kW"}
+                                {props.charger.output && " | " + props.charger.output + "kW"}
                                 {props.charger.method && " | " + props.charger.method}
                             </Text>
                             <Text color="coolGray.600" _dark={{
                                 color: 'warmGray.200'
                             }}>
+                                {/* 마지막 충전 시작일시 */}
+                                {props.charger.lastTsdt}
                             </Text>
+                            <Text color="coolGray.600" _dark={{
+                                color: 'warmGray.200'
+                            }}>
+                                {/* 마지막 충전 종료일시 */}
+                                {props.charger.lastTedt}
+                            </Text>
+                            <Text color="coolGray.600" _dark={{
+                                color: 'warmGray.200'
+                            }}>
+                                {/* 마지막 충전 종료일시 - 마지막 충전 시작일시 */}
+                                {props.charger.lastTedt - props.charger.lastTsdt}
+                            </Text>
+                            <Text>{new Date().YYYYMMDDHHMMSS()}</Text>
                         </VStack>
                         <Spacer />
                         <Text fontSize="xs" color="coolGray.800" _dark={{
                             color: 'warmGray.50'
                         }} alignSelf="flex-start">
-                            {/* {props.charger.stat} */}
+                            {/* 상태 갱신 일시 */}
+                            {props.charger.statUpdDt}
                         </Text>
                     </HStack>
                 </Box>
@@ -87,7 +105,7 @@ const statColor = (stat) => {
 }
 
 const statTextAvatar = (stat) => {
-        // (1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
+    // (1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
     switch (stat) {
         case "1":
             return "이상";
@@ -105,18 +123,36 @@ const statTextAvatar = (stat) => {
 }
 const statText = (stat) => {
     // (1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
-switch (stat) {
-    case "1":
-        return "통신이상";
-    case "2":
-        return "충전대기";
-    case "3":
-        return "충전중";
-    case "4":
-        return "운영중지";
-    case "5":
-        return "점검중";
-    default:
-        return "상태미확인";
+    switch (stat) {
+        case "1":
+            return "통신이상";
+        case "2":
+            return "충전대기";
+        case "3":
+            return "충전중";
+        case "4":
+            return "운영중지";
+        case "5":
+            return "점검중";
+        default:
+            return "상태미확인";
+    }
 }
-}
+
+Date.prototype.YYYYMMDDHHMMSS = function () {
+    var yyyy = this.getFullYear().toString();
+    var MM = pad(this.getMonth() + 1,2);
+    var dd = pad(this.getDate(), 2);
+    var hh = pad(this.getHours(), 2);
+    var mm = pad(this.getMinutes(), 2)
+    var ss = pad(this.getSeconds(), 2)
+  
+    return yyyy +  MM + dd+  hh + mm + ss;
+  };
+  function pad(number, length) {
+    var str = '' + number;
+    while (str.length < length) {
+      str = '0' + str;
+    }
+    return str;
+  }
