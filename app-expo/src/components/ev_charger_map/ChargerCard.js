@@ -1,4 +1,45 @@
 import { Avatar, Box, HStack, Pressable, Spacer, Text, VStack } from "native-base"
+export default (props) => {
+    return (
+        <Box>
+            <Pressable onPress={() => console.log('You touched me')} _dark={{
+                bg: 'coolGray.800'
+            }} _light={{
+                bg: 'white'
+            }}
+                borderBottomColor={"gray.200"}
+                borderBottomWidth={"1"}
+            >
+                <Box pl="4" pr="5" py="2">
+                    <HStack alignItems="center" space={3}>
+                        <Avatar bg="amber.500">
+                            MR
+                        </Avatar>
+                        <VStack>
+                            <Text color="coolGray.800" _dark={{
+                                color: 'warmGray.50'
+                            }} bold>
+                                {"충전기 번호 [" + props.charger.chgerId + "]"}
+                            </Text>
+                            <Text color="coolGray.600" _dark={{
+                                color: 'warmGray.200'
+                            }}>
+                                {chargerType(props.charger.chgerType)}
+                            </Text>
+                        </VStack>
+                        <Spacer />
+                        <Text fontSize="xs" color="coolGray.800" _dark={{
+                            color: 'warmGray.50'
+                        }} alignSelf="flex-start">
+                            {props.charger.stat}
+                        </Text>
+                    </HStack>
+                </Box>
+            </Pressable>
+        </Box>
+    )
+}
+
 const chargerStat = (n) => {
     if (n == '1') { return "통신이상" }
     else if (n == '2') { return "충전대기" }
@@ -19,40 +60,21 @@ const chargerType = (n) => {
     else if (n == '07') { return "AC3상" }
     else { return "?" }
 }
-export default (props) => {
-    return (
-        <Box>
-            <Pressable onPress={() => console.log('You touched me')} _dark={{
-                bg: 'coolGray.800'
-            }} _light={{
-                bg: 'white'
-            }}>
-                <Box pl="4" pr="5" py="2">
-                    <HStack alignItems="center" space={3}>
-                        <Avatar size="48px" source={{
-                            // uri: props.charger.avatarUrl
-                        }} />
-                        <VStack>
-                            <Text color="coolGray.800" _dark={{
-                                color: 'warmGray.50'
-                            }} bold>
-                                {props.charger.chgerId}
-                            </Text>
-                            <Text color="coolGray.600" _dark={{
-                                color: 'warmGray.200'
-                            }}>
-                                {props.charger.chgerType}
-                            </Text>
-                        </VStack>
-                        <Spacer />
-                        <Text fontSize="xs" color="coolGray.800" _dark={{
-                            color: 'warmGray.50'
-                        }} alignSelf="flex-start">
-                            {props.charger.stat}
-                        </Text>
-                    </HStack>
-                </Box>
-            </Pressable>
-        </Box>
-    )
+
+const statColor = (stat) => {
+    // (1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
+    switch (stat) {
+        case "1":
+            return "yellow.500";
+        case "2":
+            return "green.500";
+        case "3":
+            return "red.500";
+        case "4":
+            return "black.500";
+        case "5":
+            return "yellow.500";
+        default:
+            return "gray.300";
+    }
 }
