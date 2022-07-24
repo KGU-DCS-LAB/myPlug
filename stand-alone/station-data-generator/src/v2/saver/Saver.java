@@ -19,6 +19,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.time.temporal.WeekFields;
 import java.util.*;
 
 /**
@@ -170,7 +171,8 @@ public class Saver {
                 new Document("version", newVersion)
                         .append("date", now.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초")))
                         .append("day", dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.US).toLowerCase(Locale.ROOT))
-                        .append("hour", now.getHour())
+                        .append("hour", now.getHour()+"")
+                        .append("week", now.getYear()+""+now.get(WeekFields.ISO.weekOfYear()))
         );
         finishTime = System.currentTimeMillis();
         elapsedTime = finishTime - startTime;

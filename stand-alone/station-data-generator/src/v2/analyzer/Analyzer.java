@@ -25,9 +25,8 @@ public class Analyzer {
     ArrayList<StationLogDTO> stationsLogList = new ArrayList<StationLogDTO>();
     List<Document> list_stations_logs = new ArrayList<Document>();
     String[] d = {"mon", "tue", "wed", "thu", "fri", "sat", "sun"};
-    String day = null;
+    String day, week= null;
     int hour = -1;
-
 
     public static Analyzer getInstance() {
         return new Analyzer();  // Singleton
@@ -51,6 +50,7 @@ public class Analyzer {
                 JSONObject jsonObj = (JSONObject) obj;
                 day = jsonObj.get("day").toString(); //json으로 부터 마지막으로 저장된 시간 값을 얻어옴
                 hour = Integer.parseInt(jsonObj.get("hour").toString()); //json으로 부터 마지막으로 저장된 시간 값을 얻어옴
+                week = jsonObj.get("week").toString(); //json으로 부터 마지막으로 저장된 주 값을 얻어옴 (연도+주차 순으로 보임)
                 System.out.println(day + " " + hour);
             } catch (Exception e) {
                 System.out.println("버전 값 처리 중 오류가 발생했습니다.");
@@ -73,7 +73,7 @@ public class Analyzer {
                         JSONObject jsonObj = (JSONObject) obj;
                         String statId = jsonObj.get("statId").toString();
                         String chgerId = jsonObj.get("chgerId").toString();
-
+                        String week = jsonObj.get("week").toString();
                         JSONParser parser2 = new JSONParser();
                         Object obj2 = parser2.parse(jsonObj.get("logs").toString());
                         JSONObject jsonObj2 = (JSONObject) obj2;
@@ -81,6 +81,7 @@ public class Analyzer {
                         StationLogDTO log = new StationLogDTO();
                         log.setStatId(statId);
                         log.setChgerId(chgerId);
+                        log.setWeek(week);
                         log.setMon(jsonObj2.get("mon").toString());
                         log.setTue(jsonObj2.get("tue").toString());
                         log.setWed(jsonObj2.get("wed").toString());
@@ -98,7 +99,9 @@ public class Analyzer {
                     KecoChargerInfoDTO ci = findByUniqueId(chargerInfoList, sl.getStatId() + sl.getChgerId());
                     Document station_log = new Document()
                             .append("statId", sl.getStatId())
-                            .append("chgerId", sl.getChgerId());
+                            .append("chgerId", sl.getChgerId())
+                            .append("week", sl.getWeek())
+                            ;
                     Document logs = new Document();
                     for (int i = 0; i < 7; i++) {
                         Document day = new Document();
@@ -167,7 +170,9 @@ public class Analyzer {
         for (KecoChargerInfoDTO ci : chargerInfoList) {
             Document station_log = new Document()
                     .append("statId", ci.getStatId())
-                    .append("chgerId", ci.getChgerId());
+                    .append("chgerId", ci.getChgerId())
+                    .append("week", this.week)
+                    ;
             Document logs = new Document();
             for (int i = 0; i < 7; i++) {
                 Document day = new Document();

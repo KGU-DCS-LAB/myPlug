@@ -3,6 +3,7 @@ package v2.common;
 public class StationLogDTO {
     public String statId;
     public String chgerId;
+    public String week;
     public String mon;
     public String tue;
     public String wed;
@@ -10,6 +11,14 @@ public class StationLogDTO {
     public String fri;
     public String sat;
     public String sun;
+
+    public String getWeek() {
+        return week;
+    }
+
+    public void setWeek(String week) {
+        this.week = week;
+    }
 
     public String getChgerId() {
         return chgerId;

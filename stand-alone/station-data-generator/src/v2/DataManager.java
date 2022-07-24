@@ -56,10 +56,13 @@ public class DataManager {
                     elapsedTime = finishTime - startTime;
                     cc.print("secondary", "수행에 걸린 시간 : " + elapsedTime + "ms\n");
                     if (chargerInfoList.size() > 0) {
+
                         Saver sc = Saver.getInstance();
                         sc.start();
+
                         Analyzer analyzer = Analyzer.getInstance();
                         analyzer.start();
+
                         System.out.println("안전을 위해 프로그램을 종료합니다.");
                         System.exit(0);
                     } else {
