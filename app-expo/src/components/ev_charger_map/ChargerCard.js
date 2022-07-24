@@ -24,14 +24,14 @@ export default (props) => {
                             <Text fontSize="xs" color="coolGray.800" _dark={{
                                 color: 'warmGray.50'
                             }} alignSelf="flex-start">
-                                {statText(props.charger.stat)+" |"}
+                                {statText(props.charger.stat) + " | "}
                                 {
                                     props.charger.stat == "3" ?
                                         // 마지막 충전 종료일시 - 마지막 충전 시작일시 
-                                        ((getMilliseconds(props.charger.lastTedt) - getMilliseconds(props.charger.lastTsdt)) / 1000 / 60).toFixed() + "분째 충전중"
+                                        secondsToHms((getMilliseconds(props.charger.lastTedt) - getMilliseconds(props.charger.lastTsdt)) / 1000) + " 째 충전중"
                                         :
                                         // 상태 갱신 일시
-                                        ((new Date() - getMilliseconds(props.charger.statUpdDt)) / 1000 / 60).toFixed() + "분 전에 마지막으로 사용"
+                                        secondsToHms((new Date() - getMilliseconds(props.charger.statUpdDt)) / 1000) + " 전에 마지막으로 사용"
                                 }
                             </Text>
                             <Text color="coolGray.600" _dark={{
@@ -40,7 +40,7 @@ export default (props) => {
                                 {chargerType(props.charger.chgerType)}
                             </Text>
                             {
-                                props.charger.output || props.charger.method &&
+                                (props.charger.output || props.charger.method) &&
                                 <Text color="coolGray.600" _dark={{
                                     color: 'warmGray.200'
                                 }}>
@@ -144,4 +144,23 @@ const getMilliseconds = (t) => {
     // console.log((Date.parse(date)))
     // console.log(new Date(year,month-1,day,hour,minute,second).getTime())
     return (Number(new Date(year, month - 1, day, hour, minute, second).getTime()))
+}
+
+function secondsToHms(d) {
+    console.log(d)
+    d = Number(d);
+    var h = Math.floor(d / 3600);
+    var m = Math.floor(d % 3600 / 60);
+    var s = Math.floor(d % 3600 % 60);
+
+    if (h > 0) {
+        return (h + "시간");
+    }
+    else if (m > 0) {
+        return (m + "분");
+    }
+    else {
+        return (s + "초");
+    }
+
 }
