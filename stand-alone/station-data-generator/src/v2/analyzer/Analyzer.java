@@ -1,4 +1,5 @@
 package v2.analyzer;
+import static com.mongodb.client.model.Filters.eq;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
@@ -60,7 +61,7 @@ public class Analyzer {
 
     public void updateLogs() { //코드 정리가 필요한 부분!
         collection_stations_logs = database.getCollection("stations_logs");
-        MongoCursor<Document> cursor = collection_stations_logs.find().iterator();
+        MongoCursor<Document> cursor = collection_stations_logs.find(eq("week", ""+this.week)).iterator();
         if (cursor.hasNext()) {
             try {
                 while (cursor.hasNext()) {
@@ -139,8 +140,9 @@ public class Analyzer {
                         for (int j = 0; j < 24; j++) {
                             String count = jsonObj3.get(j + "").toString();
                             if (ci.getStat().equals("3") && d[i].equals(this.day) && j == hour) {
-                                day.append(j + "", "" + (Integer.parseInt(count) + 1));
-                            } else {
+//                                day.append(j + "", "" + (Integer.parseInt(count) + 1));
+                                day.append(j + "", "1"); //사용중이라면 일단 1로 만들어버림
+                            } else { //갑자기 지금 사용중이 아니라도 원본 훼손 x (일단 이 시간대에 사용했으면 계속 사용한걸로 취급해버림)
                                 day.append(j + "", count);
                             }
                         }
@@ -149,7 +151,7 @@ public class Analyzer {
                     station_log.put("logs", logs); //json 내부 배열 넣을때 사용
                     list_stations_logs.add(station_log);
                 }
-                collection_stations_logs.drop();
+                collection_stations_logs.deleteMany(eq("week",""+this.week)); //이번 주 데이터만 업데이트 한다
                 collection_stations_logs.insertMany(list_stations_logs);
             } catch (Exception e) {
                 System.out.println(e);
