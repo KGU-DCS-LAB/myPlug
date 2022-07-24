@@ -12,8 +12,8 @@ export default (props) => {
             >
                 <Box pl="4" pr="5" py="2">
                     <HStack alignItems="center" space={3}>
-                        <Avatar bg="amber.500">
-                            MR
+                        <Avatar bg={statColor(props.charger.stat)}>
+                            {statTextAvatar(props.charger.stat)}
                         </Avatar>
                         <VStack>
                             <Text color="coolGray.800" _dark={{
@@ -24,14 +24,21 @@ export default (props) => {
                             <Text color="coolGray.600" _dark={{
                                 color: 'warmGray.200'
                             }}>
-                                {chargerType(props.charger.chgerType)}
+                                {statText(props.charger.stat)}
+                                {" | " + chargerType(props.charger.chgerType)}
+                                {props.charger.output && " | " + props.charger.output+"kW"}
+                                {props.charger.method && " | " + props.charger.method}
+                            </Text>
+                            <Text color="coolGray.600" _dark={{
+                                color: 'warmGray.200'
+                            }}>
                             </Text>
                         </VStack>
                         <Spacer />
                         <Text fontSize="xs" color="coolGray.800" _dark={{
                             color: 'warmGray.50'
                         }} alignSelf="flex-start">
-                            {props.charger.stat}
+                            {/* {props.charger.stat} */}
                         </Text>
                     </HStack>
                 </Box>
@@ -77,4 +84,39 @@ const statColor = (stat) => {
         default:
             return "gray.300";
     }
+}
+
+const statTextAvatar = (stat) => {
+        // (1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
+    switch (stat) {
+        case "1":
+            return "이상";
+        case "2":
+            return "대기중";
+        case "3":
+            return "충전중";
+        case "4":
+            return "중단";
+        case "5":
+            return "점검중";
+        default:
+            return "미확인";
+    }
+}
+const statText = (stat) => {
+    // (1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
+switch (stat) {
+    case "1":
+        return "통신이상";
+    case "2":
+        return "충전대기";
+    case "3":
+        return "충전중";
+    case "4":
+        return "운영중지";
+    case "5":
+        return "점검중";
+    default:
+        return "상태미확인";
+}
 }
