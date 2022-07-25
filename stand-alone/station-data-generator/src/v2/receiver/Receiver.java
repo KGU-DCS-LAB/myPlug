@@ -124,14 +124,14 @@ public class Receiver {
 
     public void receiveKECO() {
         HashMap<String, String> zcodes = new HashMap<>();
-//        zcodes.put("11", "서울특별시");
+        zcodes.put("11", "서울특별시");
 //        zcodes.put("26", "부산광역시");
 //        zcodes.put("27", "대구광역시");
 //        zcodes.put("28", "인천광역시");
 //        zcodes.put("29", "광주광역시");
 //        zcodes.put("30", "대전광역시");
 //        zcodes.put("31", "울산광역시");
-//        zcodes.put("41", "경기도");
+        zcodes.put("41", "경기도");
 //        zcodes.put("42", "강원도");
 //        zcodes.put("43", "충청북도");
 //        zcodes.put("44", "충청남도");
@@ -139,7 +139,7 @@ public class Receiver {
 //        zcodes.put("46", "전라남도");
 //        zcodes.put("47", "경상북도");
 //        zcodes.put("48", "경상남도");
-        zcodes.put("50", "제주도");
+//        zcodes.put("50", "제주도");
 
         System.out.println();
         cc.prefix("info");
