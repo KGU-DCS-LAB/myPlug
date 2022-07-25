@@ -164,11 +164,11 @@ router.get("/keco/filteredStations/:key", (req, res) => {
     "$group":
     {
       _id: keyword.toString(),
-      count: { "$sum": 1 }
+      count: {$count: {}}
     }
   }, {
-    "$sort": { count: 1 }
-  }]).then((result) => {
+    "$sort": { count: 1, count: -1 }
+  },{ "$limit" : 10 }]).then((result) => {
     res.send(result);
   });
 

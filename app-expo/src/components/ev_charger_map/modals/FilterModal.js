@@ -11,10 +11,10 @@ import SelectBusiNm from "./filterModal/SelectBusiNm";
 import SelectParkingFree from "./filterModal/SelectParkingFree";
 import SelectChgerType from "./filterModal/SelectChgerType";
 
-const FilterModal = (props) => {    
+const FilterModal = (props) => {
     useEffect(() => {
         console.log(props.selectedType)
-    },[props.selectedType])
+    }, [props.selectedType])
 
     return (
         <>
@@ -27,21 +27,21 @@ const FilterModal = (props) => {
                         props.setFilterModalVisible(!props.filterModalVisible);
                     }}
                 >
-                    <ScrollView>
-                        <View style={styles.flexEndView}>
-                            <View style={styles.bigModalView}>
-                                <TouchableWithoutFeedback
-                                    onPressOut={(e) => {
-                                        if (e.nativeEvent.locationY > 20) {
-                                            console.log(e.nativeEvent.locationY)
-                                            props.setFilterModalVisible(false)
-                                        }
-                                    }}>
-                                    <View style={styles.modalCloseIcon}>
-                                        <MaterialIcons name="drag-handle" size={40} color="black" />
-                                    </View>
-                                </TouchableWithoutFeedback>
+                    <View style={styles.flexEndView}>
+                        <View style={styles.bigModalView}>
+                            <TouchableWithoutFeedback
+                                onPressOut={(e) => {
+                                    if (e.nativeEvent.locationY > 20) {
+                                        console.log(e.nativeEvent.locationY)
+                                        props.setFilterModalVisible(false)
+                                    }
+                                }}>
+                                <View style={styles.modalCloseIcon}>
+                                    <MaterialIcons name="drag-handle" size={40} color="black" />
+                                </View>
+                            </TouchableWithoutFeedback>
 
+                            <ScrollView>
                                 <View style={styles.wrapper}>
                                     <SelectChgerType chgerType={props.chgerType} selectedType={props.selectedType} cancleSelect={props.cancleSelect} selectType={props.selectType} />
 
@@ -49,22 +49,21 @@ const FilterModal = (props) => {
 
                                     <SelectBusiNm busiNm={props.busiNm} selectedType={props.selectedType} cancleSelect={props.cancleSelect} selectType={props.selectType} />
                                 </View>
-
+                            </ScrollView>
                             <Pressable
-                                style={[styles.button, styles.buttonClose]}
-                                onPress={() => props.dataFiltering()}
-                            >
-                                <Text style={styles.textStyle}>검색</Text>
-                            </Pressable>
-                            <Pressable
-                                style={[styles.button, styles.buttonClose]}
-                                onPress={() => props.setFilterModalVisible(false)}
-                            >
-                                <Text style={styles.textStyle}>Hide Modal</Text>
-                            </Pressable>
+                                    style={[styles.button, styles.buttonClose]}
+                                    onPress={() => props.dataFiltering()}
+                                >
+                                    <Text style={styles.textStyle}>검색</Text>
+                                </Pressable>
+                                <Pressable
+                                    style={[styles.button, styles.buttonClose]}
+                                    onPress={() => props.setFilterModalVisible(false)}
+                                >
+                                    <Text style={styles.textStyle}>Hide Modal</Text>
+                                </Pressable>
                         </View>
                     </View>
-                    </ScrollView>
                 </Modal>
             }
         </>
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexWrap: "wrap",
         flexDirection: "row",
-        // width: "95%"
+        width: "95%"
         // maxHeight: 3700,
     },
     flexEndView: {
@@ -109,13 +108,11 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         textAlign: "center",
         fontSize: 20,
-
     },
     modalTextAddress: {
         marginBottom: 28,
         textAlign: "center",
         fontSize: 15,
-
     },
     button: {
         borderRadius: 10,
@@ -124,7 +121,7 @@ const styles = StyleSheet.create({
     },
     buttonClose: {
         backgroundColor: "#2196F3",
-        marginVertical:6
+        marginVertical: 6
     },
     textStyle: {
         color: "white",
@@ -134,12 +131,12 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         flex: 1,
+        // height: '95%',
         width: "90%",
-        justifyContent: "center",
         alignItems: "center",
     },
     modalCloseIcon: {
-        height: 80,
+        height: 50,
         elevation: 5
     }
 });
