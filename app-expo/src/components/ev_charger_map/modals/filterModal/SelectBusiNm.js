@@ -1,4 +1,4 @@
-import { Button, Text, View } from "native-base";
+import { Box, Button, Heading, Text, View } from "native-base";
 import { StyleSheet } from "react-native";
 
 const SelectBusiNm = (props) => {
@@ -6,7 +6,9 @@ const SelectBusiNm = (props) => {
 
     return (
         <>
-            <Text>회사명</Text>
+            <Box my={1}>
+                <Heading>충전기 회사</Heading>
+            </Box>
             <View style={styles.container}>
                 {props.busiNm.map((item) =>
                     props.selectedType.busiNm.findIndex((type) => type === item._id) !== -1 ?

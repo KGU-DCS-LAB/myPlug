@@ -1,4 +1,4 @@
-import { Button, HStack, Text, View } from "native-base";
+import { Box, Button, Heading, HStack, Text, View } from "native-base";
 import { StyleSheet } from "react-native";
 
 const SelectParkingFree = (props) => {
@@ -6,7 +6,9 @@ const SelectParkingFree = (props) => {
 
     return (
         <>
-            <Text>주차무료</Text>
+            <Box my={1}>
+                <Heading>무료 주차</Heading>
+            </Box>
             <HStack>
                 {
                     props.selectedType.parkingFree.findIndex((type) => type === "Y") !== -1 ?

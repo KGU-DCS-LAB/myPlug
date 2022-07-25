@@ -1,11 +1,13 @@
-import { Button, HStack, Text, View } from "native-base";
+import { Box, Button, Heading, HStack, Text, View } from "native-base";
 import { StyleSheet } from "react-native";
 
 const SelectChgerType = (props) => {
     const chgerType = 'chgerType';
     return (
         <>
-            <Text>충전기 종류</Text>
+            <Box my={1}>
+                <Heading>충전기 종류</Heading>
+            </Box>
             <HStack>
                 {props.chgerType.map((item) =>
                     props.selectedType[chgerType].findIndex((type) => type === item._id) !== -1 ?
