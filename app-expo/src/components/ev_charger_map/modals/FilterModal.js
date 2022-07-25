@@ -77,8 +77,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexWrap: "wrap",
         flexDirection: "row",
-        width: "95%"
-        // maxHeight: 3700,
+        // width:"95%"
+        // ma xHeight: 3700,
     },
     flexEndView: {
         flex: 1,
@@ -127,12 +127,10 @@ const styles = StyleSheet.create({
         color: "white",
         fontWeight: "bold",
         textAlign: "center"
-
     },
     wrapper: {
         flex: 1,
         // height: '95%',
-        width: "90%",
         alignItems: "center",
     },
     modalCloseIcon: {
