@@ -162,10 +162,11 @@ const EvChargerContainer = (props) => {
         select.push(selected)
         setSelectedType({ ...selectedType, [type]: select })
     }
+
     const cancleSelect = (type, selected) => {
         let select = selectedType[type];
-        select = select[type].filter((item) => item !== selected)
-        // console.log(select)
+        select = select.filter(item => item !== selected)
+        console.log(select)
         setSelectedType({ ...selectedType, [type]: select })
     }
 
