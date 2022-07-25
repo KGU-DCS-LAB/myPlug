@@ -21,43 +21,35 @@ export default (props) => {
                             }} bold>
                                 {"충전기 " + props.charger.chgerId}
                             </Text>
-                            <Text color="coolGray.600" _dark={{
-                                color: 'warmGray.200'
-                            }}>
-                                {statText(props.charger.stat)}
-                                {/* 충전중인 경우 언제부터 충전중인지 표시하기 위한 코드 */}
-                                {props.charger.stat=="3"&&props.charger.nowTsdt[0]}
-                                {" | " + chargerType(props.charger.chgerType)}
-                                {props.charger.output && " | " + props.charger.output + "kW"}
-                                {props.charger.method && " | " + props.charger.method}
+                            <Text fontSize="xs" color="coolGray.800" _dark={{
+                                color: 'warmGray.50'
+                            }} alignSelf="flex-start">
+                                {statText(props.charger.stat) + " | "}
+                                {
+                                    props.charger.stat == "3" ?
+                                        // 마지막 충전 종료일시 - 마지막 충전 시작일시 
+                                        secondsToHms((getMilliseconds(props.charger.lastTedt) - getMilliseconds(props.charger.lastTsdt)) / 1000) + " 째 충전중"
+                                        :
+                                        // 상태 갱신 일시
+                                        secondsToHms((new Date() - getMilliseconds(props.charger.statUpdDt)) / 1000) + " 전에 마지막으로 사용"
+                                }
                             </Text>
                             <Text color="coolGray.600" _dark={{
                                 color: 'warmGray.200'
                             }}>
-                                {/* 마지막 충전 시작일시 */}
-                                {props.charger.lastTsdt}
+                                {chargerType(props.charger.chgerType)}
                             </Text>
-                            <Text color="coolGray.600" _dark={{
-                                color: 'warmGray.200'
-                            }}>
-                                {/* 마지막 충전 종료일시 */}
-                                {props.charger.lastTedt}
-                            </Text>
-                            <Text color="coolGray.600" _dark={{
-                                color: 'warmGray.200'
-                            }}>
-                                {/* 마지막 충전 종료일시 - 마지막 충전 시작일시 */}
-                                {props.charger.lastTedt - props.charger.lastTsdt}
-                            </Text>
-                            <Text>{new Date().YYYYMMDDHHMMSS()}</Text>
+                            {
+                                (props.charger.output || props.charger.method) &&
+                                <Text color="coolGray.600" _dark={{
+                                    color: 'warmGray.200'
+                                }}>
+                                    {props.charger.output && props.charger.output + "kW"}
+                                    {props.charger.method && " | " + props.charger.method}
+                                </Text>
+                            }
                         </VStack>
                         <Spacer />
-                        <Text fontSize="xs" color="coolGray.800" _dark={{
-                            color: 'warmGray.50'
-                        }} alignSelf="flex-start">
-                            {/* 상태 갱신 일시 */}
-                            {props.charger.statUpdDt}
-                        </Text>
                     </HStack>
                 </Box>
             </Pressable>
@@ -139,20 +131,36 @@ const statText = (stat) => {
     }
 }
 
-Date.prototype.YYYYMMDDHHMMSS = function () {
-    var yyyy = this.getFullYear().toString();
-    var MM = pad(this.getMonth() + 1,2);
-    var dd = pad(this.getDate(), 2);
-    var hh = pad(this.getHours(), 2);
-    var mm = pad(this.getMinutes(), 2)
-    var ss = pad(this.getSeconds(), 2)
-  
-    return yyyy +  MM + dd+  hh + mm + ss;
-  };
-  function pad(number, length) {
-    var str = '' + number;
-    while (str.length < length) {
-      str = '0' + str;
+const getMilliseconds = (t) => {
+    const year = t.slice(0, 4);
+    const month = t.slice(4, 6);
+    const day = t.slice(6, 8);
+    const hour = t.slice(8, 10);
+    const minute = t.slice(10, 12);
+    const second = t.slice(12, 14);
+    const date = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second
+    // console.log(t)
+    // console.log(date)
+    // console.log((Date.parse(date)))
+    // console.log(new Date(year,month-1,day,hour,minute,second).getTime())
+    return (Number(new Date(year, month - 1, day, hour, minute, second).getTime()))
+}
+
+function secondsToHms(d) {
+    // console.log(d)
+    d = Number(d);
+    var h = Math.floor(d / 3600);
+    var m = Math.floor(d % 3600 / 60);
+    var s = Math.floor(d % 3600 % 60);
+
+    if (h > 0) {
+        return (h + "시간");
     }
-    return str;
-  }
+    else if (m > 0) {
+        return (m + "분");
+    }
+    else {
+        return (s + "초");
+    }
+
+}
