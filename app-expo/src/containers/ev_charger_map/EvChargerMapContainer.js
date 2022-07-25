@@ -36,14 +36,12 @@ const EvChargerContainer = (props) => {
     const [chgerType, setChgerType] = useState([]); // 서버로 부터 받아온 충전기 타입
     const [busiNm, setBusiNm] = useState([]); // 서버로 부터 받아온 충전소 회사 리스트
     const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [] });
-    const [filteredChargingStations, setFilteredChargingStations] = useState([]); // 필터링 한 결과 충전소 데이터 리스트
 
     // const [count, setCount] = useState(0); // 리프레시 횟수 검사 용 (테스트 할 때 사용됨)
     // const [requestTime, setRequestTime] = useState(new Date().getTime()); //제스처 검출용 (손 끝에서 지도를 탈출했을 때, 특정 상황에서 부드러운 화면 업데이트를 위해 위치 상태 값이 강제러 리프레시 되는 현상이 있어 서버에 과도한 데이터 요청을 하는 것을 발견함. 따라서 이를 방지하기 위해 특정한 로직을 추가하여 위치 값이 수정될 때 마다 이 값이 갱신되도록 함)
 
     // const [searchedStation, setSearchedStation] = useState([]); // 검색하고 선택한 충전소
     const [selectedStation, setSelectedStation] = useState([lat = 0, lng = 0]); //마커 선택 시 모달에 띄워줄 데이터
-    const [filterKeyword, setFilterKeyword] = useState({});
 
     const [smallModalVisible, setSmallModalVisible] = useState(false); //작은 모달 온오프
     const [bigModalVisible, setBigModalVisible] = useState(false); //큰 모달 온오프
@@ -108,7 +106,6 @@ const EvChargerContainer = (props) => {
         }
         else { // 델타 값이 너무 크면 값을 그냥 비워버림
             setChargingStations([]);
-            setFilteredChargingStations([]);
         }
     }
 
@@ -198,7 +195,7 @@ const EvChargerContainer = (props) => {
             }
         }).then((response) => {
             // console.log(response.data);
-            setFilteredChargingStations(response.data);
+            setChargingStations(response.data);
         }).catch(function (error) {
             console.log(error);
         })
@@ -217,7 +214,7 @@ const EvChargerContainer = (props) => {
         }).then((response) => {
             sortStations(response.data);
             setChargingStations(response.data); //서버에서 받아온 충전소 데이터 리스트를 업데이트
-            setFilteredChargingStations(response.data);
+            // setFilteredChargingStations(response.data);
         }).catch(function (error) {
             console.log(error);
         })
@@ -294,7 +291,7 @@ const EvChargerContainer = (props) => {
 
                             <StationListModal
                                 location={location}
-                                chargingStations={filteredChargingStations}
+                                chargingStations={chargingStations}
                                 stationListModalVisible={stationListModalVisible}
                                 setStationListModalVisible={setStationListModalVisible}
                                 focusToStation={focusToStation}
@@ -348,8 +345,8 @@ const EvChargerContainer = (props) => {
                             >
 
                                 {
-                                    filteredChargingStations.length > 0 && //사이즈가 0 이상일때맏 마커 찍는 시도함 (오류 방지)
-                                    filteredChargingStations.map((marker, index) => (
+                                    chargingStations.length > 0 && //사이즈가 0 이상일때맏 마커 찍는 시도함 (오류 방지)
+                                    chargingStations.map((marker, index) => (
                                         <Marker
                                             key={index}
                                             coordinate={{
