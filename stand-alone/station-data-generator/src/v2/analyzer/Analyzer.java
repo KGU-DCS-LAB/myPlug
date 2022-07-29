@@ -98,58 +98,64 @@ public class Analyzer {
                 }
                 for (StationLogDTO sl : stationsLogList) {
                     KecoChargerInfoDTO ci = findByUniqueId(chargerInfoList, sl.getStatId() + sl.getChgerId());
-                    Document station_log = new Document()
-                            .append("statId", sl.getStatId())
-                            .append("chgerId", sl.getChgerId())
-                            .append("week", sl.getWeek())
-                            ;
-                    Document logs = new Document();
-                    for (int i = 0; i < 7; i++) {
-                        Document day = new Document();
-                        String temp;
-                        switch (d[i]) {
-                            case "mon":
-                                temp = sl.getMon();
-                                break;
-                            case "tue":
-                                temp = sl.getTue();
-                                break;
-                            case "wed":
-                                temp = sl.getWed();
-                                break;
-                            case "thu":
-                                temp = sl.getThu();
-                                break;
-                            case "fri":
-                                temp = sl.getFri();
-                                break;
-                            case "sat":
-                                temp = sl.getSat();
-                                break;
-                            case "sun":
-                                temp = sl.getSun();
-                                break;
-                            default:
-                                temp = "error";
-                                break;
-                        }
-
-                        JSONParser parser3 = new JSONParser();
-                        Object obj3 = parser3.parse(temp);
-                        JSONObject jsonObj3 = (JSONObject) obj3;
-                        for (int j = 0; j < 24; j++) {
-                            String count = jsonObj3.get(j + "").toString();
-                            if (ci.getStat().equals("3") && d[i].equals(this.day) && j == hour) {
-//                                day.append(j + "", "" + (Integer.parseInt(count) + 1));
-                                day.append(j + "", "1"); //사용중이라면 일단 1로 만들어버림
-                            } else { //갑자기 지금 사용중이 아니라도 원본 훼손 x (일단 이 시간대에 사용했으면 계속 사용한걸로 취급해버림)
-                                day.append(j + "", count);
+                    if(ci != null) {
+                        Document station_log = new Document()
+                                .append("statId", sl.getStatId())
+                                .append("chgerId", sl.getChgerId())
+                                .append("week", sl.getWeek())
+                                ;
+                        Document logs = new Document();
+                        for (int i = 0; i < 7; i++) {
+                            Document day = new Document();
+                            String temp;
+                            switch (d[i]) {
+                                case "mon":
+                                    temp = sl.getMon();
+                                    break;
+                                case "tue":
+                                    temp = sl.getTue();
+                                    break;
+                                case "wed":
+                                    temp = sl.getWed();
+                                    break;
+                                case "thu":
+                                    temp = sl.getThu();
+                                    break;
+                                case "fri":
+                                    temp = sl.getFri();
+                                    break;
+                                case "sat":
+                                    temp = sl.getSat();
+                                    break;
+                                case "sun":
+                                    temp = sl.getSun();
+                                    break;
+                                default:
+                                    temp = "error";
+                                    break;
                             }
+
+                            JSONParser parser3 = new JSONParser();
+                            Object obj3 = parser3.parse(temp);
+                            JSONObject jsonObj3 = (JSONObject) obj3;
+                            for (int j = 0; j < 24; j++) {
+                                String count = jsonObj3.get(j + "").toString();
+                                if (ci.getStat().equals("3") && d[i].equals(this.day) && j == hour) {
+//                                day.append(j + "", "" + (Integer.parseInt(count) + 1));
+                                    day.append(j + "", "1"); //사용중이라면 일단 1로 만들어버림
+                                } else { //갑자기 지금 사용중이 아니라도 원본 훼손 x (일단 이 시간대에 사용했으면 계속 사용한걸로 취급해버림)
+                                    day.append(j + "", count);
+                                }
+                            }
+                            logs.append(d[i], day);
                         }
-                        logs.append(d[i], day);
+                        station_log.put("logs", logs); //json 내부 배열 넣을때 사용
+                        list_stations_logs.add(station_log);
                     }
-                    station_log.put("logs", logs); //json 내부 배열 넣을때 사용
-                    list_stations_logs.add(station_log);
+                    else {
+//                        조회 실패 시 기본 데이터 추가하는 작업을 해줘야 하는데 오늘은 시간이 없으므로 나중에 수정하기
+                        System.out.println("조회 실패!  "+sl.getStatId() + sl.getChgerId());
+                    }
                 }
                 collection_stations_logs.deleteMany(eq("week",""+this.week)); //이번 주 데이터만 업데이트 한다
                 collection_stations_logs.insertMany(list_stations_logs);
