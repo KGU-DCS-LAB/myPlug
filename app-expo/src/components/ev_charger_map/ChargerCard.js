@@ -41,14 +41,14 @@ export default (props) => {
 
     return (
         <Box>
-            <Pressable _dark={{
+            {/* <Pressable _dark={{
                 bg: 'coolGray.800'
             }} _light={{
                 bg: 'white'
             }}
                 borderBottomColor={"gray.200"}
                 borderBottomWidth={"1"}
-            >
+            > */}
                 <Collapse>
                     <CollapseHeader>
                         <Box pl="4" pr="5" py="2">
@@ -100,7 +100,7 @@ export default (props) => {
                     </CollapseBody>
                 </Collapse>
 
-            </Pressable>
+            {/* </Pressable> */}
         </Box>
     )
 }
