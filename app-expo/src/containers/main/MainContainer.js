@@ -7,6 +7,7 @@ import LoginContainer from '../user/LoginContainer';
 import SignUpContainer from '../user/SignUpContainer';
 import MyPageContainer from '../user/MyPageContainer';
 import ModalExample from '../example/ModalExample';
+import CollapseExample from '../example/CollapseExample';
 
 const MainContainer = () => {
 
@@ -40,6 +41,13 @@ const MainContainer = () => {
         );
     }
 
+    const ExampleScreen = ({navigation}) => {
+        return(
+            // <ModalExample navigation={navigation} />
+            <CollapseExample navigation={navigation} />
+        )
+    }
+
     const Stack = createStackNavigator();
     return (
         <Stack.Navigator
@@ -54,11 +62,11 @@ const MainContainer = () => {
                     cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
                 }}
             />
-             <Stack.Screen
+            <Stack.Screen
                 name="Login"
                 component={LoginScreen}
             />
-             <Stack.Screen
+            <Stack.Screen
                 name="SignUp"
                 component={SignUpScreen}
             />
@@ -67,8 +75,8 @@ const MainContainer = () => {
                 component={MyPageScreen}
             />
             <Stack.Screen
-            name="example"
-            component={ModalExample}
+                name="example"
+                component={ExampleScreen}
             />
         </Stack.Navigator>
     )

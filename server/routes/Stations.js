@@ -59,7 +59,7 @@ router.post('/keco/find/chargers', function (req, res, next) {
 
 router.post('/keco/find/stationLogs', function (req, res, next) {
   console.log(req.body.data);
-  StationLogs.findOne({
+  StationLogs.find({
     statId:req.body.data
   }).then((response)=>{
     console.log(response)

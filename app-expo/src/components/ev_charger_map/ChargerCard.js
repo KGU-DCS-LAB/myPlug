@@ -1,4 +1,5 @@
 import { Avatar, Box, HStack, Pressable, Spacer, Text, VStack } from "native-base"
+import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 export default (props) => {
     return (
         <Box>
@@ -10,48 +11,56 @@ export default (props) => {
                 borderBottomColor={"gray.200"}
                 borderBottomWidth={"1"}
             >
-                <Box pl="4" pr="5" py="2">
-                    <HStack alignItems="center" space={3}>
-                        <Avatar bg={statColor(props.charger.stat)}>
-                            {statTextAvatar(props.charger.stat)}
-                        </Avatar>
-                        <VStack>
-                            <Text color="coolGray.800" _dark={{
-                                color: 'warmGray.50'
-                            }} bold>
-                                {"충전기 " + props.charger.chgerId}
-                            </Text>
-                            <Text fontSize="xs" color="coolGray.800" _dark={{
-                                color: 'warmGray.50'
-                            }} alignSelf="flex-start">
-                                {statText(props.charger.stat) + " | "}
-                                {
-                                    props.charger.stat == "3" ?
-                                        // 마지막 충전 종료일시 - 마지막 충전 시작일시 
-                                        secondsToHms((getMilliseconds(props.charger.lastTedt) - getMilliseconds(props.charger.lastTsdt)) / 1000) + " 째 충전중"
-                                        :
-                                        // 상태 갱신 일시
-                                        secondsToHms((new Date() - getMilliseconds(props.charger.statUpdDt)) / 1000) + " 전에 마지막으로 사용"
-                                }
-                            </Text>
-                            <Text color="coolGray.600" _dark={{
-                                color: 'warmGray.200'
-                            }}>
-                                {chargerType(props.charger.chgerType)}
-                            </Text>
-                            {
-                                (props.charger.output || props.charger.method) &&
-                                <Text color="coolGray.600" _dark={{
-                                    color: 'warmGray.200'
-                                }}>
-                                    {props.charger.output && props.charger.output + "kW"}
-                                    {props.charger.method && " | " + props.charger.method}
-                                </Text>
-                            }
-                        </VStack>
-                        <Spacer />
-                    </HStack>
-                </Box>
+                <Collapse>
+                    <CollapseHeader>
+                        <Box pl="4" pr="5" py="2">
+                            <HStack alignItems="center" space={3}>
+                                <Avatar bg={statColor(props.charger.stat)}>
+                                    {statTextAvatar(props.charger.stat)}
+                                </Avatar>
+                                <VStack>
+                                    <Text color="coolGray.800" _dark={{
+                                        color: 'warmGray.50'
+                                    }} bold>
+                                        {"충전기 " + props.charger.chgerId}
+                                    </Text>
+                                    <Text fontSize="xs" color="coolGray.800" _dark={{
+                                        color: 'warmGray.50'
+                                    }} alignSelf="flex-start">
+                                        {statText(props.charger.stat) + " | "}
+                                        {
+                                            props.charger.stat == "3" ?
+                                                // 마지막 충전 종료일시 - 마지막 충전 시작일시 
+                                                secondsToHms((getMilliseconds(props.charger.lastTedt) - getMilliseconds(props.charger.lastTsdt)) / 1000) + " 째 충전중"
+                                                :
+                                                // 상태 갱신 일시
+                                                secondsToHms((new Date() - getMilliseconds(props.charger.statUpdDt)) / 1000) + " 전에 마지막으로 사용"
+                                        }
+                                    </Text>
+                                    <Text color="coolGray.600" _dark={{
+                                        color: 'warmGray.200'
+                                    }}>
+                                        {chargerType(props.charger.chgerType)}
+                                    </Text>
+                                    {
+                                        (props.charger.output || props.charger.method) &&
+                                        <Text color="coolGray.600" _dark={{
+                                            color: 'warmGray.200'
+                                        }}>
+                                            {props.charger.output && props.charger.output + "kW"}
+                                            {props.charger.method && " | " + props.charger.method}
+                                        </Text>
+                                    }
+                                </VStack>
+                                <Spacer />
+                            </HStack>
+                        </Box>
+                    </CollapseHeader>
+                    <CollapseBody>
+                        <Text>하이</Text>
+                    </CollapseBody>
+                </Collapse>
+
             </Pressable>
         </Box>
     )

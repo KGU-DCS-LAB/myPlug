@@ -102,7 +102,7 @@ const HomeContainer = (props) => {
                             width={windowWidth / colNum2 * 0.9}
                             height={windowWidth / colNum2 * 0.9}
                             onPress={() => props.navigation.navigate('example')}
-                            title="모달 테스트"
+                            title="테스트"
                         />
                         <PressableButton
                             numOfCol={colNum2}
