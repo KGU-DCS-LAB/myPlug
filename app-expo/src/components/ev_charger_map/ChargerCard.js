@@ -2,6 +2,28 @@ import { Avatar, Box, HStack, Pressable, Spacer, Text, VStack } from "native-bas
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 import LogTable from "./LogTable";
 export default (props) => {
+
+    const day = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+    const defaultTimeLine = { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0 }
+
+    const logStatistic = () => {
+        // 덧셈 해주는 로직이 필요함
+        const sumNewLog = (newLog) => {
+            // console.log(logStat)
+            // console.log(newLog)
+            for(let i = 0 ; i < day.length; i++) {
+                // console.log(newLog[day[i]])
+            }
+        }
+        let logStat = {};
+        day.map((d)=>logStat[d]=defaultTimeLine);
+        console.log(logStat)
+        props.stationLog.map((log) => sumNewLog(log.logs))
+        return logStat;
+    }
+
+
     return (
         <Box>
             <Pressable onPress={() => console.log('You touched me')} _dark={{
@@ -58,8 +80,8 @@ export default (props) => {
                         </Box>
                     </CollapseHeader>
                     <CollapseBody>
-                        <LogTable/>
-                        <Text>{JSON.stringify(props.stationLog)}</Text>
+                        <LogTable stationLog={logStatistic()} />
+                        {/* <Text>{JSON.stringify(props.stationLog)}</Text> */}
                     </CollapseBody>
                 </Collapse>
 

@@ -17,11 +17,7 @@ const StationBigModal = (props) => {
     const show = useRef()
 
     const findStationsLog = (chgerId) => {
-        const idx = props.stationLogs.findIndex((item, idx) =>{
-            return item.chgerId === chgerId
-        });
-        // console.log(props.stationLogs[idx])
-        return props.stationLogs[idx];
+        return props.stationLogs.filter(item => item.chgerId === chgerId);
     }
 
     return (
@@ -78,11 +74,9 @@ const StationBigModal = (props) => {
                             <Text fontSize="md">{props.station.limitYn == "Y" ? ("이용 제한 (" + props.station.limitDetail + ")") : "제한없음"}</Text>
                             <Divider />
 
-                            {/* <Text>{JSON.stringify(props.stationLogs)}</Text> */}
-
                             <Heading size="md" mt={5}>충전소 사용 분석</Heading>
-                            <LogTable/>
-                            {/* <Text>{JSON.stringify(props.stationLogs.logs)}</Text> */}
+                            {/* <LogTable/> */}
+
                             <Divider mt={5} />
 
                             <Heading size="md" mt={5}>충전기 목록</Heading>
