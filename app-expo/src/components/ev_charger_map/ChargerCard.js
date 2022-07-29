@@ -1,5 +1,6 @@
 import { Avatar, Box, HStack, Pressable, Spacer, Text, VStack } from "native-base"
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
+import LogTable from "./LogTable";
 export default (props) => {
     return (
         <Box>
@@ -57,7 +58,8 @@ export default (props) => {
                         </Box>
                     </CollapseHeader>
                     <CollapseBody>
-                        <Text>하이</Text>
+                        <LogTable/>
+                        <Text>{JSON.stringify(props.stationLog)}</Text>
                     </CollapseBody>
                 </Collapse>
 

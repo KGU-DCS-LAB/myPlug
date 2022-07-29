@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Modal from 'react-native-modalbox'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ChargerCard from "../ChargerCard";
+import LogTable from "../LogTable";
 
 
 var screen = Dimensions.get('window');
@@ -14,6 +15,14 @@ const StationBigModal = (props) => {
     const [userId, setUserId] = useState(null);
 
     const show = useRef()
+
+    const findStationsLog = (chgerId) => {
+        const idx = props.stationLogs.findIndex((item, idx) =>{
+            return item.chgerId === chgerId
+        });
+        // console.log(props.stationLogs[idx])
+        return props.stationLogs[idx];
+    }
 
     return (
         <>
@@ -38,12 +47,12 @@ const StationBigModal = (props) => {
                         <ScrollView>
                             <Text fontSize="lg">{props.station.addr}</Text>
                             <Text fontSize="md">{props.station.location != "null" && props.station.location}</Text>
-                            <Divider mt={5}/>
+                            <Divider mt={5} />
 
                             <Text fontSize="lg">이용가능시간</Text>
                             <Text fontSize="md">{props.station.useTime}</Text>
                             <Divider />
-                            
+
                             <Text fontSize="lg">운영기관명</Text>
                             <Text fontSize="md">{"[" + props.station.busiId + "] " + props.station.bnm + " (" + props.station.busiNm + ")"}</Text>
                             <Divider />
@@ -72,44 +81,13 @@ const StationBigModal = (props) => {
                             {/* <Text>{JSON.stringify(props.stationLogs)}</Text> */}
 
                             <Heading size="md" mt={5}>충전소 사용 분석</Heading>
-                            <ScrollView horizontal={true}>
-                                <HStack>
-                                    <VStack alignItems="center">
-                                        <Text> </Text>
-                                        <Text>월</Text>
-                                        <Text>화</Text>
-                                        <Text>수</Text>
-                                        <Text>목</Text>
-                                        <Text>금</Text>
-                                        <Text>토</Text>
-                                        <Text>일</Text>
-                                    </VStack>
-                                    <VStack alignItems="center">
-                                        <Text>00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23</Text>
-                                        <Text>🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥</Text>
-                                        <Text>🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥</Text>
-                                        <Text>🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥</Text>
-                                        <Text>🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥</Text>
-                                        <Text>🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥</Text>
-                                        <Text>🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥</Text>
-                                        <Text>🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥 🟩 🟨 🟥</Text>
-                                    </VStack>
-                                </HStack>
-                            </ScrollView>
+                            <LogTable/>
                             {/* <Text>{JSON.stringify(props.stationLogs.logs)}</Text> */}
-                            <Divider mt={5}/>
+                            <Divider mt={5} />
 
                             <Heading size="md" mt={5}>충전기 목록</Heading>
                             {props.chargers.map((charger) => (
-                                <ChargerCard key={charger._id} charger={charger} />
-                                // <Box key={charger._id}>
-                                //     <Text>[충전기{charger.chgerId}]</Text>
-                                //     <Text>충전기타입: {chargerType(charger.chgerType)}</Text>
-                                //     <Text>충전기상태: {chargerStat(charger.stat)}</Text>
-                                //     <Text>충전용량: {charger.output}kW</Text>
-                                //     <Text>충전방식: {charger.method}</Text>
-                                //     <Text>statUpdDt,lastTsdt,lastTedt,nowTsdt</Text>
-                                // </Box>
+                                <ChargerCard key={charger._id} charger={charger} stationLog = {findStationsLog(charger.chgerId)}/>
                             ))}
                             <Spacer />
 
