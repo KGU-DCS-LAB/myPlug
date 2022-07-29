@@ -18,7 +18,7 @@ export default (props) => {
         }
         let logStat = {};
         day.map((d)=>logStat[d]=defaultTimeLine);
-        console.log(logStat)
+        // console.log(logStat)
         props.stationLog.map((log) => sumNewLog(log.logs))
         return logStat;
     }

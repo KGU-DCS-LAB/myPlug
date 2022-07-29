@@ -19,15 +19,21 @@ export default (props) => {
         );
     }
 
-    const TimeLine = (props) => {
+    const TimeLine = (day) => {
         let render = [];
+        let logOfDay = props.stationLog[day.day];
         for (let i = 0; i < 24; i++) {
-            render.push(<Center h="5" w="5" bg="primary.300" rounded="md" shadow={3} key={i} />)
+            if(logOfDay[i+""]===0){
+                render.push(<Center h="5" w="5" bg="primary.300" rounded="md" shadow={3} key={i} />)
+            }
+            else{
+                render.push(<Center h="5" w="5" bg="primary.700" rounded="md" shadow={3} key={i} />)
+            }
         }
         return (
             <Center>
                 <HStack space={1} justifyContent="center">
-                    <Text h="5" w="5" >{props.day}</Text>
+                    <Text h="5" w="5" >{day.day}</Text>
                     {render}
                 </HStack>
             </Center>
