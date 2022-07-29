@@ -10,23 +10,38 @@ export default (props) => {
     const logStatistic = () => {
         // 덧셈 해주는 로직이 필요함
         const sumNewLog = (newLog) => {
-            // console.log(logStat)
-            // console.log(newLog)
             for(let i = 0 ; i < day.length; i++) {
-                // console.log(newLog[day[i]])
+                for(let j = 0 ; j < 24 ; j ++){
+                    if(parseInt(newLog[day[i]][j+""])>0){
+                        console.log(day[i], j)
+                        logStat = {
+                            ...logStat,
+                            [day[i]]:{
+                                ...logStat[day[i]],
+                                [j]:parseInt(logStat[day[i]][j+""])+parseInt(newLog[day[i]][j+""]) 
+                            }
+                        }
+                        
+                        //여기서 왜 logStat의 특정 요일만 업데이트 되는 것이 아닌, 전체 요일이 바뀌는지 모르겠음
+                    }
+                }
             }
         }
         let logStat = {};
         day.map((d)=>logStat[d]=defaultTimeLine);
-        // console.log(logStat)
+        // logStat['tue']['10']=99999999
+        console.log('logStat prev: '+JSON.stringify(logStat))
         props.stationLog.map((log) => sumNewLog(log.logs))
+        // props.stationLog.map((log) => console.log(JSON.stringify(log)))
+        // logStat['tue']['11']=4
+        console.log('logStat next: '+JSON.stringify(logStat))
         return logStat;
     }
 
 
     return (
         <Box>
-            <Pressable onPress={() => console.log('You touched me')} _dark={{
+            <Pressable _dark={{
                 bg: 'coolGray.800'
             }} _light={{
                 bg: 'white'
