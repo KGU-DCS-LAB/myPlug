@@ -20,6 +20,35 @@ const StationBigModal = (props) => {
         return props.stationLogs.filter(item => item.chgerId === chgerId);
     }
 
+    const logStatistic = (stationLog) => {
+        const day = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+        const defaultTimeLine = { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0 }
+    
+        // 덧셈 해주는 로직이 필요함
+        const sumNewLog = (newLog) => {
+            for(let i = 0 ; i < day.length; i++) {
+                for(let j = 0 ; j < 24 ; j ++){
+                    if(parseInt(newLog[day[i]][j+""])>0){
+                        // console.log(day[i], j)
+                        logStat = {
+                            ...logStat,
+                            [day[i]]:{
+                                ...logStat[day[i]],
+                                [j]:parseInt(logStat[day[i]][j+""])+parseInt(newLog[day[i]][j+""]) 
+                            }
+                        }
+                        
+                        //여기서 왜 logStat의 특정 요일만 업데이트 되는 것이 아닌, 전체 요일이 바뀌는지 모르겠음
+                    }
+                }
+            }
+        }
+        let logStat = {};
+        day.map((d)=>logStat[d]=defaultTimeLine);
+        stationLog.map((log) => sumNewLog(log.logs))
+        return logStat;
+    }
+
     return (
         <>
             {
@@ -75,7 +104,7 @@ const StationBigModal = (props) => {
                             <Divider />
 
                             <Heading size="md" mt={5}>충전소 사용 분석</Heading>
-                            {/* <LogTable/> */}
+                            <LogTable stationLog={logStatistic(props.stationLogs)} />
 
                             <Divider mt={5} />
 

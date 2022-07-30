@@ -3,17 +3,17 @@ import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react
 import LogTable from "./LogTable";
 export default (props) => {
 
-    const day = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
-    const defaultTimeLine = { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0 }
-
-    const logStatistic = () => {
+    const logStatistic = (stationLog) => {
+        const day = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+        const defaultTimeLine = { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0 }
+    
         // 덧셈 해주는 로직이 필요함
         const sumNewLog = (newLog) => {
             for(let i = 0 ; i < day.length; i++) {
                 for(let j = 0 ; j < 24 ; j ++){
                     if(parseInt(newLog[day[i]][j+""])>0){
-                        console.log(day[i], j)
+                        // console.log(day[i], j)
                         logStat = {
                             ...logStat,
                             [day[i]]:{
@@ -29,12 +29,7 @@ export default (props) => {
         }
         let logStat = {};
         day.map((d)=>logStat[d]=defaultTimeLine);
-        // logStat['tue']['10']=99999999
-        console.log('logStat prev: '+JSON.stringify(logStat))
-        props.stationLog.map((log) => sumNewLog(log.logs))
-        // props.stationLog.map((log) => console.log(JSON.stringify(log)))
-        // logStat['tue']['11']=4
-        console.log('logStat next: '+JSON.stringify(logStat))
+        stationLog.map((log) => sumNewLog(log.logs))
         return logStat;
     }
 
@@ -95,7 +90,7 @@ export default (props) => {
                         </Box>
                     </CollapseHeader>
                     <CollapseBody>
-                        <LogTable stationLog={logStatistic()} />
+                        <LogTable stationLog={logStatistic(props.stationLog)} />
                         {/* <Text>{JSON.stringify(props.stationLog)}</Text> */}
                     </CollapseBody>
                 </Collapse>
