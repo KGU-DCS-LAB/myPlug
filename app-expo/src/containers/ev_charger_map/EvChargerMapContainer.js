@@ -212,8 +212,7 @@ const EvChargerContainer = (props) => {
                 // count: count,
             }
         }).then((response) => {
-            sortStations(response.data);
-            setChargingStations(response.data); //서버에서 받아온 충전소 데이터 리스트를 업데이트
+            setChargingStations(sortStations(response.data)); //서버에서 받아온 충전소 데이터 리스트를 업데이트
             // setFilteredChargingStations(response.data);
         }).catch(function (error) {
             console.log(error);
@@ -221,8 +220,7 @@ const EvChargerContainer = (props) => {
     }
 
     const sortStations = (stations) => {
-        // console.log(stations)
-        let sortedList = []
+        let sortedList = stations
         return sortedList;
     }
 
