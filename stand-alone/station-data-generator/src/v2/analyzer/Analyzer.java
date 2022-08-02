@@ -1,10 +1,12 @@
 package v2.analyzer;
+
 import static com.mongodb.client.model.Filters.eq;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Aggregates;
 import org.bson.Document;
 import org.bson.json.JsonObject;
 import org.json.simple.JSONObject;
@@ -14,8 +16,8 @@ import v2.common.KecoChargerInfoDTO;
 import v2.common.MongoConfig;
 import v2.common.StationLogDTO;
 
-import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class Analyzer {
     ArrayList<StationLogDTO> stationsLogList = new ArrayList<StationLogDTO>();
     List<Document> list_stations_logs = new ArrayList<Document>();
     String[] d = {"mon", "tue", "wed", "thu", "fri", "sat", "sun"};
-    String day, week= null;
+    String day, week = null;
     int hour = -1;
 
     public static Analyzer getInstance() {
@@ -36,7 +38,8 @@ public class Analyzer {
     public void start() {
         database = MongoConfig.getInstance().config();
         getDateValueByVersion();
-        updateLogs();
+        updateNewLogs();
+        deleteOlgLogs();
     }
 
     public void getDateValueByVersion() {
@@ -59,9 +62,9 @@ public class Analyzer {
         }
     }
 
-    public void updateLogs() { //코드 정리가 필요한 부분!
+    public void updateNewLogs() { //코드 정리가 필요한 부분!
         collection_stations_logs = database.getCollection("stations_logs");
-        MongoCursor<Document> cursor = collection_stations_logs.find(eq("week", ""+this.week)).iterator();
+        MongoCursor<Document> cursor = collection_stations_logs.find(eq("week", "" + this.week)).iterator();
         if (cursor.hasNext()) {
             try {
                 while (cursor.hasNext()) {
@@ -98,12 +101,11 @@ public class Analyzer {
                 }
                 for (StationLogDTO sl : stationsLogList) {
                     KecoChargerInfoDTO ci = findByUniqueId(chargerInfoList, sl.getStatId() + sl.getChgerId());
-                    if(ci != null) {
+                    if (ci != null) {
                         Document station_log = new Document()
                                 .append("statId", sl.getStatId())
                                 .append("chgerId", sl.getChgerId())
-                                .append("week", sl.getWeek())
-                                ;
+                                .append("week", sl.getWeek());
                         Document logs = new Document();
                         for (int i = 0; i < 7; i++) {
                             Document day = new Document();
@@ -151,13 +153,12 @@ public class Analyzer {
                         }
                         station_log.put("logs", logs); //json 내부 배열 넣을때 사용
                         list_stations_logs.add(station_log);
-                    }
-                    else {
+                    } else {
 //                        조회 실패 시 기본 데이터 추가하는 작업을 해줘야 하는데 오늘은 시간이 없으므로 나중에 수정하기
-                        System.out.println("조회 실패!  "+sl.getStatId() + sl.getChgerId());
+                        System.out.println("조회 실패!  " + sl.getStatId() + sl.getChgerId());
                     }
                 }
-                collection_stations_logs.deleteMany(eq("week",""+this.week)); //이번 주 데이터만 업데이트 한다
+                collection_stations_logs.deleteMany(eq("week", "" + this.week)); //이번 주 데이터만 업데이트 한다
                 collection_stations_logs.insertMany(list_stations_logs);
             } catch (Exception e) {
                 System.out.println(e);
@@ -179,8 +180,7 @@ public class Analyzer {
             Document station_log = new Document()
                     .append("statId", ci.getStatId())
                     .append("chgerId", ci.getChgerId())
-                    .append("week", this.week)
-                    ;
+                    .append("week", this.week);
             Document logs = new Document();
             for (int i = 0; i < 7; i++) {
                 Document day = new Document();
@@ -199,4 +199,32 @@ public class Analyzer {
         System.out.println("기본 데이터 생성 완료... 서버로 입력 시도!");
         collection_stations_logs.insertMany(list_stations_logs);
     }
+
+    public void deleteOlgLogs() {
+        ArrayList<String> versionedWeeks = new ArrayList<>();
+        collection_stations_logs = database.getCollection("stations_logs");
+        collection_stations_logs.aggregate(
+                Arrays.asList(
+                        Aggregates.group("$week")
+                )
+        ).forEach(doc -> versionedWeeks.add(getValueFromJSON(doc.toJson())));
+        for (String week: versionedWeeks) {
+            System.out.println(week);
+        }
+    }
+
+    public String getValueFromJSON(String json){
+        JsonObject versionWeekJSON = new JsonObject(json); //JSON 파싱
+        String versionWeekStringJSON = versionWeekJSON.getJson();
+        try {
+            JSONParser parser = new JSONParser();
+            Object obj = parser.parse(versionWeekStringJSON);
+            JSONObject jsonObj = (JSONObject) obj;
+            return jsonObj.get("_id").toString(); //json으로 부터 마지막으로 저장된 시간 값을 얻어옴
+        } catch (Exception e) {
+            System.out.println("버전 값 처리 중 오류가 발생했습니다.");
+        }
+        return "";
+    }
+
 }
