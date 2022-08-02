@@ -1,6 +1,7 @@
 import { Center, HStack, ScrollView, Text, VStack } from "native-base"
+import React from "react";
 
-export default (props) => {
+const LogTable = (props) => {
 
     const day = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
@@ -51,3 +52,5 @@ export default (props) => {
         </ScrollView>
     )
 }
+
+export default React.memo(LogTable);
