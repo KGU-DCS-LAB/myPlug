@@ -9,8 +9,7 @@ import v2.receiver.ReceiverController;
 import v2.saver.Saver;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * API를 활용한 전기차 충전소 데이터 조회
@@ -32,13 +31,22 @@ public class DataManager {
     long startTime, finishTime, elapsedTime;
 
     public void run() throws IOException {
-//        automaticRun();
-        manualRun();
+        automaticRun();
+//        manualRun();
     }
 
     public void automaticRun(){
-        
-//        dataJob();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println(new Date().toString());
+                dataJob();
+                System.out.println("다음 요청까지 아무것도 하지 않고 대기합니다. (지금 당장 종료 가능)");
+            }
+        };
+
+        new Timer().scheduleAtFixedRate(task, 0l, 720000); //12분에 한번 동작
+
     }
 
     public void manualRun(){
