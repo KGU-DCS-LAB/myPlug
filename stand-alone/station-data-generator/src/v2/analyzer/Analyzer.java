@@ -16,10 +16,7 @@ import v2.common.KecoChargerInfoDTO;
 import v2.common.MongoConfig;
 import v2.common.StationLogDTO;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class Analyzer {
     MongoDatabase database;
@@ -208,6 +205,9 @@ public class Analyzer {
                         Aggregates.group("$week")
                 )
         ).forEach(doc -> versionedWeeks.add(getValueFromJSON(doc.toJson())));
+        Collections.sort(versionedWeeks);
+        Collections.reverse(versionedWeeks);
+        //versionedWeeks 사이즈 검사 후, 5보다 크다면 나머지 drop 하는 작업 진행해야 함
         for (String week: versionedWeeks) {
             System.out.println(week);
         }
