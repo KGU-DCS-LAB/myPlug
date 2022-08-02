@@ -1,6 +1,7 @@
 package v2.analyzer;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.lte;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
@@ -205,9 +206,14 @@ public class Analyzer {
                         Aggregates.group("$week")
                 )
         ).forEach(doc -> versionedWeeks.add(getValueFromJSON(doc.toJson())));
-        Collections.sort(versionedWeeks);
-        Collections.reverse(versionedWeeks);
-        //versionedWeeks 사이즈 검사 후, 5보다 크다면 나머지 drop 하는 작업 진행해야 함
+        if(versionedWeeks.size()>5){
+            Collections.sort(versionedWeeks);
+            Collections.reverse(versionedWeeks);
+            //versionedWeeks 사이즈 검사 후, 5보다 크다면 나머지 drop 하는 작업 진행해야 함
+            String value5th = versionedWeeks.get(5);
+            System.out.println("5th value : "+value5th);
+            collection_stations_logs.deleteMany(lte("week", value5th)); //오래된 데이터 삭제
+        }
         for (String week: versionedWeeks) {
             System.out.println(week);
         }
