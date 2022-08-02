@@ -32,14 +32,22 @@ public class DataManager {
     long startTime, finishTime, elapsedTime;
 
     public void run() throws IOException {
+//        automaticRun();
+        manualRun();
+    }
 
+    public void automaticRun(){
+        
+//        dataJob();
+    }
+
+    public void manualRun(){
         Scanner scan = new Scanner(System.in);
         while (true) {
             System.out.println("--------Version2 (Java17)-------");
             System.out.println("[메뉴] 숫자를 입력 후 엔터를 누르세요. (순서대로 작업해야 합니다.)");
             System.out.println("0. 프로그램 종료");
             System.out.println("1. API 서버로 부터 데이터 수신 후 클라우드로 저장하기 후 데이터 통계 분석하기");
-//            System.out.println("2. 수신받은 데이터 분석하기");
             cc.print("danger", "8507. 고급모드");
             System.out.println("------------------------");
             int mode = scan.nextInt();
@@ -49,36 +57,8 @@ public class DataManager {
                     System.exit(0);
                     break;
                 case 1:
-                    startTime = System.currentTimeMillis();
-                    chargerInfoList.clear();
-                    ReceiverController rc2 = ReceiverController.getInstance();
-                    rc2.start();
-                    finishTime = System.currentTimeMillis();
-                    elapsedTime = finishTime - startTime;
-                    cc.print("secondary", "수행에 걸린 시간 : " + elapsedTime + "ms\n");
-                    if (chargerInfoList.size() > 0) {
-
-                        Saver sc = Saver.getInstance();
-                        sc.start();
-
-                        Analyzer analyzer = Analyzer.getInstance();
-                        analyzer.start();
-
-                        System.out.println("안전을 위해 프로그램을 종료합니다.");
-                        System.exit(0);
-                    } else {
-                        cc.print("danger", "외부로부터 수신한 데이터가 없습니다.");
-                    }
+                    dataJob();
                     break;
-//                case 2:
-//                    if(chargerInfoList.size()>0){
-//                        Analyzer analyzer = Analyzer.getInstance();
-//                        analyzer.start();
-//                    }
-//                    else{
-//                        cc.print("danger","외부로부터 수신한 데이터가 없습니다.");
-//                    }
-//                    break;
                 case 8507:
                     ManagerController mc = ManagerController.getInstance();
                     mc.start();
@@ -87,6 +67,29 @@ public class DataManager {
                     System.out.println("잘못된 입력입니다.");
                     break;
             }
+        }
+    }
+
+    public void dataJob(){
+        startTime = System.currentTimeMillis();
+        chargerInfoList.clear();
+        ReceiverController rc2 = ReceiverController.getInstance();
+        rc2.start();
+        finishTime = System.currentTimeMillis();
+        elapsedTime = finishTime - startTime;
+        cc.print("secondary", "수행에 걸린 시간 : " + elapsedTime + "ms\n");
+        if (chargerInfoList.size() > 0) {
+
+            Saver sc = Saver.getInstance();
+            sc.start();
+
+            Analyzer analyzer = Analyzer.getInstance();
+            analyzer.start();
+
+//            System.out.println("안전을 위해 프로그램을 종료합니다.");
+//            System.exit(0);
+        } else {
+            cc.print("danger", "외부로부터 수신한 데이터가 없습니다.");
         }
     }
 

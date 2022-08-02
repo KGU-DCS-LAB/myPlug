@@ -103,7 +103,7 @@ public class Saver {
             addChargerDocument(ci);
 
             count++;
-            System.out.println("(" + count + "/" + length + ")" + ci.getStatNm() + "/" + ci.getChgerId());
+//            System.out.println("(" + count + "/" + length + ")" + ci.getStatNm() + "/" + ci.getChgerId());
         }
 
         cc.print("secondary", "준비된 충전소 데이터 건수 : " + list_stations.size());

@@ -158,6 +158,7 @@ public class Analyzer {
                 }
                 collection_stations_logs.deleteMany(eq("week", "" + this.week)); //이번 주 데이터만 업데이트 한다
                 collection_stations_logs.insertMany(list_stations_logs);
+                System.out.println("list_stations_logs size : "+list_stations_logs.size());
             } catch (Exception e) {
                 System.out.println(e);
             } finally {
@@ -214,9 +215,9 @@ public class Analyzer {
             System.out.println("5th value : "+value5th);
             collection_stations_logs.deleteMany(lte("week", value5th)); //오래된 데이터 삭제
         }
-        for (String week: versionedWeeks) {
-            System.out.println(week);
-        }
+//        for (String week: versionedWeeks) {
+//            System.out.println(week);
+//        }
     }
 
     public String getValueFromJSON(String json){
