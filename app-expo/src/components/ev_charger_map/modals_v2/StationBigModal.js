@@ -6,6 +6,7 @@ import Modal from 'react-native-modalbox'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ChargerCard from "../ChargerCard";
 import LogTable from "../LogTable";
+import FindFavorites from "../FindFavorites";
 
 
 var screen = Dimensions.get('window');
@@ -13,6 +14,21 @@ var screen = Dimensions.get('window');
 const StationBigModal = (props) => {
 
     const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        try {
+            AsyncStorage.getItem('userInfo')
+                .then(value => {
+                    if (value != null) {
+                        const UserInfo = JSON.parse(value);
+                        setUserId(UserInfo[0].user_id);
+                    }
+                }
+                )
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
 
     const show = useRef()
 
@@ -23,28 +39,28 @@ const StationBigModal = (props) => {
     const logStatistic = (stationLog) => {
         const day = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
         const defaultTimeLine = { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0 }
-    
+
         // 덧셈 해주는 로직이 필요함
         const sumNewLog = (newLog) => {
-            for(let i = 0 ; i < day.length; i++) {
-                for(let j = 0 ; j < 24 ; j ++){
-                    if(parseInt(newLog[day[i]][j+""])>0){
+            for (let i = 0; i < day.length; i++) {
+                for (let j = 0; j < 24; j++) {
+                    if (parseInt(newLog[day[i]][j + ""]) > 0) {
                         // console.log(day[i], j)
                         logStat = {
                             ...logStat,
-                            [day[i]]:{
+                            [day[i]]: {
                                 ...logStat[day[i]],
-                                [j]:parseInt(logStat[day[i]][j+""])+parseInt(newLog[day[i]][j+""]) 
+                                [j]: parseInt(logStat[day[i]][j + ""]) + parseInt(newLog[day[i]][j + ""])
                             }
                         }
-                        
+
                         //여기서 왜 logStat의 특정 요일만 업데이트 되는 것이 아닌, 전체 요일이 바뀌는지 모르겠음
                     }
                 }
             }
         }
         let logStat = {};
-        day.map((d)=>logStat[d]=defaultTimeLine);
+        day.map((d) => logStat[d] = defaultTimeLine);
         stationLog.map((log) => sumNewLog(log.logs))
         return logStat;
     }
@@ -67,7 +83,7 @@ const StationBigModal = (props) => {
                 >
                     <View style={{ flex: 1 }}>
                         <View>
-                            <Heading size="lg">{props.station.statNm + "(" + props.station.statId + ")"}</Heading>
+                            <Heading size="lg">{props.station.statNm + " (" + props.station.statId + ")"}</Heading>
                         </View>
                         <ScrollView>
                             <Text fontSize="lg">{props.station.addr}</Text>
@@ -110,33 +126,36 @@ const StationBigModal = (props) => {
 
                             <Heading size="md" mt={5}>충전기 목록</Heading>
                             {props.chargers.map((charger) => (
-                                <ChargerCard key={charger._id} charger={charger} stationLog = {findStationsLog(charger.chgerId)}/>
+                                <ChargerCard key={charger._id} charger={charger} stationLog={findStationsLog(charger.chgerId)} />
                             ))}
                             <Spacer />
 
                         </ScrollView>
                         <Spacer />
-                        <Center>
-                            <Pressable
-                                onPress={() => props.setBigModalOpen(false)}
+                            <Center>
+                                <HStack>
+                                    <Pressable
+                                        onPress={() => props.setBigModalOpen(false)}
 
-                            >
-                                <Box
-                                    height="30"
-                                    width="150"
-                                    borderWidth="1"
-                                    borderColor="coolGray.300"
-                                    shadow="3"
-                                    bg="red.300"
-                                    px="5"
-                                    rounded="8"
-                                >
-                                    <Center>
-                                        <Heading size="md">닫 기</Heading>
-                                    </Center>
-                                </Box>
-                            </Pressable>
-                        </Center>
+                                    >
+                                        <Box
+                                            height="30"
+                                            width="150"
+                                            borderWidth="1"
+                                            borderColor="coolGray.300"
+                                            shadow="3"
+                                            bg="red.300"
+                                            px="5"
+                                            rounded="8"
+                                        >
+                                            <Center>
+                                                <Heading size="md">닫 기</Heading>
+                                            </Center>
+                                        </Box>
+                                    </Pressable>
+                                    <FindFavorites user_id={userId} statNm={props.station.statNm} />
+                                </HStack>
+                            </Center>
                     </View>
                 </Modal>
             }

@@ -16,25 +16,8 @@ const StationSmallModal = (props) => {
 
     const show = useRef()
 
-    const [star, setStar] = useState('star-border');
-    const [userId, setUserId] = useState('unknown');
     const isFocused = useIsFocused();
     const [favorites, setFavorites] = useState([]);
-
-    React.useEffect(() => {
-        try {
-            AsyncStorage.getItem('userInfo')
-                .then(value => {
-                    if (value != null) {
-                        const UserInfo = JSON.parse(value);
-                        setUserId(UserInfo[0].user_id);
-                    }
-                }
-                )
-        } catch (error) {
-            console.log(error);
-        }
-    }, []);
 
     return (
         <>
@@ -52,8 +35,13 @@ const StationSmallModal = (props) => {
                     <ScrollView>
                         <HStack>
                             <Heading size="md" isTruncated >
-                                {props.station.statNm}({props.station.statId})
+                                {props.station.statNm} ({props.station.statId})
                             </Heading>
+                            <Spacer/>
+                        </HStack>
+
+                        <HStack>
+
                         </HStack>
                         <HStack>
                             <VStack>
@@ -61,9 +49,6 @@ const StationSmallModal = (props) => {
                                 <Text>{props.station.location}</Text>
                             </VStack>
                             <Spacer />
-                            <VStack py={1}>
-                                <FindFavorites user_id={userId} statNm={props.station.statNm} />
-                            </VStack>
                         </HStack>
                         <Text>운영 시간 : {props.station.useTime}</Text>
                         <Heading size="sm">충전기 상태</Heading>
