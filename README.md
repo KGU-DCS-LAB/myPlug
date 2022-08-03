@@ -101,16 +101,16 @@
 
 ## Demo and Screenshots
 
-![App Screenshot](app-expo\screenshots\main.gif)
-![App Screenshot](app-expo\screenshots\main.gif)
-![App Screenshot](app-expo\screenshots\search.gif)
-![App Screenshot](app-expo\screenshots\location.gif)
-![App Screenshot](app-expo\screenshots\modalSmall.gif)
-![App Screenshot](app-expo\screenshots\modalBig.gif)
-![App Screenshot](app-expo\screenshots\list.gif)
-![App Screenshot](app-expo\screenshots\filter.gif)
+![App Screenshot](app-expo/screenshots/main.gif)
+![App Screenshot](app-expo/screenshots/main.gif)
+![App Screenshot](app-expo/screenshots/search.gif)
+![App Screenshot](app-expo/screenshots/location.gif)
+![App Screenshot](app-expo/screenshots/modalSmall.gif)
+![App Screenshot](app-expo/screenshots/modalBig.gif)
+![App Screenshot](app-expo/screenshots/list.gif)
+![App Screenshot](app-expo/screenshots/filter.gif)
 
-![Web Screenshot](app-expo\screenshots\data.gif)
+![Web Screenshot](app-expo/screenshots/data.gif)
 
 
 ## Environment Variables
