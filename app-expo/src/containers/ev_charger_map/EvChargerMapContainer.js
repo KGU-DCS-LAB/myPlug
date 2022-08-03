@@ -199,7 +199,7 @@ const EvChargerContainer = (props) => {
             }
         }).then((response) => {
             // console.log(response.data);
-            setChargingStations(response.data);
+            setChargingStations(sortStations(userLocation, response.data));
         }).catch(function (error) {
             console.log(error);
         })
@@ -230,7 +230,6 @@ const EvChargerContainer = (props) => {
             ['distance']:getDistance(location.latitude, location.longitude, station.lat, station.lng)
         }))
         let sortedList = temp.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
-        
         return sortedList;
     }
 
