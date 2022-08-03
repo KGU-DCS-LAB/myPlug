@@ -63,11 +63,11 @@
 
 - ~~data-manager~~ [deprecated]
 
-더이상 사용하지 않는 프로그램 입니다.
+더이상 사용하지 않는 프로그램 입니다. (station-data-generator 안정성 테스트 이후 제거 예정)
 
 - ~~web-manager~~ [deprecated]
 
-더이상 사용하지 않는 프로그램 입니다.
+더이상 사용하지 않는 프로그램 입니다. (station-data-generator 안정성 테스트 이후 제거 예정)
 
 ## Features
 
@@ -101,15 +101,16 @@
 
 ## Demo and Screenshots
 
-![App Screenshot](app/screenshots/%EC%95%B1_%EB%AA%A8%EB%91%90%EC%9D%98%20%EC%9D%BC%EA%B8%B0.gif)
-![App Screenshot](app/screenshots/%EC%95%B1_%EB%8C%93%EA%B8%80%20%EB%8B%AC%EA%B8%B0.gif)
-![App Screenshot](app/screenshots/%EC%95%B1_%EC%9D%BC%EA%B8%B0%20%EB%A9%94%EC%9D%B8.gif)
-![App Screenshot](app/screenshots/%EC%95%B1_%EC%9D%BC%EA%B8%B0%20%EC%9D%BD%EA%B8%B0.gif)
-![App Screenshot](app/screenshots/%EC%95%B1_%EC%9D%BC%EA%B8%B0%20%EC%9E%91%EC%84%B1.gif)
-![App Screenshot](app/screenshots/%EC%95%B1_%ED%8C%94%EB%A1%9C%EC%9A%B0.gif)
+![App Screenshot](app-expo\screenshots\main.gif)
+![App Screenshot](app-expo\screenshots\main.gif)
+![App Screenshot](app-expo\screenshots\search.gif)
+![App Screenshot](app-expo\screenshots\location.gif)
+![App Screenshot](app-expo\screenshots\modalSmall.gif)
+![App Screenshot](app-expo\screenshots\modalBig.gif)
+![App Screenshot](app-expo\screenshots\list.gif)
+![App Screenshot](app-expo\screenshots\filter.gif)
 
-![Web Screenshot](web/screenshots/%EC%9B%B9_%EC%9D%BC%EA%B8%B0%20%EC%9D%BD%EA%B8%B0.gif)
-![Web Screenshot](web/screenshots/%EC%9B%B9_%EC%9D%BC%EA%B8%B0%20%EC%9E%91%EC%84%B1.gif)
+![Web Screenshot](app-expo\screenshots\data.gif)
 
 
 ## Environment Variables
