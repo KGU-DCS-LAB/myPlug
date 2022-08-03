@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 // import { Text, View, Dimensions, StyleSheet, ScrollView } from 'react-native'
 import { Alert, Dimensions, Pressable, ScrollView, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import { Box, Button, Center, Heading, HStack, Spacer, Text, VStack } from "native-base";
+import { Badge, Box, Button, Center, Heading, HStack, Spacer, Text, VStack } from "native-base";
 import Modal from 'react-native-modalbox'
 import { useState } from 'react'
 import { config } from '../../../../config';
@@ -37,7 +37,7 @@ const StationSmallModal = (props) => {
                             <Heading size="md" isTruncated >
                                 {props.station.statNm} ({props.station.statId})
                             </Heading>
-                            <Spacer/>
+                            <Spacer />
                         </HStack>
 
                         <HStack>
@@ -50,7 +50,7 @@ const StationSmallModal = (props) => {
                             </VStack>
                             <Spacer />
                         </HStack>
-                        <Text>운영 시간 : {props.station.useTime}</Text>
+                        <Text>{props.station.useTime}</Text>
                         <Heading size="sm">충전기 상태</Heading>
                         <HStack space={1}>
                             {props.chargers.map((charger) => (
@@ -66,6 +66,44 @@ const StationSmallModal = (props) => {
                                     </Center>
                                 </Box>
                             ))}
+                        </HStack>
+                        <HStack mt={1}>
+                            <Badge
+                                colorScheme="blue"
+                                _text={{
+                                    color: "white"
+                                }}
+                                // key={tag}
+                                variant="solid"
+                                rounded="4"
+                                mr="1"
+                            >
+                                {props.station.busiNm}
+                            </Badge>
+                            <Badge
+                                colorScheme={props.station.parkingFree == "Y" ? "green" : "red"}
+                                _text={{
+                                    color: "white"
+                                }}
+                                // key={tag}
+                                variant="solid"
+                                rounded="4"
+                                mr="1"
+                            >
+                                {props.station.parkingFree == "Y" ? "무료주차" : "유료주차"}
+                            </Badge>
+                            <Badge
+                                colorScheme={props.station.limitYn == "Y" ? "red" : "green"}
+                                _text={{
+                                    color: "white"
+                                }}
+                                // key={tag}
+                                variant="solid"
+                                rounded="4"
+                                mr="1"
+                            >
+                                {props.station.limitYn == "Y" ? ("이용 제한") : "누구나 사용가능"}
+                            </Badge>
                         </HStack>
                     </ScrollView>
                     <Center>
