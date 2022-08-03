@@ -102,7 +102,7 @@
 ## Demo and Screenshots
 
 ![App Screenshot](app-expo/screenshots/main.gif)
-![App Screenshot](app-expo/screenshots/main.gif)
+![App Screenshot](app-expo/screenshots/map.gif)
 ![App Screenshot](app-expo/screenshots/search.gif)
 ![App Screenshot](app-expo/screenshots/location.gif)
 ![App Screenshot](app-expo/screenshots/modalSmall.gif)
