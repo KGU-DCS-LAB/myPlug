@@ -1,4 +1,4 @@
-import { Avatar, Box, HStack, Pressable, Spacer, Text, VStack } from "native-base"
+import { Avatar, Box, Divider, HStack, Pressable, Spacer, Text, VStack } from "native-base"
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 import LogTable from "./LogTable";
 export default (props) => {
@@ -21,8 +21,6 @@ export default (props) => {
                                 [j]:parseInt(logStat[day[i]][j+""])+parseInt(newLog[day[i]][j+""]) 
                             }
                         }
-                        
-                        //여기서 왜 logStat의 특정 요일만 업데이트 되는 것이 아닌, 전체 요일이 바뀌는지 모르겠음
                     }
                 }
             }
@@ -92,11 +90,15 @@ export default (props) => {
                                     }
                                 </VStack>
                                 <Spacer />
+                                <VStack>
+                                    <Text fontSize={24}>▿</Text>
+                                </VStack>
                             </HStack>
                         </Box>
                     </CollapseHeader>
                     <CollapseBody>
                         <LogTable stationLog={logStatistic(props.stationLog)} />
+                        <Divider/>
                         {/* <Text>{JSON.stringify(props.stationLog)}</Text> */}
                     </CollapseBody>
                 </Collapse>

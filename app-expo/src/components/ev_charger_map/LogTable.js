@@ -4,6 +4,15 @@ import React from "react";
 const LogTable = (props) => {
 
     const day = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+    const koreanDay = {
+        'mon':'월',
+        'tue':'화',
+        'wed':'수', 
+        'thu':'목',
+        'fri':'금', 
+        'sat':'토', 
+        'sun':'일'
+    };
 
     const TimeHeader = () => {
         let render = [];
@@ -34,7 +43,7 @@ const LogTable = (props) => {
         return (
             <Center>
                 <HStack space={1} justifyContent="center">
-                    <Text h="5" w="5" >{day.day}</Text>
+                    <Text h="5" w="5" >{koreanDay[day.day]}</Text>
                     {render}
                 </HStack>
             </Center>
@@ -43,7 +52,7 @@ const LogTable = (props) => {
 
     return (
         <ScrollView horizontal={true}>
-            <VStack space={1} alignItems="center">
+            <VStack space={1} alignItems="center" mb={2}>
                 <TimeHeader />
                 {day.map((d) => (
                     <TimeLine key={d} day={d}/>
