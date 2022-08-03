@@ -25,7 +25,12 @@ const EvChargerContainer = (props) => {
         longitude: 127.0355,
         latitudeDelta: 0,
         longitudeDelta: 0,
-    }); // 기본 위치 데이터 (비상용)
+    }); // 지도 중심 위치
+
+    const [userLocation, setUserLocation] = useState({
+        latitude: 37.3012,
+        longitude: 127.0355,
+    }); // 실제 사용자 위치
 
     const [isLoaded, setLoaded] = useState(false); // GPS 로딩 여부 검사용
 
@@ -80,12 +85,11 @@ const EvChargerContainer = (props) => {
                 setLocationAndGetStations(initLocation);
                 setLoaded(true);
                 // 실시간으로 위치 변화 감지 (권한 거부 시 아예 동작하지 않음 / 델타 값 관련 버그가 있어서 일단 주석 처리. 동작 자체는 아무 이상 없음)
-                // Location.watchPositionAsync({ accuracy: Location.Accuracy.Balanced, timeInterval: 100, distanceInterval: 1 },
-                //     position => {
-                //         console.log(position.coords);
-                //         setLocation({ longitude: position.coords.longitude, latitude: position.coords.latitude });
-                //     }
-                // );
+                Location.watchPositionAsync({ accuracy: Location.Accuracy.Balanced, timeInterval: 100, distanceInterval: 1 },
+                    position => {
+                        setUserLocation({ longitude: position.coords.longitude, latitude: position.coords.latitude });
+                    }
+                );
 
                 // getFilterRange(); //영업시간을 group으로 묶어 받아오기
                 // group으로 묶은 결과 126개 데이터가 있어서 버튼을 생성하기 부적합하다고 생각 -> 0시, 1시, ... 으로 버튼 만들기로 함
@@ -212,16 +216,43 @@ const EvChargerContainer = (props) => {
                 // count: count,
             }
         }).then((response) => {
-            setChargingStations(sortStations(response.data)); //서버에서 받아온 충전소 데이터 리스트를 업데이트
+            setChargingStations(sortStations(userLocation, response.data)); //서버에서 받아온 충전소 데이터 리스트를 업데이트
             // setFilteredChargingStations(response.data);
         }).catch(function (error) {
             console.log(error);
         })
     }
 
-    const sortStations = (stations) => {
-        let sortedList = stations
+    const sortStations = (location, stations) => {
+        let temp = []
+        stations.map((station)=>temp.push({
+            ...station,
+            ['distance']:getDistance(location.latitude, location.longitude, station.lat, station.lng)
+        }))
+        let sortedList = temp.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
+        
         return sortedList;
+    }
+
+    function getDistance(lat1, lon1, lat2, lon2) {
+        if ((lat1 == lat2) && (lon1 == lon2))
+            return 0;
+    
+        var radLat1 = Math.PI * lat1 / 180;
+        var radLat2 = Math.PI * lat2 / 180;
+        var theta = lon1 - lon2;
+        var radTheta = Math.PI * theta / 180;
+        var dist = Math.sin(radLat1) * Math.sin(radLat2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.cos(radTheta);
+        if (dist > 1)
+            dist = 1;
+    
+        dist = Math.acos(dist);
+        dist = dist * 180 / Math.PI;
+        dist = dist * 60 * 1.1515 * 1.609344 * 1000;
+        if (dist < 100) dist = Math.round(dist / 10) * 10;
+        else dist = Math.round(dist / 100) * 100;
+    
+        return dist;
     }
 
     const getChargers = (statId) => {

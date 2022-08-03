@@ -69,6 +69,18 @@ const StationSmallModal = (props) => {
                         </HStack>
                         <HStack mt={1}>
                             <Badge
+                                colorScheme="gray"
+                                _text={{
+                                    color: "white"
+                                }}
+                                // key={tag}
+                                variant="solid"
+                                rounded="4"
+                                mr="1"
+                            >
+                                {"~"+props.station.distance + "m"}
+                            </Badge>
+                            <Badge
                                 colorScheme="blue"
                                 _text={{
                                     color: "white"
