@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="station-data-generator:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/station_data_generator_jar</output-path>
+    <root id="archive" name="station-data-generator.jar">
+      <element id="module-output" name="station-data-generator" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/bson-4.6.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/slf4j-api-1.7.30.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/json-simple-1.1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/slf4j-simple-1.7.30.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/bson-record-codec-4.6.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/mongodb-driver-core-4.6.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/mongodb-driver-sync-4.6.1.jar" path-in-jar="/" />
+      <element id="library" level="project" name="lib" />
+    </root>
+  </artifact>
+</component>
