@@ -1,6 +1,7 @@
 package v2.common;
 
 public class StationLogDTO {
+    public String uniqueId;
     public String statId;
     public String chgerId;
     public String week;
@@ -11,6 +12,14 @@ public class StationLogDTO {
     public String fri;
     public String sat;
     public String sun;
+
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+    }
 
     public String getWeek() {
         return week;

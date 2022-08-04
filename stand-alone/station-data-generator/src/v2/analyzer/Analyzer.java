@@ -81,6 +81,7 @@ public class Analyzer {
                         JSONObject jsonObj2 = (JSONObject) obj2;
 
                         StationLogDTO log = new StationLogDTO();
+                        log.setUniqueId(statId+chgerId);
                         log.setStatId(statId);
                         log.setChgerId(chgerId);
                         log.setWeek(week);
@@ -97,9 +98,32 @@ public class Analyzer {
                         System.out.println("버전 값 처리 중 오류가 발생했습니다.");
                     }
                 }
+
                 System.out.println("stationsLogList size : "+stationsLogList.size());
 
-
+                for (KecoChargerInfoDTO ci : chargerInfoList) {
+                    StationLogDTO sl = findStationsLogByUniqueId(stationsLogList, ci.getStatId() + ci.getChgerId());
+                    if(sl==null){
+                        Document station_log = new Document()
+                                .append("statId", ci.getStatId())
+                                .append("chgerId", ci.getChgerId())
+                                .append("week", this.week);
+                        Document logs = new Document();
+                        for (int i = 0; i < 7; i++) {
+                            Document day = new Document();
+                            for (int j = 0; j < 24; j++) {
+                                if (ci.getStat().equals("3") && d[i].equals(this.day) && j == hour) {
+                                    day.append(j + "", 1);
+                                } else {
+                                    day.append(j + "", 0);
+                                }
+                            }
+                            logs.append(d[i], day);
+                        }
+                        station_log.put("logs", logs); //json 내부 배열 넣을때 사용
+                        list_stations_logs.add(station_log);
+                    }
+                }
 
                 for (StationLogDTO sl : stationsLogList) {
                     KecoChargerInfoDTO ci = findKecoChargerInfoByUniqueId(chargerInfoList, sl.getStatId() + sl.getChgerId());
@@ -230,6 +254,10 @@ public class Analyzer {
 
     public static KecoChargerInfoDTO findKecoChargerInfoByUniqueId(Collection<KecoChargerInfoDTO> listChargerInfo, String uniqueId) { //java 8 이상에서만 사용 가능한 steam 기능 추가
         return listChargerInfo.stream().filter(chargerInfo -> uniqueId.equals(chargerInfo.getUniqueId())).findFirst().orElse(null);
+    }
+
+    public static StationLogDTO findStationsLogByUniqueId(Collection<StationLogDTO> listStationLog, String uniqueId) { //java 8 이상에서만 사용 가능한 steam 기능 추가
+        return listStationLog.stream().filter(station_log -> uniqueId.equals(station_log.getUniqueId())).findFirst().orElse(null);
     }
 
     public void insertDefaultLogs() {
