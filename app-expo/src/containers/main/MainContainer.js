@@ -8,6 +8,7 @@ import SignUpContainer from '../user/SignUpContainer';
 import MyPageContainer from '../user/MyPageContainer';
 import ModalExample from '../example/ModalExample';
 import CollapseExample from '../example/CollapseExample';
+import ScheduleContainer from '../schedule/ScheduleContainer';
 
 const MainContainer = () => {
 
@@ -41,8 +42,14 @@ const MainContainer = () => {
         );
     }
 
-    const ExampleScreen = ({navigation}) => {
-        return(
+    const ScheduleScreen = ({ navigation }) => {
+        return (
+            <ScheduleContainer navigation={navigation} />
+        );
+    }
+
+    const ExampleScreen = ({ navigation }) => {
+        return (
             // <ModalExample navigation={navigation} />
             <CollapseExample navigation={navigation} />
         )
@@ -73,6 +80,10 @@ const MainContainer = () => {
             <Stack.Screen
                 name="MyPage"
                 component={MyPageScreen}
+            />
+            <Stack.Screen
+                name="Schedule"
+                component={ScheduleScreen}
             />
             <Stack.Screen
                 name="example"

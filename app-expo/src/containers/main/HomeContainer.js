@@ -77,7 +77,7 @@ const HomeContainer = (props) => {
                             numOfCol={colNum2}
                             width={windowWidth / colNum2 * 0.9}
                             height={windowWidth / colNum2 * 0.9}
-                            onPress={() => console.log('ㅇㅇ')}
+                            onPress={() => props.navigation.navigate('Schedule')}
                             title="충전 기록하기"
                         />
                     </HStack>
