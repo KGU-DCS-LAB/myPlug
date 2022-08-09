@@ -9,6 +9,7 @@ import MyPageContainer from '../user/MyPageContainer';
 import ModalExample from '../example/ModalExample';
 import CollapseExample from '../example/CollapseExample';
 import ScheduleContainer from '../schedule/ScheduleContainer';
+import EvMapContainer from '../ev_charger_map/EvMapContainer';
 
 const MainContainer = () => {
 
@@ -23,6 +24,13 @@ const MainContainer = () => {
             <EvChargerContainer navigation={navigation} />
         );
     }
+
+    const EvMapScreen = ({ navigation }) => {
+        return (
+            <EvMapContainer navigation={navigation} />
+        );
+    }
+
 
     const LoginScreen = ({ navigation }) => {
         return (
@@ -65,6 +73,13 @@ const MainContainer = () => {
             <Stack.Screen
                 name="EvCharger"
                 component={EvChargerScreen}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+                }}
+            />
+            <Stack.Screen
+                name="EvMap"
+                component={EvMapScreen}
                 options={{
                     cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
                 }}

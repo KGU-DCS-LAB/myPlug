@@ -108,7 +108,8 @@ const HomeContainer = (props) => {
                             numOfCol={colNum2}
                             width={windowWidth / colNum2 * 0.9}
                             height={windowWidth / colNum2 * 0.9}
-                            onPress={() => console.log('ㅇㅇ')}
+                            onPress={() => props.navigation.navigate('EvMap')}
+                            title="새 버전의 충전 지도"
                         />
                     </HStack>
                     <Box py={1} />
