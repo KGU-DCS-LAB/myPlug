@@ -17,7 +17,7 @@ import {sortStations, getDistance} from '../../api/DISTANCE';
 
 const EvChargerContainer = (props) => {
 
-    const [location, setLocation] = useState({
+    const [mapLocation, setMapLocation] = useState({
         latitude: 37.3012,
         longitude: 127.0355,
         latitudeDelta: 0,
@@ -38,11 +38,6 @@ const EvChargerContainer = (props) => {
     const [chgerType, setChgerType] = useState([]); // 서버로 부터 받아온 충전기 타입
     const [busiNm, setBusiNm] = useState([]); // 서버로 부터 받아온 충전소 회사 리스트
     const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [] });
-
-    // const [count, setCount] = useState(0); // 리프레시 횟수 검사 용 (테스트 할 때 사용됨)
-    // const [requestTime, setRequestTime] = useState(new Date().getTime()); //제스처 검출용 (손 끝에서 지도를 탈출했을 때, 특정 상황에서 부드러운 화면 업데이트를 위해 위치 상태 값이 강제러 리프레시 되는 현상이 있어 서버에 과도한 데이터 요청을 하는 것을 발견함. 따라서 이를 방지하기 위해 특정한 로직을 추가하여 위치 값이 수정될 때 마다 이 값이 갱신되도록 함)
-
-    // const [searchedStation, setSearchedStation] = useState([]); // 검색하고 선택한 충전소
     const [selectedStation, setSelectedStation] = useState([lat = 0, lng = 0]); //마커 선택 시 모달에 띄워줄 데이터
 
     const [smallModalVisible, setSmallModalVisible] = useState(false); //작은 모달 온오프
@@ -101,7 +96,7 @@ const EvChargerContainer = (props) => {
 
     
     const setLocationAndGetStations = (region) => {
-        setLocation(region);
+        setMapLocation(region);
         if (region.latitudeDelta < 0.13 && region.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
             getStations(region);
         }
@@ -109,23 +104,6 @@ const EvChargerContainer = (props) => {
             setChargingStations([]);
         }
     }
-
-    // //현 위치의 충전소 데이터 수신
-    // const getRegionStations = (region) => {
-    //     if (isLoaded) {
-    //         setCount(count + 1)
-    //         const newTime = new Date().getTime();
-    //         // console.log('--------')
-    //         // console.log(requestTime); //마지막 위치 요청 시간
-    //         setRequestTime(newTime);
-    //         // console.log(newTime); //새로운 위치 요청 시간
-    //         console.log('diff : ', newTime - requestTime);
-    //         if (newTime - requestTime > 300) { //두 요청 시간 차이가 300보다 큰 경우에만 정상적인 요청임 (그 이하는 지도 화면이 자동으로 부드럽게 밀리는 과정에서 위치 값을 갱신하는 것으로 간주함)
-    //             console.log('updated at count:', count); //실제로 서버로 요청이 들어간 refresh count 값이 얼마인지 확인하기 위해 추가
-    //             setLocation(region); //위치 값 갱신
-    //         }
-    //     }
-    // }
 
     const getbusiNm = async () => {
         let key = "busiNm";
@@ -151,7 +129,7 @@ const EvChargerContainer = (props) => {
 
     const dataFiltering = () => {
         setIsFiltering(true);
-        getFilteredData(location);
+        getFilteredData(mapLocation);
         setFilterModalVisible(false);
     }
 
@@ -171,7 +149,7 @@ const EvChargerContainer = (props) => {
     const refresh = () => {
         setIsFiltering(false);
         setSelectedType([]);
-        getAllData(location);
+        getAllData(mapLocation);
     }
 
     const getStations = (location) => {
@@ -257,7 +235,7 @@ const EvChargerContainer = (props) => {
         }
         setStationListModalVisible(false)
         setSelectedStation(station)
-        setLocation(stationLocation);
+        setMapLocation(stationLocation);
         getStations(stationLocation);
         setSmallModalOpen(true);
         getChargers(station.statId)
@@ -284,7 +262,7 @@ const EvChargerContainer = (props) => {
                             />
 
                             <StationListModal
-                                location={location}
+                                location={mapLocation}
                                 chargingStations={chargingStations}
                                 stationListModalVisible={stationListModalVisible}
                                 setStationListModalVisible={setStationListModalVisible}
@@ -320,10 +298,10 @@ const EvChargerContainer = (props) => {
                                 showsUserLocation={true}
                                 showsMyLocationButton={false} // 현위치를 맵에서 직접 관리하지 않도록 제한함 (Stagger에서 처리)
                                 region={{ //현 위치를 state가 관리하도록 함
-                                    latitude: location.latitude,
-                                    longitude: location.longitude,
-                                    latitudeDelta: location.latitudeDelta,
-                                    longitudeDelta: location.longitudeDelta,
+                                    latitude: mapLocation.latitude,
+                                    longitude: mapLocation.longitude,
+                                    latitudeDelta: mapLocation.latitudeDelta,
+                                    longitudeDelta: mapLocation.longitudeDelta,
                                 }}
                                 onRegionChange={region => {
 
@@ -362,15 +340,15 @@ const EvChargerContainer = (props) => {
 
                             </MapView>
                             {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
-                            <HStack><Text>{location.latitude}</Text><Spacer /><Text>{location.longitude}</Text></HStack>
-                            <HStack><Text>{location.latitudeDelta}</Text><Spacer /><Text>{location.longitudeDelta}</Text></HStack>
+                            {/* <HStack><Text>{mapLocation.latitude}</Text><Spacer /><Text>{mapLocation.longitude}</Text></HStack>
+                            <HStack><Text>{mapLocation.latitudeDelta}</Text><Spacer /><Text>{mapLocation.longitudeDelta}</Text></HStack> */}
                             {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
 
                         </View>
                         <CoverMenu
                             navigation={props.navigation}
-                            location={location}
-                            setLocation={setLocation}
+                            location={mapLocation}
+                            setLocation={setMapLocation}
                             setLocationAndGetStations={setLocationAndGetStations}
                             smallModalVisible={smallModalVisible}
                             setFilterModalVisible={setFilterModalVisible}
