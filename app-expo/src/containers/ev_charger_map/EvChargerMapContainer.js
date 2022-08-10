@@ -14,7 +14,7 @@ import StationListModal from "../../components/ev_charger_map/modals/StationList
 import StationSmallModal from "../../components/ev_charger_map/modals_v2/StationSmallModal";
 import StationBigModal from "../../components/ev_charger_map/modals_v2/StationBigModal";
 import {sortStations, getDistance} from '../../api/DISTANCE';
-import { getRegionData } from "../../api/API";
+import { getChargersByOneStation, getRegionData } from "../../api/API";
 
 const EvChargerContainer = (props) => {
 
@@ -180,17 +180,8 @@ const EvChargerContainer = (props) => {
         })
     }
 
-    const getChargers = (statId) => {
-        //선택한 충전소id에 속한 충전기를 요청 
-        // console.log(statId)
-        axios.post(config.ip + ':5000/stationsRouter/keco/find/chargers', {
-            data: statId
-        }).then((response) => {
-            console.log(response.data.length)
-            setChargers(response.data)
-        }).catch(function (error) {
-            console.log(error);
-        })
+    const getStationChargers = async (statId) => {
+        setChargers(await getChargersByOneStation(statId))
     }
 
     const getStationLogs = (statId) => {
@@ -220,7 +211,7 @@ const EvChargerContainer = (props) => {
         setMapLocation(stationLocation);
         getStations(stationLocation);
         setSmallModalOpen(true);
-        getChargers(station.statId)
+        getStationChargers(station.statId)
         getStationLogs(station.statId)
     }
 

@@ -20,7 +20,7 @@ const getRegionData = async (location) => {
     }
 }
 
-const foo = async () => {
+const getChargersByOneStation = async (statId) => {
     try {
         const response = await axios.post(config.ip + ':5000/stationsRouter/keco/find/chargers', {
             data: statId
@@ -33,4 +33,4 @@ const foo = async () => {
     }
 }
 
-export { getRegionData }
+export { getRegionData, getChargersByOneStation }

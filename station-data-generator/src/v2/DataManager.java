@@ -31,8 +31,8 @@ public class DataManager {
     long startTime, finishTime, elapsedTime;
 
     public void run() throws IOException {
-        automaticRun();
-//        manualRun();
+//        automaticRun();
+        manualRun();
     }
 
     public void automaticRun(){
