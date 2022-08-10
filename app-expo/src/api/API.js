@@ -20,4 +20,17 @@ const getRegionData = async (location) => {
     }
 }
 
-export {getRegionData}
+const foo = async () => {
+    try {
+        const response = await axios.post(config.ip + ':5000/stationsRouter/keco/find/chargers', {
+            data: statId
+        })
+        // console.log("response >>", response.data)
+        return response.data
+    } catch (err) {
+        console.log("Error >>", err);
+        return []
+    }
+}
+
+export { getRegionData }
