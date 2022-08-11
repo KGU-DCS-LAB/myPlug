@@ -124,7 +124,7 @@ const EvChargerContainer = (props) => {
         setSelectedType({ ...selectedType, [type]: select })
     }
 
-    const cancleSelect = (type, selected) => {
+    const cancelSelect = (type, selected) => {
         let select = selectedType[type];
         select = select.filter(item => item !== selected)
         console.log(select)
@@ -183,7 +183,7 @@ const EvChargerContainer = (props) => {
                                 selectedType={selectedType}
                                 setSelectedType={setSelectedType}
                                 dataFiltering={dataFiltering}
-                                cancleSelect={cancleSelect}
+                                cancelSelect={cancelSelect}
                                 selectType={selectType}
                                 chgerType={chgerType}
                                 busiNm={busiNm}

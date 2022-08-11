@@ -43,11 +43,11 @@ const FilterModal = (props) => {
 
                             <ScrollView>
                                 <View style={styles.wrapper}>
-                                    <SelectChgerType chgerType={props.chgerType} selectedType={props.selectedType} cancleSelect={props.cancleSelect} selectType={props.selectType} />
+                                    <SelectChgerType chgerType={props.chgerType} selectedType={props.selectedType} cancelSelect={props.cancelSelect} selectType={props.selectType} />
 
-                                    <SelectParkingFree selectedType={props.selectedType} cancleSelect={props.cancleSelect} selectType={props.selectType} />
+                                    <SelectParkingFree selectedType={props.selectedType} cancelSelect={props.cancelSelect} selectType={props.selectType} />
 
-                                    <SelectBusiNm busiNm={props.busiNm} selectedType={props.selectedType} cancleSelect={props.cancleSelect} selectType={props.selectType} />
+                                    <SelectBusiNm busiNm={props.busiNm} selectedType={props.selectedType} cancelSelect={props.cancelSelect} selectType={props.selectType} />
                                 </View>
                             </ScrollView>
                             <Pressable
