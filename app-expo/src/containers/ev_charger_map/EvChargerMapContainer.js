@@ -106,33 +106,9 @@ const EvChargerContainer = (props) => {
         }
     }
 
-    // @박소영이 작업해둔 것 원본
-    // const getbusiNm = async () => {
-    //     let key = "busiNm";
-    //     axios.get(config.ip + ':5000/stationsRouter/keco/filteredStations/' + key
-    //     ).then((response) => {
-    //         setBusiNm(response.data);
-    //     }).catch(function (error) {
-    //         console.log(error);
-    //     })
-    // }
-
     const getbusiNm = async () => {
         setBusiNm(await API.getBusiNmByKey("busiNm"));
     }
-
-    // @박소영이 작업해둔 것 원본
-    // const getchgerType = () => {
-    //     let key = "chgerType";
-    //     console.log(key);
-    //     axios.get(config.ip + ':5000/stationsRouter/keco/filteredCharger/' + key
-    //     ).then((response) => {
-    //         setChgerType(response.data);
-    //         // console.log(response.data)
-    //     }).catch(function (error) {
-    //         console.log(error);
-    //     })
-    // }
 
     const getchgerType = async () => {
         setChgerType(await API.getChargerTypeByKey("chgerType"));
