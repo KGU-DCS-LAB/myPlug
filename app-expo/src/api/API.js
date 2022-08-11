@@ -33,4 +33,15 @@ const getChargersByOneStation = async (statId) => {
     }
 }
 
-export { getRegionData, getChargersByOneStation }
+const getChargerTypeByKey = async (key) => {
+    try {
+        const response = await axios.get(config.ip + ':5000/stationsRouter/keco/filteredCharger/' + key)
+        // console.log("response >>", response.data)
+        return response.data
+    } catch (err) {
+        console.log("Error >>", err);
+        return []
+    }
+}
+
+export { getRegionData, getChargersByOneStation, getChargerTypeByKey }

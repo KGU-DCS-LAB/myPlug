@@ -14,7 +14,7 @@ import StationListModal from "../../components/ev_charger_map/modals/StationList
 import StationSmallModal from "../../components/ev_charger_map/modals_v2/StationSmallModal";
 import StationBigModal from "../../components/ev_charger_map/modals_v2/StationBigModal";
 import {sortStations, getDistance} from '../../api/DISTANCE';
-import { getChargersByOneStation, getRegionData } from "../../api/API";
+import * as API from "../../api/API";
 
 const EvChargerContainer = (props) => {
 
@@ -116,17 +116,33 @@ const EvChargerContainer = (props) => {
         })
     }
 
-    const getchgerType = () => {
-        let key = "chgerType";
-        console.log(key);
-        axios.get(config.ip + ':5000/stationsRouter/keco/filteredCharger/' + key
-        ).then((response) => {
-            setChgerType(response.data);
-            // console.log(response.data)
-        }).catch(function (error) {
-            console.log(error);
-        })
+    // @박소영이 작업해둔 것 원본
+    // const getchgerType = () => {
+    //     let key = "chgerType";
+    //     console.log(key);
+    //     axios.get(config.ip + ':5000/stationsRouter/keco/filteredCharger/' + key
+    //     ).then((response) => {
+    //         setChgerType(response.data);
+    //         // console.log(response.data)
+    //     }).catch(function (error) {
+    //         console.log(error);
+    //     })
+    // }
+
+    const getchgerType = async () => {
+        setChgerType(await API.getChargerTypeByKey("chgerType"));
     }
+
+    // const getChargerTypeByKey = async (key) => {
+    //     try {
+    //         const response = await axios.get(config.ip + ':5000/stationsRouter/keco/filteredCharger/' + key)
+    //         // console.log("response >>", response.data)
+    //         return response.data
+    //     } catch (err) {
+    //         console.log("Error >>", err);
+    //         return []
+    //     }
+    // }
 
     const dataFiltering = () => {
         setIsFiltering(true);
@@ -150,7 +166,7 @@ const EvChargerContainer = (props) => {
     const refresh = async () => {
         setIsFiltering(false);
         setSelectedType([]);
-        setChargingStations(sortStations(userLocation, await getRegionData(mapLocation)));
+        setChargingStations(sortStations(userLocation, await API.getRegionData(mapLocation)));
     }
 
     const getStations = async (location) => {
@@ -158,7 +174,7 @@ const EvChargerContainer = (props) => {
             await getFilteredData(location);
         }
         else { //필터모드가 아니라면
-            setChargingStations(sortStations(userLocation, await getRegionData(mapLocation)));
+            setChargingStations(sortStations(userLocation, await API.getRegionData(mapLocation)));
         }
     }
 
@@ -181,7 +197,7 @@ const EvChargerContainer = (props) => {
     }
 
     const getStationChargers = async (statId) => {
-        setChargers(await getChargersByOneStation(statId))
+        setChargers(await API.getChargersByOneStation(statId))
     }
 
     const getStationLogs = (statId) => {
