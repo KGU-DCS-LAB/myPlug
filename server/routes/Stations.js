@@ -78,7 +78,8 @@ router.post('/filterStations', async function (req, res, next) {
   const x2 = req.body.data.x2;
   const y1 = req.body.data.y1;
   const y2 = req.body.data.y2;
-  const types = req.body.data.types
+  const types = req.body.data.types;
+  console.log(types);
   let result = null;
   let statNmAgg = {'statNm': { $exists: true }};
   let parkingFreeAgg = {parkingFree: { $exists: true }};

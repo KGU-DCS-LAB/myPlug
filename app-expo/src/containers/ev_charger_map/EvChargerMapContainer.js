@@ -41,8 +41,6 @@ const EvChargerContainer = (props) => {
     const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [] });
     const [selectedStation, setSelectedStation] = useState([lat = 0, lng = 0]); //마커 선택 시 모달에 띄워줄 데이터
 
-    // const [smallModalVisible, setSmallModalVisible] = useState(false); //작은 모달 온오프
-    // const [bigModalVisible, setBigModalVisible] = useState(false); //큰 모달 온오프
     const [filterModalVisible, setFilterModalVisible] = useState(false); // 필터 모달 온오프
     const [stationListModalVisible, setStationListModalVisible] = useState(false); // 충전소 목록 모달 온오프
     const [didCancel, setCancel] = useState(false);
@@ -114,9 +112,9 @@ const EvChargerContainer = (props) => {
         setChgerType(await API.getChargerTypeByKey("chgerType"));
     }
 
-    const dataFiltering = () => {
+    const dataFiltering = async () => {
         setIsFiltering(true);
-        getFilteredData(mapLocation);
+        setChargingStations(sortStations(userLocation, await getFilteredData(mapLocation, selectedType)));
         setFilterModalVisible(false);
     }
 
@@ -141,7 +139,7 @@ const EvChargerContainer = (props) => {
 
     const getStations = async (location) => {
         if (isFiltering) { //필터모드라면
-            await getFilteredData(location);
+            setChargingStations(sortStations(userLocation, await getFilteredData(mapLocation, selectedType)));
         }
         else { //필터모드가 아니라면
             setChargingStations(sortStations(userLocation, await API.getRegionData(mapLocation)));
@@ -149,21 +147,41 @@ const EvChargerContainer = (props) => {
     }
 
     
-    const getFilteredData = (location) => {
-        axios.post(config.ip + ':5000/stationsRouter/filterStations', {
-            data: {
-                x1: location.longitude - (location.longitudeDelta / 2),
-                x2: location.longitude + (location.longitudeDelta / 2),
-                y1: location.latitude - (location.latitudeDelta / 2),
-                y2: location.latitude + (location.latitudeDelta / 2),
-                types: selectedType
-            }
-        }).then((response) => {
-            // console.log(response.data);
-            setChargingStations(sortStations(userLocation, response.data));
-        }).catch(function (error) {
-            console.log(error);
-        })
+    // const getFilteredData = (location) => {
+    //     axios.post(config.ip + ':5000/stationsRouter/filterStations', {
+    //         data: {
+    //             x1: location.longitude - (location.longitudeDelta / 2),
+    //             x2: location.longitude + (location.longitudeDelta / 2),
+    //             y1: location.latitude - (location.latitudeDelta / 2),
+    //             y2: location.latitude + (location.latitudeDelta / 2),
+    //             types: selectedType
+    //         }
+    //     }).then((response) => {
+    //         // console.log(response.data);
+    //         setChargingStations(sortStations(userLocation, response.data));
+    //     }).catch(function (error) {
+    //         console.log(error);
+    //     })
+    // }
+
+    const getFilteredData = async (location, selectedType) => {
+        console.log(selectedType)
+        try {
+            const response = await axios.post(config.ip + ':5000/stationsRouter/filterStations', {
+                data: {
+                    x1: location.longitude - (location.longitudeDelta / 2),
+                    x2: location.longitude + (location.longitudeDelta / 2),
+                    y1: location.latitude - (location.latitudeDelta / 2),
+                    y2: location.latitude + (location.latitudeDelta / 2),
+                    types: selectedType
+                }
+            })
+            // console.log("response >>", response.data)
+            return response.data
+        } catch (err) {
+            console.log("Error >>", err);
+            return []
+        }
     }
 
     const getStationChargers = async (statId) => {
