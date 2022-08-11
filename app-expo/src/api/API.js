@@ -55,9 +55,25 @@ const getBusiNmByKey = async (key) => {
     }
 }
 
+const getStationLogsByStatId = async (statId) => {
+    try {
+        const response = await axios.post(config.ip + ':5000/stationsRouter/keco/find/stationLogs', {
+            data: statId
+        })
+        // console.log("response >>", response.data)
+        return response.data
+    } catch (err) {
+        console.log("Error >>", err);
+        return []
+    }
+}
+
+
+
 export { 
     getRegionData, 
     getChargersByOneStation, 
     getChargerTypeByKey, 
-    getBusiNmByKey
+    getBusiNmByKey,
+    getStationLogsByStatId,
 }

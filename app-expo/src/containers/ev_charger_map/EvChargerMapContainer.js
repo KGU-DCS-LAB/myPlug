@@ -170,22 +170,12 @@ const EvChargerContainer = (props) => {
         setChargers(await API.getChargersByOneStation(statId))
     }
 
-    const getStationLogs = (statId) => {
+    const getStationLogs = async (statId) => {
         //선택한 충전소id에 속한 충전기를 요청 
-        console.log("getstationlogs : " + statId)
-
-        axios.post(config.ip + ':5000/stationsRouter/keco/find/stationLogs', {
-            data: statId
-        }).then((response) => {
-            // console.log(response.data)
-            setStationLogs(response.data)
-        }).catch(function (error) {
-            console.log(error);
-        })
+        setStationLogs(await API.getStationLogsByStatId(statId));
     }
 
     const focusToStation = (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
-        // setSmallModalVisible(true)
         const stationLocation = {
             longitude: Number(station.lng),
             latitude: Number(station.lat),
