@@ -106,14 +106,19 @@ const EvChargerContainer = (props) => {
         }
     }
 
+    // @박소영이 작업해둔 것 원본
+    // const getbusiNm = async () => {
+    //     let key = "busiNm";
+    //     axios.get(config.ip + ':5000/stationsRouter/keco/filteredStations/' + key
+    //     ).then((response) => {
+    //         setBusiNm(response.data);
+    //     }).catch(function (error) {
+    //         console.log(error);
+    //     })
+    // }
+
     const getbusiNm = async () => {
-        let key = "busiNm";
-        axios.get(config.ip + ':5000/stationsRouter/keco/filteredStations/' + key
-        ).then((response) => {
-            setBusiNm(response.data);
-        }).catch(function (error) {
-            console.log(error);
-        })
+        setBusiNm(await API.getBusiNmByKey("busiNm"));
     }
 
     // @박소영이 작업해둔 것 원본
@@ -132,17 +137,6 @@ const EvChargerContainer = (props) => {
     const getchgerType = async () => {
         setChgerType(await API.getChargerTypeByKey("chgerType"));
     }
-
-    // const getChargerTypeByKey = async (key) => {
-    //     try {
-    //         const response = await axios.get(config.ip + ':5000/stationsRouter/keco/filteredCharger/' + key)
-    //         // console.log("response >>", response.data)
-    //         return response.data
-    //     } catch (err) {
-    //         console.log("Error >>", err);
-    //         return []
-    //     }
-    // }
 
     const dataFiltering = () => {
         setIsFiltering(true);
