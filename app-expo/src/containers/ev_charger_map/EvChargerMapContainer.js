@@ -41,8 +41,8 @@ const EvChargerContainer = (props) => {
     const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [] });
     const [selectedStation, setSelectedStation] = useState([lat = 0, lng = 0]); //마커 선택 시 모달에 띄워줄 데이터
 
-    const [smallModalVisible, setSmallModalVisible] = useState(false); //작은 모달 온오프
-    const [bigModalVisible, setBigModalVisible] = useState(false); //큰 모달 온오프
+    // const [smallModalVisible, setSmallModalVisible] = useState(false); //작은 모달 온오프
+    // const [bigModalVisible, setBigModalVisible] = useState(false); //큰 모달 온오프
     const [filterModalVisible, setFilterModalVisible] = useState(false); // 필터 모달 온오프
     const [stationListModalVisible, setStationListModalVisible] = useState(false); // 충전소 목록 모달 온오프
     const [didCancel, setCancel] = useState(false);
@@ -299,7 +299,7 @@ const EvChargerContainer = (props) => {
                             location={mapLocation}
                             setLocation={setMapLocation}
                             setLocationAndGetStations={setLocationAndGetStations}
-                            smallModalVisible={smallModalVisible}
+                            isSmallModalOpen={isSmallModalOpen}
                             setFilterModalVisible={setFilterModalVisible}
                             setStationListModalVisible={setStationListModalVisible}
                             getStations={getStations}
