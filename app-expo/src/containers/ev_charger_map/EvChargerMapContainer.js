@@ -84,8 +84,8 @@ const EvChargerContainer = (props) => {
 
                 // getFilterRange(); //영업시간을 group으로 묶어 받아오기
                 // group으로 묶은 결과 126개 데이터가 있어서 버튼을 생성하기 부적합하다고 생각 -> 0시, 1시, ... 으로 버튼 만들기로 함
-                getchgerType();
-                getbusiNm();
+                setChgerType(await API.getChargerTypeByKey("chgerType"));
+                setBusiNm(await API.getBusiNmByKey("busiNm"));
             })();
         }
         return () => {
@@ -102,14 +102,6 @@ const EvChargerContainer = (props) => {
         else { // 델타 값이 너무 크면 값을 그냥 비워버림
             setChargingStations([]);
         }
-    }
-
-    const getbusiNm = async () => {
-        setBusiNm(await API.getBusiNmByKey("busiNm"));
-    }
-
-    const getchgerType = async () => {
-        setChgerType(await API.getChargerTypeByKey("chgerType"));
     }
 
     const dataFiltering = async () => {
@@ -258,9 +250,9 @@ const EvChargerContainer = (props) => {
                                                 () => {
                                                     focusToStation(marker)
                                                 }}
-                                            pinColor={
-                                                ((marker.statId == selectedStation.statId) ? "green" : "red")
-                                            }
+                                            // pinColor={
+                                            //     ((marker.statId == selectedStation.statId) ? "green" : "red")
+                                            // }
                                         >
                                             {/* <MaterialIcons name="location-pin" size={40} color="red" /> */}
                                         </Marker>
