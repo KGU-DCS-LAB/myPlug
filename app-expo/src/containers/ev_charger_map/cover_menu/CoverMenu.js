@@ -27,8 +27,8 @@ const CoverMenu = (props) => {
                     navigation={props.navigation}
                     setFilterModalVisible={props.setFilterModalVisible}
                     setStationListModalVisible={props.setStationListModalVisible}
+                    location={props.location}
                     getStations={props.getStations}
-                    refresh={props.refresh}
                 />
             </Center>
         </>

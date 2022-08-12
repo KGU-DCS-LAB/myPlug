@@ -13,7 +13,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import StationListModal from "../../components/ev_charger_map/modals/StationListModal";
 import StationSmallModal from "../../components/ev_charger_map/modals_v2/StationSmallModal";
 import StationBigModal from "../../components/ev_charger_map/modals_v2/StationBigModal";
-import {sortStations, getDistance} from '../../api/DISTANCE';
+import { sortStations, getDistance } from '../../api/DISTANCE';
 import * as API from "../../api/API";
 
 const EvChargerContainer = (props) => {
@@ -30,22 +30,16 @@ const EvChargerContainer = (props) => {
         longitude: 127.0355,
     }); // 실제 사용자 위치
 
+    const [didCancel, setCancel] = useState(false); // clean up 용
     const [isLoaded, setLoaded] = useState(false); // GPS 로딩 여부 검사용
 
     const [chargingStations, setChargingStations] = useState([]); //서버로 부터 받아온 충전소 데이터 리스트
     const [chargers, setChargers] = useState([]); // 서버로 부터 받아온 특정 충전소의 충전기 리스트
     const [stationLogs, setStationLogs] = useState([]); //서버로 부터 받아온 특정 충전소의 충전 분석 로그
-
-    const [chgerType, setChgerType] = useState([]); // 서버로 부터 받아온 충전기 타입
-    const [busiNm, setBusiNm] = useState([]); // 서버로 부터 받아온 충전소 회사 리스트
-    const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [] });
     const [selectedStation, setSelectedStation] = useState([lat = 0, lng = 0]); //마커 선택 시 모달에 띄워줄 데이터
 
     const [filterModalVisible, setFilterModalVisible] = useState(false); // 필터 모달 온오프
     const [stationListModalVisible, setStationListModalVisible] = useState(false); // 충전소 목록 모달 온오프
-    const [didCancel, setCancel] = useState(false);
-    const [isFiltering, setIsFiltering] = useState(false);
-
 
     const [isSmallModalOpen, setSmallModalOpen] = useState(false);
     const [isBigModalOpen, setBigModalOpen] = useState(false);
@@ -82,10 +76,6 @@ const EvChargerContainer = (props) => {
                     }
                 );
 
-                // getFilterRange(); //영업시간을 group으로 묶어 받아오기
-                // group으로 묶은 결과 126개 데이터가 있어서 버튼을 생성하기 부적합하다고 생각 -> 0시, 1시, ... 으로 버튼 만들기로 함
-                setChgerType(await API.getChargerTypeByKey("chgerType"));
-                setBusiNm(await API.getBusiNmByKey("busiNm"));
             })();
         }
         return () => {
@@ -93,7 +83,7 @@ const EvChargerContainer = (props) => {
         }
     }, []);
 
-    
+
     const setLocationAndGetStations = (region) => {
         setMapLocation(region);
         if (region.latitudeDelta < 0.13 && region.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
@@ -104,50 +94,11 @@ const EvChargerContainer = (props) => {
         }
     }
 
-    const dataFiltering = async () => {
-        setIsFiltering(true);
-        setChargingStations(sortStations(userLocation, await API.getFilteredData(mapLocation, selectedType)));
-        setFilterModalVisible(false);
-    }
-
-    const selectType = (type, selected) => {
-        let select = selectedType[type];
-        select.push(selected)
-        setSelectedType({ ...selectedType, [type]: select })
-    }
-
-    const cancelSelect = (type, selected) => {
-        let select = selectedType[type];
-        select = select.filter(item => item !== selected)
-        console.log(select)
-        setSelectedType({ ...selectedType, [type]: select })
-    }
-
-    const refresh = async () => {
-        setIsFiltering(false);
-        setSelectedType([]);
+    const getStations = async (mapLocation) => {
         setChargingStations(sortStations(userLocation, await API.getRegionData(mapLocation)));
     }
 
-    const getStations = async (location) => {
-        if (isFiltering) { //필터모드라면
-            setChargingStations(sortStations(userLocation, await API.getFilteredData(mapLocation, selectedType)));
-        }
-        else { //필터모드가 아니라면
-            setChargingStations(sortStations(userLocation, await API.getRegionData(mapLocation)));
-        }
-    }
-
-    const getStationChargers = async (statId) => {
-        setChargers(await API.getChargersByOneStation(statId))
-    }
-
-    const getStationLogs = async (statId) => {
-        //선택한 충전소id에 속한 충전기를 요청 
-        setStationLogs(await API.getStationLogsByStatId(statId));
-    }
-
-    const focusToStation = (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
+    const focusToStation = async (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
         const stationLocation = {
             longitude: Number(station.lng),
             latitude: Number(station.lat),
@@ -155,12 +106,12 @@ const EvChargerContainer = (props) => {
             longitudeDelta: 0.007,
         }
         setStationListModalVisible(false)
+        setSmallModalOpen(true);
         setSelectedStation(station)
         setMapLocation(stationLocation);
         getStations(stationLocation);
-        setSmallModalOpen(true);
-        getStationChargers(station.statId)
-        getStationLogs(station.statId)
+        setChargers(await API.getChargersByOneStation(station.statId)) //선택한 충전소 id에 속한 충전기를 요청
+        setStationLogs(await API.getStationLogsByStatId(station.statId)); //선택한 충전소id에 속한 충전기록을 요청 
     }
 
     return (
@@ -171,15 +122,11 @@ const EvChargerContainer = (props) => {
                     <>
                         <View style={{ flex: 1 }}>
                             <FilterModal
+                                setChargingStations={setChargingStations}
                                 filterModalVisible={filterModalVisible}
-                                selectedType={selectedType}
-                                setSelectedType={setSelectedType}
-                                dataFiltering={dataFiltering}
-                                cancelSelect={cancelSelect}
-                                selectType={selectType}
-                                chgerType={chgerType}
-                                busiNm={busiNm}
                                 setFilterModalVisible={setFilterModalVisible}
+                                mapLocation={mapLocation}
+                                userLocation={userLocation}
                             />
 
                             <StationListModal
@@ -250,9 +197,9 @@ const EvChargerContainer = (props) => {
                                                 () => {
                                                     focusToStation(marker)
                                                 }}
-                                            // pinColor={
-                                            //     ((marker.statId == selectedStation.statId) ? "green" : "red")
-                                            // }
+                                        // pinColor={
+                                        //     ((marker.statId == selectedStation.statId) ? "green" : "red")
+                                        // }
                                         >
                                             {/* <MaterialIcons name="location-pin" size={40} color="red" /> */}
                                         </Marker>
@@ -276,7 +223,6 @@ const EvChargerContainer = (props) => {
                             setStationListModalVisible={setStationListModalVisible}
                             getStations={getStations}
                             focusToStation={focusToStation}
-                            refresh={refresh}
                         />
                     </>
                     :

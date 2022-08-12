@@ -63,7 +63,7 @@ const MenuStagger = (props) => {
                             />
                         }
                         onPress={
-                            () => props.refresh()
+                            () => props.getStations(props.location)
                         }
                     />
                     <IconButton
