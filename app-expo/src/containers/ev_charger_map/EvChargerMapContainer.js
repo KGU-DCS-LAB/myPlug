@@ -197,11 +197,8 @@ const EvChargerContainer = (props) => {
                                                 () => {
                                                     focusToStation(marker)
                                                 }}
-                                        // pinColor={
-                                        //     ((marker.statId == selectedStation.statId) ? "green" : "red")
-                                        // }
                                         >
-                                            {/* <MaterialIcons name="location-pin" size={40} color="red" /> */}
+                                            {/* <MaterialIcons name="electric-car" size={(marker.statId == selectedStation.statId) ? 40 : 24} color="green" /> */}
                                         </Marker>
                                     ))
                                 }
