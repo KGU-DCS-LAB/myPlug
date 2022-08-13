@@ -15,6 +15,7 @@ import StationSmallModal from "../../components/ev_charger_map/modals_v2/Station
 import StationBigModal from "../../components/ev_charger_map/modals_v2/StationBigModal";
 import { sortStations, getDistance } from '../../api/DISTANCE';
 import * as API from "../../api/API";
+import markerGreen from '../../../assets/ev-green.png'
 
 const EvChargerContainer = (props) => {
 
@@ -180,7 +181,7 @@ const EvChargerContainer = (props) => {
                                 onMapReady={() => {
                                     // updateMapStyle()
                                 }}
-                                clusterColor="green"
+                                clusterColor="yellowgreen"
                                 maxZoom={13}
                             >
 
@@ -197,9 +198,8 @@ const EvChargerContainer = (props) => {
                                                 () => {
                                                     focusToStation(marker)
                                                 }}
-                                        >
-                                            {/* <MaterialIcons name="electric-car" size={(marker.statId == selectedStation.statId) ? 40 : 24} color="green" /> */}
-                                        </Marker>
+                                            image={markerGreen}
+                                        />
                                     ))
                                 }
 
