@@ -12,12 +12,13 @@ import SelectParkingFree from "./filterModal/SelectParkingFree";
 import SelectChgerType from "./filterModal/SelectChgerType";
 import * as API from "../../../api/API";
 import { sortStations } from "../../../api/DISTANCE";
+import SelectOutput from "./filterModal/SelectOutput";
 
 const FilterModal = (props) => {
 
     const [chgerType, setChgerType] = useState([]); // 서버로 부터 받아온 충전기 타입
     const [busiNm, setBusiNm] = useState([]); // 서버로 부터 받아온 충전소 회사 리스트
-    const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [] });
+    const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [], output:[] });
 
 
 
@@ -79,10 +80,12 @@ const FilterModal = (props) => {
 
                             <ScrollView>
                                 <View style={styles.wrapper}>
-                                    <SelectChgerType chgerType={chgerType} selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
+                                    <SelectChgerType selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
 
                                     <SelectParkingFree selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
 
+                                    <SelectOutput selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
+                                    
                                     <SelectBusiNm busiNm={busiNm} selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
                                 </View>
                             </ScrollView>

@@ -87,14 +87,28 @@ router.post('/filterStations', async function (req, res, next) {
   const chgerType = "chgerType"
   const parkingFree = "parkingFree"
   const busiNm = "busiNm"
+  const output = "output"
   const typeArr = [];
   const parkingArr = types[parkingFree]
   const busiNmArr = types[busiNm]
 
-  if (types[chgerType].length !== 0){
+  if (types[chgerType].length !== 0 && types[output].length !== 0){
     result = await Charger.aggregate([
       {
-        "$match": { chgerType: { "$in": types[chgerType] }}
+        "$match": { "$and": [ {chgerType: { "$in": types[chgerType] }}, { output: {"$in": types[output] }}]}
+      },
+      {
+      "$group": 
+        {
+          _id: "$statNm"
+        }
+    }]);
+    result.map((item) => typeArr.push(item._id))
+    statNmAgg = {'statNm': { $in : typeArr }}
+  } else if (types[chgerType].length !== 0 || types[output].length !== 0){
+    result = await Charger.aggregate([
+      {
+        "$match": { "$or": [ {chgerType: { "$in": types[chgerType] }}, { output: {"$in": types[output] }}]}
       },
       {
       "$group": 
