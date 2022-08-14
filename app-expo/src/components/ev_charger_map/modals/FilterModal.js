@@ -14,12 +14,13 @@ import * as API from "../../../api/API";
 import { sortStations } from "../../../api/DISTANCE";
 import SelectOutput from "./filterModal/SelectOutput";
 import SelectStat from "./filterModal/SelectStat";
+import SelectLimitYn from "./filterModal/SelectLimitYn";
 
 const FilterModal = (props) => {
 
     const [chgerType, setChgerType] = useState([]); // 서버로 부터 받아온 충전기 타입
     const [busiNm, setBusiNm] = useState([]); // 서버로 부터 받아온 충전소 회사 리스트
-    const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [], output:[], stat:[] });
+    const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [], output:[], stat:[], limitYn:[] });
 
 
 
@@ -79,7 +80,7 @@ const FilterModal = (props) => {
                                 </View>
                             </TouchableWithoutFeedback>
 
-                            <ScrollView>
+                            <ScrollView  h="80">
                                 <View style={styles.wrapper}>
                                     <SelectParkingFree selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
 
@@ -88,6 +89,8 @@ const FilterModal = (props) => {
                                     <SelectOutput selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
 
                                     <SelectStat selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
+
+                                    <SelectLimitYn selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
                                     
                                     <SelectBusiNm busiNm={busiNm} selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
                                 </View>
@@ -171,7 +174,7 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     wrapper: {
-        flex: 1,
+        // flex: 1,
         // height: '95%',
         alignItems: "center",
     },

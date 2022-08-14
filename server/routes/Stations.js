@@ -83,6 +83,7 @@ router.post('/filterStations', async function (req, res, next) {
   let statNmAgg = {'statNm': { $exists: true }};
   let parkingFreeAgg = {parkingFree: { $exists: true }};
   let busiNmAgg = {busiNm: { $exists: true }};
+  let limitYnAgg = {limitYn: { $exists: true }};
 
   let chgerTypeAgg = {chgerType: { "$exists": true }}
   let outputAgg = {output: { "$exists": true }}
@@ -128,12 +129,17 @@ router.post('/filterStations', async function (req, res, next) {
     busiNmAgg = {busiNm: { $in : types["busiNm"] }}
   }
 
+  if (types["limitYn"].length !== 0){
+    limitYnAgg = {limitYn: { $in : types["limitYn"] }}
+  }
+
   Station.find({
     // statNmAgg,
     $and: [
       statNmAgg,
       parkingFreeAgg,
       busiNmAgg,
+      limitYnAgg,
       { lng: { $gte: x1 } },
       { lng: { $lte: x2 } },
       { lat: { $gte: y1 } },
