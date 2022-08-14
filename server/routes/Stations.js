@@ -72,17 +72,11 @@ router.post('/keco/find/stationLogs', function (req, res, next) {
 
 router.post('/filterStations', async function (req, res, next) {
   // 필터링된 데이터 가져오기
-  // console.log(req.body.data.min)
-  // console.log(req.body.data.max)
   const x1 = req.body.data.x1;
   const x2 = req.body.data.x2;
   const y1 = req.body.data.y1;
   const y2 = req.body.data.y2;
   const types = req.body.data.types;
-  const chgerType = "chgerType"
-  const parkingFree = "parkingFree"
-  const busiNm = "busiNm"
-  const output = "output"
 
   let result = null;
 
@@ -92,23 +86,26 @@ router.post('/filterStations', async function (req, res, next) {
 
   let chgerTypeAgg = {chgerType: { "$exists": true }}
   let outputAgg = {output: { "$exists": true }}
+  let statAgg = {stat: { "$exists": true }}
 
   const typeArr = [];
-  const parkingArr = types[parkingFree]
-  const busiNmArr = types[busiNm]
 
   // 충전기 검색
-  if (types[chgerType].length !== 0){
-    chgerTypeAgg = {chgerType: { "$in": types[chgerType] }}
+  if (types["chgerType"].length !== 0){
+    chgerTypeAgg = {chgerType: { "$in": types["chgerType"] }}
   }
 
-  if (types[output].length !== 0){
-    outputAgg = {output: { "$in": types[output] }}
+  if (types["output"].length !== 0){
+    outputAgg = {output: { "$in": types["output"] }}
+  }
+
+  if (types["stat"].length !== 0){
+    statAgg = {stat: { "$in": types["stat"] }}
   }
 
   result = await Charger.aggregate([
     {
-      "$match": { "$and": [ chgerTypeAgg, outputAgg]}
+      "$match": { "$and": [ chgerTypeAgg, outputAgg, statAgg]}
     },
     {
     "$group": 
@@ -123,12 +120,12 @@ router.post('/filterStations', async function (req, res, next) {
   }
 
   // 충전소 검색
-  if (types[parkingFree].length !== 0){
-    parkingFreeAgg = {parkingFree: { $in : parkingArr }}
+  if (types["parkingFree"].length !== 0){
+    parkingFreeAgg = {parkingFree: { $in : types["parkingFree"] }}
   }
 
-  if (types[busiNm].length !== 0){
-    busiNmAgg = {busiNm: { $in : busiNmArr }}
+  if (types["busiNm"].length !== 0){
+    busiNmAgg = {busiNm: { $in : types["busiNm"] }}
   }
 
   Station.find({
