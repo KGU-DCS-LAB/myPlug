@@ -88,6 +88,7 @@ router.post('/filterStations', async function (req, res, next) {
   let chgerTypeAgg = {chgerType: { "$exists": true }}
   let outputAgg = {output: { "$exists": true }}
   let statAgg = {stat: { "$exists": true }}
+  let methodAgg = {method: { "$exists": true }}
 
   const typeArr = [];
 
@@ -104,9 +105,13 @@ router.post('/filterStations', async function (req, res, next) {
     statAgg = {stat: { "$in": types["stat"] }}
   }
 
+  if (types["method"].length !== 0){
+    methodAgg = {method: { "$in": types["method"] }}
+  }
+
   result = await Charger.aggregate([
     {
-      "$match": { "$and": [ chgerTypeAgg, outputAgg, statAgg]}
+      "$match": { "$and": [ chgerTypeAgg, outputAgg, statAgg, methodAgg]}
     },
     {
     "$group": 

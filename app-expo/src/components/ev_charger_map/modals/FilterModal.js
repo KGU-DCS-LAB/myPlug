@@ -15,12 +15,13 @@ import { sortStations } from "../../../api/DISTANCE";
 import SelectOutput from "./filterModal/SelectOutput";
 import SelectStat from "./filterModal/SelectStat";
 import SelectLimitYn from "./filterModal/SelectLimitYn";
+import SelectMethod from "./filterModal/SelectMethod";
 
 const FilterModal = (props) => {
 
     const [chgerType, setChgerType] = useState([]); // 서버로 부터 받아온 충전기 타입
     const [busiNm, setBusiNm] = useState([]); // 서버로 부터 받아온 충전소 회사 리스트
-    const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [], output:[], stat:[], limitYn:[] });
+    const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [], output:[], stat:[], limitYn:[], method:[] });
 
 
 
@@ -51,7 +52,6 @@ const FilterModal = (props) => {
     const cancelSelect = (type, selected) => {
         let select = selectedType[type];
         select = select.filter(item => item !== selected)
-        console.log(select)
         setSelectedType({ ...selectedType, [type]: select })
     }
 
@@ -80,13 +80,15 @@ const FilterModal = (props) => {
                                 </View>
                             </TouchableWithoutFeedback>
 
-                            <ScrollView  h="80">
+                            <ScrollView>
                                 <View style={styles.wrapper}>
                                     <SelectParkingFree selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
 
                                     <SelectChgerType selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
 
                                     <SelectOutput selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
+
+                                    <SelectMethod selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
 
                                     <SelectStat selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
 
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end'
     },
     bigModalView: {
-        // height: '95%',
+        height: '95%',
         margin: 5,
         marginBottom: 0,
         backgroundColor: "white",
