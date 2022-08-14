@@ -2,7 +2,17 @@ import { Box, Button, Heading, HStack, Text, View } from "native-base";
 import { StyleSheet } from "react-native";
 
 const SelectParkingFree = (props) => {
-    const parkingFree = 'parkingFree';
+    const parkingFree = [
+        {
+            _id: 'Y',
+            label: '무료'
+        },
+        {
+            _id: 'N',
+            label: '유료'
+        }
+    ]
+    const type = 'parkingFree';
 
     return (
         <>
@@ -10,18 +20,12 @@ const SelectParkingFree = (props) => {
                 <Heading>무료 주차</Heading>
             </Box>
             <HStack>
-                {
-                    props.selectedType.parkingFree.findIndex((type) => type === "Y") !== -1 ?
-                        <Button onPress={() => props.cancelSelect(parkingFree, "Y")} style={styles.selectedButtom} >무료</Button>
+                {parkingFree.map((item) =>
+                    props.selectedType[type].findIndex((type) => type === item._id) !== -1 ?
+                        <Button key={item._id} onPress={() => props.cancelSelect(type, item._id)} style={styles.selectedButtom}>{item.label}</Button>
                         :
-                        <Button style={styles.basicButton} onPress={() => props.selectType(parkingFree, "Y")}>무료</Button>
-                }
-                {
-                    props.selectedType.parkingFree.findIndex((type) => type === "N") !== -1 ?
-                        <Button onPress={() => props.cancelSelect(parkingFree, "N")} style={styles.selectedButtom} >유료</Button>
-                        :
-                        <Button style={styles.basicButton} onPress={() => props.selectType(parkingFree, "N")}>유료</Button>
-                }
+                        <Button style={styles.basicButton} key={item._id} onPress={() => props.selectType(type, item._id)}>{item.label}</Button>
+                )}
             </HStack></>
     )
 }

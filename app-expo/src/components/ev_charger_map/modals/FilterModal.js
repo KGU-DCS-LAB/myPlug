@@ -19,7 +19,6 @@ import SelectMethod from "./filterModal/SelectMethod";
 
 const FilterModal = (props) => {
 
-    const [chgerType, setChgerType] = useState([]); // 서버로 부터 받아온 충전기 타입
     const [busiNm, setBusiNm] = useState([]); // 서버로 부터 받아온 충전소 회사 리스트
     const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [], output:[], stat:[], limitYn:[], method:[] });
 
@@ -32,7 +31,6 @@ const FilterModal = (props) => {
     const init = async () => {
         // getFilterRange(); //영업시간을 group으로 묶어 받아오기
         // group으로 묶은 결과 126개 데이터가 있어서 버튼을 생성하기 부적합하다고 생각 -> 0시, 1시, ... 으로 버튼 만들기로 함
-        setChgerType(await API.getChargerTypeByKey("chgerType"));
         setBusiNm(await API.getBusiNmByKey("busiNm"));
     }
 

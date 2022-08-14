@@ -2,6 +2,16 @@ import { Box, Button, Heading, HStack, Text, View } from "native-base";
 import { StyleSheet } from "react-native";
 
 const SelectLimitYn = (props) => {
+    const limitYn = [
+        {
+            _id: 'Y',
+            label: '이용제한'
+        },
+        {
+            _id: 'N',
+            label: '누구나 사용가능'
+        }
+    ]
     const type = 'limitYn';
 
     return (
@@ -10,18 +20,12 @@ const SelectLimitYn = (props) => {
                 <Heading>이용자 제한</Heading>
             </Box>
             <HStack>
-                {
-                    props.selectedType.limitYn.findIndex((type) => type === "Y") !== -1 ?
-                        <Button onPress={() => props.cancelSelect(type, "Y")} style={styles.selectedButtom} >이용제한</Button>
+                {limitYn.map((item) =>
+                    props.selectedType[type].findIndex((type) => type === item._id) !== -1 ?
+                        <Button key={item._id} onPress={() => props.cancelSelect(type, item._id)} style={styles.selectedButtom}>{item.label}</Button>
                         :
-                        <Button style={styles.basicButton} onPress={() => props.selectType(type, "Y")}>이용제한</Button>
-                }
-                {
-                    props.selectedType.limitYn.findIndex((type) => type === "N") !== -1 ?
-                        <Button onPress={() => props.cancelSelect(type, "N")} style={styles.selectedButtom} >누구나 사용가능</Button>
-                        :
-                        <Button style={styles.basicButton} onPress={() => props.selectType(type, "N")}>누구나 사용가능</Button>
-                }
+                        <Button style={styles.basicButton} key={item._id} onPress={() => props.selectType(type, item._id)}>{item.label}</Button>
+                )}
             </HStack></>
     )
 }

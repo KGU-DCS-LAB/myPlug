@@ -2,7 +2,7 @@ import { Box, Button, Heading, Text, View } from "native-base";
 import { StyleSheet } from "react-native";
 
 const SelectBusiNm = (props) => {
-    const busiNm = 'busiNm';
+    const type = 'busiNm';
 
     return (
         <>
@@ -12,9 +12,9 @@ const SelectBusiNm = (props) => {
             <View style={styles.container}>
                 {props.busiNm.map((item) =>
                     props.selectedType.busiNm.findIndex((type) => type === item._id) !== -1 ?
-                        <Button key={item._id} onPress={() => props.cancelSelect(busiNm, item._id)} style={styles.selectedButtom} >{item._id}</Button>
+                        <Button key={item._id} onPress={() => props.cancelSelect(type, item._id)} style={styles.selectedButtom} >{item._id}</Button>
                         :
-                        <Button style={styles.basicButton} key={item._id} onPress={() => props.selectType(busiNm, item._id)}>{item._id}</Button>
+                        <Button style={styles.basicButton} key={item._id} onPress={() => props.selectType(type, item._id)}>{item._id}</Button>
                 )}
             </View>
         </>
