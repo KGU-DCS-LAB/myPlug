@@ -79,49 +79,50 @@ router.post('/filterStations', async function (req, res, next) {
   const y1 = req.body.data.y1;
   const y2 = req.body.data.y2;
   const types = req.body.data.types;
-  console.log(types);
-  let result = null;
-  let statNmAgg = {'statNm': { $exists: true }};
-  let parkingFreeAgg = {parkingFree: { $exists: true }};
-  let busiNmAgg = {busiNm: { $exists: true }};
   const chgerType = "chgerType"
   const parkingFree = "parkingFree"
   const busiNm = "busiNm"
   const output = "output"
+
+  let result = null;
+
+  let statNmAgg = {'statNm': { $exists: true }};
+  let parkingFreeAgg = {parkingFree: { $exists: true }};
+  let busiNmAgg = {busiNm: { $exists: true }};
+
+  let chgerTypeAgg = {chgerType: { "$exists": true }}
+  let outputAgg = {output: { "$exists": true }}
+
   const typeArr = [];
   const parkingArr = types[parkingFree]
   const busiNmArr = types[busiNm]
 
-  if (types[chgerType].length !== 0 && types[output].length !== 0){
-    result = await Charger.aggregate([
+  // 충전기 검색
+  if (types[chgerType].length !== 0){
+    chgerTypeAgg = {chgerType: { "$in": types[chgerType] }}
+  }
+
+  if (types[output].length !== 0){
+    outputAgg = {output: { "$in": types[output] }}
+  }
+
+  result = await Charger.aggregate([
+    {
+      "$match": { "$and": [ chgerTypeAgg, outputAgg]}
+    },
+    {
+    "$group": 
       {
-        "$match": { "$and": [ {chgerType: { "$in": types[chgerType] }}, { output: {"$in": types[output] }}]}
-      },
-      {
-      "$group": 
-        {
-          _id: "$statNm"
-        }
-    }]);
-    result.map((item) => typeArr.push(item._id))
-    statNmAgg = {'statNm': { $in : typeArr }}
-  } else if (types[chgerType].length !== 0 || types[output].length !== 0){
-    result = await Charger.aggregate([
-      {
-        "$match": { "$or": [ {chgerType: { "$in": types[chgerType] }}, { output: {"$in": types[output] }}]}
-      },
-      {
-      "$group": 
-        {
-          _id: "$statNm"
-        }
-    }]);
-    result.map((item) => typeArr.push(item._id))
+        _id: "$statNm"
+      }
+  }]);
+  result.map((item) => typeArr.push(item._id))
+
+  if (typeArr.length !== 0){
     statNmAgg = {'statNm': { $in : typeArr }}
   }
 
-  // console.log("len", result.length);
-
+  // 충전소 검색
   if (types[parkingFree].length !== 0){
     parkingFreeAgg = {parkingFree: { $in : parkingArr }}
   }
@@ -129,10 +130,6 @@ router.post('/filterStations', async function (req, res, next) {
   if (types[busiNm].length !== 0){
     busiNmAgg = {busiNm: { $in : busiNmArr }}
   }
-
-  // console.log(statNmAgg);
-  // console.log(newArr);
-
 
   Station.find({
     // statNmAgg,
