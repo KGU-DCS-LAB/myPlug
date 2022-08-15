@@ -1,4 +1,6 @@
-const mongoose = require('mongoose');
+// Using ES6 imports
+import mongoose from 'mongoose';
+
 
 const chargerSchema = mongoose.Schema(
     {
@@ -51,66 +53,6 @@ const chargerSchema = mongoose.Schema(
             maxlength: 100,
         },
     }
-    // {
-    //     _id: {
-    //         type: String,
-    //         maxlength: 100,
-    //         required: true
-    //     },
-    //     api: {
-    //         type: String,
-    //         maxlength: 100,
-    //         required: true
-    //     },
-    //     date: {
-    //         type: String,
-    //         maxlength: 100,
-    //         required: true
-    //     },
-    //     statNm: {
-    //         type: String,
-    //         maxlength: 100,
-    //         required: true
-    //     },
-    //     statId: {
-    //         type: String,
-    //         maxlength: 100,
-    //         required: true,
-    //         unique: true
-    //     },
-    //     chgerId: {
-    //         type: String,
-    //         maxlength: 100,
-    //         required: true
-    //     },
-    //     chgerType: {
-    //         type: String,
-    //         maxlength: 100,
-    //         required: true
-    //     },
-    //     stat: {
-    //         type: String,
-    //         maxlength: 100,
-    //         required: true
-    //     },
-    //     statUpdDt: {
-    //         type: String,
-    //         maxlength: 100,
-    //         required: true
-    //     },
-    //     powerType: {
-    //         type: String,
-    //         maxlength: 100,
-    //         required: true
-    //     },
-    //     zcode: {
-    //         type: String,
-    //         maxlength: 100,
-    //         required: true
-    //     },
-    // }
 )
 
-const Charger = mongoose.model('chargers', chargerSchema)
-
-module.exports = { Charger }
+export const Charger = mongoose.model('chargers', chargerSchema)

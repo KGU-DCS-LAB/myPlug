@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+// Using ES6 imports
+import mongoose from 'mongoose';
 
 const stationLogsSchema = mongoose.Schema(
     {
@@ -22,6 +23,4 @@ const stationLogsSchema = mongoose.Schema(
     }
 )
 
-const StationLogs = mongoose.model('stations_logs', stationLogsSchema)
-
-module.exports = { StationLogs }
+export const StationLogs = mongoose.model('stations', stationLogsSchema)

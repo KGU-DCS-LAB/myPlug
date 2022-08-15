@@ -1,6 +1,4 @@
 import * as API from '../../api/API.js';
-import {Test} from '../../models/Test.js';
-import {Station} from '../../models/Station.js'
 
 const zcodes = [
     { 'code': 11, 'region': '서울특별시' },
@@ -22,12 +20,11 @@ const zcodes = [
 ]
 
 let raw_data = []
-let charger_data = []
 
 export const init = async () => {
-    // await Promise.all(zcodes.map((z) => getChargerInfoByZcode(z))); //순서를 지켜주기 위함
-    console.log('current data : '+raw_data.length);
-    example();
+    await Promise.all(zcodes.map((z) => getChargerInfoByZcode(z))); //순서를 지켜주기 위함
+    console.log('received data : '+raw_data.length);
+    return raw_data;
 }
 
 const getChargerInfoByZcode = async (z) => {
@@ -55,21 +52,4 @@ const getChargerInfoByZcode = async (z) => {
         console.log();
         page++;
     }
-}
-
-const example = async () => {
-    // Test.findOne({}, function(error,data){
-    //     if(error){
-    //         console.log('error : '+error);
-    //     }else{
-    //         console.log('data : '+data);
-    //     }
-    // });
-    Station.findOne({}, function(error,data){
-        if(error){
-            console.log('error : '+error);
-        }else{
-            console.log('data : '+data);
-        }
-    });
 }

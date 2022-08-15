@@ -12,6 +12,7 @@
   "type": "module",
   "dependencies": {
     "axios": "^0.27.2",
+    "input": "^1.0.1",
     "mongoose": "^6.5.2"
   }
 }
