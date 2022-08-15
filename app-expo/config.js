@@ -10,3 +10,17 @@
 export const config = {
 	ip:"http://172.30.1.7",
 };
+
+
+// .
+// ├── .github
+// ├── node_modules
+// ├── public
+// └── src
+//     ├── assets
+//     │   └── ...
+//     ├── components
+//     │   ├── Common 
+//     │   ├── Main
+//     │   ├── MyParty
+//     │   ├── Ott

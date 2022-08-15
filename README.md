@@ -40,14 +40,11 @@
 
 프로젝트 구조는 다음과 같습니다.
 
-    myPlug
-     |- app-expo [Client(App)]
-     |- server [Server(App)]
-     |- stand-alone
-            |- data-manager [deprecated]
-            |- station-data-generator [Server(Data)]
-            |- web-manager [deprecated]
-            
+    .
+    ├── app-expo [Client(App)]
+    ├── server [Server(App)]
+    ├── station-data-generator [Server(Data)]
+    └── data-manager [Server(Data)]
 
 - app-expo
 
@@ -60,6 +57,9 @@
 - station-data-generator
 
 [한국환경공단(KECO)에서 제공하는 충전소API](https://www.data.go.kr/data/15013115/standard.do)를 사용하여 데이터를 수신 및 가공해주는 Java 애플리케이션입니다.
+
+- data-manager
+제작중
 
 - ~~data-manager~~ [deprecated]
 
