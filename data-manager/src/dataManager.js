@@ -10,10 +10,13 @@ export const run = async () => {
     .then(() => console.log('MongoDB Connected!!'))
     .catch(err => console.log(err))
 
+    const date = new Date();
+    console.log(date);
+
     const raw_data = await receiver.init();
     console.log('raw data : '+raw_data.length);
 
-    await saver.init(raw_data);
+    await saver.init(date, raw_data);
 
 }
 
