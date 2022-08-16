@@ -1,5 +1,6 @@
 import * as receiver from './controller/manager/receiver.js'
 import * as saver from './controller/manager/saver.js'
+import * as logger from './controller/manager/logger.js'
 
 // Using ES6 imports
 import mongoose from 'mongoose';
@@ -18,6 +19,8 @@ export const run = async () => {
 
     await saver.init(date, raw_data);
     await logger.init(date, raw_data);
+
+    // await logger.init(date, []);
 
 }
 
