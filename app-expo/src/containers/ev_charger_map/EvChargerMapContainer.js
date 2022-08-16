@@ -24,17 +24,18 @@ const EvChargerContainer = (props) => {
         longitude: 127.0355,
         latitudeDelta: 0,
         longitudeDelta: 0,
-    }); // 지도 중심 위치
+    }); // 지도 중심 위치 (지도 view 이동용)
 
     const [userLocation, setUserLocation] = useState({
         latitude: 37.3012,
         longitude: 127.0355,
-    }); // 실제 사용자 위치
+    }); // 실제 사용자 위치 (거리 계산용)
 
     const [didCancel, setCancel] = useState(false); // clean up 용
     const [isLoaded, setLoaded] = useState(false); // GPS 로딩 여부 검사용
 
     const [stations, setStations] = useState([]); //서버로 부터 받아온 충전소 데이터 리스트
+    const [chargers, setChargers] = useState([]); //서버로 부터 받아온 충전소 데이터들의 충전기 데이터 리스트
     const [stationLogs, setStationLogs] = useState([]); //서버로 부터 받아온 특정 충전소의 충전 분석 로그
 
     const [selectedStation, setSelectedStation] = useState([lat = 0, lng = 0]); //마커 선택 시 모달에 띄워줄 데이터
@@ -97,7 +98,10 @@ const EvChargerContainer = (props) => {
     }
 
     const getStations = async (mapLocation) => {
-        setStations(sortStations(userLocation, await API.getRegionData(mapLocation)));
+        const receivedStationData = await API.getRegionData(mapLocation)
+        setStations(sortStations(userLocation, receivedStationData));
+        const receivedChargerData = await API.getChargersByManyStation(receivedStationData.map((station)=>station.statId))
+        setChargers(receivedChargerData)
     }
 
     const focusToStation = async (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드

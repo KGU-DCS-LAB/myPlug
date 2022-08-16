@@ -7,67 +7,78 @@ const { StationLogs } = require('../models/StationLogs');
 
 /* GET. */
 router.get('/keco/find/stations', function (req, res, next) {
-    // 전체 데이터 가져오기
-    Station.find({}).then((stations) => {
-        // console.log(stations);
-        res.json(stations)
-    }).catch((err) => {
-        console.log(err);
-        next(err)
-    });
+  // 전체 데이터 가져오기
+  Station.find({}).then((stations) => {
+    // console.log(stations);
+    res.json(stations)
+  }).catch((err) => {
+    console.log(err);
+    next(err)
+  });
 });
 
 router.post('/keco/find/regionStations', function (req, res, next) {
-    const x1 = req.body.data.x1;
-    const x2 = req.body.data.x2;
-    const y1 = req.body.data.y1;
-    const y2 = req.body.data.y2;
-    console.log(req.body.data);
-    // console.log(x1, x2);
-    // console.log(y1, y2);
-    Station.find({
+  const x1 = req.body.data.x1;
+  const x2 = req.body.data.x2;
+  const y1 = req.body.data.y1;
+  const y2 = req.body.data.y2;
+  console.log(req.body.data);
+  // console.log(x1, x2);
+  // console.log(y1, y2);
+  Station.find({
 
-        $and: [
-            { lng: { $gte: x1 } },
-            { lng: { $lte: x2 } },
-            { lat: { $gte: y1 } },
-            { lat: { $lte: y2 } },
-        ]
+    $and: [
+      { lng: { $gte: x1 } },
+      { lng: { $lte: x2 } },
+      { lat: { $gte: y1 } },
+      { lat: { $lte: y2 } },
+    ]
 
-    }).then((stations) => {
-        // console.log(stations);
-        // console.log(stations.length)
-        res.json(stations)
-    }).catch((err) => {
-        console.log(err);
-        next(err)
-    });
+  }).then((stations) => {
+    // console.log(stations);
+    // console.log(stations.length)
+    res.json(stations)
+  }).catch((err) => {
+    console.log(err);
+    next(err)
+  });
 });
 
 router.post('/keco/find/chargers', function (req, res, next) {
   // console.log(req.body.data);
   Charger.find({
-    statId:req.body.data
-  }).then((response)=>{
+    statId: req.body.data
+  }).then((response) => {
     // console.log(response)
     res.json(response)
   }).catch((err) => {
     console.log(err);
     next(err)
+  });
 });
+
+router.post('/keco/find/manyChargers', function (req, res, next) {
+  // console.log(req.body.data);
+  Charger.find({ statId: { "$in": req.body.data } }).then((response) => {
+    // console.log(response)
+    res.json(response)
+  }).catch((err) => {
+    console.log(err);
+    next(err)
+  });
 });
 
 router.post('/keco/find/stationLogs', function (req, res, next) {
   console.log(req.body.data);
   StationLogs.find({
-    statId:req.body.data
-  }).then((response)=>{
+    statId: req.body.data
+  }).then((response) => {
     console.log(response)
     res.json(response)
   }).catch((err) => {
     console.log(err);
     next(err)
-});
+  });
 });
 
 router.post('/filterStations', async function (req, res, next) {
@@ -80,62 +91,62 @@ router.post('/filterStations', async function (req, res, next) {
 
   let result = null;
 
-  let statNmAgg = {'statNm': { $exists: true }};
-  let parkingFreeAgg = {parkingFree: { $exists: true }};
-  let busiNmAgg = {busiNm: { $exists: true }};
-  let limitYnAgg = {limitYn: { $exists: true }};
+  let statNmAgg = { 'statNm': { $exists: true } };
+  let parkingFreeAgg = { parkingFree: { $exists: true } };
+  let busiNmAgg = { busiNm: { $exists: true } };
+  let limitYnAgg = { limitYn: { $exists: true } };
 
-  let chgerTypeAgg = {chgerType: { "$exists": true }}
-  let outputAgg = {output: { "$exists": true }}
-  let statAgg = {stat: { "$exists": true }}
-  let methodAgg = {method: { "$exists": true }}
+  let chgerTypeAgg = { chgerType: { "$exists": true } }
+  let outputAgg = { output: { "$exists": true } }
+  let statAgg = { stat: { "$exists": true } }
+  let methodAgg = { method: { "$exists": true } }
 
   const typeArr = [];
 
   // 충전기 검색
-  if (types["chgerType"].length !== 0){
-    chgerTypeAgg = {chgerType: { "$in": types["chgerType"] }}
+  if (types["chgerType"].length !== 0) {
+    chgerTypeAgg = { chgerType: { "$in": types["chgerType"] } }
   }
 
-  if (types["output"].length !== 0){
-    outputAgg = {output: { "$in": types["output"] }}
+  if (types["output"].length !== 0) {
+    outputAgg = { output: { "$in": types["output"] } }
   }
 
-  if (types["stat"].length !== 0){
-    statAgg = {stat: { "$in": types["stat"] }}
+  if (types["stat"].length !== 0) {
+    statAgg = { stat: { "$in": types["stat"] } }
   }
 
-  if (types["method"].length !== 0){
-    methodAgg = {method: { "$in": types["method"] }}
+  if (types["method"].length !== 0) {
+    methodAgg = { method: { "$in": types["method"] } }
   }
 
   result = await Charger.aggregate([
     {
-      "$match": { "$and": [ chgerTypeAgg, outputAgg, statAgg, methodAgg]}
+      "$match": { "$and": [chgerTypeAgg, outputAgg, statAgg, methodAgg] }
     },
     {
-    "$group": 
+      "$group":
       {
         _id: "$statNm"
       }
-  }]);
+    }]);
   result.map((item) => typeArr.push(item._id))
 
-  if (typeArr.length !== 0){
-    statNmAgg = {'statNm': { $in : typeArr }}
+  if (typeArr.length !== 0) {
+    statNmAgg = { 'statNm': { $in: typeArr } }
   }
 
   // 충전소 검색
-  if (types["parkingFree"].length !== 0){
-    parkingFreeAgg = {parkingFree: { $in : types["parkingFree"] }}
+  if (types["parkingFree"].length !== 0) {
+    parkingFreeAgg = { parkingFree: { $in: types["parkingFree"] } }
   }
 
-  if (types["busiNm"].length !== 0){
-    busiNmAgg = {busiNm: { $in : types["busiNm"] }}
+  if (types["busiNm"].length !== 0) {
+    busiNmAgg = { busiNm: { $in: types["busiNm"] } }
   }
 
-  if (types["limitYn"].length !== 0){
-    limitYnAgg = {limitYn: { $in : types["limitYn"] }}
+  if (types["limitYn"].length !== 0) {
+    limitYnAgg = { limitYn: { $in: types["limitYn"] } }
   }
 
   Station.find({
@@ -161,9 +172,9 @@ router.post('/filterStations', async function (req, res, next) {
 });
 
 router.get("/keco/filteredCharger/:key", (req, res) => {
-    const keyword = "$" + req.params.key;
-    console.log(keyword)
-    // 전체 데이터 가져오기
+  const keyword = "$" + req.params.key;
+  console.log(keyword)
+  // 전체 데이터 가져오기
   Charger.aggregate([{
     "$group":
     {
@@ -184,28 +195,28 @@ router.get("/keco/filteredStations/:key", (req, res) => {
     "$group":
     {
       _id: keyword.toString(),
-      count: {$count: {}}
+      count: { $count: {} }
     }
   }, {
     "$sort": { count: 1, count: -1 }
-  },{ "$limit" : 10 }]).then((result) => {
+  }, { "$limit": 10 }]).then((result) => {
     res.send(result);
   });
 
 });
 
 // 충전소 검색
-router.get("/search/:key", async  (req, res) => {
-    // console.log(req);
-    let result = await Station.find({
-      "$or": [
-        {
-          statNm: {$regex: req.params.key}
-        }
-      ]
-    });
-    res.send(result);
-  })
+router.get("/search/:key", async (req, res) => {
+  // console.log(req);
+  let result = await Station.find({
+    "$or": [
+      {
+        statNm: { $regex: req.params.key }
+      }
+    ]
+  });
+  res.send(result);
+})
 
 
 module.exports = router;

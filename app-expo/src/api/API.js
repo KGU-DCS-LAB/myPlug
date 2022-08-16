@@ -1,7 +1,7 @@
 import axios from "axios";
 import { config } from "../../config";
 
-const getRegionData = async (location) => {
+export const getRegionData = async (location) => {
     try {
         const response = await axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
             // cancelToken: source.current.token,
@@ -20,7 +20,20 @@ const getRegionData = async (location) => {
     }
 }
 
-const getChargersByOneStation = async (statId) => {
+export const getChargersByManyStation = async (statIds) => {
+    try {
+        const response = await axios.post(config.ip + ':5000/stationsRouter/keco/find/manyChargers', {
+            data: statIds
+        })
+        // console.log("response >>", response.data)
+        return response.data
+    } catch (err) {
+        console.log("Error >>", err);
+        return []
+    }
+}
+
+export const getChargersByOneStation = async (statId) => {
     try {
         const response = await axios.post(config.ip + ':5000/stationsRouter/keco/find/chargers', {
             data: statId
@@ -33,7 +46,7 @@ const getChargersByOneStation = async (statId) => {
     }
 }
 
-const getChargerTypeByKey = async (key) => {
+export const getChargerTypeByKey = async (key) => {
     try {
         const response = await axios.get(config.ip + ':5000/stationsRouter/keco/filteredCharger/' + key)
         // console.log("response >>", response.data)
@@ -44,7 +57,7 @@ const getChargerTypeByKey = async (key) => {
     }
 }
 
-const getBusiNmByKey = async (key) => {
+export const getBusiNmByKey = async (key) => {
     try {
         const response = await axios.get(config.ip + ':5000/stationsRouter/keco/filteredStations/' + key)
         // console.log("response >>", response.data)
@@ -55,7 +68,7 @@ const getBusiNmByKey = async (key) => {
     }
 }
 
-const getStationLogsByStatId = async (statId) => {
+export const getStationLogsByStatId = async (statId) => {
     try {
         const response = await axios.post(config.ip + ':5000/stationsRouter/keco/find/stationLogs', {
             data: statId
@@ -68,7 +81,7 @@ const getStationLogsByStatId = async (statId) => {
     }
 }
 
-const getFilteredData = async (location, selectedType) => {
+export const getFilteredData = async (location, selectedType) => {
     try {
         const response = await axios.post(config.ip + ':5000/stationsRouter/filterStations', {
             data: {
@@ -87,7 +100,7 @@ const getFilteredData = async (location, selectedType) => {
     }
 }
 
-const saveFilterData = async (userId, selectedType) => {
+export const saveFilterData = async (userId, selectedType) => {
     try {
         const response = await axios.post(config.ip + ':5000/usersRouter/saveFilterData', {
             data: {
@@ -100,13 +113,4 @@ const saveFilterData = async (userId, selectedType) => {
         console.log("Error >>", err);
         return [];
     }
-}
-export { 
-    getRegionData, 
-    getChargersByOneStation, 
-    getChargerTypeByKey, 
-    getBusiNmByKey,
-    getStationLogsByStatId,
-    getFilteredData,
-    saveFilterData,
 }
