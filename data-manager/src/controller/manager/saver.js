@@ -1,5 +1,6 @@
 import { Test } from '../../models/Test.js';
 import { Station } from '../../models/Station.js'
+import {Charger} from '../../models/Charger.js'
 
 
 let stationIdSet = new Set();
@@ -11,13 +12,17 @@ export const init = async (date, raw_data) => {
         if (!stationIdSet.has(raw.statId)) {
             addStationJSON(date, raw);
         }
+        addChargerJSON(date, raw);
     })
-    console.log(stations);
+    console.log('***************************');
+    updateStations(stations);
+    updateChargers(chargers);
 }
 
 const addStationJSON = (date, raw) => {
 
     stations.push({
+        _id: raw.statId,
         api: "keco",
         date: date,
         statNm: raw.statNm,
@@ -47,20 +52,74 @@ const addStationJSON = (date, raw) => {
     stationIdSet.add(raw.statId);
 }
 
-// const example = async () => {
-//     // Test.findOne({}, function(error,data){
-//     //     if(error){
-//     //         console.log('error : '+error);
-//     //     }else{
-//     //         console.log('data : '+data);
-//     //     }
-//     // });
-//     Station.findOne({}, function(error,data){
-//         if(error){
-//             console.log('error : '+error);
-//         }else{
-//             console.log('data : '+data);
-//         }
-//     });
-// }
+const addChargerJSON = (date, raw) => {
+    chargers.push({
+        _id: raw.statId+raw.chgerId,
+        api: "keco",
+        date: date,
+        statNm: raw.statNm,
+        statId: raw.statId,
+        chgerId: raw.chgerId,
+        chgerType: raw.chgerType,
+        stat: raw.stat,
+        statUpdDt: raw.statUpdDt,
+        lastTsdt: raw.lastTsdt,
+        lastTedt: raw.lastTsdt,
+        nowTsdt: raw.nowTsdt,
+        output: raw.output,
+        method: raw.method,
+    })
+}
+
+const updateStations = (stations) => {
+    console.log('stations update start')
+    stations.map((station)=>{
+        const filter = {
+            _id:{$eq:station._id}
+        };
+        const update = station;
+        const options = {
+            upsert: true,
+            // new: true,
+            // setDefaultsOnInsert: true
+        };
+        Station.replaceOne(filter,update,options,
+            (err,docs) => {
+                if (err){
+                    console.log(err)
+                }
+                else{
+                    // console.log("Original Doc : ",docs);
+                }
+            }
+        );
+    }, {concurrency: 25})
+    console.log('stations inserted')
+}
+
+const updateChargers = (chargers) => {
+    console.log('chargers update start')
+    chargers.map((charger)=>{
+        const filter = {
+            _id:{$eq:charger._id}
+        };
+        const update = charger;
+        const options = {
+            upsert: true,
+            // new: true,
+            // setDefaultsOnInsert: true
+        };
+        Charger.replaceOne(filter,update,options,
+            (err,docs) => {
+                if (err){
+                    console.log(err)
+                }
+                else{
+                    // console.log("Original Doc : ",docs);
+                }
+            }
+        );
+    }, {concurrency: 25})
+    console.log('chargers inserted')
+}
 
