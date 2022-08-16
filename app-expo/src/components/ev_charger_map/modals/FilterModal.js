@@ -22,11 +22,11 @@ const FilterModal = (props) => {
 
     const [busiNm, setBusiNm] = useState([]); // 서버로 부터 받아온 충전소 회사 리스트
     const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [], output:[], stat:[], limitYn:[], method:[] });
-
-
+    const [user, setUser] = useState({})
 
     useEffect(() => {
         init();
+        userCheck();
     }, [])
 
     const init = async () => {
@@ -35,6 +35,13 @@ const FilterModal = (props) => {
         setBusiNm(await API.getBusiNmByKey("busiNm"));
     }
 
+    const userCheck = async () => {
+        if(await AsyncStorage.getItem('userInfo') != null) {
+            const userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'))[0]
+            setUser(userInfo)
+            setSelectedType(userInfo.filterData)
+         }
+    }
 
     const dataFiltering = async () => {
         // setIsFiltering(true);
@@ -43,9 +50,8 @@ const FilterModal = (props) => {
     }
 
     const saveFiltering = async() => {
-        const user = JSON.parse(await AsyncStorage.getItem('userInfo'));
-        console.log(user[0].user_id)
-        await API.saveFilterData(user[0].user_id, selectedType);
+        const userInfo = await API.saveFilterData(user.user_id, selectedType);
+        await AsyncStorage.setItem('userInfo', JSON.stringify([userInfo]), () => {console.log('유저 정보 재저장')});
         props.setFilterModalVisible(false);
     }
 
