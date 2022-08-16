@@ -87,6 +87,20 @@ const getFilteredData = async (location, selectedType) => {
     }
 }
 
+const saveFilterData = async (userId, selectedType) => {
+    try {
+        const response = await axios.post(config.ip + ':5000/usersRouter/saveFilterData', {
+            data: {
+                user_id: userId,
+                types: selectedType
+            }
+        })
+        return response.data;
+    } catch (err) {
+        console.log("Error >>", err);
+        return [];
+    }
+}
 export { 
     getRegionData, 
     getChargersByOneStation, 
@@ -94,4 +108,5 @@ export {
     getBusiNmByKey,
     getStationLogsByStatId,
     getFilteredData,
+    saveFilterData,
 }

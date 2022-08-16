@@ -29,4 +29,19 @@ router.post('/findOne/', function(req, res, next) {
     });
 });
 
+router.post('/saveFilterData', async function(req, res) {
+    console.log(req.body.data.user_id)
+    await User.updateOne(
+        { 'user_id': req.body.data.user_id, },
+        { $set: { "filterData": req.body.data.types } }).exec();
+
+    User.findOne({ user_id: req.body.data.user_id }).then((user) => {
+        console.log(user)
+        res.json(user)
+    }).catch((err) => {
+        console.log(err);
+        next(err)
+    });
+});
+
 module.exports = router;

@@ -16,6 +16,7 @@ import SelectOutput from "./filterModal/SelectOutput";
 import SelectStat from "./filterModal/SelectStat";
 import SelectLimitYn from "./filterModal/SelectLimitYn";
 import SelectMethod from "./filterModal/SelectMethod";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const FilterModal = (props) => {
 
@@ -38,6 +39,13 @@ const FilterModal = (props) => {
     const dataFiltering = async () => {
         // setIsFiltering(true);
         props.setChargingStations(sortStations(props.userLocation, await API.getFilteredData(props.mapLocation, selectedType)));
+        props.setFilterModalVisible(false);
+    }
+
+    const saveFiltering = async() => {
+        const user = JSON.parse(await AsyncStorage.getItem('userInfo'));
+        console.log(user[0].user_id)
+        await API.saveFilterData(user[0].user_id, selectedType);
         props.setFilterModalVisible(false);
     }
 
@@ -95,12 +103,22 @@ const FilterModal = (props) => {
                                     <SelectBusiNm busiNm={busiNm} selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
                                 </View>
                             </ScrollView>
-                            <Pressable
-                                style={[styles.button, styles.buttonClose]}
-                                onPress={() => dataFiltering()}
-                            >
-                                <Text style={styles.textStyle}>검색</Text>
-                            </Pressable>
+                            {props.type === 'getFiltering' ?
+                                <Pressable
+                                    style={[styles.button, styles.buttonClose]}
+                                    onPress={() => dataFiltering()}
+                                >
+                                    <Text style={styles.textStyle}>검색</Text>
+                                </Pressable>
+                                :
+                                <Pressable
+                                    style={[styles.button, styles.buttonClose]}
+                                    onPress={() => saveFiltering()}
+                                >
+                                    <Text style={styles.textStyle}>저장</Text>
+                                </Pressable>
+                            }
+
                             <Pressable
                                 style={[styles.button, styles.buttonClose]}
                                 onPress={() => props.setFilterModalVisible(false)}

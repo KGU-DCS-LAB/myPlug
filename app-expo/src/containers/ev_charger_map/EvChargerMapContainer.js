@@ -128,6 +128,7 @@ const EvChargerContainer = (props) => {
                                 setFilterModalVisible={setFilterModalVisible}
                                 mapLocation={mapLocation}
                                 userLocation={userLocation}
+                                type={'getFiltering'}
                             />
 
                             <StationListModal

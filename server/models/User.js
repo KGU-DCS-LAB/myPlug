@@ -15,6 +15,16 @@ const userSchema = mongoose.Schema({
         type: String,
         maxlength: 30,
         required: true
+    },
+    filterData: {
+        // chgerType: [String], 
+        // parkingFree: [String], 
+        // busiNm: [String], 
+        // output: [String], 
+        // stat: [String], 
+        // limitYn: [String], 
+        // method: [String]
+        type: Object
     }
 })
 
