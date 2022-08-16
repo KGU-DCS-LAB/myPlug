@@ -34,10 +34,11 @@ const EvChargerContainer = (props) => {
     const [didCancel, setCancel] = useState(false); // clean up 용
     const [isLoaded, setLoaded] = useState(false); // GPS 로딩 여부 검사용
 
-    const [chargingStations, setChargingStations] = useState([]); //서버로 부터 받아온 충전소 데이터 리스트
-    const [chargers, setChargers] = useState([]); // 서버로 부터 받아온 특정 충전소의 충전기 리스트
+    const [stations, setStations] = useState([]); //서버로 부터 받아온 충전소 데이터 리스트
     const [stationLogs, setStationLogs] = useState([]); //서버로 부터 받아온 특정 충전소의 충전 분석 로그
+
     const [selectedStation, setSelectedStation] = useState([lat = 0, lng = 0]); //마커 선택 시 모달에 띄워줄 데이터
+    const [selectedChargers, setSelectedChargers] = useState([]); // 서버로 부터 받아온 특정 충전소의 충전기 리스트
 
     const [filterModalVisible, setFilterModalVisible] = useState(false); // 필터 모달 온오프
     const [stationListModalVisible, setStationListModalVisible] = useState(false); // 충전소 목록 모달 온오프
@@ -91,12 +92,12 @@ const EvChargerContainer = (props) => {
             getStations(region);
         }
         else { // 델타 값이 너무 크면 값을 그냥 비워버림
-            setChargingStations([]);
+            setStations([]);
         }
     }
 
     const getStations = async (mapLocation) => {
-        setChargingStations(sortStations(userLocation, await API.getRegionData(mapLocation)));
+        setStations(sortStations(userLocation, await API.getRegionData(mapLocation)));
     }
 
     const focusToStation = async (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
@@ -111,7 +112,7 @@ const EvChargerContainer = (props) => {
         setSelectedStation(station)
         setMapLocation(stationLocation);
         getStations(stationLocation);
-        setChargers(await API.getChargersByOneStation(station.statId)) //선택한 충전소 id에 속한 충전기를 요청
+        setSelectedChargers(await API.getChargersByOneStation(station.statId)) //선택한 충전소 id에 속한 충전기를 요청
         setStationLogs(await API.getStationLogsByStatId(station.statId)); //선택한 충전소id에 속한 충전기록을 요청 
     }
 
@@ -123,7 +124,7 @@ const EvChargerContainer = (props) => {
                     <>
                         <View style={{ flex: 1 }}>
                             <FilterModal
-                                setChargingStations={setChargingStations}
+                                setChargingStations={setStations}
                                 filterModalVisible={filterModalVisible}
                                 setFilterModalVisible={setFilterModalVisible}
                                 mapLocation={mapLocation}
@@ -133,7 +134,7 @@ const EvChargerContainer = (props) => {
 
                             <StationListModal
                                 location={mapLocation}
-                                chargingStations={chargingStations}
+                                stations={stations}
                                 stationListModalVisible={stationListModalVisible}
                                 setStationListModalVisible={setStationListModalVisible}
                                 focusToStation={focusToStation}
@@ -144,14 +145,14 @@ const EvChargerContainer = (props) => {
                                 setSmallModalOpen={setSmallModalOpen}
                                 station={selectedStation}
                                 setBigModalOpen={setBigModalOpen}
-                                chargers={chargers}
+                                selectedChargers={selectedChargers}
                             />
 
                             <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
                                 isBigModalOpen={isBigModalOpen}
                                 setBigModalOpen={setBigModalOpen}
                                 station={selectedStation}
-                                chargers={chargers}
+                                selectedChargers={selectedChargers}
                                 stationLogs={stationLogs}
                             />
 
@@ -187,8 +188,8 @@ const EvChargerContainer = (props) => {
                             >
 
                                 {
-                                    chargingStations.length > 0 && //사이즈가 0 이상일때맏 마커 찍는 시도함 (오류 방지)
-                                    chargingStations.map((marker, index) => (
+                                    stations.length > 0 && //사이즈가 0 이상일때맏 마커 찍는 시도함 (오류 방지)
+                                    stations.map((marker, index) => (
                                         <Marker
                                             key={index}
                                             coordinate={{

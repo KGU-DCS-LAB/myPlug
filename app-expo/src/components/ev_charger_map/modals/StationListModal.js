@@ -23,14 +23,14 @@ const StationListModal = (props) => {
                                 <Box my={3}>
                                     <Heading>인근 충전소 목록으로 보기</Heading>
                                 </Box>
-                                <Text>{props.chargingStations.length}개의 충전소를 로드했습니다.</Text>
+                                <Text>{props.stations.length}개의 충전소를 로드했습니다.</Text>
                                 <ScrollView>
                                     {
-                                        props.chargingStations.length < 0
+                                        props.stations.length < 0
                                             ?
                                             <><Text>근처에 충전소가 없습니다.</Text></>
                                             :
-                                            props.chargingStations.map((stations) => (
+                                            props.stations.map((stations) => (
                                                 <TouchableOpacity key={stations.statId} onPress={() => props.focusToStation(stations)}>
                                                     <Box
                                                         borderBottomWidth="1"

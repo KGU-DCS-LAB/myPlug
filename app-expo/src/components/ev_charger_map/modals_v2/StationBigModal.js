@@ -125,7 +125,7 @@ const StationBigModal = (props) => {
                             <Divider mt={5} />
 
                             <Heading size="md" mt={5}>충전기 목록</Heading>
-                            {props.chargers.map((charger) => (
+                            {props.selectedChargers.map((charger) => (
                                 <ChargerCard key={charger._id} charger={charger} stationLog={findStationsLog(charger.chgerId)} />
                             ))}
                             <Spacer />

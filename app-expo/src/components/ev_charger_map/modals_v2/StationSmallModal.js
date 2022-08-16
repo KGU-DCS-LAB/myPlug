@@ -53,7 +53,7 @@ const StationSmallModal = (props) => {
                         <Text>{props.station.useTime}</Text>
                         <Heading size="sm">충전기 상태</Heading>
                         <HStack space={1}>
-                            {props.chargers.map((charger) => (
+                            {props.selectedChargers.map((charger) => (
                                 <Box
                                     key={charger._id}
                                     borderWidth="1"
