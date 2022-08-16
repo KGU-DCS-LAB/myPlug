@@ -15,6 +15,7 @@ import StationSmallModal from "../../components/ev_charger_map/modals_v2/Station
 import StationBigModal from "../../components/ev_charger_map/modals_v2/StationBigModal";
 import { sortStations, getDistance } from '../../api/DISTANCE';
 import * as API from "../../api/API";
+import { countChargers } from '../../api/BUSY';
 import markerGreen from '../../../assets/ev-green.png'
 
 const EvChargerContainer = (props) => {
@@ -99,8 +100,8 @@ const EvChargerContainer = (props) => {
 
     const getStations = async (mapLocation) => {
         const receivedStationData = await API.getRegionData(mapLocation)
-        setStations(sortStations(userLocation, receivedStationData));
         const receivedChargerData = await API.getChargersByManyStation(receivedStationData.map((station)=>station.statId))
+        setStations(countChargers(sortStations(userLocation, receivedStationData), receivedChargerData));
         setChargers(receivedChargerData)
     }
 

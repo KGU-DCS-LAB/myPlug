@@ -1,4 +1,4 @@
-const sortStations = (location, stations) => {
+export const sortStations = (location, stations) => {
     let temp = []
     stations.map((station)=>temp.push({
         ...station,
@@ -8,7 +8,7 @@ const sortStations = (location, stations) => {
     return sortedList;
 }
 
-const getDistance = (lat1, lon1, lat2, lon2) => {
+export const getDistance = (lat1, lon1, lat2, lon2) => {
     if ((lat1 == lat2) && (lon1 == lon2))
         return 0;
 
@@ -28,7 +28,3 @@ const getDistance = (lat1, lon1, lat2, lon2) => {
 
     return dist;
 }
-
-
-
-export {sortStations, getDistance}
