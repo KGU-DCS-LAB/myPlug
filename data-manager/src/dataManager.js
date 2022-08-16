@@ -17,6 +17,7 @@ export const run = async () => {
     console.log('raw data : '+raw_data.length);
 
     await saver.init(date, raw_data);
+    await logger.init(date, raw_data);
 
 }
 

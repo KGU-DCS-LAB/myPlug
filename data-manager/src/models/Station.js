@@ -92,7 +92,13 @@ const stationSchema = mongoose.Schema(
         },
         distance:{
             type:Number,
-        }
+        },
+        chargersCountAvailble:{
+            type:Number,
+        },
+        chargersCountEntire:{
+            type:Number,
+        },
     }
 )
 

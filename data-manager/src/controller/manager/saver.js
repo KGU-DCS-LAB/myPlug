@@ -14,7 +14,12 @@ export const init = async (date, raw_data) => {
         }
         addChargerJSON(date, raw);
     })
+    // await raw_data.map((raw) => {
+    // 충전기 상태 만들어 줄 예정임
+    // })
+
     console.log('***************************');
+    // 이 아래 코드들은 await을 걸어두지 않았기 떄문에 거의 동시에 진행한다.
     updateStations(stations);
     updateChargers(chargers);
     console.log('***************************');
