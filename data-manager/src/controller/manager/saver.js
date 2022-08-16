@@ -17,6 +17,7 @@ export const init = async (date, raw_data) => {
     console.log('***************************');
     updateStations(stations);
     updateChargers(chargers);
+    console.log('***************************');
 }
 
 const addStationJSON = (date, raw) => {
@@ -88,49 +89,24 @@ const addChargerJSON = (date, raw) => {
 }
 
 const updateStations = async (stations) => {
-    console.log('stations update start')
-    // console.log(stations[0])
+    console.log('[Station] 정보 업데이트 중 ...')
     await Station.bulkWrite(stations).then(bulkWriteOpResult => {
-        console.log('BULK update OK');
+        console.log('[Station] BULK update OK : '+stations.length);
     }).catch(err => {
-        console.log('BULK update error');
+        console.log('[Station] BULK update error');
         console.log(JSON.stringify(err));
     });
-
-    console.log('stations inserted')
+    console.log('[Station] 데이터 입력 완료!')
 }
 
 const updateChargers = async (chargers) => {
-    console.log('chargers update start')
-
+    console.log('[Charger] 정보 업데이트 중 ...')
     await Charger.bulkWrite(chargers).then(bulkWriteOpResult => {
-        console.log('BULK update OK');
+        console.log('[Charger] BULK update OK : '+chargers.length);
     }).catch(err => {
-        console.log('BULK update error');
+        console.log('[Charger] BULK update error');
         console.log(JSON.stringify(err));
     });
-
-    // chargers.map((charger) => {
-    //     const filter = {
-    //         _id: { $eq: charger._id }
-    //     };
-    //     const update = charger;
-    //     const options = {
-    //         upsert: true,
-    //         // new: true,
-    //         // setDefaultsOnInsert: true
-    //     };
-    //     Charger.replaceOne(filter, update, options,
-    //         (err, docs) => {
-    //             if (err) {
-    //                 console.log(err)
-    //             }
-    //             else {
-    //                 // console.log("Original Doc : ",docs);
-    //             }
-    //         }
-    //     );
-    // }, { concurrency: 25 })
-    console.log('chargers inserted')
+    console.log('[Charger] 데이터 입력 완료!')
 }
 
