@@ -7,6 +7,13 @@ const stationSchema = mongoose.Schema(
             type: String,
             maxlength: 100,
         },
+        api: {
+            type: String,
+            maxlength: 100,
+        },
+        date: {
+            type: Date,
+        },
         statNm: {
             type: String,
             maxlength: 100,
@@ -52,6 +59,10 @@ const stationSchema = mongoose.Schema(
             maxlength: 100,
         },
         zcode: {
+            type: String,
+            maxlength: 100,
+        },
+        zscode: {
             type: String,
             maxlength: 100,
         },
