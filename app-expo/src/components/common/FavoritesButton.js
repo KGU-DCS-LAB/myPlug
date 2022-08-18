@@ -15,7 +15,7 @@ const FavoritesButton = () => {
     const [bookmarked, setBookmarked] = useState([]);
 
     React.useEffect(() => {
-        if(isFocused){
+        if (isFocused) {
             console.log(1);
             try {
                 AsyncStorage.getItem('userInfo')
@@ -41,45 +41,47 @@ const FavoritesButton = () => {
             // console.log(response.data);
             if (response.data.length == 0) {
                 console.log('..');
-              } else {
+            } else {
                 result.push(response.data[0].station)
 
-                for(let i=0; i<result[0].length; i++){
+                for (let i = 0; i < result[0].length; i++) {
                     favorites.push(result[0][i].statNm)
                 }
                 setBookmarked(favorites);
                 // console.log(favorites[0]);
-              }
-            }).catch(function (error) {
-              console.log(error);
-              setFirstRecord(true)
-            })
+            }
+        }).catch(function (error) {
+            console.log(error);
+            setFirstRecord(true)
+        })
     }, [userId]);
 
     // console.log(bookmarked);
 
     const ListItems = () => {
-        return(
+        return (
             <>
-                {bookmarked.map((bookmark) =>
-                <PressableButton
-                key={bookmark}
-                numOfCol={colNum3}
-                width={windowWidth / colNum3 * 0.875}
-                height={windowWidth / colNum3 * 0.9}
-                onPress={() => console.log('ㅇㅇ')}
-                title={bookmark}
-                />
-            )}
+                {
+                    bookmarked.map((bookmark) =>
+                        <PressableButton
+                            key={bookmark}
+                            numOfCol={colNum3}
+                            width={windowWidth / colNum3 * 0.875}
+                            height={windowWidth / colNum3 * 0.9}
+                            onPress={() => console.log('ㅇㅇ')}
+                            title={bookmark}
+                        />
+                    )
+                }
             </>
         )
-    } 
+    }
 
-    return(
-    <>
-        <ListItems/>
-    </>
-        
+    return (
+        <>
+            <ListItems />
+        </>
+
     )
 }
 

@@ -48,21 +48,23 @@ const HomeContainer = (props) => {
     return (
         <>
             <Box style={styles.headingBackground}>
-                <HStack>
-                    <Heading style={styles.heading}>나만의 충전소</Heading>
-                    <View style={styles.container}>
-                        <TouchableOpacity onPress={() => userCheck()}>
-                            <Avatar mr={2} bg="indigo.500" source={{
+                <HStack alignItems={"center"} px={5} py={2}>
+                    <Heading>나만의 충전소</Heading>
+                    <Spacer />
+                    <TouchableOpacity onPress={() => userCheck()}>
+                        <Avatar
+                            height={8}
+                            width={8}
+                            source={{
                                 uri: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-                            }} space={2} />
-                        </TouchableOpacity>
-                    </View>
-
+                            }}
+                        />
+                    </TouchableOpacity>
                 </HStack>
 
             </Box>
 
-            <Box px={2} flex="1">
+            <Box px={2} flex="1" bg="white">
                 <ScrollView>
                     <Box py={1} />
                     <HStack justifyContent="center">
@@ -105,7 +107,7 @@ const HomeContainer = (props) => {
                             width={windowWidth / colNum2 * 0.9}
                             height={windowWidth / colNum2 * 0.9}
                             onPress={() => props.navigation.navigate('example')}
-                            title="충전 스케쥴 등록하기"
+                            title="충전 스케쥴러"
                         />
                         <PressableButton
                             numOfCol={colNum2}
@@ -127,18 +129,5 @@ export default HomeContainer;
 const styles = StyleSheet.create({
     headingBackground: {
         backgroundColor: '#fff',
-    },
-    heading: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-    },
-    headingProfile: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-    },
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'flex-end',
     },
 });

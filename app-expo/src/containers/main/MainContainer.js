@@ -72,6 +72,9 @@ const MainContainer = () => {
             <Stack.Screen
                 name="Login"
                 component={LoginScreen}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+                }}
             />
             <Stack.Screen
                 name="SignUp"
@@ -80,6 +83,9 @@ const MainContainer = () => {
             <Stack.Screen
                 name="MyPage"
                 component={MyPageScreen}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+                }}
             />
             <Stack.Screen
                 name="Schedule"
