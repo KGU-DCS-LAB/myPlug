@@ -44,15 +44,16 @@ export const countChargers = (stations, chargers) => {
         // console.log('운영 중지 : ' + stationsChargers.filter((charger)=>charger.stat == 4).length);
         // console.log('점검 중 : ' + stationsChargers.filter((charger)=>charger.stat == 5).length);
         // console.log('***')
+            // (1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
         newStations.push({
             ...station,
             status:{
-                status0 : findChargersCount(stationsChargers, 0),
                 status1 : findChargersCount(stationsChargers, 1),
                 status2 : findChargersCount(stationsChargers, 2),
                 status3 : findChargersCount(stationsChargers, 3),
                 status4 : findChargersCount(stationsChargers, 4),
                 status5 : findChargersCount(stationsChargers, 5),
+                status9 : findChargersCount(stationsChargers, 9),
             }
         })
     })

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 // import { Text, View, Dimensions, StyleSheet, ScrollView } from 'react-native'
 import { Alert, Dimensions, Pressable, ScrollView, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import { Badge, Box, Button, Center, Heading, HStack, Spacer, Text, VStack } from "native-base";
+import { Badge, Box, Button, Center, Divider, Heading, HStack, Spacer, Text, VStack } from "native-base";
 import Modal from 'react-native-modalbox'
 import { useState } from 'react'
 import { config } from '../../../../config';
@@ -52,6 +52,7 @@ const StationSmallModal = (props) => {
                             <Spacer />
                         </HStack>
                         <Text>{props.station.useTime}</Text>
+                        <Divider my={1}/>
                         <Heading size="sm">충전기 상태</Heading>
                         <HStack space={1}>
                             {props.selectedChargers.map((charger) => (
@@ -68,6 +69,14 @@ const StationSmallModal = (props) => {
                                 </Box>
                             ))}
                         </HStack>
+                        <HStack space={1}>
+                            <Text>사용 : {props.station.status.status2}</Text>
+                            <Spacer/>
+                            <Text>대기 : {props.station.status.status3}</Text>
+                            <Spacer/>
+                            <Text>기타 : {props.station.status.status1+props.station.status.status4+props.station.status.status5+props.station.status.status9}</Text>
+                        </HStack>
+                        <Divider my={1}/>
                         <HStack mt={1}>
                             <Badge
                                 colorScheme="gray"
@@ -183,7 +192,7 @@ export default StationSmallModal;
 const styles = StyleSheet.create({
     flexEndView: {
         // flex: 1,
-        height: 240,
+        height: 280,
         width: screen.width - 20,
         flexDirection: 'column',
         justifyContent: 'flex-end',
