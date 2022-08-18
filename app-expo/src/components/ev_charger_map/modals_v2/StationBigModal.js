@@ -130,7 +130,10 @@ const StationBigModal = (props) => {
                                 <ChargerCard key={charger._id} charger={charger} stationLog={findStationsLog(charger.chgerId)} />
                             ))}
                             <Spacer />
+                            <Divider mt={5} />
 
+                            <Heading size="md" mt={5}>가까운 충전소 상황</Heading>
+                            
                         </ScrollView>
                         <Spacer />
                         <Center>
