@@ -9,6 +9,7 @@ import MyPageContainer from '../user/MyPageContainer';
 import ModalExample from '../example/ModalExample';
 import CollapseExample from '../example/CollapseExample';
 import ScheduleContainer from '../schedule/ScheduleContainer';
+import ButtonsLayoutExample from '../example/ButtonsLayoutExample';
 
 const MainContainer = () => {
 
@@ -51,7 +52,8 @@ const MainContainer = () => {
     const ExampleScreen = ({ navigation }) => {
         return (
             // <ModalExample navigation={navigation} />
-            <CollapseExample navigation={navigation} />
+            // <CollapseExample navigation={navigation} />
+            <ButtonsLayoutExample navigation={navigation} />
         )
     }
 
