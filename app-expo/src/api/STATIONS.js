@@ -95,6 +95,33 @@ export const statColor = (stat) => {
     }
 }
 
+export const kind = (num) => {
+    // (1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
+    switch (num) {
+        case "A0":
+            return "공공시설";
+        case "B0":
+            return "주차시설";
+        case "C0":
+            return "휴게시설";
+        case "D0":
+            return "관광시설";
+        case "E0":
+            return "상업시설";
+        case "F0":
+            return "차량정비시설";
+        case "G0":
+            return "기타시설";
+        case "H0":
+            return "공동주택시설";
+        case "I0":
+            return "근린생활시설";
+        case "J0":
+            return "교육문화시설";
+        default:
+            return "미확인";
+    }
+}
 
 export const chargerStat = (n) => {
     if (n == '1') { return "통신이상" }

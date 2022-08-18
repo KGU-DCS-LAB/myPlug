@@ -129,6 +129,20 @@ const StationSmallModal = (props) => {
                                 {props.station.limitYn == "Y" ? ("이용 제한") : "누구나 사용가능"}
                             </Badge>
                         </HStack>
+                        <HStack mt={1}>
+                        <Badge
+                                colorScheme={props.station.limitYn == "Y" ? "red" : "green"}
+                                _text={{
+                                    color: "white"
+                                }}
+                                // key={tag}
+                                variant="solid"
+                                rounded="4"
+                                mr="1"
+                            >
+                                {STATIONS.kind(props.station.kind)}
+                            </Badge>
+                        </HStack>
                     </ScrollView>
                     <Center>
                         <HStack>
