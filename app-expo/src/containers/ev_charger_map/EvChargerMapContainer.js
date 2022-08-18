@@ -13,9 +13,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 import StationListModal from "../../components/ev_charger_map/modals/StationListModal";
 import StationSmallModal from "../../components/ev_charger_map/modals_v2/StationSmallModal";
 import StationBigModal from "../../components/ev_charger_map/modals_v2/StationBigModal";
-import { sortStations, getDistance } from '../../api/DISTANCE';
+import { sortStations, getDistance } from '../../api/STATIONS';
 import * as API from "../../api/API";
-import { countChargers } from '../../api/BUSY';
+import * as STATIONS from '../../api/STATIONS';
 import markerGreen from '../../../assets/ev-green.png'
 
 const EvChargerContainer = (props) => {
@@ -101,7 +101,7 @@ const EvChargerContainer = (props) => {
     const getStations = async (mapLocation) => {
         const receivedStationData = await API.getRegionData(mapLocation)
         const receivedChargerData = await API.getChargersByManyStation(receivedStationData.map((station)=>station.statId))
-        setStations(countChargers(sortStations(userLocation, receivedStationData), receivedChargerData));
+        setStations(STATIONS.countChargers(sortStations(userLocation, receivedStationData), receivedChargerData));
         setChargers(receivedChargerData)
     }
 

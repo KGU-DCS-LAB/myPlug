@@ -11,7 +11,7 @@ import SelectBusiNm from "./filterModal/SelectBusiNm";
 import SelectParkingFree from "./filterModal/SelectParkingFree";
 import SelectChgerType from "./filterModal/SelectChgerType";
 import * as API from "../../../api/API";
-import { sortStations } from "../../../api/DISTANCE";
+import * as STATIONS from '../../../api/STATIONS';
 import SelectOutput from "./filterModal/SelectOutput";
 import SelectStat from "./filterModal/SelectStat";
 import SelectLimitYn from "./filterModal/SelectLimitYn";
@@ -45,7 +45,7 @@ const FilterModal = (props) => {
 
     const dataFiltering = async () => {
         // setIsFiltering(true);
-        props.setChargingStations(sortStations(props.userLocation, await API.getFilteredData(props.mapLocation, selectedType)));
+        props.setChargingStations(STATIONS.sortStations(props.userLocation, await API.getFilteredData(props.mapLocation, selectedType)));
         props.setFilterModalVisible(false);
     }
 
