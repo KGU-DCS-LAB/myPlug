@@ -53,8 +53,16 @@ const StationSmallModal = (props) => {
                             <Spacer />
                         </HStack>
                         <Text>{props.station.useTime}</Text>
-                        <Divider my={1}/>
-                        <Heading size="sm">충전기 상태</Heading>
+                        <Divider my={1} />
+                        <HStack>
+                            <Heading size="sm">충전기 상태</Heading>
+                            <Spacer/>
+                            <HStack space={1}>
+                                <Text>사용 {props.station.status && props.station.status.status3} |</Text>
+                                <Text>대기 {props.station.status && props.station.status.status2} |</Text>
+                                <Text>기타 {props.station.status && props.station.status.status1 + props.station.status.status4 + props.station.status.status5 + props.station.status.status9}</Text>
+                            </HStack>
+                        </HStack>
                         <HStack space={1}>
                             {props.selectedChargers.map((charger) => (
                                 <Box
@@ -70,14 +78,7 @@ const StationSmallModal = (props) => {
                                 </Box>
                             ))}
                         </HStack>
-                        <HStack space={1}>
-                            <Text>사용 : {props.station.status && props.station.status.status3}</Text>
-                            <Spacer/>
-                            <Text>대기 : {props.station.status && props.station.status.status2}</Text>
-                            <Spacer/>
-                            <Text>기타 : {props.station.status && props.station.status.status1+props.station.status.status4+props.station.status.status5+props.station.status.status9}</Text>
-                        </HStack>
-                        <Divider my={1}/>
+                        <Divider my={1} />
                         <HStack mt={1}>
                             <Badge
                                 colorScheme="gray"
@@ -89,7 +90,7 @@ const StationSmallModal = (props) => {
                                 rounded="4"
                                 mr="1"
                             >
-                                {"~"+props.station.distance + "m"}
+                                {"~" + props.station.distance + "m"}
                             </Badge>
                             <Badge
                                 colorScheme="blue"
