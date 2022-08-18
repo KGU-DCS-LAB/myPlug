@@ -70,11 +70,11 @@ const StationSmallModal = (props) => {
                             ))}
                         </HStack>
                         <HStack space={1}>
-                            <Text>사용 : {props.station.status.status2}</Text>
+                            <Text>사용 : {props.station.status && props.station.status.status3}</Text>
                             <Spacer/>
-                            <Text>대기 : {props.station.status.status3}</Text>
+                            <Text>대기 : {props.station.status && props.station.status.status2}</Text>
                             <Spacer/>
-                            <Text>기타 : {props.station.status.status1+props.station.status.status4+props.station.status.status5+props.station.status.status9}</Text>
+                            <Text>기타 : {props.station.status && props.station.status.status1+props.station.status.status4+props.station.status.status5+props.station.status.status9}</Text>
                         </HStack>
                         <Divider my={1}/>
                         <HStack mt={1}>

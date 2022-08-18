@@ -1,3 +1,8 @@
+import markerGreen from '../../assets/ev-green.png';
+import markerYellow from '../../assets/ev-yellow.png';
+import markerRed from '../../assets/ev-red.png';
+import markerGray from '../../assets/ev-gray.png';
+
 export const sortStations = (location, stations) => {
     let temp = []
     stations.map((station)=>temp.push({
@@ -132,5 +137,22 @@ export const statText = (stat) => {
             return "점검중";
         default:
             return "상태미확인";
+    }
+}
+
+export const markerImge = (station) => {
+    const using = station.status.status3;
+    const available = station.status.status2;
+    if(using+available==0){ //정상적인 충전기가 하나도 없는 충전소
+        return markerGray;
+    }
+    else if(available == 0){ //가용 충전기가 없는 충전소
+        return markerRed;
+    }
+    else if(using>=available){ //사용중인 충전기가 50% 이상인 충전소
+        return markerYellow;
+    }
+    else{ //이외
+        return markerGreen;
     }
 }

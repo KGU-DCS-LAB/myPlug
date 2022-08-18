@@ -16,7 +16,6 @@ import StationBigModal from "../../components/ev_charger_map/modals_v2/StationBi
 import { sortStations, getDistance } from '../../api/STATIONS';
 import * as API from "../../api/API";
 import * as STATIONS from '../../api/STATIONS';
-import markerGreen from '../../../assets/ev-green.png'
 
 const EvChargerContainer = (props) => {
 
@@ -106,7 +105,7 @@ const EvChargerContainer = (props) => {
     }
 
     const focusToStation = async (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
-        console.log(station)
+        // console.log(station)
         const stationLocation = {
             longitude: Number(station.lng),
             latitude: Number(station.lat),
@@ -206,7 +205,7 @@ const EvChargerContainer = (props) => {
                                                 () => {
                                                     focusToStation(marker)
                                                 }}
-                                            image={markerGreen}
+                                            image={STATIONS.markerImge(marker)}
                                         />
                                     ))
                                 }
