@@ -5,7 +5,7 @@ import * as Location from 'expo-location';
 export default (props) => {
 
 
-    const location = props.location;
+    const location = props.mapLocation;
 
     const goToCurrentLocation = async () => {
         let location = await Location.getCurrentPositionAsync({}); //현 위치 수신

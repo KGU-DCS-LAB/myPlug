@@ -17,8 +17,7 @@ const CoverMenu = (props) => {
             </Center>
             <Center style={{ position: 'absolute', left: 20, bottom: 90, height: 30 }} >
                 <LocationController
-                    location={props.location}
-                    setLocation={props.setLocation}
+                    mapLocation={props.mapLocation}
                     setLocationAndGetStations={props.setLocationAndGetStations}
                 />
             </Center>
@@ -27,7 +26,7 @@ const CoverMenu = (props) => {
                     navigation={props.navigation}
                     setFilterModalVisible={props.setFilterModalVisible}
                     setStationListModalVisible={props.setStationListModalVisible}
-                    location={props.location}
+                    mapLocation={props.mapLocation}
                     setLocationAndGetStations={props.setLocationAndGetStations}
                 />
             </Center>

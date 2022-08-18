@@ -219,13 +219,12 @@ const EvChargerContainer = (props) => {
                         </View>
                         <CoverMenu
                             navigation={props.navigation}
-                            location={mapLocation}
-                            setLocation={setMapLocation}
+                            focusToStation={focusToStation}
+                            mapLocation={mapLocation}
                             setLocationAndGetStations={setLocationAndGetStations}
                             isSmallModalOpen={isSmallModalOpen}
                             setFilterModalVisible={setFilterModalVisible}
                             setStationListModalVisible={setStationListModalVisible}
-                            focusToStation={focusToStation}
                         />
                     </>
                     :
