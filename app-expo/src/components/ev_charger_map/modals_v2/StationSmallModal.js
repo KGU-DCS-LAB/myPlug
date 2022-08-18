@@ -25,12 +25,13 @@ const StationSmallModal = (props) => {
             <Modal
                 style={styles.flexEndView}
                 position='center'
-                backdrop={true}
+                backdrop={false}
                 ref={show}
                 isOpen={props.isSmallModalOpen}
                 onClosed={() => props.setSmallModalOpen(false)}
                 position={"bottom"}
                 entry={"bottom"}
+                animationDuration={100}
             >
                 <View style={styles.smallModalView}>
                     <ScrollView>

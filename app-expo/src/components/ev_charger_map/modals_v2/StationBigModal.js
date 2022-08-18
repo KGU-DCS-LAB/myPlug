@@ -73,13 +73,14 @@ const StationBigModal = (props) => {
                 <Modal
                     style={styles.flexEndView}
                     position='center'
-                    backdrop={true}
+                    backdrop={false}
                     ref={show}
                     isOpen={props.isBigModalOpen}
                     onClosed={() => props.setBigModalOpen(false)}
                     position={"bottom"}
                     entry={"bottom"}
                     swipeToClose={false}
+                    animationDuration={100}
                 >
                     <View style={{ flex: 1 }}>
                         <View>
@@ -132,30 +133,30 @@ const StationBigModal = (props) => {
 
                         </ScrollView>
                         <Spacer />
-                            <Center>
-                                <HStack>
-                                    <Pressable
-                                        onPress={() => props.setBigModalOpen(false)}
+                        <Center>
+                            <HStack>
+                                <Pressable
+                                    onPress={() => props.setBigModalOpen(false)}
 
+                                >
+                                    <Box
+                                        height="30"
+                                        width="150"
+                                        borderWidth="1"
+                                        borderColor="coolGray.300"
+                                        shadow="3"
+                                        bg="red.300"
+                                        px="5"
+                                        rounded="8"
                                     >
-                                        <Box
-                                            height="30"
-                                            width="150"
-                                            borderWidth="1"
-                                            borderColor="coolGray.300"
-                                            shadow="3"
-                                            bg="red.300"
-                                            px="5"
-                                            rounded="8"
-                                        >
-                                            <Center>
-                                                <Heading size="md">닫 기</Heading>
-                                            </Center>
-                                        </Box>
-                                    </Pressable>
-                                    <FindFavorites user_id={userId} statNm={props.station.statNm} />
-                                </HStack>
-                            </Center>
+                                        <Center>
+                                            <Heading size="md">닫 기</Heading>
+                                        </Center>
+                                    </Box>
+                                </Pressable>
+                                <FindFavorites user_id={userId} statNm={props.station.statNm} />
+                            </HStack>
+                        </Center>
                     </View>
                 </Modal>
             }
