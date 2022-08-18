@@ -1,6 +1,6 @@
 import { Alert, Modal, Pressable, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View, Icon, ScrollViewBase } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
-import { Box, Button, Center, Flex, Heading, HStack, ScrollView, Text} from "native-base";
+import { Avatar, Box, Button, Center, Flex, Heading, HStack, ScrollView, Spacer, Text, VStack } from "native-base";
 import { useState } from "react";
 
 const StationListModal = (props) => {
@@ -19,10 +19,12 @@ const StationListModal = (props) => {
                 >
                     <View style={styles.flexEndView}>
                         <View style={styles.bigModalView}>
-                            <View>
-                                <Box my={3}>
+                            <View style={{ flex: 1 }}>
+                                <HStack>
                                     <Heading>인근 충전소 목록으로 보기</Heading>
-                                </Box>
+                                    <Spacer />
+                                    {/* <Text>X</Text> */}
+                                </HStack>
                                 <Text>{props.stations.length}개의 충전소를 로드했습니다.</Text>
                                 <ScrollView>
                                     {
@@ -32,22 +34,27 @@ const StationListModal = (props) => {
                                             :
                                             props.stations.map((stations) => (
                                                 <TouchableOpacity key={stations.statId} onPress={() => props.focusToStation(stations)}>
-                                                    <Box
+                                                    <HStack
                                                         borderBottomWidth="1"
                                                         borderColor="coolGray.200"
                                                         p={1}
+                                                        alignItems="center" space={3}
                                                     >
+                                                        <Avatar bg={stations.status.marker+".500"}>
+                                                            ㅇㅇ
+                                                        </Avatar>
+                                                        <VStack>
                                                         <Heading fontSize="md">{stations.statNm}</Heading>
                                                         <Text>{stations.useTime}</Text>
                                                         <Text>{stations.bnm}({stations.busiNm})</Text>
-                                                        <Text>{stations.distance+"m"}</Text>
-                                                    </Box>
+                                                        <Text>{stations.distance + "m"}</Text>
+                                                        </VStack>
+                                                    </HStack>
                                                 </TouchableOpacity>
                                                 // <Text key={stations.statId}>{stations.statNm}</Text>
                                             ))
                                     }
                                 </ScrollView>
-
                                 <Box my={3}>
                                     <Pressable
                                         style={[styles.button, styles.buttonClose]}
@@ -57,7 +64,6 @@ const StationListModal = (props) => {
                                     </Pressable>
 
                                 </Box>
-
                             </View>
 
                         </View>
@@ -84,8 +90,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
-        // padding: 35,
-        alignItems: "center",
+        paddingHorizontal: 25,
+        paddingTop: 20,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
