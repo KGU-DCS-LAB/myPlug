@@ -29,15 +29,15 @@ const stationSchema = mongoose.Schema(
             type: String,
             maxlength: 100,
         },
+        useTime: {
+            type: String,
+            maxlength: 100,
+        },
         lat: {
             type: String,
             maxlength: 100,
         },
         lng: {
-            type: String,
-            maxlength: 100,
-        },
-        useTime: {
             type: String,
             maxlength: 100,
         },
@@ -65,6 +65,14 @@ const stationSchema = mongoose.Schema(
             type: String,
             maxlength: 100,
         },
+        kind: {
+            type: String,
+            maxlength: 100,
+        },
+        kindDetail: {
+            type: String,
+            maxlength: 100,
+        },
         parkingFree: {
             type: String,
             maxlength: 100,
@@ -89,9 +97,9 @@ const stationSchema = mongoose.Schema(
             type: String,
             maxlength: 100,
         },
-        distance:{
-            type:Number,
-        }
+        distance: {
+            type: Date,
+        },
     }
 )
 

@@ -56,7 +56,7 @@ const StationSmallModal = (props) => {
                         <Divider my={1} />
                         <HStack>
                             <Heading size="sm">충전기 상태</Heading>
-                            <Spacer/>
+                            <Spacer />
                             <HStack space={1}>
                                 <Text>사용 {props.station.status && props.station.status.status3} |</Text>
                                 <Text>대기 {props.station.status && props.station.status.status2} |</Text>
@@ -93,6 +93,30 @@ const StationSmallModal = (props) => {
                                 {"~" + props.station.distance + "m"}
                             </Badge>
                             <Badge
+                                colorScheme={"gray"}
+                                _text={{
+                                    color: "white"
+                                }}
+                                variant="solid"
+                                rounded="4"
+                                mr="1"
+                            >
+                                {STATIONS.kind(props.station.kind)}
+                            </Badge>
+                            <Badge
+                                colorScheme={"gray"}
+                                _text={{
+                                    color: "white"
+                                }}
+                                variant="solid"
+                                rounded="4"
+                                mr="1"
+                            >
+                                {STATIONS.kind(props.station.kindDetail)}
+                            </Badge>
+                        </HStack>
+                        <HStack mt={1}>
+                            <Badge
                                 colorScheme="blue"
                                 _text={{
                                     color: "white"
@@ -127,20 +151,6 @@ const StationSmallModal = (props) => {
                                 mr="1"
                             >
                                 {props.station.limitYn == "Y" ? ("이용 제한") : "누구나 사용가능"}
-                            </Badge>
-                        </HStack>
-                        <HStack mt={1}>
-                        <Badge
-                                colorScheme={props.station.limitYn == "Y" ? "red" : "green"}
-                                _text={{
-                                    color: "white"
-                                }}
-                                // key={tag}
-                                variant="solid"
-                                rounded="4"
-                                mr="1"
-                            >
-                                {STATIONS.kind(props.station.kind)}
                             </Badge>
                         </HStack>
                     </ScrollView>
