@@ -58,3 +58,78 @@ export const countChargers = (stations, chargers) => {
     })
     return newStations;
 }
+
+export const statColor = (stat) => {
+    // (1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
+    switch (stat) {
+        case "1":
+            return "yellow.500";
+        case "2":
+            return "green.500";
+        case "3":
+            return "red.500";
+        case "4":
+            return "black.500";
+        case "5":
+            return "yellow.500";
+        default:
+            return "gray.300";
+    }
+}
+
+
+export const chargerStat = (n) => {
+    if (n == '1') { return "통신이상" }
+    else if (n == '2') { return "충전대기" }
+    else if (n == '3') { return "충전중" }
+    else if (n == '4') { return "운영중지" }
+    else if (n == '5') { return "점검중" }
+    else if (n == '9') { return "상태미확인" }
+    else { return "?" }
+}
+
+export const chargerType = (n) => {
+    if (n == '01') { return "DC차데모" }
+    else if (n == '02') { return "AC완속" }
+    else if (n == '03') { return "DC차데모+AC3상" }
+    else if (n == '04') { return "DC콤보" }
+    else if (n == '05') { return "DC차데모+DC콤보" }
+    else if (n == '06') { return "DC차데모+AC3상+DC콤보" }
+    else if (n == '07') { return "AC3상" }
+    else { return "?" }
+}
+
+export const statTextAvatar = (stat) => {
+    // (1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
+    switch (stat) {
+        case "1":
+            return "이상";
+        case "2":
+            return "대기중";
+        case "3":
+            return "충전중";
+        case "4":
+            return "중단";
+        case "5":
+            return "점검중";
+        default:
+            return "미확인";
+    }
+}
+export const statText = (stat) => {
+    // (1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
+    switch (stat) {
+        case "1":
+            return "통신이상";
+        case "2":
+            return "충전대기";
+        case "3":
+            return "충전중";
+        case "4":
+            return "운영중지";
+        case "5":
+            return "점검중";
+        default:
+            return "상태미확인";
+    }
+}

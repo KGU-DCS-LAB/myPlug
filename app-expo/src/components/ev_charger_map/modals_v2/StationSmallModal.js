@@ -9,6 +9,7 @@ import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from '@react-navigation/native';
 import FindFavorites from '../FindFavorites';
+import * as STATIONS from '../../../api/STATIONS';
 
 var screen = Dimensions.get('window')
 
@@ -58,7 +59,7 @@ const StationSmallModal = (props) => {
                                     key={charger._id}
                                     borderWidth="1"
                                     borderColor="coolGray.300"
-                                    backgroundColor={statColor(charger.stat)}
+                                    backgroundColor={STATIONS.statColor(charger.stat)}
                                     width={"5"}
                                 >
                                     <Center>
@@ -177,23 +178,7 @@ const StationSmallModal = (props) => {
 
 export default StationSmallModal;
 
-const statColor = (stat) => {
-    // (1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
-    switch (stat) {
-        case "1":
-            return "yellow.500";
-        case "2":
-            return "green.500";
-        case "3":
-            return "red.500";
-        case "4":
-            return "black.500";
-        case "5":
-            return "yellow.500";
-        default:
-            return "gray.300";
-    }
-}
+
 
 const styles = StyleSheet.create({
     flexEndView: {
