@@ -34,10 +34,11 @@ export const getDistance = (lat1, lon1, lat2, lon2) => {
     return dist;
 }
 
+const findChargersCount = (stationsChargers, statNum) => { //특정 상태의 충전기를 찾아주는 함수
+    return stationsChargers.filter((charger) => charger.stat == statNum).length
+}
+
 export const countChargers = (stations, chargers) => {
-    const findChargersCount = (stationsChargers, statNum) => { //특정 상태의 충전기를 찾아주는 함수
-        return stationsChargers.filter((charger) => charger.stat == statNum).length
-    }
     let newStations = [];
     stations.map((station) => {
         const stationsChargers = chargers.filter((charger) => charger.statId == station.statId);
@@ -303,16 +304,16 @@ export const statText = (stat) => {
 export const markerImage = (station) => {
     const using = station.status.status3;
     const available = station.status.status2;
-    if(using+available==0){ //정상적인 충전기가 하나도 없는 충전소
+    if (using + available == 0) { //정상적인 충전기가 하나도 없는 충전소
         return markerGray;
     }
-    else if(available == 0){ //가용 충전기가 없는 충전소
+    else if (available == 0) { //가용 충전기가 없는 충전소
         return markerRed;
     }
-    else if(using>=available){ //사용중인 충전기가 50% 이상인 충전소
+    else if (using >= available) { //사용중인 충전기가 50% 이상인 충전소
         return markerYellow;
     }
-    else{ //이외
+    else { //이외
         return markerGreen;
     }
 }
