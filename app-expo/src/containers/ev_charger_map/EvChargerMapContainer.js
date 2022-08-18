@@ -87,21 +87,18 @@ const EvChargerContainer = (props) => {
     }, []);
 
 
-    const setLocationAndGetStations = (region) => {
+    const setLocationAndGetStations = async (region) => {
         setMapLocation(region);
         if (region.latitudeDelta < 0.13 && region.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
-            getStations(region);
+            const receivedStationData = await API.getRegionData(region)
+            const receivedChargerData = await API.getChargersByManyStation(receivedStationData.map((station)=>station.statId))
+            setStations(STATIONS.countChargers(sortStations(userLocation, receivedStationData), receivedChargerData));
+            setChargers(receivedChargerData)
         }
         else { // 델타 값이 너무 크면 값을 그냥 비워버림
             setStations([]);
+            setChargers([]);
         }
-    }
-
-    const getStations = async (mapLocation) => {
-        const receivedStationData = await API.getRegionData(mapLocation)
-        const receivedChargerData = await API.getChargersByManyStation(receivedStationData.map((station)=>station.statId))
-        setStations(STATIONS.countChargers(sortStations(userLocation, receivedStationData), receivedChargerData));
-        setChargers(receivedChargerData)
     }
 
     const focusToStation = async (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
@@ -114,9 +111,8 @@ const EvChargerContainer = (props) => {
         }
         setStationListModalVisible(false)
         setSmallModalOpen(true);
-        setSelectedStation(station)
-        setMapLocation(stationLocation);
-        getStations(stationLocation);
+        setLocationAndGetStations(stationLocation);
+        setSelectedStation(station);
         const temp = chargers.filter((charger)=>charger.statId == station.statId)
         if(temp.length>0){
             setSelectedChargers(temp) //선택한 충전소 id에 속한 충전기를 요청
@@ -231,7 +227,6 @@ const EvChargerContainer = (props) => {
                             isSmallModalOpen={isSmallModalOpen}
                             setFilterModalVisible={setFilterModalVisible}
                             setStationListModalVisible={setStationListModalVisible}
-                            getStations={getStations}
                             focusToStation={focusToStation}
                         />
                     </>
