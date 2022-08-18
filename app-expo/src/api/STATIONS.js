@@ -123,6 +123,128 @@ export const kind = (num) => {
     }
 }
 
+export const kindDetail = (num) => {
+    // (1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
+    switch (num) {
+        case "A001":
+            return "관공서";
+        case "A002":
+            return "주민센터";
+        case "A003":
+            return "공공기관";
+        case "A004":
+            return "지자체시설";
+        case "B001":
+            return "공영주차장";
+        case "B002":
+            return "공원주차장";
+        case "B003":
+            return "환승주차장";
+        case "B004":
+            return "일반주차장";
+        case "C001":
+            return "고속도로 휴게소";
+        case "C002":
+            return "지방도로 휴게소";
+        case "C003":
+            return "쉼터";
+        case "D001":
+            return "공원";
+        case "D002":
+            return "전시관";
+        case "D003":
+            return "민속마을";
+        case "D004":
+            return "생태공원";
+        case "D005":
+            return "홍보관";
+        case "D006":
+            return "관광안내소";
+        case "D007":
+            return "관광지";
+        case "D008":
+            return "박물관";
+        case "D009":
+            return "유적지";
+        case "E001":
+            return "마트(쇼핑몰)";
+        case "E002":
+            return "백화점";
+        case "E003":
+            return "숙박시설";
+        case "E004":
+            return "골프장(CC)";
+        case "E005":
+            return "카페";
+        case "E006":
+            return "음식점";
+        case "E007":
+            return "주유소";
+        case "E008":
+            return "영화관";
+        case "F001":
+            return "서비스센터";
+        case "F002":
+            return "정비소";
+        case "G001":
+            return "군부대";
+        case "G002":
+            return "야영장";
+        case "G003":
+            return "공중전화부스";
+        case "G004":
+            return "기타";
+        case "G005":
+            return "오피스텔";
+        case "G006":
+            return "단독주택";
+        case "H001":
+            return "아파트";
+        case "H002":
+            return "빌라";
+        case "H003":
+            return "사업장(사옥)";
+        case "H004":
+            return "기숙사";
+        case "H005":
+            return "연립주택";
+        case "I001":
+            return "병원";
+        case "I002":
+            return "종교시설";
+        case "I003":
+            return "보건소";
+        case "I004":
+            return "경찰서";
+        case "I005":
+            return "도서관";
+        case "I006":
+            return "복지관";
+        case "I007":
+            return "수련원";
+        case "I008":
+            return "금융기관";
+        case "J001":
+            return "학교";
+        case "J002":
+            return "교육원";
+        case "J003":
+            return "학원";
+        case "J004":
+            return "공연장";
+        case "J005":
+            return "관람장";
+        case "J006":
+            return "동식물원";
+        case "J007":
+            return "경기장";
+        default:
+            return "미확인";
+    }
+}
+
+
+
 export const chargerStat = (n) => {
     if (n == '1') { return "통신이상" }
     else if (n == '2') { return "충전대기" }

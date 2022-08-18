@@ -112,7 +112,7 @@ const StationSmallModal = (props) => {
                                 rounded="4"
                                 mr="1"
                             >
-                                {STATIONS.kind(props.station.kindDetail)}
+                                {STATIONS.kindDetail(props.station.kindDetail)}
                             </Badge>
                         </HStack>
                         <HStack mt={1}>
