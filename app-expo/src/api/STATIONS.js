@@ -5,9 +5,9 @@ import markerGray from '../../assets/ev-gray.png';
 
 export const sortStations = (location, stations) => {
     let temp = []
-    stations.map((station)=>temp.push({
+    stations.map((station) => temp.push({
         ...station,
-        ['distance']:getDistance(location.latitude, location.longitude, station.lat, station.lng)
+        ['distance']: getDistance(location.latitude, location.longitude, station.lat, station.lng)
     }))
     let sortedList = temp.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
     return sortedList;
@@ -36,29 +36,41 @@ export const getDistance = (lat1, lon1, lat2, lon2) => {
 
 export const countChargers = (stations, chargers) => {
     const findChargersCount = (stationsChargers, statNum) => { //특정 상태의 충전기를 찾아주는 함수
-        return stationsChargers.filter((charger)=>charger.stat == statNum).length
+        return stationsChargers.filter((charger) => charger.stat == statNum).length
     }
     let newStations = [];
-    stations.map((station)=>{
-        const stationsChargers = chargers.filter((charger)=>charger.statId == station.statId);
-        // console.log(station.statId)
-        // console.log('알수 없음 : ' + stationsChargers.filter((charger)=>charger.stat == 0).length);
-        // console.log('통신 이상 : ' + stationsChargers.filter((charger)=>charger.stat == 1).length);
-        // console.log('사용 가능 : ' + stationsChargers.filter((charger)=>charger.stat == 2).length);
-        // console.log('충전 중 : ' + stationsChargers.filter((charger)=>charger.stat == 3).length);
-        // console.log('운영 중지 : ' + stationsChargers.filter((charger)=>charger.stat == 4).length);
-        // console.log('점검 중 : ' + stationsChargers.filter((charger)=>charger.stat == 5).length);
-        // console.log('***')
-            // (1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
+    stations.map((station) => {
+        const stationsChargers = chargers.filter((charger) => charger.statId == station.statId);
+        const status1 = findChargersCount(stationsChargers, 1);
+        const status2 = findChargersCount(stationsChargers, 2);
+        const status3 = findChargersCount(stationsChargers, 3);
+        const status4 = findChargersCount(stationsChargers, 4);
+        const status5 = findChargersCount(stationsChargers, 5);
+        const status9 = findChargersCount(stationsChargers, 9);
+        // (1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
+        let marker = null
+        if (status3 + status2 == 0) { //정상적인 충전기가 하나도 없는 충전소
+            marker = "gray";
+        }
+        else if (status2 == 0) { //가용 충전기가 없는 충전소
+            marker = "red";
+        }
+        else if (status3 >= status2) { //사용중인 충전기가 50% 이상인 충전소
+            marker = "yellow";
+        }
+        else { //이외
+            marker = "green";
+        }
         newStations.push({
             ...station,
-            status:{
-                status1 : findChargersCount(stationsChargers, 1),
-                status2 : findChargersCount(stationsChargers, 2),
-                status3 : findChargersCount(stationsChargers, 3),
-                status4 : findChargersCount(stationsChargers, 4),
-                status5 : findChargersCount(stationsChargers, 5),
-                status9 : findChargersCount(stationsChargers, 9),
+            status: {
+                status1: status1,
+                status2: status2,
+                status3: status3,
+                status4: status4,
+                status5: status5,
+                status9: status9,
+                marker: marker,
             }
         })
     })
@@ -139,7 +151,6 @@ export const statText = (stat) => {
             return "상태미확인";
     }
 }
-
 export const markerImge = (station) => {
     const using = station.status.status3;
     const available = station.status.status2;
