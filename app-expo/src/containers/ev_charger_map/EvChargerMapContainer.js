@@ -117,7 +117,13 @@ const EvChargerContainer = (props) => {
         setSelectedStation(station)
         setMapLocation(stationLocation);
         getStations(stationLocation);
-        setSelectedChargers(chargers.filter((charger)=>charger.statId == station.statId)) //선택한 충전소 id에 속한 충전기를 요청
+        const temp = chargers.filter((charger)=>charger.statId == station.statId)
+        if(temp.length>0){
+            setSelectedChargers(temp) //선택한 충전소 id에 속한 충전기를 요청
+        }
+        else{
+            setSelectedChargers(await API.getChargersByOneStation(station.statId)) //선택한 충전소 id에 속한 충전기를 요청
+        }
         setStationLogs(await API.getStationLogsByStatId(station.statId)); //선택한 충전소id에 속한 충전기록을 요청 
     }
 
