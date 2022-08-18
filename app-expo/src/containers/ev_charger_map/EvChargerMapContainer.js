@@ -205,7 +205,7 @@ const EvChargerContainer = (props) => {
                                                 () => {
                                                     focusToStation(marker)
                                                 }}
-                                            image={STATIONS.markerImge(marker)}
+                                            image={STATIONS.markerImage(marker)}
                                         />
                                     ))
                                 }

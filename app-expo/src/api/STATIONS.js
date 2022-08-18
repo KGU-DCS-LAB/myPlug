@@ -151,7 +151,7 @@ export const statText = (stat) => {
             return "상태미확인";
     }
 }
-export const markerImge = (station) => {
+export const markerImage = (station) => {
     const using = station.status.status3;
     const available = station.status.status2;
     if(using+available==0){ //정상적인 충전기가 하나도 없는 충전소
