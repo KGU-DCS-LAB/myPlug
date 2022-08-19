@@ -1,4 +1,3 @@
-import { Test } from '../../models/Test.js';
 import { Station } from '../../models/Station.js'
 import { Charger } from '../../models/Charger.js'
 
@@ -23,6 +22,9 @@ export const init = async (date, raw_data) => {
     updateStations(stations);
     updateChargers(chargers);
     console.log('***************************');
+    const stationsCount = stations.length;
+    const chargersCount = chargers.length;
+    return {stationsCount, chargersCount}
 }
 
 const addStationJSON = (date, raw) => {
