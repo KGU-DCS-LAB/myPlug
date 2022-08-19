@@ -10,6 +10,7 @@ import ModalExample from '../example/ModalExample';
 import CollapseExample from '../example/CollapseExample';
 import ScheduleContainer from '../schedule/ScheduleContainer';
 import ButtonsLayoutExample from '../example/ButtonsLayoutExample';
+import MyCarContainer from '../my_car/MyCarContainer';
 
 const MainContainer = () => {
 
@@ -57,6 +58,12 @@ const MainContainer = () => {
         )
     }
 
+    const MyCarScreen = ({ navigation }) => {
+        return (
+            <MyCarContainer navigation={navigation} />
+        )
+    }
+
     const Stack = createStackNavigator();
     return (
         <Stack.Navigator
@@ -96,6 +103,10 @@ const MainContainer = () => {
             <Stack.Screen
                 name="example"
                 component={ExampleScreen}
+            />
+            <Stack.Screen
+                name="MyCar"
+                component={MyCarScreen}
             />
         </Stack.Navigator>
     )

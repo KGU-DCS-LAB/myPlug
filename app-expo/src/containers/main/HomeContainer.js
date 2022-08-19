@@ -113,8 +113,8 @@ const HomeContainer = (props) => {
                             numOfCol={colNum2}
                             width={windowWidth / colNum2 * 0.9}
                             height={windowWidth / colNum2 * 0.9}
-                            onPress={() => props.navigation.navigate('EvMap')}
-                            title="내 자동차 관리"
+                            onPress={() => props.navigation.navigate('MyCar')}
+                            title="나의 자동차"
                         />
                     </HStack>
                     <Box py={1} />
