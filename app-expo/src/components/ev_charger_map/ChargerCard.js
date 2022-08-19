@@ -80,16 +80,15 @@ export default (props) => {
                                     }}>
                                         {STATIONS.chargerType(props.charger.chgerType)}
                                     </Text>
-                                    {
+                                    {/* {
+                                        // 지금 이 부분에서 자꾸 버그 있음 <Text>로 감싸라고 난리
                                         (props.charger.output || props.charger.method) &&
                                         <Text color="coolGray.600" _dark={{
                                             color: 'warmGray.200'
                                         }}>
-                                            {props.charger.output && props.charger.output + "kW"}
-                                            {" | "}
-                                            {props.charger.method && props.charger.method}
+                                            {props.charger.output + "kW | "+props.charger.method}
                                         </Text>
-                                    }
+                                    } */}
                                 </VStack>
                                 <Spacer />
                                 <VStack>
