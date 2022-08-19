@@ -1,6 +1,7 @@
 import Example from "./src/controller/example/Example.js";
 import * as example from "./src/controller/example/example.mjs";
 import * as dataManager from './src/dataManager.js'
+// import * as dataManager from './src_async/dataManager.js'
 
 
 // 모듈 예제

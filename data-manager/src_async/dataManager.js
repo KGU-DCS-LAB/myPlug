@@ -12,8 +12,16 @@ export const run = async () => {
 
     const date = await makeDateJSON(new Date());
     // const raw_data = [];
-    await receiver.init(date);
+    const raw_data = await receiver.init();
+    const rawDataCount = raw_data.length
+    await console.log('데이터 저장을 시도합니다. 기다리세요...')
+    const {stationsCount, chargersCount} = await saver.init(date.date, raw_data);
+    await console.log('로그 업데이트를 시도합니다... 기다리세요...')
+    await logger.init(date, raw_data);
+    // await console.log('새 버전으로 업데이트 중...')
+    // await updateVersion(date, rawDataCount, stationsCount, chargersCount);
     console.log('작업 끝');
+
 
 }
 

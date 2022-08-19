@@ -99,7 +99,7 @@ const stationSchema = mongoose.Schema(
             maxlength: 100,
         },
         distance: {
-            type: Number,
+            type: Date,
         },
     }
 )

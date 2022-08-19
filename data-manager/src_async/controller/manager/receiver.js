@@ -1,5 +1,4 @@
 import * as API from '../../api/API.js';
-import * as saver from './saver.js'
 
 const zcodes = [
     { 'code': 11, 'region': '서울특별시' },
@@ -20,12 +19,15 @@ const zcodes = [
     { 'code': 50, 'region': '제주도' },
 ]
 
-export const init = async (date) => {
-    await Promise.all(zcodes.map((z) => getChargerInfoByZcode(z, date))); //순서를 지켜주기 위함
+let raw_data = []
+
+export const init = async () => {
+    await Promise.all(zcodes.map((z) => getChargerInfoByZcode(z))); //순서를 지켜주기 위함
+    // console.log(raw_data);
+    return raw_data;
 }
 
-const getChargerInfoByZcode = async (z, date) => {
-    let raw_data = []
+const getChargerInfoByZcode = async (z) => {
     console.log(z.code)
     let totalCount = 10000; // 실행 시 업데이트 되는 부분
     let numOfRows = 9999;
@@ -50,10 +52,4 @@ const getChargerInfoByZcode = async (z, date) => {
         console.log();
         page++;
     }
-    console.log('이제 세이브 시작 : '+z.region)
-    let save = await saver.init(z.region, date, raw_data);
-    save=null;
-    console.log('세이브 끝 : '+z.region)
-    raw_data=[];
-    return null;
 }

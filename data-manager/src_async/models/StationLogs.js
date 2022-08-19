@@ -95,10 +95,6 @@ const stationLogsSchema = mongoose.Schema(
             type: String,
             maxlength: 100,
         },
-        region: {
-            type: String,
-            maxlength: 100,
-        },
         logs: {
             mon: Hours,
             tue: Hours,

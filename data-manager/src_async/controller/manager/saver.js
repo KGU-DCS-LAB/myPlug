@@ -1,20 +1,17 @@
 import { Station } from '../../models/Station.js'
 import { Charger } from '../../models/Charger.js'
-import * as logger from './logger.js'
 
 
 let stationIdSet = new Set();
+let stations = []
+let chargers = []
 
-export const init = async (region, date, raw_data) => {
-    
-    let stations = []
-    let chargers = []
-    console.log(region+' 데이터 입력중 ... !!!!')
+export const init = async (date, raw_data) => {
     await raw_data.map((raw) => {
         if (!stationIdSet.has(raw.statId)) {
-            stations.push(addStationJSON(date.date, raw));
+            addStationJSON(date, raw);
         }
-        chargers.push(addChargerJSON(date.date, raw));
+        addChargerJSON(date, raw);
     })
     // await raw_data.map((raw) => {
     // 충전기 상태 만들어 줄 예정임
@@ -22,19 +19,12 @@ export const init = async (region, date, raw_data) => {
 
     console.log('***************************');
     // 이 아래 코드들은 await을 걸어두지 않았기 떄문에 거의 동시에 진행한다.
-    let us = updateStations(region, stations);
-    us=null;
-    let uc = updateChargers(region, chargers);
-    uc = null;
+    updateStations(stations);
+    updateChargers(chargers);
     console.log('***************************');
-    // const stationsCount = stations.length;
-    // const chargersCount = chargers.length;
-    // return {stationsCount, chargersCount}
-    await logger.init(region, date, raw_data);
-    stations=[];
-    chargers=[];
-    console.log('굳바이')
-    return null;
+    const stationsCount = stations.length;
+    const chargersCount = chargers.length;
+    return {stationsCount, chargersCount}
 }
 
 const addStationJSON = (date, raw) => {
@@ -72,9 +62,10 @@ const addStationJSON = (date, raw) => {
             'upsert': true
         }
     }
-    stationIdSet.add(raw.statId);
 
-    return upsertDoc;
+    stations.push(upsertDoc)
+
+    stationIdSet.add(raw.statId);
 }
 
 const addChargerJSON = (date, raw) => {
@@ -101,30 +92,28 @@ const addChargerJSON = (date, raw) => {
         }
     }
 
-    return upsertDoc;
+    chargers.push(upsertDoc)
 }
 
-const updateStations = async (region, stations) => {
-    console.log('[Station '+region+'] 정보 업데이트 중 ...')
+const updateStations = async (stations) => {
+    console.log('[Station] 정보 업데이트 중 ...')
     await Station.bulkWrite(stations).then(bulkWriteOpResult => {
-        console.log('[Station '+region+'] BULK update OK : '+stations.length);
+        console.log('[Station] BULK update OK : '+stations.length);
     }).catch(err => {
-        console.log('[Station '+region+'] BULK update error');
+        console.log('[Station] BULK update error');
         console.log(JSON.stringify(err));
     });
-    console.log('[Station '+region+'] 데이터 입력 완료!')
-    return null;
+    console.log('[Station] 데이터 입력 완료!')
 }
 
-const updateChargers = async (region, chargers) => {
-    console.log('[Charger '+region+'] 정보 업데이트 중 ...')
+const updateChargers = async (chargers) => {
+    console.log('[Charger] 정보 업데이트 중 ...')
     await Charger.bulkWrite(chargers).then(bulkWriteOpResult => {
-        console.log('[Charger '+region+'] BULK update OK : '+chargers.length);
+        console.log('[Charger] BULK update OK : '+chargers.length);
     }).catch(err => {
-        console.log('[Charger '+region+'] BULK update error');
+        console.log('[Charger] BULK update error');
         console.log(JSON.stringify(err));
     });
-    console.log('[Charger '+region+'] 데이터 입력 완료!')
-    return null;
+    console.log('[Charger] 데이터 입력 완료!')
 }
 
