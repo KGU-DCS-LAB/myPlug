@@ -11,12 +11,12 @@ export const init = async (region, date, raw_data) => {
             { week: { $eq: date.week } },
             { region: { $eq: region } },
         ]
-    }, 'statId chgerId')
+    }, '_id')
     // console.log(logs[0]);
     console.log('prev logs size (' + region + ') : ' + logs.length)
     raw_data.map((raw) => {
         const index = logs.findIndex((item) => {
-            return (item.statId == raw.statId && item.chgerId == raw.chgerId)
+            return (item._id == raw.statId+raw.chgerId)
         })
         if (index===-1) {
             logsForBulk.push(addDefaultLogJSON(region, date, raw));

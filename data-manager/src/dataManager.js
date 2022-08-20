@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 export const run = async () => {
 
     //  Mongoose Connection
+    let start = new Date();  // 시작
     await mongoose.connect(`mongodb+srv://gabrielyoon7:0000@gabrielyoon7.aq0fu.mongodb.net/myplug?retryWrites=true&w=majority`, {})
         .then(() => console.log('MongoDB Connected!!'))
         .catch(err => console.log(err))
@@ -14,6 +15,8 @@ export const run = async () => {
     const date = await makeDateJSON(new Date());
     await receiver.init(date);
     console.log('작업 끝');
+    let end = new Date();  // 종료
+    console.log('걸린 시간 : '+(end-start)+'ms');
     return null;
 }
 
