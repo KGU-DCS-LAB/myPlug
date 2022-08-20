@@ -17,9 +17,9 @@ export const init = async (region, date, raw_data) => {
         chargers.push(addChargerJSON(date.date, raw));
     })
 
-    // 이 아래 코드들은 await을 걸어두지 않았기 떄문에 거의 동시에 진행한다.
-    updateStations(region, stations);
-    updateChargers(region, chargers);
+    // 이 아래 코드들은 await을 걸어두지 않았기 떄문에 거의 동시에 진행한다. --> 다시 await 걸어둠
+    await updateStations(region, stations);
+    await updateChargers(region, chargers);
 
     await logger.init(region, date, raw_data);
     console.log("[" + region + "] 세이버 끝");

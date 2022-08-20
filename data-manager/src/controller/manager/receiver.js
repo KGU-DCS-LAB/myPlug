@@ -2,14 +2,14 @@ import * as API from '../../api/API.js';
 import * as saver from './saver.js'
 
 const zcodes = [
-    // { 'code': 11, 'region': '서울특별시' },
+    { 'code': 11, 'region': '서울특별시' },
     { 'code': 26, 'region': '부산광역시' },
     { 'code': 27, 'region': '대구광역시' },
     { 'code': 28, 'region': '인천광역시' },
     { 'code': 29, 'region': '광주광역시' },
     { 'code': 30, 'region': '대전광역시' },
     { 'code': 31, 'region': '울산광역시' },
-    // { 'code': 41, 'region': '경기도' },
+    { 'code': 41, 'region': '경기도' },
     { 'code': 42, 'region': '강원도' },
     { 'code': 43, 'region': '충청북도' },
     { 'code': 44, 'region': '충청남도' },
@@ -22,8 +22,8 @@ const zcodes = [
 
 export const init = async (date) => {
     await Promise.all(zcodes.map((z) => getChargerInfoByZcode(z, date))); //순서를 지켜주기 위함
-    await getChargerInfoByZcode({ 'code': 11, 'region': '서울특별시' }, date);
-    await getChargerInfoByZcode({ 'code': 41, 'region': '경기도' }, date);
+    // await getChargerInfoByZcode({ 'code': 11, 'region': '서울특별시' }, date);
+    // await getChargerInfoByZcode({ 'code': 41, 'region': '경기도' }, date);
     console.log('************reveiver.js is over*****************')
     return null;
 }

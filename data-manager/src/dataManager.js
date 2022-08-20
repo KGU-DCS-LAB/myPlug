@@ -14,7 +14,7 @@ export const run = async () => {
     const date = await makeDateJSON(new Date());
     await receiver.init(date);
     console.log('작업 끝');
-
+    return null;
 }
 
 // 우리가 봐 온것 처럼, Garbage collection은 복잡한 프로세스이고 그리고 유효한 코드가 메모리를 야기시키게 할 수 있다. 

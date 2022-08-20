@@ -37,7 +37,7 @@ export const init = async (region, date, raw_data) => {
 // }
 
 const addDefaultLogJSON = (region, date, raw) => {
-    console.log(raw.statId + ' | ' + raw.chgerId+' is new log!');
+    // console.log(raw.statId + ' | ' + raw.chgerId+' is new log!');
     const upsertDoc = {
         'updateOne': {
             'filter': { _id: { $eq: raw.statId + '' + raw.chgerId } },
