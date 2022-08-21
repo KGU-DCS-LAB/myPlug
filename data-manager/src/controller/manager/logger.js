@@ -1,11 +1,11 @@
 import { StationLogs } from "../../models/StationLogs.js";
 
 
-export const init = async (region, date, raw_data) => {
+export const init = async (region, date, raw_data, page) => {
     let logsForBulk = []
-    console.log("[" + region + "] 로거 시작");
-    console.log('--' + region + ' logger--')
-    console.log(region, date, raw_data.length)
+    console.log("[" + page + "] 로거 시작");
+    console.log('--' + page + ' logger--')
+    console.log(page, date, raw_data.length)
     let logs = await StationLogs.find({
         $and: [
             { week: { $eq: date.week } },
@@ -13,7 +13,7 @@ export const init = async (region, date, raw_data) => {
         ]
     }, '_id')
     // console.log(logs[0]);
-    console.log('prev logs size (' + region + ') : ' + logs.length)
+    console.log('prev logs size ( ' + page + ' ) : ' + logs.length)
     raw_data.map((raw) => {
         const index = logs.findIndex((item) => {
             return (item._id == raw.statId+raw.chgerId)
@@ -22,11 +22,11 @@ export const init = async (region, date, raw_data) => {
             logsForBulk.push(addDefaultLogJSON(region, date, raw));
         }
     })
-    console.log('next logs size (' + region + ') : ' + logsForBulk.length)
+    console.log('next logs size ( ' + page + ' ) : ' + logsForBulk.length)
 
     // 여기서 시간별 업데이트가 필요함
-    await updateLogs(region, logsForBulk);
-    console.log("[" + region + "] 로거 끝");
+    await updateLogs(page, logsForBulk);
+    console.log("[" + page + "] 로거 끝");
     return null;
 }
 
@@ -72,15 +72,15 @@ const defaultTimeTable = {
     "20": 0, "21": 0, "22": 0, "23": 0
 }
 
-const updateLogs = async (region, logs) => {
-    console.log('[logs ' + region + '] 정보 업데이트 중 ...')
+const updateLogs = async (page, logs) => {
+    console.log('[logs ' + page + '] 정보 업데이트 중 ...')
     await StationLogs.bulkWrite(logs).then(bulkWriteOpResult => {
-        console.log('[logs ' + region + '] BULK update OK : ' + logs.length);
+        console.log('[logs ' + page + '] BULK update OK : ' + logs.length);
     }).catch(err => {
-        console.log('[logs ' + region + '] BULK update error');
+        console.log('[logs ' + page + '] BULK update error');
         console.log(JSON.stringify(err));
     });
-    console.log('[logs ' + region + '] 데이터 입력 완료!')
+    console.log('[logs ' + page + '] 데이터 입력 완료!')
     return null;
 }
 

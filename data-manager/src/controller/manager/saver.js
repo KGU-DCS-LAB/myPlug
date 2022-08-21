@@ -5,11 +5,11 @@ import * as logger from './logger.js'
 
 let stationIdSet = new Set();
 
-export const init = async (region, date, raw_data) => {
+export const init = async (region, date, raw_data, page) => {
 
     let stations = []
     let chargers = []
-    console.log("[" + region + "] 세이버 시작");
+    console.log("[" + page + "] 세이버 시작");
     await raw_data.map((raw) => {
         if (!stationIdSet.has(raw.statId)) {
             stations.push(addStationJSON(date.date, raw));
@@ -18,11 +18,10 @@ export const init = async (region, date, raw_data) => {
     })
 
     // 이 아래 코드들은 await을 걸어두지 않았기 떄문에 거의 동시에 진행한다. --> 다시 await 걸어둠
-    await updateStations(region, stations);
-    await updateChargers(region, chargers);
+    await Promise.all([updateStations(page, stations), updateChargers(page, chargers), logger.init(region, date, raw_data, page)]);
 
-    await logger.init(region, date, raw_data);
-    console.log("[" + region + "] 세이버 끝");
+    // await logger.init(region, date, raw_data, page);
+    console.log("[" + page + "] 세이버 끝");
     return null;
 }
 
@@ -93,27 +92,27 @@ const addChargerJSON = (date, raw) => {
     return upsertDoc;
 }
 
-const updateStations = async (region, stations) => {
-    console.log('[Station ' + region + '] 정보 업데이트 중 ...')
+const updateStations = async (page, stations) => {
+    console.log('>> Station ' + page + ' 정보 업데이트 중 ...')
     await Station.bulkWrite(stations).then(bulkWriteOpResult => {
-        console.log('[Station ' + region + '] BULK update OK : ' + stations.length);
+        console.log('>> Station ' + page + ' BULK update OK : ' + stations.length);
     }).catch(err => {
-        console.log('[Station ' + region + '] BULK update error');
+        console.log('>> Station ' + page + ' BULK update error');
         console.log(JSON.stringify(err));
     });
-    console.log('[Station ' + region + '] 데이터 입력 완료!')
+    console.log('>> Station ' + page + ' 데이터 입력 완료!')
     return null;
 }
 
-const updateChargers = async (region, chargers) => {
-    console.log('[Charger ' + region + '] 정보 업데이트 중 ...')
+const updateChargers = async (page, chargers) => {
+    console.log('>> Charger ' + page + ' 정보 업데이트 중 ...')
     await Charger.bulkWrite(chargers).then(bulkWriteOpResult => {
-        console.log('[Charger ' + region + '] BULK update OK : ' + chargers.length);
+        console.log('>> Charger ' + page + ' BULK update OK : ' + chargers.length);
     }).catch(err => {
-        console.log('[Charger ' + region + '] BULK update error');
+        console.log('>> Charger ' + page + ' BULK update error');
         console.log(JSON.stringify(err));
     });
-    console.log('[Charger ' + region + '] 데이터 입력 완료!')
+    console.log('>> Charger ' + page + ' 데이터 입력 완료!')
     return null;
 }
 
