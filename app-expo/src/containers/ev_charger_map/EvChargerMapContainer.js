@@ -154,6 +154,7 @@ const EvChargerContainer = (props) => {
                             />
 
                             <ThemeModal
+                                setMapStyle={setMapStyle}
                                 isThemeModalOpen={isThemeModalOpen}
                                 setThemeModalOpen={setThemeModalOpen}
                             />

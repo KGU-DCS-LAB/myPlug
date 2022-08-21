@@ -1,5 +1,7 @@
+import { Button, HStack, VStack } from "native-base";
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import { mapStyles } from "../../../api/GOOGLEMAP";
 
 const ThemeModal = (props) => {
 
@@ -15,8 +17,18 @@ const ThemeModal = (props) => {
         >
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                    <Text style={styles.modalText}>Hello World!</Text>
-                    
+                    <VStack space={2} my={2}>
+                        <HStack space={2}>
+                            <Button onPress={()=>props.setMapStyle(mapStyles('light'))}>light</Button>
+                            <Button onPress={()=>props.setMapStyle(mapStyles('silver'))}>silver</Button>
+                            <Button onPress={()=>props.setMapStyle(mapStyles('retro'))}>retro</Button>
+                        </HStack>
+                        <HStack space={2}>
+                            <Button onPress={()=>props.setMapStyle(mapStyles('dark'))}>dark</Button>
+                            <Button onPress={()=>props.setMapStyle(mapStyles('night'))}>night</Button>
+                            <Button onPress={()=>props.setMapStyle(mapStyles('aubergine'))}>aubergine</Button>
+                        </HStack>
+                    </VStack>
                     <Pressable
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => props.setThemeModalOpen(false)}
