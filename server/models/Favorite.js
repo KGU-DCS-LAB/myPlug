@@ -8,7 +8,7 @@ const FavoriteSchema = mongoose.Schema({
         required: true
     },
     station: [{
-        statNm: String
+        statId: String
     }],
 })
 

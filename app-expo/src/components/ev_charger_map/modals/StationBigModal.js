@@ -157,7 +157,7 @@ const StationBigModal = (props) => {
                                         </Center>
                                     </Box>
                                 </Pressable>
-                                <FindFavorites user_id={userId} statNm={props.station.statNm} />
+                                <FindFavorites user_id={userId} statId={props.station.statId} />
                             </HStack>
                         </Center>
                     </View>

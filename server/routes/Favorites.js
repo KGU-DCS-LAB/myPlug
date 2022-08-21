@@ -20,8 +20,8 @@ router.post('/saveMore', function(req, res) {
     Favorite.updateOne(
         { user_id: req.body.data.user_id }, 
         {$push: {station: {
-            "statNm": req.body.data.statNm,
-        }}}).exec((error, statNm)=>{
+            "statId": req.body.data.statId,
+        }}}).exec((error, statId)=>{
             if(error){
                 console.log(error);
                 return res.json({status: 'error', error})
@@ -49,7 +49,7 @@ router.post('/favoirteDelete', (req, res) => {
         {
             $pull: {
                 station: {
-                    "statNm": req.body.data.statNm,
+                    "statId": req.body.data.statId,
                 }
             }
         })

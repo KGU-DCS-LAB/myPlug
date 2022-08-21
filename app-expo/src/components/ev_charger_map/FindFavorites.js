@@ -6,14 +6,14 @@ import axios from 'axios';
 import { useIsFocused } from '@react-navigation/native';
 import { Box, Center, Heading, Pressable } from 'native-base';
 
-const FindFavorites = ({ user_id, statNm }) => {
+const FindFavorites = ({ user_id, statId }) => {
     const [star, setStar] = useState('star-border');
     const isFocused = useIsFocused();
     const [firstRecord, setFirstRecord] = useState(true);
 
     useEffect(() => {
         getFavorites();
-    }, [isFocused, statNm]);
+    }, [isFocused, statId]);
 
     const getFavorites = () => {
         let result = []
@@ -27,7 +27,7 @@ const FindFavorites = ({ user_id, statNm }) => {
                 result.push(response.data[0].station)
                 setFirstRecord(false);
                 for (let i = 0; i < result[0].length; i++) {
-                    if (result[0][i].statNm == statNm) {
+                    if (result[0][i].statId == statId) {
                         setStar('star');
                         break;
                     }
@@ -46,7 +46,7 @@ const FindFavorites = ({ user_id, statNm }) => {
             axios.post(config.ip + ':5000/favoritesRouter/favoirteDelete', {
                 data: {
                     user_id: user_id,
-                    statNm: statNm
+                    statId: statId
                 }
             })
                 .then((response) => {
@@ -63,7 +63,7 @@ const FindFavorites = ({ user_id, statNm }) => {
                 axios.post(config.ip + ':5000/favoritesRouter/save', {
                     data: {
                         user_id: user_id,
-                        station: { statNm: statNm },
+                        station: { statId: statId },
                     }
                 }).then((response) => {
                     if (response.data.status === 'success') {
@@ -79,7 +79,7 @@ const FindFavorites = ({ user_id, statNm }) => {
                 axios.post(config.ip + ':5000/favoritesRouter/saveMore', {
                     data: {
                         user_id: user_id,
-                        statNm: statNm,
+                        statId: statId,
                     }
                 }).then((response) => {
                     if (response.data.status === 'success') {

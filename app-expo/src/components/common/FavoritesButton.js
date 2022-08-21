@@ -45,7 +45,7 @@ const FavoritesButton = () => {
                 result.push(response.data[0].station)
 
                 for (let i = 0; i < result[0].length; i++) {
-                    favorites.push(result[0][i].statNm)
+                    favorites.push(result[0][i].statId)
                 }
                 setBookmarked(favorites);
                 // console.log(favorites[0]);

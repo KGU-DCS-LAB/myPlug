@@ -8,7 +8,6 @@ import { config } from '../../../../config';
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from '@react-navigation/native';
-import FindFavorites from '../FindFavorites';
 import * as STATIONS from '../../../api/STATIONS';
 
 var screen = Dimensions.get('window')
