@@ -1,9 +1,20 @@
-const logs = []
+let logs = [];
+// let maxRegions = 0;
 
-const STATUS = (result) => {
+export const addStatus = (result) => {
     logs.push(result);
     logs.sort();
-    console.log(logs)
+    console.log('******************************');
+    // console.log('완료된 작업 ('+logs.length+'/'+maxRegions+')');
+    console.log(logs);
+    console.log('******************************');
 }
 
-export default STATUS;
+export const addRegions = () => {
+    // maxRegions+=1;
+}
+
+export const initStatus = () => {
+    logs = [];
+    // maxRegions = 0;
+}

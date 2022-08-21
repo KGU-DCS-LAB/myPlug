@@ -1,6 +1,7 @@
 import { Station } from '../../models/Station.js'
 import { Charger } from '../../models/Charger.js'
 import * as logger from './logger.js'
+import { addRegions, addStatus } from '../../api/STATUS.js';
 
 
 let stationIdSet = new Set();
@@ -9,7 +10,8 @@ export const init = async (region, date, raw_data, page) => {
 
     let stations = []
     let chargers = []
-    console.log("[" + page + "] 세이버 시작");
+    console.log("[" + page + "] 데이터 저장");
+    addRegions();
     await raw_data.map((raw) => {
         if (!stationIdSet.has(raw.statId)) {
             stations.push(addStationJSON(date.date, raw));
@@ -19,9 +21,7 @@ export const init = async (region, date, raw_data, page) => {
 
     // 이 아래 코드들은 await을 걸어두지 않았기 떄문에 거의 동시에 진행한다. --> 다시 await 걸어둠
     await Promise.all([updateStations(page, stations), updateChargers(page, chargers), logger.init(region, date, raw_data, page)]);
-
-    // await logger.init(region, date, raw_data, page);
-    console.log("[" + page + "] 세이버 끝");
+    addStatus(page);
     return null;
 }
 
@@ -100,7 +100,6 @@ const updateStations = async (page, stations) => {
         console.log('>> Station ' + page + ' BULK update error');
         console.log(JSON.stringify(err));
     });
-    console.log('>> Station ' + page + ' 데이터 입력 완료!')
     return null;
 }
 
@@ -112,7 +111,6 @@ const updateChargers = async (page, chargers) => {
         console.log('>> Charger ' + page + ' BULK update error');
         console.log(JSON.stringify(err));
     });
-    console.log('>> Charger ' + page + ' 데이터 입력 완료!')
     return null;
 }
 

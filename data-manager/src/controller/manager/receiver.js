@@ -1,4 +1,5 @@
 import * as API from '../../api/API.js';
+import { initStatus } from '../../api/STATUS.js';
 import * as saver from './saver.js'
 
 const zcodes = [
@@ -21,6 +22,7 @@ const zcodes = [
 ]
 
 export const init = async (date) => {
+    initStatus();
     await Promise.all(zcodes.map((z) => getChargerInfoByZcode(z, date))); //순서를 지켜주기 위함
     // await getChargerInfoByZcode({ 'code': 11, 'region': '서울특별시' }, date);
     // await getChargerInfoByZcode({ 'code': 41, 'region': '경기도' }, date);
@@ -63,6 +65,5 @@ const getChargerInfoByZcode = async (z, date) => {
         await saver.init(z.region, date, raw_data, "[" + z.region + " " + page + "/" + maxPage + "]");
         page++;
     }
-    console.log("[" + z.region + "] 리시버 끝");
     return null;
 }

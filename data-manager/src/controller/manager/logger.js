@@ -3,17 +3,17 @@ import { StationLogs } from "../../models/StationLogs.js";
 
 export const init = async (region, date, raw_data, page) => {
     let logsForBulk = []
-    console.log("[" + page + "] 로거 시작");
-    console.log('--' + page + ' logger--')
+    console.log("[" + page + "] 로그 저장 시작");
     console.log(page, date, raw_data.length)
     let logs = await StationLogs.find({
         $and: [
             { week: { $eq: date.week } },
             { region: { $eq: region } },
+            { statId: { "$in": raw_data.map((data)=>data.statId) } }
         ]
     }, '_id')
-    // console.log(logs[0]);
-    console.log('prev logs size ( ' + page + ' ) : ' + logs.length)
+    console.log('raw data size : ' + raw_data.length)
+    console.log('prev logs size ' + page + ' : ' + logs.length)
     raw_data.map((raw) => {
         const index = logs.findIndex((item) => {
             return (item._id == raw.statId+raw.chgerId)
@@ -22,22 +22,14 @@ export const init = async (region, date, raw_data, page) => {
             logsForBulk.push(addDefaultLogJSON(region, date, raw));
         }
     })
-    console.log('next logs size ( ' + page + ' ) : ' + logsForBulk.length)
+    console.log('next logs size ' + page + ' : ' + logsForBulk.length)
 
     // 여기서 시간별 업데이트가 필요함
     await updateLogs(page, logsForBulk);
-    console.log("[" + page + "] 로거 끝");
     return null;
 }
 
-// const findLogsById = (logs, raw) => {
-//     logs.findIndex((item) => {
-//         return (item.statId == raw.statId && item.chgerId == raw.chgerId)
-//     })
-// }
-
 const addDefaultLogJSON = (region, date, raw) => {
-    // console.log(raw.statId + ' | ' + raw.chgerId+' is new log!');
     const upsertDoc = {
         'updateOne': {
             'filter': { _id: { $eq: raw.statId + '' + raw.chgerId } },
@@ -73,14 +65,13 @@ const defaultTimeTable = {
 }
 
 const updateLogs = async (page, logs) => {
-    console.log('[logs ' + page + '] 정보 업데이트 중 ...')
+    console.log('>> Logs ' + page + ' 정보 업데이트 중 ...')
     await StationLogs.bulkWrite(logs).then(bulkWriteOpResult => {
-        console.log('[logs ' + page + '] BULK update OK : ' + logs.length);
+        console.log('>> Logs ' + page + ' BULK update OK : ' + logs.length);
     }).catch(err => {
-        console.log('[logs ' + page + '] BULK update error');
+        console.log('>> Logs ' + page + ' BULK update error');
         console.log(JSON.stringify(err));
     });
-    console.log('[logs ' + page + '] 데이터 입력 완료!')
     return null;
 }
 
