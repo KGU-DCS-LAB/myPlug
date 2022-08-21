@@ -11,11 +11,13 @@ import FilterModal from "../../components/ev_charger_map/modals/FilterModal";
 import { Image } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import StationListModal from "../../components/ev_charger_map/modals/StationListModal";
-import StationSmallModal from "../../components/ev_charger_map/modals_v2/StationSmallModal";
-import StationBigModal from "../../components/ev_charger_map/modals_v2/StationBigModal";
+import StationSmallModal from "../../components/ev_charger_map/modals/StationSmallModal";
+import StationBigModal from "../../components/ev_charger_map/modals/StationBigModal";
 import { sortStations, getDistance } from '../../api/STATIONS';
 import * as API from "../../api/API";
 import * as STATIONS from '../../api/STATIONS';
+import { mapStyles } from "../../api/GOOGLEMAP";
+import ThemeModal from "../../components/ev_charger_map/modals/ThemeModal";
 
 const EvChargerContainer = (props) => {
 
@@ -33,6 +35,7 @@ const EvChargerContainer = (props) => {
 
     const [didCancel, setCancel] = useState(false); // clean up 용
     const [isLoaded, setLoaded] = useState(false); // GPS 로딩 여부 검사용
+    const [mapStytle, setMapStyle] = useState([]);
 
     const [stations, setStations] = useState([]); //서버로 부터 받아온 충전소 데이터 리스트
     const [chargers, setChargers] = useState([]); //서버로 부터 받아온 충전소 데이터들의 충전기 데이터 리스트
@@ -43,7 +46,7 @@ const EvChargerContainer = (props) => {
 
     const [filterModalVisible, setFilterModalVisible] = useState(false); // 필터 모달 온오프
     const [stationListModalVisible, setStationListModalVisible] = useState(false); // 충전소 목록 모달 온오프
-
+    const [isThemeModalOpen, setThemeModalOpen] = useState(false);
     const [isSmallModalOpen, setSmallModalOpen] = useState(false);
     const [isBigModalOpen, setBigModalOpen] = useState(false);
 
@@ -54,6 +57,11 @@ const EvChargerContainer = (props) => {
     // Get current location information 
     useEffect(() => {
         setCancel(false);
+        const now = new Date().getHours();
+        if(now<7 || now>=19){
+            setMapStyle(mapStyles('aubergine'));
+        }
+
         if (!didCancel) {
             (async () => {
                 let { status } = await Location.requestForegroundPermissionsAsync(); //GPS 사용 권한 물어봄
@@ -145,6 +153,11 @@ const EvChargerContainer = (props) => {
                                 focusToStation={focusToStation}
                             />
 
+                            <ThemeModal
+                                isThemeModalOpen={isThemeModalOpen}
+                                setThemeModalOpen={setThemeModalOpen}
+                            />
+
                             <StationSmallModal
                                 isSmallModalOpen={isSmallModalOpen}
                                 setSmallModalOpen={setSmallModalOpen}
@@ -189,6 +202,7 @@ const EvChargerContainer = (props) => {
                                     // updateMapStyle()
                                 }}
                                 clusterColor="yellowgreen"
+                                customMapStyle={mapStytle}
                                 maxZoom={13}
                             >
 
@@ -223,6 +237,7 @@ const EvChargerContainer = (props) => {
                             mapLocation={mapLocation}
                             setLocationAndGetStations={setLocationAndGetStations}
                             isSmallModalOpen={isSmallModalOpen}
+                            setThemeModalOpen={setThemeModalOpen}
                             setFilterModalVisible={setFilterModalVisible}
                             setStationListModalVisible={setStationListModalVisible}
                         />
