@@ -2,6 +2,7 @@ import { Alert, Modal, Pressable, StyleSheet, TouchableOpacity, TouchableWithout
 import { MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Box, Button, Center, Flex, Heading, HStack, ScrollView, Spacer, Text, VStack } from "native-base";
 import { useState } from "react";
+import StationCard from "../cards/StationCard";
 
 const StationListModal = (props) => {
 
@@ -32,26 +33,8 @@ const StationListModal = (props) => {
                                             ?
                                             <><Text>근처에 충전소가 없습니다.</Text></>
                                             :
-                                            props.stations.map((stations) => (
-                                                <TouchableOpacity key={stations.statId} onPress={() => props.focusToStation(stations)}>
-                                                    <HStack
-                                                        borderBottomWidth="1"
-                                                        borderColor="coolGray.200"
-                                                        p={1}
-                                                        alignItems="center" space={3}
-                                                    >
-                                                        <Avatar bg={stations.status.marker+".500"}>
-                                                            ㅇㅇ
-                                                        </Avatar>
-                                                        <VStack>
-                                                        <Heading fontSize="md">{stations.statNm}</Heading>
-                                                        <Text>{stations.useTime}</Text>
-                                                        <Text>{stations.bnm}({stations.busiNm})</Text>
-                                                        <Text>{stations.distance + "m"}</Text>
-                                                        </VStack>
-                                                    </HStack>
-                                                </TouchableOpacity>
-                                                // <Text key={stations.statId}>{stations.statNm}</Text>
+                                            props.stations.map((station) => (
+                                                <StationCard key={station.statId} station={station} onPress={()=>props.focusToStation(station)}/>
                                             ))
                                     }
                                 </ScrollView>

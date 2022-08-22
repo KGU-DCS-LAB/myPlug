@@ -4,7 +4,7 @@ import { Box, Center, Divider, Heading, HStack, ScrollView, Spacer, Text, VStack
 import { useEffect, useRef, useState } from "react";
 import Modal from 'react-native-modalbox'
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import ChargerCard from "../ChargerCard";
+import ChargerCard from "../cards/ChargerCard";
 import LogTable from "../LogTable";
 import FindFavorites from "../FindFavorites";
 
@@ -132,7 +132,7 @@ const StationBigModal = (props) => {
                             <Spacer />
                             <Divider mt={5} />
 
-                            <Heading size="md" mt={5}>가까운 충전소 상황</Heading>
+                            <Heading size="md" mt={5}>가까운 충전소 조회</Heading>
                             
                         </ScrollView>
                         <Spacer />
