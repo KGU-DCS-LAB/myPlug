@@ -24,8 +24,10 @@ export const init = async (region, date, raw_data, page) => {
     })
     console.log('next logs size ' + page + ' : ' + logsForBulk.length)
 
+    await addDefaultLogs(page, logsForBulk);
+    
     // 여기서 시간별 업데이트가 필요함
-    await updateLogs(page, logsForBulk);
+
     return null;
 }
 
@@ -64,7 +66,7 @@ const defaultTimeTable = {
     "20": 0, "21": 0, "22": 0, "23": 0
 }
 
-const updateLogs = async (page, logs) => {
+const addDefaultLogs = async (page, logs) => {
     console.log('>> Logs ' + page + ' 정보 업데이트 중 ...')
     await StationLogs.bulkWrite(logs).then(bulkWriteOpResult => {
         console.log('>> Logs ' + page + ' BULK update OK : ' + logs.length);

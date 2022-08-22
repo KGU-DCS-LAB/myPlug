@@ -31,7 +31,7 @@ const PressableButton = (props) => {
                                 }}
                             >
                                 <Center>
-                                    {props.icon}
+                                    {/* {props.icon} */}
                                     <Heading size="md">{props.title}</Heading>
                                 </Center>
                             </Box>
