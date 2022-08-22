@@ -5,7 +5,7 @@ import FilterModal from "../../components/ev_charger_map/modals/FilterModal";
 import { Avatar, Box, Heading, HStack, Spacer } from "native-base";
 
 const MyPageContainer = (props) => {
-    const [filterModalVisible, setFilterModalVisible] = useState(false)
+    // const [filterModalVisible, setFilterModalVisible] = useState(false)
 
     const logout = () => {
         AsyncStorage.removeItem('userInfo');
@@ -25,14 +25,14 @@ const MyPageContainer = (props) => {
             <Button
                 title="로그아웃"
                 onPress={() => logout()}>로그아웃</Button>
-            <Button
+            {/* <Button
                 title="나만의 필터링"
                 onPress={() => setFilterModalVisible(true)}>나만의 필터링</Button>
             <FilterModal
                 filterModalVisible={filterModalVisible}
                 setFilterModalVisible={setFilterModalVisible}
                 type={'saveFilter'}
-            />
+            /> */}
         </View>
     )
 }

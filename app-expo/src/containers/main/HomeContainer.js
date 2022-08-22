@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Box, Heading, HStack, Spacer, Text, View, Avatar, useBreakpointValue } from "native-base";
 import { Dimensions, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
@@ -10,10 +10,13 @@ import { config } from '../../../config';
 import axios from 'axios';
 import { MasonaryLayout } from '../../components/layout/MansonaryLayout';
 import { getUserFavoriteStations } from '../../api/API';
+import FilterModal from '../../components/ev_charger_map/modals/FilterModal';
 
 const HomeContainer = (props) => {
     const isFocused = useIsFocused();
+    const [user, setUser] = useState(null);
     const [bookmarked, setBookmarked] = useState([]);
+    const [filterModalVisible, setFilterModalVisible] = useState(false)
 
     const userCheck = async () => {
         if (await AsyncStorage.getItem('userInfo') != null) {
@@ -29,6 +32,7 @@ const HomeContainer = (props) => {
                 .then(value => {
                     if (value != null) {
                         const UserInfo = JSON.parse(value);
+                        setUser(UserInfo[0]);
                         getFavorites(UserInfo[0]);
                     }
                 }
@@ -92,21 +96,34 @@ const HomeContainer = (props) => {
                             onPress={() => props.navigation.navigate('AdvancedSearch')}
                             title="테마별 충전소 검색"
                         />
-                        <PressableButton
-                            key={2}
-                            onPress={() => props.navigation.navigate('example')}
-                            title="나만의 필터링"
-                        />
-                        <PressableButton
-                            key={3}
-                            onPress={() => props.navigation.navigate('Schedule')}
-                            title="충전 스케쥴 관리"
-                        />
-                        <PressableButton
-                            key={4}
-                            onPress={() => props.navigation.navigate('MyCar')}
-                            title="나의 자동차"
-                        />
+                        {
+                            user ?
+                                <PressableButton
+                                    key={2}
+                                    onPress={() => setFilterModalVisible(true)}
+                                    title="나만의 필터링"
+                                />
+                                : <Fragment key={2} />
+                        }
+                        {
+                            user ?
+                                <PressableButton
+                                    key={3}
+                                    onPress={() => props.navigation.navigate('Schedule')}
+                                    title="충전 스케쥴 관리"
+                                />
+                                : <Fragment key={3} />
+                        }
+                        {
+                            user ?
+                                <PressableButton
+                                    key={4}
+                                    onPress={() => props.navigation.navigate('MyCar')}
+                                    title="나의 자동차"
+                                />
+                                : <Fragment key={4} />
+                        }
+
                         <PressableButton
                             key={5}
                             onPress={() => props.navigation.navigate('example')}
@@ -124,6 +141,12 @@ const HomeContainer = (props) => {
                     </MasonaryLayout>
                 </ScrollView>
             </Box>
+
+            <FilterModal
+                filterModalVisible={filterModalVisible}
+                setFilterModalVisible={setFilterModalVisible}
+                type={'saveFilter'}
+            />
         </>
     )
 }
