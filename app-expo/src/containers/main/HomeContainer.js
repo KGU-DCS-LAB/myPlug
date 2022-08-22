@@ -117,6 +117,33 @@ const HomeContainer = (props) => {
                             title="나의 자동차"
                         />
                     </HStack>
+                    <HStack justifyContent="center">
+                        <PressableButton
+                            numOfCol={colNum2}
+                            width={windowWidth * 0.92}
+                            height={windowWidth / colNum2 * 0.7}
+                            onPress={() => props.navigation.navigate('example')}
+                            title="테스트"
+                        />
+                    </HStack>
+                    <HStack justifyContent="center">
+                        <PressableButton
+                            numOfCol={colNum2}
+                            width={windowWidth * 0.92}
+                            height={windowWidth / colNum2 * 0.7}
+                            onPress={() => props.navigation.navigate('example')}
+                            title="테스트"
+                        />
+                    </HStack>
+                    <HStack justifyContent="center">
+                        <PressableButton
+                            numOfCol={colNum2}
+                            width={windowWidth * 0.92}
+                            height={windowWidth / colNum2 * 0.7}
+                            onPress={() => props.navigation.navigate('example')}
+                            title="테스트"
+                        />
+                    </HStack>
                     <Box py={1} />
                 </ScrollView>
             </Box>

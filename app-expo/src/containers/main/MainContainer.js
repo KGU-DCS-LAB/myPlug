@@ -11,6 +11,7 @@ import CollapseExample from '../example/CollapseExample';
 import ScheduleContainer from '../schedule/ScheduleContainer';
 import ButtonsLayoutExample from '../example/ButtonsLayoutExample';
 import MyCarContainer from '../my_car/MyCarContainer';
+import MansonaryContainerLayout from '../example/MansonaryContainerLayout';
 
 const MainContainer = () => {
 
@@ -54,7 +55,8 @@ const MainContainer = () => {
         return (
             // <ModalExample navigation={navigation} />
             // <CollapseExample navigation={navigation} />
-            <ButtonsLayoutExample navigation={navigation} />
+            // <ButtonsLayoutExample navigation={navigation} />
+            <MansonaryContainerLayout navigation={navigation}/>
         )
     }
 
