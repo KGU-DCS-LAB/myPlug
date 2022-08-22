@@ -11,7 +11,6 @@ import CollapseExample from '../example/CollapseExample';
 import ScheduleContainer from '../schedule/ScheduleContainer';
 import ButtonsLayoutExample from '../example/ButtonsLayoutExample';
 import MyCarContainer from '../my_car/MyCarContainer';
-import MansonaryContainerLayout from '../example/MansonaryContainerLayout';
 import AdvancedSearch from '../advancedSearch/AdvancedSearchContainer';
 
 const MainContainer = () => {
@@ -62,8 +61,7 @@ const MainContainer = () => {
         return (
             // <ModalExample navigation={navigation} />
             // <CollapseExample navigation={navigation} />
-            // <ButtonsLayoutExample navigation={navigation} />
-            <MansonaryContainerLayout navigation={navigation}/>
+            <ButtonsLayoutExample navigation={navigation} />
         )
     }
 
@@ -97,6 +95,9 @@ const MainContainer = () => {
             <Stack.Screen
                 name="SignUp"
                 component={SignUpScreen}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+                }}
             />
             <Stack.Screen
                 name="MyPage"
@@ -108,18 +109,30 @@ const MainContainer = () => {
             <Stack.Screen
                 name="AdvancedSearch"
                 component={AdvancedSearchScreen}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+                }}
             />
             <Stack.Screen
                 name="Schedule"
                 component={ScheduleScreen}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+                }}
             />
             <Stack.Screen
                 name="example"
                 component={ExampleScreen}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+                }}
             />
             <Stack.Screen
                 name="MyCar"
                 component={MyCarScreen}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+                }}
             />
         </Stack.Navigator>
     )

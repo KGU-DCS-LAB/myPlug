@@ -29,7 +29,7 @@ export const MasonaryLayout = ({
 					{ flex: 1 },
 				);
 			return (
-				<VStack {..._vStack} flex={flexVal}>
+				<VStack {..._vStack} flex={flexVal} key={index}>
 					{vStackChildren[index]}
 				</VStack>
 			);

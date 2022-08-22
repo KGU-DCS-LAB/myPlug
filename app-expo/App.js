@@ -2,14 +2,14 @@ import React from 'react';
 import { NativeBaseProvider } from 'native-base';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
-import MainContainer from './src/containers/main/MainContainer';
+import MainStack from './src/containers/main/MainStack';
 
 const App = () => {
   return (
     <SafeAreaView style={styles.AndroidSafeArea}>
       <NativeBaseProvider>
         <NavigationContainer>
-          <MainContainer />
+          <MainStack />
         </NavigationContainer>
       </NativeBaseProvider>
     </SafeAreaView>

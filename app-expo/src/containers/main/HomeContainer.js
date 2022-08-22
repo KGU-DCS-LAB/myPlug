@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Heading, HStack, Spacer, Text, View, Avatar } from "native-base";
+import { Box, Heading, HStack, Spacer, Text, View, Avatar, useBreakpointValue } from "native-base";
 import { Dimensions, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -9,6 +9,7 @@ import FavoritesButton from '../../components/common/FavoritesButton';
 import { useIsFocused } from '@react-navigation/native';
 import { config } from '../../../config';
 import axios from 'axios';
+import { MasonaryLayout } from '../../components/layout/MansonaryLayout';
 
 const HomeContainer = (props) => {
     const windowWidth = Dimensions.get('window').width;
@@ -67,84 +68,63 @@ const HomeContainer = (props) => {
             <Box px={2} flex="1" bg="white">
                 <ScrollView>
                     <Box py={1} />
-                    <HStack justifyContent="center">
+
+                    <MasonaryLayout
+                        column={useBreakpointValue({
+                            base: [1, 1],
+                            sm: [1, 1],
+                            md: [1, 1, 1],
+                            // lg: [1, 1, 1, 1],
+                            // xl: [1, 1, 1, 1, 1],
+                        })}
+                        _hStack={{
+                            space: 4,
+                            mb: 4,
+                            // pt: '70px',
+                        }}
+                        _vStack={{ space: 4 }}
+                    >
                         <PressableButton
-                            numOfCol={colNum2}
-                            width={windowWidth / colNum2 * 0.9}
-                            height={windowWidth / colNum2 * 0.9}
+                            key={0}
                             onPress={() => props.navigation.navigate('EvCharger')}
                             title="충전소 지도"
                         />
                         <PressableButton
-                            numOfCol={colNum2}
-                            width={windowWidth / colNum2 * 0.9}
-                            height={windowWidth / colNum2 * 0.9}
+                            key={1}
                             onPress={() => props.navigation.navigate('AdvancedSearch')}
                             title="테마별 충전소 검색"
                         />
-                    </HStack>
-                    <HStack justifyContent="center">
                         <PressableButton
-                            numOfCol={colNum2}
-                            width={windowWidth * 0.92}
-                            height={windowWidth / colNum2 * 0.7}
+                            key={2}
                             onPress={() => props.navigation.navigate('example')}
                             title="나만의 필터링"
                         />
-                    </HStack>
-                    <HStack justifyContent="center">
+                        <PressableButton
+                            key={3}
+                            onPress={() => props.navigation.navigate('Schedule')}
+                            title="충전 스케쥴 관리"
+                        />
+                        <PressableButton
+                            key={4}
+                            onPress={() => props.navigation.navigate('MyCar')}
+                            title="나의 자동차"
+                        />
+                        <PressableButton
+                            key={5}
+                            onPress={() => props.navigation.navigate('example')}
+                            title="테스트"
+                        />
+
+                    </MasonaryLayout>
+
+                    {/* <HStack justifyContent="center">
                         {
                             user == true &&
                             <ScrollView horizontal={true}>
                                 <FavoritesButton />
                             </ScrollView>
                         }
-
-                    </HStack>
-                    <HStack justifyContent="center">
-                        <PressableButton
-                            numOfCol={colNum2}
-                            width={windowWidth / colNum2 * 0.9}
-                            height={windowWidth / colNum2 * 0.9}
-                            onPress={() => props.navigation.navigate('Schedule')}
-                            title="충전 스케쥴 관리"
-                        />
-                        <PressableButton
-                            numOfCol={colNum2}
-                            width={windowWidth / colNum2 * 0.9}
-                            height={windowWidth / colNum2 * 0.9}
-                            onPress={() => props.navigation.navigate('MyCar')}
-                            title="나의 자동차"
-                        />
-                    </HStack>
-                    <HStack justifyContent="center">
-                        <PressableButton
-                            numOfCol={colNum2}
-                            width={windowWidth * 0.92}
-                            height={windowWidth / colNum2 * 0.7}
-                            onPress={() => props.navigation.navigate('example')}
-                            title="테스트"
-                        />
-                    </HStack>
-                    <HStack justifyContent="center">
-                        <PressableButton
-                            numOfCol={colNum2}
-                            width={windowWidth * 0.92}
-                            height={windowWidth / colNum2 * 0.7}
-                            onPress={() => props.navigation.navigate('example')}
-                            title="테스트"
-                        />
-                    </HStack>
-                    <HStack justifyContent="center">
-                        <PressableButton
-                            numOfCol={colNum2}
-                            width={windowWidth * 0.92}
-                            height={windowWidth / colNum2 * 0.7}
-                            onPress={() => props.navigation.navigate('example')}
-                            title="테스트"
-                        />
-                    </HStack>
-                    <Box py={1} />
+                    <Box py={1} /> */}
                 </ScrollView>
             </Box>
         </>
