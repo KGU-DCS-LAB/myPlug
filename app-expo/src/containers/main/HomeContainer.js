@@ -1,8 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Box, Heading, HStack, Spacer, Text, View, Avatar, useBreakpointValue } from "native-base";
 import { Dimensions, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
-import { MaterialIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, FontAwesome5, Foundation, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import PressableButton from "../../components/common/PressableButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from '@react-navigation/native';
@@ -50,7 +49,7 @@ const HomeContainer = (props) => {
 
     return (
         <>
-            <Box style={styles.headingBackground}>
+            <Box style={styles.headingBackground} borderBottomColor="gray.200" borderBottomWidth={1}>
                 <HStack alignItems={"center"} px={5} py={2}>
                     <Heading>나만의 충전소</Heading>
                     <Spacer />
@@ -64,7 +63,6 @@ const HomeContainer = (props) => {
                         />
                     </TouchableOpacity>
                 </HStack>
-
             </Box>
 
             <Box px={2} flex="1" bg="white">
@@ -88,18 +86,24 @@ const HomeContainer = (props) => {
                     >
                         <PressableButton
                             key={0}
+                            icon={<Foundation name="map" size={100} color="black" />}
+                            bg="lightBlue.100"
                             onPress={() => props.navigation.navigate('EvCharger')}
                             title="충전소 지도"
                         />
                         <PressableButton
                             key={1}
+                            icon={<MaterialCommunityIcons name="map-search-outline" size={100} color="black" />}
+                            bg="lightBlue.100"
                             onPress={() => props.navigation.navigate('AdvancedSearch')}
-                            title="테마별 충전소 검색"
+                            title="충전소 상세 검색"
                         />
                         {
                             user ?
                                 <PressableButton
                                     key={2}
+                                    icon={<MaterialIcons name="filter-alt" size={100} color="black" />}
+                                    bg="lightBlue.100"
                                     onPress={() => setFilterModalVisible(true)}
                                     title="나만의 필터링"
                                 />
@@ -109,6 +113,8 @@ const HomeContainer = (props) => {
                             user ?
                                 <PressableButton
                                     key={3}
+                                    icon={<MaterialIcons name="schedule" size={100} color="black" />}
+                                    bg="lightBlue.100"
                                     onPress={() => props.navigation.navigate('Schedule')}
                                     title="충전 스케쥴 관리"
                                 />
@@ -118,6 +124,8 @@ const HomeContainer = (props) => {
                             user ?
                                 <PressableButton
                                     key={4}
+                                    icon={<AntDesign name="car" size={100} color="black" />}
+                                    bg="lightBlue.100"
                                     onPress={() => props.navigation.navigate('MyCar')}
                                     title="나의 자동차"
                                 />
@@ -126,6 +134,8 @@ const HomeContainer = (props) => {
 
                         <PressableButton
                             key={5}
+                            icon={<AntDesign name="questioncircleo" size={100} color="black" />}
+                            bg="lightBlue.100"
                             onPress={() => props.navigation.navigate('example')}
                             title="테스트"
                         />
@@ -133,6 +143,8 @@ const HomeContainer = (props) => {
                             bookmarked.map((bookmark) =>
                                 <PressableButton
                                     key={bookmark}
+                                    icon={<FontAwesome5 name="charging-station" size={100} color="black" />}
+                                    bg="lightBlue.100"
                                     onPress={() => console.log('ㅇㅇ')}
                                     title={bookmark}
                                 />

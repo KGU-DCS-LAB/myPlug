@@ -1,4 +1,4 @@
-import { AspectRatio, Box, Center, Pressable } from "native-base";
+import { AspectRatio, Box, Center, Heading, Pressable } from "native-base";
 import { Text } from "react-native";
 
 const PressableButton = (props) => {
@@ -21,7 +21,7 @@ const PressableButton = (props) => {
                                 borderWidth="1"
                                 borderColor="coolGray.300"
                                 shadow="3"
-                                bg={isPressed ? "#E2E2E2" : isHovered ? "black" : "#FFFFFF"}
+                                bg={isPressed ? "#E2E2E2" : isHovered ? "black" : props.bg}
                                 p="5"
                                 rounded="8"
                                 style={{
@@ -31,7 +31,8 @@ const PressableButton = (props) => {
                                 }}
                             >
                                 <Center>
-                                    <Text>{props.title}</Text>
+                                    {props.icon}
+                                    <Heading size="md">{props.title}</Heading>
                                 </Center>
                             </Box>
                         </AspectRatio>
