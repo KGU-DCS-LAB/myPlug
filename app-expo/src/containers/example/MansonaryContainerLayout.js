@@ -19,6 +19,8 @@ import {
 import { Dimensions, ScrollView, StatusBar } from 'react-native';
 import { Layout } from '../../components/layout/Layout';
 import { MasonaryLayout } from '../../components/layout/MansonaryLayout';
+import { StoryBook } from '../../components/layout/StoryBook';
+import PressableButton from '../../components/common/PressableButton';
 // import { MasonaryLayout } from '../../components/MasonLayout/MasonaryLayout';
 // import { MasonMobile } from '../../components/MasonLayout/mobile';
 // import { MasonWeb } from '../../components/MasonLayout/web';
@@ -51,6 +53,48 @@ export default ({ navigation }) => {
                         _vStack={{ space: 4 }}
                     >
                         {/* 컴포넌트가 올 자리 */}
+                        {/* <StoryBook
+                            navigation={navigation}
+                            name="Actionsheet"
+                            minH={32}
+                            _box={{
+                                lightGrad: ['cyan.400', 'teal.200'],
+                                darkGrad: ['cyan.600', 'teal.300'],
+                            }}
+                            _heading={{
+                                color: 'amber.100',
+                            }}
+                        /> */}
+                        <PressableButton
+                            width={10}
+                            height={10}
+                            onPress={() => console.log('헤헤')}
+                            title="충전소 지도"
+                        />
+                        <PressableButton
+                            width={10}
+                            height={10}
+                            onPress={() => console.log('헤헤')}
+                            title="충전소 지도"
+                        />
+                        <PressableButton
+                            width={10}
+                            height={10}
+                            onPress={() => console.log('헤헤')}
+                            title="충전소 지도"
+                        />
+                        <PressableButton
+                            width={10}
+                            height={10}
+                            onPress={() => console.log('헤헤')}
+                            title="충전소 지도"
+                        />
+                        <PressableButton
+                            width={10}
+                            height={10}
+                            onPress={() => console.log('헤헤')}
+                            title="충전소 지도"
+                        />
                     </MasonaryLayout>
                 </ScrollView>
             </Layout>
