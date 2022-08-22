@@ -12,6 +12,7 @@ import ScheduleContainer from '../schedule/ScheduleContainer';
 import ButtonsLayoutExample from '../example/ButtonsLayoutExample';
 import MyCarContainer from '../my_car/MyCarContainer';
 import MansonaryContainerLayout from '../example/MansonaryContainerLayout';
+import AdvancedSearch from '../advancedSearch/AdvancedSearchContainer';
 
 const MainContainer = () => {
 
@@ -48,6 +49,12 @@ const MainContainer = () => {
     const ScheduleScreen = ({ navigation }) => {
         return (
             <ScheduleContainer navigation={navigation} />
+        );
+    }
+
+    const AdvancedSearchScreen = ({ navigation }) => {
+        return (
+            <AdvancedSearch navigation={navigation} />
         );
     }
 
@@ -97,6 +104,10 @@ const MainContainer = () => {
                 options={{
                     cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
                 }}
+            />
+            <Stack.Screen
+                name="AdvancedSearch"
+                component={AdvancedSearchScreen}
             />
             <Stack.Screen
                 name="Schedule"

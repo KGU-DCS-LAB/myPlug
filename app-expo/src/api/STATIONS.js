@@ -317,3 +317,364 @@ export const markerImage = (station) => {
         return markerGreen;
     }
 }
+
+export const zCode  = [
+    {
+        value: '11',
+        label: '서울특별시'
+    },
+    {
+        value: '26',
+        label: '부산광역시'
+    },
+    {
+        value: '27',
+        label: '대구광역시'
+    },
+    {
+        value: '28',
+        label: '인천광역시'
+    },
+    {
+        value: '29',
+        label: '광주광역시'
+    },
+    {
+        value: '30',
+        label: '대전광역시'
+    },
+    {
+        value: '31',
+        label: '울산광역시'
+    },
+    {
+        value: '36',
+        label: '세종특별자치시'
+    },
+    {
+        value: '41',
+        label: '경기도'
+    },
+    {
+        value: '42',
+        label: '강원도'
+    },
+    {
+        value: '43',
+        label: '충청북도'
+    },
+    {
+        value: '44',
+        label: '충청남도'
+    },
+    {
+        value: '45',
+        label: '전라북도'
+    },
+    {
+        value: '46',
+        label: '전라남도'
+    },
+    {
+        value: '47',
+        label: '경상북도'
+    },
+    {
+        value: '48',
+        label: '경상남도'
+    },
+    {
+        value: '50',
+        label: '제주특별자치도'
+    }
+]
+
+export const getKind = [
+    {
+        value: 'A0',
+        label: '공공시설'
+    },
+    {
+        value: 'B0',
+        label: '주차시설'
+    },
+    {
+        value: 'V0',
+        label: '휴게시설'
+    },
+    {
+        value: 'D0',
+        label: '관광시설'
+    },
+    {
+        value: 'E0',
+        label: '상업시설'
+    },
+    {
+        value: 'F0',
+        label: '차량정비시설'
+    },
+    {
+        value: 'G0',
+        label: '기타시설'
+    },
+    {
+        value: 'H0',
+        label: '공동주택시설'
+    },
+    {
+        value: 'I0',
+        label: '근린생활시설'
+    },
+    {
+        value: 'J0',
+        label: '교육문화시설'
+    },
+]
+
+export const getKindDetail = {
+    A0: [
+        {
+            value: 'A001',
+            label: '관공서'
+        },
+        {
+            value: 'A002',
+            label: '주민센터'
+        },
+        {
+            value: 'A003',
+            label: '공공기관'
+        },
+        {
+            value: 'A004',
+            label: '지자체시설'
+        },
+    ],
+    B0: [
+        {
+            value: 'B001',
+            label: '공영주차장'
+        },
+        {
+            value: 'B002',
+            label: '공원주차장'
+        },
+        {
+            value: 'B003',
+            label: '환승주차장'
+        },
+        {
+            value: 'B004',
+            label: '일반주차장'
+        },
+    ],
+    C0: [
+        {
+            value: 'C001',
+            label: '고속도로 휴게소'
+        },
+        {
+            value: 'C002',
+            label: '지방도로 휴게소'
+        },
+        {
+            value: 'C003',
+            label: '쉼터'
+        }
+    ],
+    D0: [
+        {
+            value: 'D001',
+            label: '공원'
+        },
+        {
+            value: 'D002',
+            label: '전시관'
+        },
+        {
+            value: 'D003',
+            label: '민속마을'
+        },
+        {
+            value: 'D004',
+            label: '생태공원'
+        },
+        {
+            value: 'D005',
+            label: '홍보관'
+        },
+        {
+            value: 'D006',
+            label: '관광안내소'
+        },
+        {
+            value: 'D007',
+            label: '관광지'
+        },
+        {
+            value: 'D008',
+            label: '박물관'
+        },
+        {
+            value: 'D009',
+            label: '유적지'
+        }
+    ],
+    E0: [
+        {
+            value: 'E001',
+            label: '마트(쇼핑몰)'
+        },
+        {
+            value: 'E002',
+            label: '백화점'
+        },
+        {
+            value: 'E003',
+            label: '숙박시설'
+        },
+        {
+            value: 'E004',
+            label: '골프장(CC)'
+        },
+        {
+            value: 'E005',
+            label: '카페'
+        },
+        {
+            value: 'E006',
+            label: '음식점'
+        },
+        {
+            value: 'E007',
+            label: '주유소'
+        },
+        {
+            value: 'E008',
+            label: '영화관'
+        },
+    ],
+    F0: [
+        {
+            value: 'F001',
+            label: '서비스센터'
+        },
+        {
+            value: 'F002',
+            label: '정비소'
+        }
+    ],
+    G0: [
+        {
+            value: 'G001',
+            label: '군부대'
+        },
+        {
+            value: 'G002',
+            label: '야영장'
+        },
+        {
+            value: 'G003',
+            label: '공중전화부스'
+        },
+        {
+            value: 'G004',
+            label: '기타'
+        },
+        {
+            value: 'G005',
+            label: '오피스텔'
+        },
+        {
+            value: 'G006',
+            label: '단독주택'
+        }
+    ],
+    H0: [
+        {
+            value: 'H001',
+            label: '아파트'
+        },
+        {
+            value: 'H002',
+            label: '빌라'
+        },
+        {
+            value: 'H003',
+            label: '사업장(사옥)'
+        },
+        {
+            value: 'H004',
+            label: '기숙사'
+        },
+        {
+            value: 'H005',
+            label: '연립주택'
+        }
+    ],
+    I0: [
+        {
+            value: 'I001',
+            label: '병원'
+        },
+        {
+            value: 'I002',
+            label: '종교시설'
+        },
+        {
+            value: 'I003',
+            label: '보건소'
+        },
+        {
+            value: 'I004',
+            label: '경찰서'
+        },
+        {
+            value: 'I005',
+            label: '도서관'
+        },
+        {
+            value: 'I006',
+            label: '복지관'
+        },
+        {
+            value: 'I007',
+            label: '수련원'
+        },
+        {
+            value: 'I008',
+            label: '금융기관'
+        }
+    ],
+    J0: [
+        {
+            value: 'J001',
+            label: '학교'
+        },
+        {
+            value: 'J002',
+            label: '교육원'
+        },
+        {
+            value: 'J003',
+            label: '학원'
+        },
+        {
+            value: 'J004',
+            label: '공연장'
+        },
+        {
+            value: 'J005',
+            label: '관람장'
+        },
+        {
+            value: 'J006',
+            label: '동식물원'
+        },
+        {
+            value: 'J007',
+            label: '경기장'
+        }
+    ],
+}
