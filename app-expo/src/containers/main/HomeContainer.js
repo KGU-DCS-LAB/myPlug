@@ -5,18 +5,15 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import PressableButton from "../../components/common/PressableButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import FavoritesButton from '../../components/common/FavoritesButton';
 import { useIsFocused } from '@react-navigation/native';
 import { config } from '../../../config';
 import axios from 'axios';
 import { MasonaryLayout } from '../../components/layout/MansonaryLayout';
+import { getUserFavoriteStations } from '../../api/API';
 
 const HomeContainer = (props) => {
-    const windowWidth = Dimensions.get('window').width;
-    const colNum2 = 2;
-    const colNum3 = 3;
     const isFocused = useIsFocused();
-    const [user, setUser] = useState(false);
+    const [bookmarked, setBookmarked] = useState([]);
 
     const userCheck = async () => {
         if (await AsyncStorage.getItem('userInfo') != null) {
@@ -31,11 +28,8 @@ const HomeContainer = (props) => {
             AsyncStorage.getItem('userInfo')
                 .then(value => {
                     if (value != null) {
-                        setUser(true);
-                        // console.log("true");
-                    } else {
-                        setUser(false);
-                        // console.log("false");
+                        const UserInfo = JSON.parse(value);
+                        getFavorites(UserInfo[0]);
                     }
                 }
                 )
@@ -45,6 +39,10 @@ const HomeContainer = (props) => {
 
     }, [isFocused])
 
+    const getFavorites = async (user) => {
+        const favoriteStations = await getUserFavoriteStations(user);
+        setBookmarked(favoriteStations);
+    }
 
     return (
         <>
@@ -114,17 +112,16 @@ const HomeContainer = (props) => {
                             onPress={() => props.navigation.navigate('example')}
                             title="테스트"
                         />
-
-                    </MasonaryLayout>
-
-                    {/* <HStack justifyContent="center">
                         {
-                            user == true &&
-                            <ScrollView horizontal={true}>
-                                <FavoritesButton />
-                            </ScrollView>
+                            bookmarked.map((bookmark) =>
+                                <PressableButton
+                                    key={bookmark}
+                                    onPress={() => console.log('ㅇㅇ')}
+                                    title={bookmark}
+                                />
+                            )
                         }
-                    <Box py={1} /> */}
+                    </MasonaryLayout>
                 </ScrollView>
             </Box>
         </>

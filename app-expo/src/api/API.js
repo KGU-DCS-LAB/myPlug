@@ -1,6 +1,25 @@
 import axios from "axios";
 import { config } from "../../config";
 
+export const getUserFavoriteStations = async (user) => {
+    try {
+        const response = await axios.post(config.ip + ':5000/favoritesRouter/findOwn', {
+            user_id: user.user_id
+        })
+        // console.log("response >>", response.data)
+        let result = []
+        let favorites = [];
+        result.push(response.data[0].station)
+        for (let i = 0; i < result[0].length; i++) {
+            favorites.push(result[0][i].statId)
+        }
+        return favorites
+    } catch (err) {
+        console.log("Error >>", err);
+        return []
+    }
+}
+
 export const getRegionData = async (location) => {
     try {
         const response = await axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
