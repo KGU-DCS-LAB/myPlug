@@ -79,7 +79,7 @@ const HomeContainer = (props) => {
                             numOfCol={colNum2}
                             width={windowWidth / colNum2 * 0.9}
                             height={windowWidth / colNum2 * 0.9}
-                            onPress={() => props.navigation.navigate('Schedule')}
+                            onPress={() => props.navigation.navigate('AdvancedSearch')}
                             title="테마별 충전소 검색"
                         />
                     </HStack>
@@ -88,7 +88,7 @@ const HomeContainer = (props) => {
                             numOfCol={colNum2}
                             width={windowWidth * 0.92}
                             height={windowWidth / colNum2 * 0.7}
-                            onPress={() => console.log('ㅇㅇ')}
+                            onPress={() => props.navigation.navigate('example')}
                             title="나만의 필터링"
                         />
                     </HStack>
@@ -106,8 +106,8 @@ const HomeContainer = (props) => {
                             numOfCol={colNum2}
                             width={windowWidth / colNum2 * 0.9}
                             height={windowWidth / colNum2 * 0.9}
-                            onPress={() => props.navigation.navigate('example')}
-                            title="충전 스케쥴러"
+                            onPress={() => props.navigation.navigate('Schedule')}
+                            title="충전 스케쥴 관리"
                         />
                         <PressableButton
                             numOfCol={colNum2}

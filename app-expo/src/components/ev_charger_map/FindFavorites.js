@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native";
 import { config } from '../../../config';
 import axios from 'axios';
 import { useIsFocused } from '@react-navigation/native';
-import { Box, Center, Heading, Pressable } from 'native-base';
+import { Box, Center, Heading, HStack, Pressable } from 'native-base';
 
 const FindFavorites = ({ user_id, statId }) => {
     const [star, setStar] = useState('star-border');
@@ -115,7 +115,9 @@ const FindFavorites = ({ user_id, statId }) => {
                         rounded="8"
                     >
                         <Center>
-                            <Heading size="md">즐겨찾기<MaterialIcons name={star} size={24} color={"black"} /></Heading>
+                            <HStack>
+                                <Heading size="md">즐겨찾기</Heading><MaterialIcons name={star} size={24} color={"black"} />
+                            </HStack>
                         </Center>
                     </Box>
                 </Pressable>
