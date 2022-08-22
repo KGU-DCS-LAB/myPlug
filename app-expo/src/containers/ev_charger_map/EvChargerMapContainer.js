@@ -50,7 +50,6 @@ const EvChargerContainer = (props) => {
     const [isSmallModalOpen, setSmallModalOpen] = useState(false);
     const [isBigModalOpen, setBigModalOpen] = useState(false);
 
-
     // const source = useRef(); //취소 토큰 용
     const mapRef = useRef(); //몰라
 
@@ -170,9 +169,10 @@ const EvChargerContainer = (props) => {
                             <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
                                 isBigModalOpen={isBigModalOpen}
                                 setBigModalOpen={setBigModalOpen}
-                                station={selectedStation}
+                                selectedStation={selectedStation}
                                 selectedChargers={selectedChargers}
                                 stationLogs={stationLogs}
+                                stations={stations}
                             />
 
                             <MapView

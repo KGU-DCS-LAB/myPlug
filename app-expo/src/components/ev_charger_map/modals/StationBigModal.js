@@ -68,7 +68,7 @@ const StationBigModal = (props) => {
     return (
         <>
             {
-                props.station
+                props.selectedStation
                 &&
                 <Modal
                     style={styles.flexEndView}
@@ -84,40 +84,40 @@ const StationBigModal = (props) => {
                 >
                     <View style={{ flex: 1 }}>
                         <View>
-                            <Heading size="lg">{props.station.statNm + " (" + props.station.statId + ")"}</Heading>
+                            <Heading size="lg">{props.selectedStation.statNm + " (" + props.selectedStation.statId + ")"}</Heading>
                         </View>
                         <ScrollView>
-                            <Text fontSize="lg">{props.station.addr}</Text>
-                            <Text fontSize="md">{props.station.location != "null" && props.station.location}</Text>
+                            <Text fontSize="lg">{props.selectedStation.addr}</Text>
+                            <Text fontSize="md">{props.selectedStation.location != "null" && props.selectedStation.location}</Text>
                             <Divider mt={5} />
 
                             <Text fontSize="lg">이용가능시간</Text>
-                            <Text fontSize="md">{props.station.useTime}</Text>
+                            <Text fontSize="md">{props.selectedStation.useTime}</Text>
                             <Divider />
 
                             <Text fontSize="lg">운영기관명</Text>
-                            <Text fontSize="md">{"[" + props.station.busiId + "] " + props.station.bnm + " (" + props.station.busiNm + ")"}</Text>
+                            <Text fontSize="md">{"[" + props.selectedStation.busiId + "] " + props.selectedStation.bnm + " (" + props.selectedStation.busiNm + ")"}</Text>
                             <Divider />
 
                             <Text fontSize="lg">운영기관 연락처</Text>
-                            <Text fontSize="md">{props.station.busiCall}</Text>
+                            <Text fontSize="md">{props.selectedStation.busiCall}</Text>
                             <Divider />
 
                             <Text fontSize="lg">주차료</Text>
-                            <Text fontSize="md">{props.station.parkingFree == "Y" ? "무료" : "유료"}</Text>
+                            <Text fontSize="md">{props.selectedStation.parkingFree == "Y" ? "무료" : "유료"}</Text>
                             <Divider />
 
                             {
-                                props.station.note != null &&
+                                props.selectedStation.note != null &&
                                 <>
                                     <Text fontSize="lg">충전소 안내</Text>
-                                    <Text fontSize="md">{props.station.note}</Text>
+                                    <Text fontSize="md">{props.selectedStation.note}</Text>
                                     <Divider />
                                 </>
                             }
 
                             <Text fontSize="lg">이용자 제한</Text>
-                            <Text fontSize="md">{props.station.limitYn == "Y" ? ("이용 제한 (" + props.station.limitDetail + ")") : "제한없음"}</Text>
+                            <Text fontSize="md">{props.selectedStation.limitYn == "Y" ? ("이용 제한 (" + props.selectedStation.limitDetail + ")") : "제한없음"}</Text>
                             <Divider />
 
                             <Heading size="md" mt={5}>충전소 사용 분석</Heading>
@@ -157,7 +157,7 @@ const StationBigModal = (props) => {
                                         </Center>
                                     </Box>
                                 </Pressable>
-                                <FindFavorites user_id={userId} statId={props.station.statId} />
+                                <FindFavorites user_id={userId} statId={props.selectedStation.statId} />
                             </HStack>
                         </Center>
                     </View>
