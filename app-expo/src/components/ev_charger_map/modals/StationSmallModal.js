@@ -21,191 +21,195 @@ const StationSmallModal = (props) => {
 
     return (
         <>
-            <Modal
-                style={styles.flexEndView}
-                position='center'
-                backdrop={false}
-                ref={show}
-                isOpen={props.isSmallModalOpen}
-                onClosed={() => props.setSmallModalOpen(false)}
-                position={"bottom"}
-                entry={"bottom"}
-                animationDuration={100}
-            >
-                <View style={styles.smallModalView}>
-                    <ScrollView>
-                        <HStack>
-                            <Heading size="md" isTruncated >
-                                {props.station.statNm} ({props.station.statId})
-                            </Heading>
-                            <Spacer />
-                        </HStack>
-
-                        <HStack>
-
-                        </HStack>
-                        <HStack>
-                            <VStack>
-                                <Heading size="sm">{props.station.addr}</Heading>
-                                <Text>{props.station.location}</Text>
-                            </VStack>
-                            <Spacer />
-                        </HStack>
-                        <Text>{props.station.useTime}</Text>
-                        <Divider my={1} />
-                        <HStack>
-                            <Heading size="sm">충전기 상태</Heading>
-                            <Spacer />
-                            <HStack space={1}>
-                                <Text>사용 {props.station.status && props.station.status.status3} |</Text>
-                                <Text>대기 {props.station.status && props.station.status.status2} |</Text>
-                                <Text>기타 {props.station.status && props.station.status.status1 + props.station.status.status4 + props.station.status.status5 + props.station.status.status9}</Text>
+            {
+                props.selectedStation &&
+                <Modal
+                    style={styles.flexEndView}
+                    position='center'
+                    backdrop={false}
+                    ref={show}
+                    isOpen={props.isSmallModalOpen}
+                    onClosed={() => props.setSmallModalOpen(false)}
+                    position={"bottom"}
+                    entry={"bottom"}
+                    animationDuration={100}
+                >
+                    <View style={styles.smallModalView}>
+                        <ScrollView>
+                            <HStack>
+                                <Heading size="md" isTruncated >
+                                    {props.selectedStation.statNm} ({props.selectedStation.statId})
+                                </Heading>
+                                <Spacer />
                             </HStack>
-                        </HStack>
-                        <HStack space={1}>
-                            {props.selectedChargers.map((charger) => (
-                                <Box
-                                    key={charger._id}
-                                    borderWidth="1"
-                                    borderColor="coolGray.300"
-                                    backgroundColor={STATIONS.statColor(charger.stat)}
-                                    width={"5"}
-                                >
-                                    <Center>
-                                        <Text>{charger.chgerId}</Text>
-                                    </Center>
-                                </Box>
-                            ))}
-                        </HStack>
-                        <Divider my={1} />
-                        <HStack mt={1}>
-                            <Badge
-                                colorScheme="gray"
-                                _text={{
-                                    color: "white"
-                                }}
-                                // key={tag}
-                                variant="solid"
-                                rounded="4"
-                                mr="1"
-                            >
-                                {"~" + props.station.distance + "m"}
-                            </Badge>
-                            <Badge
-                                colorScheme={"gray"}
-                                _text={{
-                                    color: "white"
-                                }}
-                                variant="solid"
-                                rounded="4"
-                                mr="1"
-                            >
-                                {STATIONS.kind(props.station.kind)}
-                            </Badge>
-                            <Badge
-                                colorScheme={"gray"}
-                                _text={{
-                                    color: "white"
-                                }}
-                                variant="solid"
-                                rounded="4"
-                                mr="1"
-                            >
-                                {STATIONS.kindDetail(props.station.kindDetail)}
-                            </Badge>
-                        </HStack>
-                        <HStack mt={1}>
-                            <Badge
-                                colorScheme="blue"
-                                _text={{
-                                    color: "white"
-                                }}
-                                // key={tag}
-                                variant="solid"
-                                rounded="4"
-                                mr="1"
-                            >
-                                {props.station.busiNm}
-                            </Badge>
-                            <Badge
-                                colorScheme={props.station.parkingFree == "Y" ? "green" : "red"}
-                                _text={{
-                                    color: "white"
-                                }}
-                                // key={tag}
-                                variant="solid"
-                                rounded="4"
-                                mr="1"
-                            >
-                                {props.station.parkingFree == "Y" ? "무료주차" : "유료주차"}
-                            </Badge>
-                            <Badge
-                                colorScheme={props.station.limitYn == "Y" ? "red" : "green"}
-                                _text={{
-                                    color: "white"
-                                }}
-                                // key={tag}
-                                variant="solid"
-                                rounded="4"
-                                mr="1"
-                            >
-                                {props.station.limitYn == "Y" ? ("이용 제한") : "누구나 사용가능"}
-                            </Badge>
-                        </HStack>
-                    </ScrollView>
-                    <Center>
-                        <HStack>
-                            <Pressable
-                                onPress={() => {
-                                    // props.setBigModalVisible(!props.bigModalVisible);
-                                    props.setSmallModalOpen(false);
-                                }}
 
-                            >
-                                <Box
-                                    height="30"
-                                    width="150"
-                                    borderWidth="1"
-                                    borderColor="coolGray.300"
-                                    shadow="3"
-                                    bg="red.300"
-                                    px="5"
-                                    mx="2"
-                                    rounded="8"
-                                >
-                                    <Center>
-                                        <Heading size="md">닫 기</Heading>
-                                    </Center>
-                                </Box>
-                            </Pressable>
-                            <Pressable
-                                onPress={() => {
-                                    // props.setBigModalVisible(!props.bigModalVisible);
-                                    props.setBigModalOpen(true);
+                            <HStack>
 
-                                }}
-
-                            >
-                                <Box
-                                    height="30"
-                                    width="150"
-                                    borderWidth="1"
-                                    borderColor="coolGray.300"
-                                    shadow="3"
-                                    bg="green.300"
-                                    px="5"
-                                    mx="2"
-                                    rounded="8"
+                            </HStack>
+                            <HStack>
+                                <VStack>
+                                    <Heading size="sm">{props.selectedStation.addr}</Heading>
+                                    <Text>{props.selectedStation.location}</Text>
+                                </VStack>
+                                <Spacer />
+                            </HStack>
+                            <Text>{props.selectedStation.useTime}</Text>
+                            <Divider my={1} />
+                            <HStack>
+                                <Heading size="sm">충전기 상태</Heading>
+                                <Spacer />
+                                <HStack space={1}>
+                                    <Text>사용 {props.selectedStation.status && props.selectedStation.status.status3} |</Text>
+                                    <Text>대기 {props.selectedStation.status && props.selectedStation.status.status2} |</Text>
+                                    <Text>기타 {props.selectedStation.status && props.selectedStation.status.status1 + props.selectedStation.status.status4 + props.selectedStation.status.status5 + props.selectedStation.status.status9}</Text>
+                                </HStack>
+                            </HStack>
+                            <HStack space={1}>
+                                {props.selectedChargers.map((charger) => (
+                                    <Box
+                                        key={charger._id}
+                                        borderWidth="1"
+                                        borderColor="coolGray.300"
+                                        backgroundColor={STATIONS.statColor(charger.stat)}
+                                        width={"5"}
+                                    >
+                                        <Center>
+                                            <Text>{charger.chgerId}</Text>
+                                        </Center>
+                                    </Box>
+                                ))}
+                            </HStack>
+                            <Divider my={1} />
+                            <HStack mt={1}>
+                                <Badge
+                                    colorScheme="gray"
+                                    _text={{
+                                        color: "white"
+                                    }}
+                                    // key={tag}
+                                    variant="solid"
+                                    rounded="4"
+                                    mr="1"
                                 >
-                                    <Center>
-                                        <Heading size="md">상세보기</Heading>
-                                    </Center>
-                                </Box>
-                            </Pressable>
-                        </HStack>
-                    </Center>
-                </View>
-            </Modal>
+                                    {"~" + props.selectedStation.distance + "m"}
+                                </Badge>
+                                <Badge
+                                    colorScheme={"gray"}
+                                    _text={{
+                                        color: "white"
+                                    }}
+                                    variant="solid"
+                                    rounded="4"
+                                    mr="1"
+                                >
+                                    {STATIONS.kind(props.selectedStation.kind)}
+                                </Badge>
+                                <Badge
+                                    colorScheme={"gray"}
+                                    _text={{
+                                        color: "white"
+                                    }}
+                                    variant="solid"
+                                    rounded="4"
+                                    mr="1"
+                                >
+                                    {STATIONS.kindDetail(props.selectedStation.kindDetail)}
+                                </Badge>
+                            </HStack>
+                            <HStack mt={1}>
+                                <Badge
+                                    colorScheme="blue"
+                                    _text={{
+                                        color: "white"
+                                    }}
+                                    // key={tag}
+                                    variant="solid"
+                                    rounded="4"
+                                    mr="1"
+                                >
+                                    {props.selectedStation.busiNm}
+                                </Badge>
+                                <Badge
+                                    colorScheme={props.selectedStation.parkingFree == "Y" ? "green" : "red"}
+                                    _text={{
+                                        color: "white"
+                                    }}
+                                    // key={tag}
+                                    variant="solid"
+                                    rounded="4"
+                                    mr="1"
+                                >
+                                    {props.selectedStation.parkingFree == "Y" ? "무료주차" : "유료주차"}
+                                </Badge>
+                                <Badge
+                                    colorScheme={props.selectedStation.limitYn == "Y" ? "red" : "green"}
+                                    _text={{
+                                        color: "white"
+                                    }}
+                                    // key={tag}
+                                    variant="solid"
+                                    rounded="4"
+                                    mr="1"
+                                >
+                                    {props.selectedStation.limitYn == "Y" ? ("이용 제한") : "누구나 사용가능"}
+                                </Badge>
+                            </HStack>
+                        </ScrollView>
+                        <Center>
+                            <HStack>
+                                <Pressable
+                                    onPress={() => {
+                                        // props.setBigModalVisible(!props.bigModalVisible);
+                                        props.setSmallModalOpen(false);
+                                    }}
+
+                                >
+                                    <Box
+                                        height="30"
+                                        width="150"
+                                        borderWidth="1"
+                                        borderColor="coolGray.300"
+                                        shadow="3"
+                                        bg="red.300"
+                                        px="5"
+                                        mx="2"
+                                        rounded="8"
+                                    >
+                                        <Center>
+                                            <Heading size="md">닫 기</Heading>
+                                        </Center>
+                                    </Box>
+                                </Pressable>
+                                <Pressable
+                                    onPress={() => {
+                                        // props.setBigModalVisible(!props.bigModalVisible);
+                                        props.setBigModalOpen(true);
+
+                                    }}
+
+                                >
+                                    <Box
+                                        height="30"
+                                        width="150"
+                                        borderWidth="1"
+                                        borderColor="coolGray.300"
+                                        shadow="3"
+                                        bg="green.300"
+                                        px="5"
+                                        mx="2"
+                                        rounded="8"
+                                    >
+                                        <Center>
+                                            <Heading size="md">상세보기</Heading>
+                                        </Center>
+                                    </Box>
+                                </Pressable>
+                            </HStack>
+                        </Center>
+                    </View>
+                </Modal>
+
+            }
         </>
     )
 }

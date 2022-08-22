@@ -41,7 +41,7 @@ const EvChargerContainer = (props) => {
     const [chargers, setChargers] = useState([]); //서버로 부터 받아온 충전소 데이터들의 충전기 데이터 리스트
     const [stationLogs, setStationLogs] = useState([]); //서버로 부터 받아온 특정 충전소의 충전 분석 로그
 
-    const [selectedStation, setSelectedStation] = useState([lat = 0, lng = 0]); //마커 선택 시 모달에 띄워줄 데이터
+    const [selectedStation, setSelectedStation] = useState(null); //마커 선택 시 모달에 띄워줄 데이터
     const [selectedChargers, setSelectedChargers] = useState([]); // 서버로 부터 받아온 특정 충전소의 충전기 리스트
 
     const [filterModalVisible, setFilterModalVisible] = useState(false); // 필터 모달 온오프
@@ -161,7 +161,7 @@ const EvChargerContainer = (props) => {
                             <StationSmallModal
                                 isSmallModalOpen={isSmallModalOpen}
                                 setSmallModalOpen={setSmallModalOpen}
-                                station={selectedStation}
+                                selectedStation={selectedStation}
                                 setBigModalOpen={setBigModalOpen}
                                 selectedChargers={selectedChargers}
                             />

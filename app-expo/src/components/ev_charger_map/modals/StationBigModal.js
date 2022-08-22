@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ChargerCard from "../cards/ChargerCard";
 import LogTable from "../LogTable";
 import FindFavorites from "../FindFavorites";
+import { sortStations } from "../../../api/STATIONS";
 
 
 var screen = Dimensions.get('window');
@@ -133,6 +134,9 @@ const StationBigModal = (props) => {
                             <Divider mt={5} />
 
                             <Heading size="md" mt={5}>가까운 충전소 조회</Heading>
+                            {/* {console.log(sortStations({latitude:props.selectedStation.lat, longitude:props.selectedStation.lng}, props.stations).map((station)=>station.statId+' '+station.distance))} */}
+                            {console.log('memory leak test at big modal')}
+                            <Box mt={5} />
                             
                         </ScrollView>
                         <Spacer />
