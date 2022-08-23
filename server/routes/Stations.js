@@ -219,4 +219,40 @@ router.get("/search/:key", async (req, res) => {
 })
 
 
+router.post('/findStation', async function (req, res, next) {
+  const types = req.body.data;
+
+  let result = null;
+
+  let zcodeAgg = { zcode: { $exists: true } };
+  let kindAgg = { kind: { $exists: true } };
+  let kindDetailAgg = { kindDetail: { $exists: true } };
+
+  // 충전소 검색
+  if (types["zcode"].length !== 0) {
+    zcodeAgg = { zcode: { $in: types["zcode"] } }
+  }
+
+  if (types["kind"].length !== 0) {
+    kindAgg = { kind: { $in: types["kind"] } }
+  }
+
+  if (types["kindDetail"].length !== 0) {
+    kindDetailAgg = { kindDetail: { $in: types["kindDetail"] } }
+  }
+
+  Station.find({
+    $and: [
+      zcodeAgg,
+      kindAgg,
+      kindDetailAgg
+    ]
+  }).then((stations) => {
+    res.json(stations)
+  }).catch((err) => {
+    console.log(err);
+    next(err)
+  });
+});
+
 module.exports = router;

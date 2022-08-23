@@ -1,12 +1,7 @@
 import { Alert, Modal, Pressable, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, Icon, ScrollViewBase } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import { Button, Center, Flex, HStack, ScrollView, VStack } from "native-base";
-import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import { useEffect, useState } from "react";
-import SliderCustomLabel from "../SliderCustomLabel";
-import TimeSlider from "../TimeSlider";
-import axios from "axios";
-import { config } from "../../../../config";
 import SelectBusiNm from "./filterModal/SelectBusiNm";
 import SelectParkingFree from "./filterModal/SelectParkingFree";
 import SelectChgerType from "./filterModal/SelectChgerType";

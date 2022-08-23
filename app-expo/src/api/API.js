@@ -133,3 +133,16 @@ export const saveFilterData = async (userId, selectedType) => {
         return [];
     }
 }
+
+export const getStationsByTheme = async (selectedType) => {
+    try {
+        const response = await axios.post(config.ip + ':5000/stationsRouter/findStation', {
+            data: selectedType
+        })
+        // console.log("response >>", response.data)
+        return response.data
+    } catch (err) {
+        console.log("Error >>", err);
+        return []
+    }
+}
