@@ -45,8 +45,8 @@ const EvChargerContainer = (props) => {
     const [isSmallModalOpen, setSmallModalOpen] = useState(false);
     const [isBigModalOpen, setBigModalOpen] = useState(false);
 
-    // const source = useRef(); //취소 토큰 용
-    const mapRef = useRef(); //몰라
+    let controller;
+    const mapRef = useRef(); // 지도 조작에 사용되는 기능
 
     // Get current location information 
     useEffect(() => {
@@ -92,6 +92,8 @@ const EvChargerContainer = (props) => {
     const setLocationAndGetStations = async (region) => {
         setMapLocation(region);
         if (region.latitudeDelta < 0.13 && region.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
+            controller = new AbortController();
+            const signal = controller.signal; // 이후 API로 넘겨줘서 취소 토큰 대용으로 사용할 예정
             const receivedStationData = await API.getRegionData(region)
             const receivedChargerData = await API.getChargersByManyStation(receivedStationData.map((station) => station.statId))
             setStations(STATIONS.countChargers(sortStations(userLocation, receivedStationData), receivedChargerData));
