@@ -21,15 +21,7 @@ import ThemeModal from "../../components/ev_charger_map/modals/ThemeModal";
 
 const EvChargerContainer = (props) => {
 
-    const [mapLocation, setMapLocation] = useState(
-        null
-    //     {
-    //     latitude: 37.3012,
-    //     longitude: 127.0355,
-    //     latitudeDelta: 0,
-    //     longitudeDelta: 0,
-    // }
-    ); // 지도 중심 위치 (지도 view 이동용)
+    const [mapLocation, setMapLocation] = useState(null); // 지도 중심 위치 (지도 view 이동용)
 
     const [userLocation, setUserLocation] = useState({
         latitude: 37.3012,
@@ -60,7 +52,7 @@ const EvChargerContainer = (props) => {
     useEffect(() => {
         setCancel(false);
         const now = new Date().getHours();
-        if(now<7 || now>=19){
+        if (now < 7 || now >= 19) {
             setMapStyle(mapStyles('aubergine'));
         }
 
@@ -101,7 +93,7 @@ const EvChargerContainer = (props) => {
         setMapLocation(region);
         if (region.latitudeDelta < 0.13 && region.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
             const receivedStationData = await API.getRegionData(region)
-            const receivedChargerData = await API.getChargersByManyStation(receivedStationData.map((station)=>station.statId))
+            const receivedChargerData = await API.getChargersByManyStation(receivedStationData.map((station) => station.statId))
             setStations(STATIONS.countChargers(sortStations(userLocation, receivedStationData), receivedChargerData));
             setChargers(receivedChargerData)
         }
@@ -112,7 +104,6 @@ const EvChargerContainer = (props) => {
     }
 
     const focusToStation = async (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
-        // console.log(station)
         const stationLocation = {
             longitude: Number(station.lng),
             latitude: Number(station.lat),
@@ -124,12 +115,12 @@ const EvChargerContainer = (props) => {
         setSmallModalOpen(true);
         setBigModalOpen(false);
         setLocationAndGetStations(stationLocation);
-        let temp_chargers = chargers.filter((charger)=>charger.statId == station.statId)
-        if(temp_chargers.length==0){
+        let temp_chargers = chargers.filter((charger) => charger.statId == station.statId)
+        if (temp_chargers.length == 0) {
             temp_chargers = await API.getChargersByOneStation(station.statId) //선택한 충전소 id에 속한 충전기를 요청
         }
         setSelectedChargers(temp_chargers) //선택한 충전소 id에 속한 충전기를 요청
-        setSelectedStation(STATIONS.countChargers(sortStations(userLocation, [{...station}]), temp_chargers)[0]);
+        setSelectedStation(STATIONS.countChargers(sortStations(userLocation, [{ ...station }]), temp_chargers)[0]);
         setStationLogs(await API.getStationLogsByStatId(station.statId)); //선택한 충전소id에 속한 충전기록을 요청 
     }
 
@@ -184,31 +175,25 @@ const EvChargerContainer = (props) => {
                             <MapView
                                 ref={mapRef}
                                 initialRegion={
-                                                                        { //현 위치를 state가 관리하도록 함
-                                    latitude: mapLocation.latitude,
-                                    longitude: mapLocation.longitude,
-                                    latitudeDelta: mapLocation.latitudeDelta,
-                                    longitudeDelta: mapLocation.longitudeDelta,
+                                    { //현 위치를 state가 관리하도록 함
+                                        latitude: mapLocation.latitude,
+                                        longitude: mapLocation.longitude,
+                                        latitudeDelta: mapLocation.latitudeDelta,
+                                        longitudeDelta: mapLocation.longitudeDelta,
+                                    }
                                 }
-                                //     { //초기 값
-                                //     latitude: 37.3012,
-                                //     longitude: 127.0355,
-                                //     latitudeDelta: 0.0922,
-                                //     longitudeDelta: 0.0421,
-                                // }
-                            }
                                 style={{ flex: 1 }}
                                 provider={PROVIDER_GOOGLE} // Apple 지도가 뜨지 않도록 방지함
                                 showsUserLocation={true}
                                 showsMyLocationButton={false} // 현위치를 맵에서 직접 관리하지 않도록 제한함 (Stagger에서 처리)
                                 // region={
-                                    // { //현 위치를 state가 관리하도록 함
+                                // { //현 위치를 state가 관리하도록 함
                                 //     latitude: mapLocation.latitude,
                                 //     longitude: mapLocation.longitude,
                                 //     latitudeDelta: mapLocation.latitudeDelta,
                                 //     longitudeDelta: mapLocation.longitudeDelta,
                                 // }
-                            // }
+                                // }
                                 onRegionChange={region => {
 
                                 }}
@@ -249,6 +234,7 @@ const EvChargerContainer = (props) => {
 
                         </View>
                         <CoverMenu
+                            mapRef={mapRef}
                             navigation={props.navigation}
                             focusToStation={focusToStation}
                             mapLocation={mapLocation}

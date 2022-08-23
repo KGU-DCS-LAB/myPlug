@@ -8,14 +8,16 @@ export default (props) => {
     const location = props.mapLocation;
 
     const goToCurrentLocation = async () => {
-        let location = await Location.getCurrentPositionAsync({}); //현 위치 수신
+        let gps = await Location.getCurrentPositionAsync({}); //현 위치 수신
         // console.log(location);
-        props.setLocationAndGetStations({
-            longitude: location.coords.longitude,
-            latitude: location.coords.latitude,
+        const currentLocation = {
+            longitude: gps.coords.longitude,
+            latitude: gps.coords.latitude,
             latitudeDelta: 0.007,
             longitudeDelta: 0.007,
-        });
+        }
+        props.mapRef.current.animateToRegion(currentLocation); // 지도 이동을 도와주는 메소드
+        props.setLocationAndGetStations(currentLocation);
     }
 
     const zoom = (zoom) => {
@@ -33,13 +35,14 @@ export default (props) => {
                 break;
         }
         if (location.latitudeDelta + magnification > 0 && location.longitudeDelta + magnification > 0) {
-            props.setLocationAndGetStations({
+            const nextLocation = {
                 longitude: location.longitude,
                 latitude: location.latitude,
                 latitudeDelta: location.latitudeDelta + magnification,
                 longitudeDelta: location.longitudeDelta + magnification,
-            });
-
+            }
+            props.mapRef.current.animateToRegion(nextLocation); // 지도 이동을 도와주는 메소드
+            props.setLocationAndGetStations(nextLocation);
         }
     }
 

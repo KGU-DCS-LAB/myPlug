@@ -17,6 +17,7 @@ const CoverMenu = (props) => {
             </Center>
             <Center style={{ position: 'absolute', left: 20, bottom: 90, height: 30 }} >
                 <LocationController
+                    mapRef={props.mapRef}
                     mapLocation={props.mapLocation}
                     setLocationAndGetStations={props.setLocationAndGetStations}
                 />
