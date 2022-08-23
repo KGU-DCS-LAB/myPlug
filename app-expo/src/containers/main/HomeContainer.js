@@ -65,7 +65,7 @@ const HomeContainer = (props) => {
                 </HStack>
             </Box>
 
-            <Box px={2} flex="1" bg="white">
+            <Box px={2} flex="1" bg="light.100">
                 <ScrollView>
                     <Box py={1} />
 
@@ -78,23 +78,20 @@ const HomeContainer = (props) => {
                             // xl: [1, 1, 1, 1, 1],
                         })}
                         _hStack={{
-                            space: 4,
+                            space: 2,
                             mb: 4,
-                            // pt: '70px',
                         }}
-                        _vStack={{ space: 4 }}
+                        _vStack={{ space: 2 }}
                     >
                         <PressableButton
                             key={0}
-                            icon={<Foundation name="map" size={100} color="black" />}
-                            bg="lightBlue.100"
+                            icon="home-map"
                             onPress={() => props.navigation.navigate('EvCharger')}
                             title="충전소 지도"
                         />
                         <PressableButton
                             key={1}
-                            icon={<MaterialCommunityIcons name="map-search-outline" size={100} color="black" />}
-                            bg="lightBlue.100"
+                            icon={""}
                             onPress={() => props.navigation.navigate('AdvancedSearch')}
                             title="충전소 상세 검색"
                         />
@@ -102,8 +99,7 @@ const HomeContainer = (props) => {
                             user ?
                                 <PressableButton
                                     key={2}
-                                    icon={<MaterialIcons name="filter-alt" size={100} color="black" />}
-                                    bg="lightBlue.100"
+                                    icon={""}
                                     onPress={() => setFilterModalVisible(true)}
                                     title="나만의 필터링"
                                 />
@@ -113,8 +109,7 @@ const HomeContainer = (props) => {
                             user ?
                                 <PressableButton
                                     key={3}
-                                    icon={<MaterialIcons name="schedule" size={100} color="black" />}
-                                    bg="lightBlue.100"
+                                    icon={""}
                                     onPress={() => props.navigation.navigate('Schedule')}
                                     title="충전 스케쥴 관리"
                                 />
@@ -124,8 +119,7 @@ const HomeContainer = (props) => {
                             user ?
                                 <PressableButton
                                     key={4}
-                                    icon={<AntDesign name="car" size={100} color="black" />}
-                                    bg="lightBlue.100"
+                                    icon={""}
                                     onPress={() => props.navigation.navigate('MyCar')}
                                     title="나의 자동차"
                                 />
@@ -134,8 +128,7 @@ const HomeContainer = (props) => {
 
                         <PressableButton
                             key={5}
-                            icon={<AntDesign name="questioncircleo" size={100} color="black" />}
-                            bg="lightBlue.100"
+                            icon={""}
                             onPress={() => props.navigation.navigate('example')}
                             title="테스트"
                         />
@@ -143,8 +136,7 @@ const HomeContainer = (props) => {
                             bookmarked.map((bookmark) =>
                                 <PressableButton
                                     key={bookmark}
-                                    icon={<FontAwesome5 name="charging-station" size={100} color="black" />}
-                                    bg="lightBlue.100"
+                                    icon={""}
                                     onPress={() => console.log('ㅇㅇ')}
                                     title={bookmark}
                                 />

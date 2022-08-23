@@ -36,5 +36,5 @@ export const MasonaryLayout = ({
 		});
 	};
 
-	return <HStack {..._hStack}>{vstackTemplate()}</HStack>;
+	return <HStack px={1} {..._hStack}>{vstackTemplate()}</HStack>;
 };

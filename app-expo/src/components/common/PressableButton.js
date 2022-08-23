@@ -1,45 +1,44 @@
-import { AspectRatio, Box, Center, Heading, Pressable } from "native-base";
-import { Text } from "react-native";
+import { AspectRatio, Box, Center, Heading, Pressable, Spacer, Text, VStack } from "native-base";
+import { Image } from "react-native";
 
 const PressableButton = (props) => {
     return (
-        <Box alignItems="center" py="1" px="1">
-            <Pressable onPress={props.onPress}>
-                {({
-                    isHovered,
-                    isFocused,
-                    isPressed
-                }) => {
-                    return (
-                        <AspectRatio width="100%" ratio={{
-                            base: 1 / 1,
-                            // md: 16 / 9
-                        }}>
-                            <Box
-                                // minW={props.width}
-                                // minH={props.height}
-                                borderWidth="1"
-                                borderColor="coolGray.300"
-                                shadow="3"
-                                bg={isPressed ? "#E2E2E2" : isHovered ? "black" : props.bg}
-                                p="5"
-                                rounded="8"
-                                style={{
-                                    transform: [{
-                                        scale: isPressed ? 0.96 : 1
-                                    }]
-                                }}
-                            >
+        <Pressable onPress={props.onPress}>
+            {({
+                isHovered,
+                isFocused,
+                isPressed
+            }) => {
+                return (
+                    <AspectRatio width="100%" ratio={{
+                        base: 1 / 1,
+                        // md: 16 / 9
+                    }}>
+                        <Box
+                            shadow="1"
+                            bg={isPressed ? "indigo.50" : isHovered ? "black" : "white"}
+                            p="5"
+                            rounded="20"
+                            style={{
+                                transform: [{
+                                    scale: isPressed ? 0.96 : 1
+                                }]
+                            }}
+                        >
+                            <VStack style={{ height: '100%' }}>
+                                <Text fontSize={"xl"} textAlign="center">{props.title}</Text>
                                 <Center>
-                                    {/* {props.icon} */}
-                                    <Heading size="md">{props.title}</Heading>
+                                    <Image
+                                        style={{ width: '90%', height: '90%' }}
+                                        source={require('../../../assets/home-map.png')}
+                                    />
                                 </Center>
-                            </Box>
-                        </AspectRatio>
-                    )
-                }}
-            </Pressable>
-        </Box>
+                            </VStack>
+                        </Box>
+                    </AspectRatio>
+                )
+            }}
+        </Pressable>
     )
 }
 
