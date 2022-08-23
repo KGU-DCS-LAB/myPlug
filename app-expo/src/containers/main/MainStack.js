@@ -12,6 +12,7 @@ import ScheduleContainer from '../schedule/ScheduleContainer';
 import ButtonsLayoutExample from '../example/ButtonsLayoutExample';
 import MyCarContainer from '../my_car/MyCarContainer';
 import AdvancedSearch from '../advancedSearch/AdvancedSearchContainer';
+import GoogleMapExample from '../example/GoogleMapExample';
 
 const MainContainer = () => {
 
@@ -61,7 +62,8 @@ const MainContainer = () => {
         return (
             // <ModalExample navigation={navigation} />
             // <CollapseExample navigation={navigation} />
-            <ButtonsLayoutExample navigation={navigation} />
+            // <ButtonsLayoutExample navigation={navigation} />
+            <GoogleMapExample navigation={navigation} />
         )
     }
 

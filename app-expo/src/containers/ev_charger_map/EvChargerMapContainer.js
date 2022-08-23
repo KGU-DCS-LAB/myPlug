@@ -21,12 +21,15 @@ import ThemeModal from "../../components/ev_charger_map/modals/ThemeModal";
 
 const EvChargerContainer = (props) => {
 
-    const [mapLocation, setMapLocation] = useState({
-        latitude: 37.3012,
-        longitude: 127.0355,
-        latitudeDelta: 0,
-        longitudeDelta: 0,
-    }); // 지도 중심 위치 (지도 view 이동용)
+    const [mapLocation, setMapLocation] = useState(
+        null
+    //     {
+    //     latitude: 37.3012,
+    //     longitude: 127.0355,
+    //     latitudeDelta: 0,
+    //     longitudeDelta: 0,
+    // }
+    ); // 지도 중심 위치 (지도 view 이동용)
 
     const [userLocation, setUserLocation] = useState({
         latitude: 37.3012,
@@ -77,7 +80,7 @@ const EvChargerContainer = (props) => {
                     longitudeDelta: 0.007,
                 }
                 // console.log(location);
-                setLocationAndGetStations(initLocation);
+                await setLocationAndGetStations(initLocation);
                 setLoaded(true);
                 // 실시간으로 위치 변화 감지 (권한 거부 시 아예 동작하지 않음 / 델타 값 관련 버그가 있어서 일단 주석 처리. 동작 자체는 아무 이상 없음)
                 Location.watchPositionAsync({ accuracy: Location.Accuracy.Balanced, timeInterval: 100, distanceInterval: 1 },
@@ -116,6 +119,7 @@ const EvChargerContainer = (props) => {
             latitudeDelta: 0.007,
             longitudeDelta: 0.007,
         }
+        mapRef.current.animateToRegion(stationLocation); // 지도 이동을 도와주는 메소드
         setStationListModalVisible(false)
         setSmallModalOpen(true);
         setBigModalOpen(false);
@@ -132,7 +136,7 @@ const EvChargerContainer = (props) => {
     return (
         <>
             {
-                isLoaded //GPS 수신이 안되면 로딩 Spinner 띄울 목적
+                isLoaded && mapLocation //GPS 수신이 안되면 로딩 Spinner 띄울 목적
                     ?
                     <>
                         <View style={{ flex: 1 }}>
@@ -179,22 +183,32 @@ const EvChargerContainer = (props) => {
 
                             <MapView
                                 ref={mapRef}
-                                initialRegion={{ //초기 값
-                                    latitude: 37.3012,
-                                    longitude: 127.0355,
-                                    latitudeDelta: 0.0922,
-                                    longitudeDelta: 0.0421,
-                                }}
-                                style={{ flex: 1 }}
-                                provider={PROVIDER_GOOGLE} // Apple 지도가 뜨지 않도록 방지함
-                                showsUserLocation={true}
-                                showsMyLocationButton={false} // 현위치를 맵에서 직접 관리하지 않도록 제한함 (Stagger에서 처리)
-                                region={{ //현 위치를 state가 관리하도록 함
+                                initialRegion={
+                                                                        { //현 위치를 state가 관리하도록 함
                                     latitude: mapLocation.latitude,
                                     longitude: mapLocation.longitude,
                                     latitudeDelta: mapLocation.latitudeDelta,
                                     longitudeDelta: mapLocation.longitudeDelta,
-                                }}
+                                }
+                                //     { //초기 값
+                                //     latitude: 37.3012,
+                                //     longitude: 127.0355,
+                                //     latitudeDelta: 0.0922,
+                                //     longitudeDelta: 0.0421,
+                                // }
+                            }
+                                style={{ flex: 1 }}
+                                provider={PROVIDER_GOOGLE} // Apple 지도가 뜨지 않도록 방지함
+                                showsUserLocation={true}
+                                showsMyLocationButton={false} // 현위치를 맵에서 직접 관리하지 않도록 제한함 (Stagger에서 처리)
+                                // region={
+                                    // { //현 위치를 state가 관리하도록 함
+                                //     latitude: mapLocation.latitude,
+                                //     longitude: mapLocation.longitude,
+                                //     latitudeDelta: mapLocation.latitudeDelta,
+                                //     longitudeDelta: mapLocation.longitudeDelta,
+                                // }
+                            // }
                                 onRegionChange={region => {
 
                                 }}
