@@ -28,10 +28,7 @@ const PressableButton = (props) => {
                             <VStack style={{ height: '100%' }}>
                                 <Text fontSize={"xl"} textAlign="center">{props.title}</Text>
                                 <Center>
-                                    <Image
-                                        style={{ width: '90%', height: '90%' }}
-                                        source={require('../../../assets/home-map.png')}
-                                    />
+                                    {props.icon}
                                 </Center>
                             </VStack>
                         </Box>

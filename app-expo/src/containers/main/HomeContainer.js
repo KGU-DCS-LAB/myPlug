@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Box, Heading, HStack, Spacer, Text, View, Avatar, useBreakpointValue } from "native-base";
-import { Dimensions, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign, FontAwesome5, Foundation, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import PressableButton from "../../components/common/PressableButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -85,13 +85,19 @@ const HomeContainer = (props) => {
                     >
                         <PressableButton
                             key={0}
-                            icon="home-map"
+                            icon={<Image
+                                style={{ width: '90%', height: '90%' }}
+                                source={require('../../../assets/home-map.png')}
+                            />}
                             onPress={() => props.navigation.navigate('EvCharger')}
                             title="충전소 지도"
                         />
                         <PressableButton
                             key={1}
-                            icon={""}
+                            icon={<Image
+                                style={{ width: '90%', height: '90%' }}
+                                source={require('../../../assets/home-search.png')}
+                            />}
                             onPress={() => props.navigation.navigate('AdvancedSearch')}
                             title="충전소 상세 검색"
                         />
@@ -99,7 +105,10 @@ const HomeContainer = (props) => {
                             user ?
                                 <PressableButton
                                     key={2}
-                                    icon={""}
+                                    icon={<Image
+                                        style={{ width: '90%', height: '90%' }}
+                                        source={require('../../../assets/home-filter.png')}
+                                    />}
                                     onPress={() => setFilterModalVisible(true)}
                                     title="나만의 필터링"
                                 />
@@ -109,9 +118,12 @@ const HomeContainer = (props) => {
                             user ?
                                 <PressableButton
                                     key={3}
-                                    icon={""}
+                                    icon={<Image
+                                        style={{ width: '90%', height: '90%' }}
+                                        source={require('../../../assets/home-schedule.png')}
+                                    />}
                                     onPress={() => props.navigation.navigate('Schedule')}
-                                    title="충전 스케쥴 관리"
+                                    title="충전 일정 관리"
                                 />
                                 : <Fragment key={3} />
                         }
@@ -119,7 +131,10 @@ const HomeContainer = (props) => {
                             user ?
                                 <PressableButton
                                     key={4}
-                                    icon={""}
+                                    icon={<Image
+                                        style={{ width: '90%', height: '90%' }}
+                                        source={require('../../../assets/home-car.png')}
+                                    />}
                                     onPress={() => props.navigation.navigate('MyCar')}
                                     title="나의 자동차"
                                 />
@@ -128,7 +143,10 @@ const HomeContainer = (props) => {
 
                         <PressableButton
                             key={5}
-                            icon={""}
+                            icon={<Image
+                                style={{ width: '90%', height: '90%' }}
+                                source={require('../../../assets/home-settings.png')}
+                            />}
                             onPress={() => props.navigation.navigate('example')}
                             title="테스트"
                         />
@@ -136,7 +154,10 @@ const HomeContainer = (props) => {
                             bookmarked.map((bookmark) =>
                                 <PressableButton
                                     key={bookmark}
-                                    icon={""}
+                                    icon={<Image
+                                        style={{ width: '90%', height: '90%' }}
+                                        source={require('../../../assets/home-charging-station.png')}
+                                    />}
                                     onPress={() => console.log('ㅇㅇ')}
                                     title={bookmark}
                                 />
