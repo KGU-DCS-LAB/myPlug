@@ -678,3 +678,117 @@ export const getKindDetail = {
         }
     ],
 }
+
+export const parkingFree = [
+    {
+        value: 'Y',
+        label: '무료'
+    },
+    {
+        value: 'N',
+        label: '유료'
+    }
+]
+
+export const chgerType = [
+    {
+        value: '01',
+        label: 'DC차데모'
+    },
+    {
+        value: '02',
+        label: 'AC완속'
+    },
+    {
+        value: '03',
+        label: 'DC차데모+AC3상'
+    },
+    {
+        value: '04',
+        label: 'DC콤보'
+    },
+    {
+        value: '05',
+        label: 'DC차데모+DC콤보'
+    },
+    {
+        value: '06',
+        label: 'DC차데모+AC3상+DC콤보'
+    },
+    {
+        value: '07',
+        label: 'AC3상'
+    },
+]
+
+export const output = [
+    {
+        value: '3',
+        label: '3kW'
+    },
+    {
+        value: '7',
+        label: '7kW'
+    },
+    {
+        value: '50',
+        label: '50kW'
+    },
+    {
+        value: '100',
+        label: '100kW'
+    },
+    {
+        value: '200',
+        label: '200kW'
+    },
+]
+
+export const method = [
+    {
+        value: '단독',
+        label: '단독 충전'
+    },
+    {
+        value: '동시',
+        label: '동시 충전'
+    }
+]
+
+export const stat = [
+    {
+        value: '1',
+        label: '통신이상'
+    },
+    {
+        value: '2',
+        label: '충전대기'
+    },
+    {
+        value: '3',
+        label: '충전 중'
+    },
+    {
+        value: '4',
+        label: '운영중지'
+    },
+    {
+        value: '5',
+        label: '점검 중'
+    },
+    {
+        value: '9',
+        label: '상태미확인'
+    },
+]
+
+export const limitYn = [
+    {
+        value: 'Y',
+        label: '이용제한'
+    },
+    {
+        value: 'N',
+        label: '누구나 사용가능'
+    }
+]

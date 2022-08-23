@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexWrap: "wrap",
         flexDirection: "row",
-        width: "95%"
+        justifyContent: "center",
+        alignContent: "stretch"
     },
     basicButton: {
         margin: 2,

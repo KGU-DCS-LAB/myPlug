@@ -1,22 +1,17 @@
 import { Alert, Modal, Pressable, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, Icon, ScrollViewBase } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
-import { Button, Center, Flex, HStack, ScrollView, VStack } from "native-base";
+import { Button, Center, Divider, Flex, HStack, ScrollView, VStack } from "native-base";
 import { useEffect, useState } from "react";
 import SelectBusiNm from "./filterModal/SelectBusiNm";
-import SelectParkingFree from "./filterModal/SelectParkingFree";
-import SelectChgerType from "./filterModal/SelectChgerType";
 import * as API from "../../../api/API";
 import * as STATIONS from '../../../api/STATIONS';
-import SelectOutput from "./filterModal/SelectOutput";
-import SelectStat from "./filterModal/SelectStat";
-import SelectLimitYn from "./filterModal/SelectLimitYn";
-import SelectMethod from "./filterModal/SelectMethod";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import OptionCard from "../../advancedSearch/card/OptionCard";
 
 const FilterModal = (props) => {
 
     const [busiNm, setBusiNm] = useState([]); // 서버로 부터 받아온 충전소 회사 리스트
-    const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [], output:[], stat:[], limitYn:[], method:[] });
+    const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [], output: [], stat: [], limitYn: [], method: [] });
     const [user, setUser] = useState({})
 
     useEffect(() => {
@@ -31,11 +26,11 @@ const FilterModal = (props) => {
     }
 
     const userCheck = async () => {
-        if(await AsyncStorage.getItem('userInfo') != null) {
+        if (await AsyncStorage.getItem('userInfo') != null) {
             const userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'))[0]
             setUser(userInfo)
             setSelectedType(userInfo.filterData)
-         }
+        }
     }
 
     const dataFiltering = async () => {
@@ -45,9 +40,9 @@ const FilterModal = (props) => {
         props.setFilterModalVisible(false);
     }
 
-    const saveFiltering = async() => {
+    const saveFiltering = async () => {
         const userInfo = await API.saveFilterData(user.user_id, selectedType);
-        await AsyncStorage.setItem('userInfo', JSON.stringify([userInfo]), () => {console.log('유저 정보 재저장')});
+        await AsyncStorage.setItem('userInfo', JSON.stringify([userInfo]), () => { console.log('유저 정보 재저장') });
         props.setFilterModalVisible(false);
     }
 
@@ -90,18 +85,60 @@ const FilterModal = (props) => {
 
                             <ScrollView>
                                 <View style={styles.wrapper}>
-                                    <SelectParkingFree selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
-
-                                    <SelectChgerType selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
-
-                                    <SelectOutput selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
-
-                                    <SelectMethod selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
-
-                                    <SelectStat selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
-
-                                    <SelectLimitYn selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
-                                    
+                                    <OptionCard
+                                        header={'무료 주차'}
+                                        dataNm={'parkingFree'}
+                                        data={STATIONS.parkingFree}
+                                        selectedType={selectedType}
+                                        selectType={selectType}
+                                        cancelSelect={cancelSelect}
+                                    />
+                                    <Divider my="2" />
+                                    <OptionCard
+                                        header={'충전기 종류'}
+                                        dataNm={'chgerType'}
+                                        data={STATIONS.chgerType}
+                                        selectedType={selectedType}
+                                        selectType={selectType}
+                                        cancelSelect={cancelSelect}
+                                    />
+                                    <Divider my="2" />
+                                    <OptionCard
+                                        header={'충전 용량'}
+                                        dataNm={'output'}
+                                        data={STATIONS.output}
+                                        selectedType={selectedType}
+                                        selectType={selectType}
+                                        cancelSelect={cancelSelect}
+                                    />
+                                    <Divider my="2" />
+                                    <OptionCard
+                                        header={'충전 방식'}
+                                        dataNm={'method'}
+                                        data={STATIONS.method}
+                                        selectedType={selectedType}
+                                        selectType={selectType}
+                                        cancelSelect={cancelSelect}
+                                    />
+                                    <Divider my="2" />
+                                    <OptionCard
+                                        header={'충전기 상태'}
+                                        dataNm={'stat'}
+                                        data={STATIONS.stat}
+                                        selectedType={selectedType}
+                                        selectType={selectType}
+                                        cancelSelect={cancelSelect}
+                                    />
+                                    <Divider my="2" />
+                                    <OptionCard
+                                        header={'이용자 제한'}
+                                        dataNm={'limitYn'}
+                                        data={STATIONS.limitYn}
+                                        selectedType={selectedType}
+                                        selectType={selectType}
+                                        cancelSelect={cancelSelect}
+                                    />
+                                    <Divider my="2" />
                                     <SelectBusiNm busiNm={busiNm} selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
                                 </View>
                             </ScrollView>
@@ -197,6 +234,7 @@ const styles = StyleSheet.create({
         // flex: 1,
         // height: '95%',
         alignItems: "center",
+        marginHorizontal: 20
     },
     modalCloseIcon: {
         height: 50,
