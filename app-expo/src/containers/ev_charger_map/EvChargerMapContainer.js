@@ -118,6 +118,7 @@ const EvChargerContainer = (props) => {
         }
         setStationListModalVisible(false)
         setSmallModalOpen(true);
+        setBigModalOpen(false);
         setLocationAndGetStations(stationLocation);
         let temp_chargers = chargers.filter((charger)=>charger.statId == station.statId)
         if(temp_chargers.length==0){
@@ -173,6 +174,7 @@ const EvChargerContainer = (props) => {
                                 selectedChargers={selectedChargers}
                                 stationLogs={stationLogs}
                                 stations={stations}
+                                focusToStation={focusToStation}
                             />
 
                             <MapView

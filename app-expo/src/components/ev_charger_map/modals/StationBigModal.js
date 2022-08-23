@@ -8,6 +8,7 @@ import ChargerCard from "../cards/ChargerCard";
 import LogTable from "../LogTable";
 import FindFavorites from "../FindFavorites";
 import { sortStations } from "../../../api/STATIONS";
+import StationCard from "../cards/StationCard";
 
 
 var screen = Dimensions.get('window');
@@ -134,9 +135,19 @@ const StationBigModal = (props) => {
                             <Divider mt={5} />
 
                             <Heading size="md" mt={5}>가까운 충전소 조회</Heading>
-                            {sortStations({latitude:props.selectedStation.lat, longitude:props.selectedStation.lng}, props.stations).map((station)=><Text key={station.statId}>{station.statNm} {station.distance}</Text>)}
+                            {
+                                sortStations({ latitude: props.selectedStation.lat, longitude: props.selectedStation.lng }, props.stations)
+                                    .filter((station) => station.distance <= 300)
+                                    .map((station) => (
+                                        <StationCard
+                                            key={station.statId}
+                                            station={station}
+                                            onPress={() => props.focusToStation(station)}
+                                        />
+                                    ))
+                            }
                             <Box mt={5} />
-                            
+
                         </ScrollView>
                         <Spacer />
                         <Center>
