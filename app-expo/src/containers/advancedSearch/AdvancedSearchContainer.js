@@ -3,11 +3,13 @@ import { useState } from "react";
 import { StyleSheet } from "react-native";
 import * as STATIONS from '../../api/STATIONS';
 import * as API from "../../api/API";
+import StationCard from "../../components/ev_charger_map/cards/StationCard";
 
 
 const AdvancedSearch = () => {
     const [selectedType, setSelectedType] = useState({ zcode: [], kind: [], kindDetail: [] });
-    const [kindDetailToSelect, setKindDeatilToSelect] = useState([])
+    const [searchedStations, setSearchedStations] = useState([]);
+    const [showList, setShowList] = useState(false);
 
     const selectType = (type, selected) => {
         let select = selectedType[type];
@@ -22,14 +24,36 @@ const AdvancedSearch = () => {
     }
 
     const findStations = async () => {
-        const stations = await API.getStationsByTheme(selectedType)
-        console.log(stations.length)
+        setShowList(true);
+        const receivedStationData = await API.getStationsByTheme(selectedType)
+        const receivedChargerData = await API.getChargersByManyStation(receivedStationData.map((station) => station.statId))
+        setSearchedStations(STATIONS.countChargers(receivedStationData, receivedChargerData))
+    }
+
+    const modifyOption = () => {
+        setShowList(false);
+        setSearchedStations([]);
     }
     
     return (
         <View style={{flex: 1}}>
             <Heading style={styles.heading}>테마별 충전소 검색</Heading>
-
+            {showList ? 
+                <View style={styles.container}>
+                    <ScrollView>
+                        {
+                            searchedStations.length < 0
+                                ?
+                                <><Text>검색된 충전소가 없습니다.</Text></>
+                                :
+                                searchedStations.map((station) => (
+                                    <StationCard key={station.statId} station={station} onPress={() => console.log(station.statNm)} /> //props.focusToStation(station)
+                                ))
+                        }
+                </ScrollView>
+                <Button onPress={() => modifyOption()}>테마 옵션 재설정</Button>
+            </View>
+            :
             <View style={styles.container}>
                 <ScrollView>
                     <Heading size="sm">지역코드</Heading>
@@ -72,6 +96,8 @@ const AdvancedSearch = () => {
                 </ScrollView>
                 <Button onPress={() => findStations()}>검색</Button>
             </View>
+            }
+            
         </View>
     )
 }

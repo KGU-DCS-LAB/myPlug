@@ -39,8 +39,9 @@ const FilterModal = (props) => {
     }
 
     const dataFiltering = async () => {
-        // setIsFiltering(true);
-        props.setChargingStations(STATIONS.sortStations(props.userLocation, await API.getFilteredData(props.mapLocation, selectedType)));
+        const receivedStationData = await API.getFilteredData(props.mapLocation, selectedType)
+        const receivedChargerData = await API.getChargersByManyStation(receivedStationData.map((station) => station.statId))
+        props.setChargingStations(STATIONS.countChargers(STATIONS.sortStations(props.userLocation, receivedStationData), receivedChargerData));
         props.setFilterModalVisible(false);
     }
 
