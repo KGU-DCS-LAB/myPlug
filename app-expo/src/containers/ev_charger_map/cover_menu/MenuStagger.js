@@ -66,29 +66,6 @@ const MenuStagger = (props) => {
                             () => props.setLocationAndGetStations(props.mapLocation)
                         }
                     />
-                                        <IconButton
-                        mb="3"
-                        margin={1}
-                        variant="solid"
-                        bg="blue.500"
-                        colorScheme="indigo"
-                        borderRadius="full"
-
-                        icon={
-                            <Icon
-                                as={MaterialIcons}
-                                size="6"
-                                name="brightness-high"
-                                _dark={{
-                                    color: "warmGray.50"
-                                }}
-                                color="warmGray.50"
-                            />
-                        }
-                        onPress={
-                            () => props.setThemeModalOpen(true)
-                        }
-                    />
                     <IconButton
                         mb="3"
                         margin={1}

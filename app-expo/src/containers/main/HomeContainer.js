@@ -65,7 +65,7 @@ const HomeContainer = (props) => {
                 </HStack>
             </Box>
 
-            <Box px={2} flex="1" bg="light.100">
+            <Box px={2} flex="1" bg="light.50">
                 <ScrollView>
                     <Box py={1} />
 
