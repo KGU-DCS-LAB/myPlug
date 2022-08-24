@@ -86,7 +86,7 @@ const HomeContainer = (props) => {
                         <PressableButton
                             key={0}
                             icon={<Image
-                                style={{ width: '90%', height: '90%' }}
+                                style={{ resizeMode: 'center', width: '80%', height: '80%' }}
                                 source={require('../../../assets/home-map.png')}
                             />}
                             onPress={() => props.navigation.navigate('EvCharger')}
@@ -95,7 +95,7 @@ const HomeContainer = (props) => {
                         <PressableButton
                             key={1}
                             icon={<Image
-                                style={{ width: '90%', height: '90%' }}
+                                style={{ resizeMode: 'center', width: '80%', height: '80%' }}
                                 source={require('../../../assets/home-search.png')}
                             />}
                             onPress={() => props.navigation.navigate('AdvancedSearch')}
@@ -106,7 +106,7 @@ const HomeContainer = (props) => {
                                 <PressableButton
                                     key={2}
                                     icon={<Image
-                                        style={{ width: '90%', height: '90%' }}
+                                        style={{ resizeMode: 'center', width: '80%', height: '80%' }}
                                         source={require('../../../assets/home-filter.png')}
                                     />}
                                     onPress={() => setFilterModalVisible(true)}
@@ -119,7 +119,7 @@ const HomeContainer = (props) => {
                                 <PressableButton
                                     key={3}
                                     icon={<Image
-                                        style={{ width: '90%', height: '90%' }}
+                                        style={{ resizeMode: 'center', width: '80%', height: '80%' }}
                                         source={require('../../../assets/home-schedule.png')}
                                     />}
                                     onPress={() => props.navigation.navigate('Schedule')}
@@ -132,7 +132,7 @@ const HomeContainer = (props) => {
                                 <PressableButton
                                     key={4}
                                     icon={<Image
-                                        style={{ width: '90%', height: '90%' }}
+                                        style={{ resizeMode: 'center', width: '80%', height: '80%' }}
                                         source={require('../../../assets/home-car.png')}
                                     />}
                                     onPress={() => props.navigation.navigate('MyCar')}
@@ -144,7 +144,7 @@ const HomeContainer = (props) => {
                         <PressableButton
                             key={5}
                             icon={<Image
-                                style={{ width: '90%', height: '90%' }}
+                                style={{ resizeMode: 'center', width: '80%', height: '80%' }}
                                 source={require('../../../assets/home-settings.png')}
                             />}
                             onPress={() => props.navigation.navigate('example')}
@@ -155,7 +155,7 @@ const HomeContainer = (props) => {
                                 <PressableButton
                                     key={bookmark}
                                     icon={<Image
-                                        style={{ width: '90%', height: '90%' }}
+                                        style={{ resizeMode: 'center', width: '80%', height: '80%' }}
                                         source={require('../../../assets/home-charging-station.png')}
                                     />}
                                     onPress={() => console.log('ㅇㅇ')}

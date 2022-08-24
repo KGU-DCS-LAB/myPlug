@@ -20,17 +20,28 @@ const PressableButton = (props) => {
                             p="5"
                             rounded="20"
                             style={{
+                                // flex: 1,
                                 transform: [{
                                     scale: isPressed ? 0.96 : 1
                                 }]
                             }}
                         >
-                            <VStack style={{ height: '100%' }}>
+                            <Box height={"auto"}>
                                 <Text fontSize={"xl"} textAlign="center">{props.title}</Text>
-                                <Center>
+                            </Box>
+
+                            <Center>
+                                {/* <AspectRatio height={"80%"} ratio={{
+                                    base: 1 / 1,
+                                    // md: 16 / 9
+                                }}> */}
                                     {props.icon}
-                                </Center>
-                            </VStack>
+                                {/* </AspectRatio> */}
+                            </Center>
+
+                            {/* <Center>
+                                {props.icon}
+                            </Center> */}
                         </Box>
                     </AspectRatio>
                 )
