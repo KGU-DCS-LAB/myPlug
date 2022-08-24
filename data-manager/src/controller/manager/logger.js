@@ -26,9 +26,25 @@ export const init = async (region, date, raw_data, page) => {
 
     await addDefaultLogs(page, logsForBulk);
     
-    // 여기서 시간별 업데이트가 필요함
+    // 여기서 시간별 업데이트가 필요함 (제작중)
+    logsForBulk = [];
+    raw_data.filter((data)=>data.stat==3).map((data)=>{
+        // logsForBulk.push(addStat3LogJSON(data.statId + '' + data.chgerId));
+    })
 
     return null;
+}
+
+const addStat3LogJSON = (logId) => {
+    const doc = {
+        'updateOne': {
+            'filter': { _id: { $eq: logId } },
+            'update': {
+
+            },
+        }
+    }
+    return doc;
 }
 
 const addDefaultLogJSON = (region, date, raw) => {

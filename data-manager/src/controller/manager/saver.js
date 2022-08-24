@@ -3,7 +3,14 @@ import { Charger } from '../../models/Charger.js'
 import * as logger from './logger.js'
 import { addRegions, addStatus } from '../../api/STATUS.js';
 
-
+/**
+ * 수신받은 raw data를 저장하는 함수
+ * @param {String} region 
+ * @param {dateJSON} date 
+ * @param {[]} raw_data 
+ * @param {String} page 
+ * @returns 
+ */
 export const init = async (region, date, raw_data, page) => {
 
     let stationIdSet = new Set(); //충전소만 걸러내기 위한 메소드
