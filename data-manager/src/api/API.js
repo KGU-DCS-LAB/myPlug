@@ -1,5 +1,10 @@
 import axios from "axios";
 
+/**
+ * 전달받은 url을 사용하여 axios로 데이터를 받아온다.
+ * @param {String} url 
+ * @returns 
+ */
 export const getChargerInfo = async (url) => {
     try {
         const response = await axios.get(url)

@@ -4,29 +4,32 @@ import * as logger from './controller/manager/logger.js'
 // Using ES6 imports
 import mongoose from 'mongoose';
 
+/**
+ * 데이터 작업을 지시하는 함수
+ * */
 export const run = async () => {
-
-    //  Mongoose Connection
-    let start = new Date();  // 시작
-    await mongoose.connect(`mongodb+srv://gabrielyoon7:0000@gabrielyoon7.aq0fu.mongodb.net/myplug?retryWrites=true&w=majority`, {})
+    let start = new Date();  // 시간 측정 시작
+    //  Mongoose Connection (여기서만 해주면 전역 설정 됨)
+    await mongoose
+        .connect(`mongodb+srv://gabrielyoon7:0000@gabrielyoon7.aq0fu.mongodb.net/myplug?retryWrites=true&w=majority`, {})
         .then(() => console.log('MongoDB Connected!!'))
-        .catch(err => console.log(err))
-
+        .catch(err => console.log(err));
     const date = await makeDateJSON(new Date());
-    await receiver.init(date);
+    await receiver.init(date); //데이터 수집 시작
     console.log('작업 끝');
-    let end = new Date();  // 종료
-    console.log('걸린 시간 : '+(end-start)+'ms');
+    let end = new Date();  // 시간 측정 종료
+    console.log('걸린 시간 : ' + (end - start) + 'ms');
     return null;
 }
 
-// 우리가 봐 온것 처럼, Garbage collection은 복잡한 프로세스이고 그리고 유효한 코드가 메모리를 야기시키게 할 수 있다. 
-// 크롬 디벨로퍼 툴에서 제공되는 기능들을 이용해서 메모리 누수의 근원을 찾을 수 있다. 
-// 그리고 당신의 어플리케이션안에 그러한 기능을 넣게 되면, 문제가 발생했을 때 해결할 수 있는 모든 것을 갖게 된다. 그러나 한가지 의문이 남는다.
-// 우리는 어떻게 이 문제를 해결 할 수 있을까? 이것은 간단하다. 단순히 함수 맨 마지막에 theThing = null을 넣는 것이다. 그러면 당신의 시간을 아낄 수 있을 것이다.
-
+/**
+ *  모든 작업에서 사용할 공통된 Date 정보 
+ * 이 데이터를 다음 함수에게 넘겨서, 일정한 Date 정보를 활용할 수 있도록 한다.
+ * 원본 date, 이번 주가 몇번 째 주 인지, 요일이 언제인지, 현재 몇시인지를 미리 계산해놓은 JSON
+ * @param {Date} date
+ * @return JSON
+ * */
 const makeDateJSON = (date) => {
-    // 모든 작업에서 사용할 공통된 Date 정보 (모든 메소드에서 시간을 통일하기 위한 조치)
     const day = ['일', '월', '화', '수', '목', '금', '토'];
     const dateJSON = {
         date: date,
@@ -37,8 +40,15 @@ const makeDateJSON = (date) => {
     return dateJSON;
 }
 
+/**
+ * 업데이트 기록을 남기기 위한 메소드.
+ * @todo 앞선 기능들이 안정화 되면 이후에 구현 예정
+ * @param {Date} date 
+ * @param {int} rawDataCount 
+ * @param {int} stationsCount 
+ * @param {int} chargersCount 
+ */
 const updateVersion = (date, rawDataCount, stationsCount, chargersCount) => {
-    // 업데이트 기록을 남기기 위한 메소드
     console.log(rawDataCount)
     console.log(stationsCount)
     console.log(chargersCount)

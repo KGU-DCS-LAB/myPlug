@@ -2,6 +2,9 @@ import * as API from '../../api/API.js';
 import { initStatus } from '../../api/STATUS.js';
 import * as saver from './saver.js'
 
+/**
+ * 전국 지역 코드
+ */
 const zcodes = [
     { 'code': 11, 'region': '서울특별시' },
     { 'code': 26, 'region': '부산광역시' },
@@ -21,19 +24,26 @@ const zcodes = [
     { 'code': 50, 'region': '제주도' },
 ]
 
-export const init = async (date) => {
+/**
+ * 데이터를 지역별로 수집하는 기능
+ * zcodes를 참고하여 getChargerInfoByZcode()함수를 비동기적으로 사용하여 수집하는 것을 제어한다.
+ * @param {dateJSON} dateJSON 
+ * @returns null
+ */
+export const init = async (dateJSON) => {
     initStatus();
-    await Promise.all(zcodes.map((z) => getChargerInfoByZcode(z, date))); //순서를 지켜주기 위함
-    // await getChargerInfoByZcode({ 'code': 11, 'region': '서울특별시' }, date);
-    // await getChargerInfoByZcode({ 'code': 41, 'region': '경기도' }, date);
+    await Promise.all(zcodes.map((z) => getChargerInfoByZcode(z, dateJSON))); //순서를 지켜주기 위해 Promise.all을 사용했으며, 이후에 등장하는 함수를 iterable하게 적용함
     console.log('************reveiver.js is over*****************')
     return null;
 }
 
-const getChargerInfoByZcode = async (z, date) => {
-    /**
-     * 주어진 zcode를 사용하여 KECO api로 부터 데이터 요청을 하는 메소드
-     */
+/**
+ * 주어진 zcode를 사용하여 KECO api로 부터 데이터 요청을 하는 메소드
+ * @param {zcodes} z 
+ * @param {dateJSON} dateJSON 
+ * @returns 
+ */
+const getChargerInfoByZcode = async (z, dateJSON) => {
     // let raw_data = [];
     console.log(z.code, z.region);
     let totalCount = 10000; // 실행 시 업데이트 되는 부분... 최초 실행 시 업데이트 되며, 전체 갯수를 의미함.
@@ -62,7 +72,7 @@ const getChargerInfoByZcode = async (z, date) => {
         maxPage = parseInt(totalCount / numOfRows) + 1;
         console.log(">> [" + z.region + "] 데이터 요청 | page [" + page + "/" + maxPage + "] | count [" + (page * numOfRows > totalCount ? totalCount : page * numOfRows) + "/" + totalCount + "]");
         //받은 데이터를 저장하기 시작함 (node.js 속도 향상을 위해 페이지 단위로 저장 요청을 수행한다. 이렇게 되면 1번에 최대 9999개까지만 작업해서 속도 개선이 가능함.)
-        await saver.init(z.region, date, raw_data, "[" + z.region + " " + page + "/" + maxPage + "]");
+        await saver.init(z.region, dateJSON, raw_data, "[" + z.region + " " + page + "/" + maxPage + "]");
         page++;
     }
     return null;

@@ -15,6 +15,9 @@ export const addRegions = () => {
     // maxRegions+=1;
 }
 
+/**
+ * 마지막으로 작업한 상태 로그를 초기화하기 위한 메소드
+ */
 export const initStatus = () => {
     logs = [];
     // maxRegions = 0;

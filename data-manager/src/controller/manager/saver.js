@@ -4,9 +4,73 @@ import * as logger from './logger.js'
 import { addRegions, addStatus } from '../../api/STATUS.js';
 
 
-let stationIdSet = new Set();
-
 export const init = async (region, date, raw_data, page) => {
+
+    let stationIdSet = new Set(); //충전소만 걸러내기 위한 메소드
+    
+    const addStationJSON = (date, raw) => {
+        const upsertDoc = {
+            'updateOne': {
+                'filter': { _id: { $eq: raw.statId } },
+                'update': {
+                    _id: raw.statId,
+                    api: 'keco',
+                    date: date,
+                    statNm: raw.statNm,
+                    statId: raw.statId,
+                    addr: raw.addr,
+                    location: raw.location,
+                    useTime: raw.useTime,
+                    lat: raw.lat,
+                    lng: raw.lng,
+                    busiId: raw.busiId,
+                    bnm: raw.bnm,
+                    busiNm: raw.busiNm,
+                    busiCall: raw.busiCall,
+                    zcode: raw.zcode,
+                    zscode: raw.zscode,
+                    kind: raw.kind,
+                    kindDetail: raw.kindDetail,
+                    parkingFree: raw.parkingFree,
+                    note: raw.note,
+                    limitYn: raw.limitYn,
+                    limitDetail: raw.limitDetail,
+                    delYn: raw.delYn,
+                    delDetail: raw.delDetail,
+                    distance: 0,
+                },
+                'upsert': true
+            }
+        }
+        stationIdSet.add(raw.statId); //중복 제한을 막기 위해 Set 처리
+        return upsertDoc;
+    }
+    
+    const addChargerJSON = (date, raw) => {
+        const upsertDoc = {
+            'updateOne': {
+                'filter': { _id: { $eq: raw.statId + raw.chgerId } },
+                'update': {
+                    _id: raw.statId + raw.chgerId,
+                    api: "keco",
+                    date: date,
+                    statNm: raw.statNm,
+                    statId: raw.statId,
+                    chgerId: raw.chgerId,
+                    chgerType: raw.chgerType,
+                    stat: raw.stat,
+                    statUpdDt: raw.statUpdDt,
+                    lastTsdt: raw.lastTsdt,
+                    lastTedt: raw.lastTsdt,
+                    nowTsdt: raw.nowTsdt,
+                    output: raw.output,
+                    method: raw.method,
+                },
+                'upsert': true
+            }
+        }
+        return upsertDoc;
+    }
 
     let stations = []
     let chargers = []
@@ -23,73 +87,6 @@ export const init = async (region, date, raw_data, page) => {
     await Promise.all([updateStations(page, stations), updateChargers(page, chargers), logger.init(region, date, raw_data, page)]);
     addStatus(page);
     return null;
-}
-
-const addStationJSON = (date, raw) => {
-
-    const upsertDoc = {
-        'updateOne': {
-            'filter': { _id: { $eq: raw.statId } },
-            'update': {
-                _id: raw.statId,
-                api: 'keco',
-                date: date,
-                statNm: raw.statNm,
-                statId: raw.statId,
-                addr: raw.addr,
-                location: raw.location,
-                useTime: raw.useTime,
-                lat: raw.lat,
-                lng: raw.lng,
-                busiId: raw.busiId,
-                bnm: raw.bnm,
-                busiNm: raw.busiNm,
-                busiCall: raw.busiCall,
-                zcode: raw.zcode,
-                zscode: raw.zscode,
-                kind: raw.kind,
-                kindDetail: raw.kindDetail,
-                parkingFree: raw.parkingFree,
-                note: raw.note,
-                limitYn: raw.limitYn,
-                limitDetail: raw.limitDetail,
-                delYn: raw.delYn,
-                delDetail: raw.delDetail,
-                distance: 0,
-            },
-            'upsert': true
-        }
-    }
-    stationIdSet.add(raw.statId); //중복 제한을 막기 위해 Set 처리
-
-    return upsertDoc;
-}
-
-const addChargerJSON = (date, raw) => {
-    const upsertDoc = {
-        'updateOne': {
-            'filter': { _id: { $eq: raw.statId + raw.chgerId } },
-            'update': {
-                _id: raw.statId + raw.chgerId,
-                api: "keco",
-                date: date,
-                statNm: raw.statNm,
-                statId: raw.statId,
-                chgerId: raw.chgerId,
-                chgerType: raw.chgerType,
-                stat: raw.stat,
-                statUpdDt: raw.statUpdDt,
-                lastTsdt: raw.lastTsdt,
-                lastTedt: raw.lastTsdt,
-                nowTsdt: raw.nowTsdt,
-                output: raw.output,
-                method: raw.method,
-            },
-            'upsert': true
-        }
-    }
-
-    return upsertDoc;
 }
 
 const updateStations = async (page, stations) => {
