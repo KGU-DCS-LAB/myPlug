@@ -399,7 +399,7 @@ export const getKind = [
         label: '주차시설'
     },
     {
-        value: 'V0',
+        value: 'C0',
         label: '휴게시설'
     },
     {
