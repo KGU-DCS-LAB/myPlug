@@ -27,20 +27,32 @@ export const init = async (region, date, raw_data, page) => {
     await addDefaultLogs(page, logsForBulk);
     
     // 여기서 시간별 업데이트가 필요함 (제작중)
-    logsForBulk = [];
-    raw_data.filter((data)=>data.stat==3).map((data)=>{
-        // logsForBulk.push(addStat3LogJSON(data.statId + '' + data.chgerId));
-    })
-
+    // logsForBulk = [];
+    // raw_data.filter((data)=>data.stat==3).map((data)=>{
+    //     logsForBulk.push(addStat3LogJSON(date, data.statId + '' + data.chgerId));
+    // })
+    // console.log(page+' 사용중인 충전기 수 : '+ logsForBulk.length);
+    // await updateStat3Logs(page, logsForBulk);
+    
     return null;
 }
 
-const addStat3LogJSON = (logId) => {
+const addStat3LogJSON = (date, logId) => {
+    // https://github.com/Automattic/mongoose/issues/9268 여기 참고해서 다시 도전해보기
+    console.log(logId);
+    const day = date.day;
+    const hour = date.hour;
     const doc = {
         'updateOne': {
             'filter': { _id: { $eq: logId } },
             'update': {
-
+                $set:{
+                    logs:{
+                        [day]:{
+                            [hour]:1
+                        }
+                    }  
+                }
             },
         }
     }
@@ -83,11 +95,22 @@ const defaultTimeTable = {
 }
 
 const addDefaultLogs = async (page, logs) => {
-    console.log('>> Logs ' + page + ' 정보 업데이트 중 ...')
+    console.log('>> Logs ' + page + ' 기본 로그 데이터 추가 중 ...')
     await StationLogs.bulkWrite(logs).then(bulkWriteOpResult => {
         console.log('>> Logs ' + page + ' BULK update OK : ' + logs.length);
     }).catch(err => {
         console.log('>> Logs ' + page + ' BULK update error');
+        console.log(JSON.stringify(err));
+    });
+    return null;
+}
+
+const updateStat3Logs = async (page, logs) => {
+    console.log('>> Logs Stat3 ' + page + ' 사용중인 충전기 로그 업데이트 중 ...')
+    await StationLogs.bulkWrite(logs).then(bulkWriteOpResult => {
+        console.log('>> Logs Stat3 ' + page + ' BULK update OK : ' + logs.length);
+    }).catch(err => {
+        console.log('>> Logs Stat3 ' + page + ' BULK update error');
         console.log(JSON.stringify(err));
     });
     return null;

@@ -30,7 +30,7 @@ export const run = async () => {
  * @return JSON
  * */
 const makeDateJSON = (date) => {
-    const day = ['일', '월', '화', '수', '목', '금', '토'];
+    const day = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
     const dateJSON = {
         date: date,
         week: date.getFullYear() + '' + date.getWeek(),
