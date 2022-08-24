@@ -16,9 +16,13 @@ const AdvancedScrollView = ({ showList, searchedStations, selectedType, selectTy
                     :
                     searchedStations.length < 0 ?
                         <><Text>검색된 충전소가 없습니다.</Text></>
-                        : searchedStations.map((station) => (
+                        : 
+                        <>
+                        <WhatISelected selectedType={selectedType} />
+                        {searchedStations.map((station) => (
                             <StationCard key={station.statId} station={station} onPress={() => console.log(station.statNm)} /> //props.focusToStation(station)
-                        ))
+                        ))}
+                        </>
 
                 :
                 <>
@@ -64,6 +68,29 @@ const AdvancedScrollView = ({ showList, searchedStations, selectedType, selectTy
                 </>
             }
         </ScrollView>
+    )
+}
+
+const WhatISelected = ({selectedType}) => {
+    return (
+        <Text>
+            {selectedType.zcode.length !== 0 ? <Text>{selectedType.zcode.map((z) => STATIONS.zCode.find((type) => type.value === z).label + '  ')}</Text> : null}
+            
+            {selectedType.zcode.length !== 0 && selectedType.kind.length !== 0 ? <Text>{">"}  </Text> : null}
+
+            {selectedType["kind"].map((kind, index) =>
+                <Text key={kind}>
+                    {STATIONS.getKind.find((type) => type.value === kind).label + '  '}
+                    {STATIONS.getKindDetail[kind].length !== 0 ? <Text>{">"}  </Text> : null }
+                    <Text>
+                        {selectedType["kindDetail"].map((item) =>
+                            STATIONS.getKindDetail[kind].findIndex((type) => type.value === item) !== -1 ?
+                                <Text>{STATIONS.getKindDetail[kind].find((type) => type.value === item).label + "  "}</Text> : null)}
+                    </Text>
+                    {index === selectedType["kind"].length - 1 ? null : <Text>/{"  "}</Text>}
+                </Text>
+            )}
+        </Text>
     )
 }
 
