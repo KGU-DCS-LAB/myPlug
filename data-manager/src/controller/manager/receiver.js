@@ -59,7 +59,7 @@ const getChargerInfoByZcode = async (z, dateJSON) => {
         if (page > maxPage) {
             break;
         }
-        
+
         let url = "http://apis.data.go.kr/B552584/EvCharger/getChargerInfo?";
         url += "serviceKey=dg8oHXO5d9HkXM00ye%2Bvpwk1w16hxVZxN9UGvCFKA8kXtHQhTb6CJebWA2WZdMszfK%2B9HgoiqEYCB%2Bze2hFWMQ%3D%3D"; //고유키값 (하루에 1000번 요청 제한 있음.)
         url += "&pageNo=" + page; // 페이지 번호 : 페이지 번호
@@ -67,15 +67,21 @@ const getChargerInfoByZcode = async (z, dateJSON) => {
         url += "&zcode=" + z.code; //지역구분 코드 시도 코드 (행정구역코드 앞 2자리)
 
         const { header, item } = await API.getChargerInfo(url); // KECO API로부터 데이터 수신
-        raw_data.push(...item);
-        totalCount = header.totalCount;
-        maxPage = parseInt(totalCount / numOfRows) + 1;
-        console.log(">> [" + z.region + "] 데이터 요청 | page [" + page + "/" + maxPage + "] | count [" + (page * numOfRows > totalCount ? totalCount : page * numOfRows) + "/" + totalCount + "]");
-        /**
-         * 받은 데이터를 저장하기 시작함 (node.js 속도 향상을 위해 지역별이 아닌 페이지 단위로 저장 요청을 수행한다. 이렇게 되면 1번에 최대 9999개까지만 작업해서 속도 개선이 가능함.)
-         * */
-        await saver.init(z.region, dateJSON, raw_data, "[" + z.region + " " + page + "/" + maxPage + "]");
-        page++;
+        try {
+            raw_data.push(...item);
+            totalCount = header.totalCount;
+            maxPage = parseInt(totalCount / numOfRows) + 1;
+            console.log(">> [" + z.region + "] 데이터 요청 | page [" + page + "/" + maxPage + "] | count [" + (page * numOfRows > totalCount ? totalCount : page * numOfRows) + "/" + totalCount + "]");
+            /**
+             * 받은 데이터를 저장하기 시작함 (node.js 속도 향상을 위해 지역별이 아닌 페이지 단위로 저장 요청을 수행한다. 이렇게 되면 1번에 최대 9999개까지만 작업해서 속도 개선이 가능함.)
+             * */
+            await saver.init(z.region, dateJSON, raw_data, "[" + z.region + " " + page + "/" + maxPage + "]");
+            page++;
+
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
     }
     return null;
 }
