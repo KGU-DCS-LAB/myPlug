@@ -27,31 +27,28 @@ export const init = async (region, date, raw_data, page) => {
     await addDefaultLogs(page, logsForBulk);
     
     // 여기서 시간별 업데이트가 필요함 (제작중)
-    // logsForBulk = [];
-    // raw_data.filter((data)=>data.stat==3).map((data)=>{
-    //     logsForBulk.push(addStat3LogJSON(date, data.statId + '' + data.chgerId));
-    // })
-    // console.log(page+' 사용중인 충전기 수 : '+ logsForBulk.length);
-    // await updateStat3Logs(page, logsForBulk);
+    logsForBulk = [];
+    raw_data.filter((data)=>data.stat==3).map((data)=>{
+        logsForBulk.push(addStat3LogJSON(date, data.statId + '' + data.chgerId));
+    })
+    console.log(page+' 사용중인 충전기 수 : '+ logsForBulk.length);
+    await updateStat3Logs(page, logsForBulk);
     
     return null;
 }
 
 const addStat3LogJSON = (date, logId) => {
-    // https://github.com/Automattic/mongoose/issues/9268 여기 참고해서 다시 도전해보기
-    console.log(logId);
+    // https://github.com/Automattic/mongoose/issues/9268 여기 참고해서 다시 도전해보기 --> 해결
+    // console.log(logId);
     const day = date.day;
     const hour = date.hour;
+    const temp = 'logs.'+day+'.'+hour;
     const doc = {
         'updateOne': {
             'filter': { _id: { $eq: logId } },
             'update': {
                 $set:{
-                    logs:{
-                        [day]:{
-                            [hour]:1
-                        }
-                    }  
+                    [temp]:1,
                 }
             },
         }
