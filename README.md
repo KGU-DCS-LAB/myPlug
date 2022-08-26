@@ -1,8 +1,9 @@
 
-# 나만의 플러그 : myPlug (제작중)
+# 나만의 플러그 : myPlug
 
-전기차 충전 조회 및 충전 기록 앱
+### 전기차 충전소 조회 및 추천 애플리케이션
 
+    Android / iOS
 
 ## Authors
 - [@gabrielyoon7 (윤주현, Gabriel Ju Hyun Yoon)](https://github.com/gabrielyoon7)
@@ -14,26 +15,35 @@
 
 ## Tech Stack
 
-**Client(App)** 
+**Client ( Android/iOS Application )** 
 
-[![ㅇㅇ](https://img.shields.io/badge/App-Expo%20GO-lightgray)](https://expo.dev/client)
+
 [![ㅇㅇ](https://img.shields.io/badge/App-React%20Native-blue)](https://reactnative.dev/)
 [![ㅇㅇ](https://img.shields.io/badge/App-Native%20Base-9cf)](https://nativebase.io/)
 [![ㅇㅇ](https://img.shields.io/badge/App-React%20Native%20Navigation-blueviolet)](https://reactnavigation.org/)
+[![ㅇㅇ](https://img.shields.io/badge/App-Expo-lightgray)](https://expo.dev/client)
 
+**Server ( Node.js Application )**
 
-**Server(App)**
-
-[![ㅇㅇ](https://img.shields.io/badge/Backend-MongoDB-success)](https://www.mongodb.com/ko-kr)
-[![ㅇㅇ](https://img.shields.io/badge/Backend-mongoose-red)](https://mongoosejs.com/)
 [![ㅇㅇ](https://img.shields.io/badge/Backend-NodeJS-green)](https://nodejs.org/ko/)
 [![ㅇㅇ](https://img.shields.io/badge/Backend-ExpressJS-black)](https://reactnative.dev/)
-
-**Server(Data)**
-
 [![ㅇㅇ](https://img.shields.io/badge/Backend-MongoDB-success)](https://www.mongodb.com/ko-kr)
-[![ㅇㅇ](https://img.shields.io/badge/Backend-Java-red)](https://www.java.com/ko/)
+[![ㅇㅇ](https://img.shields.io/badge/Backend-mongoose-red)](https://mongoosejs.com/)
 
+**Data Manager V2 ( Node.js Application )**
+
+[![ㅇㅇ](https://img.shields.io/badge/Backend-NodeJS-green)](https://nodejs.org/ko/)
+[![ㅇㅇ](https://img.shields.io/badge/Backend-MongoDB-success)](https://www.mongodb.com/ko-kr)
+[![ㅇㅇ](https://img.shields.io/badge/API-KECO-blue)](https://www.data.go.kr/data/15013115/standard.do)
+
+
+
+
+***~~Data Manager V1 ( Java Application / Deprecated!!!)~~***
+
+[![ㅇㅇ](https://img.shields.io/badge/Backend-Java-red)](https://www.java.com/ko/)
+[![ㅇㅇ](https://img.shields.io/badge/Backend-MongoDB-success)](https://www.mongodb.com/ko-kr)
+[![ㅇㅇ](https://img.shields.io/badge/API-KECO-blue)](https://www.data.go.kr/data/15013115/standard.do)
 
 
 ## Project Structure
@@ -41,57 +51,67 @@
 프로젝트 구조는 다음과 같습니다.
 
     .
-    ├── app-expo [Client(App)]
-    ├── server [Server(App)]
-    ├── station-data-generator [Server(Data)]
-    └── data-manager [Server(Data)]
+    ├── app-expo [Client (Android/iOS Application)]
+    │   └── src
+    │       ├── api
+    │       ├── components
+    │       ├── containers
+    │       └── hooks
+    ├── server [Server (Node.js Application)]
+    │   ├── models
+    │   └── routes
+    └── data-manager [Data Manager V2 ( Node.js Application )]
+        └── src
+            ├── api
+            ├── controller
+            └── models
 
 - app-expo
 
-충전소 지도 앱 입니다. 스마트폰에 Expo를 설치한 후 구동할 수 있습니다. (iOS/Android 모두 구동 가능)
+React Native를 사용하여 작성한 충전소 지도 앱 입니다. 스마트폰에 Expo를 설치한 후 구동할 수 있습니다. (iOS/Android)
 
 - server
 
-충전소 지도 앱에서 사용할 DB 작업을 처리해줄 서버 입니다.
-
-- station-data-generator
-
-[한국환경공단(KECO)에서 제공하는 충전소API](https://www.data.go.kr/data/15013115/standard.do)를 사용하여 데이터를 수신 및 가공해주는 Java 애플리케이션입니다.
+충전소 지도 앱에서 사용할 DB 작업을 처리해줄 Node.js + Express 기반의 서버 입니다.
 
 - data-manager
-제작중
 
-- ~~data-manager~~ [deprecated]
+[한국환경공단(KECO)에서 제공하는 충전소API](https://www.data.go.kr/data/15013115/standard.do)를 사용하여 데이터를 수신 및 가공해주는 Node.js 애플리케이션입니다.
 
-더이상 사용하지 않는 프로그램 입니다. (station-data-generator 안정성 테스트 이후 제거 예정)
+~~- stations-data-generator~~
 
-- ~~web-manager~~ [deprecated]
+~~[한국환경공단(KECO)에서 제공하는 충전소API](https://www.data.go.kr/data/15013115/standard.do)를 사용하여 데이터를 수신 및 가공해주는 Java 애플리케이션입니다.~~
 
-더이상 사용하지 않는 프로그램 입니다. (station-data-generator 안정성 테스트 이후 제거 예정)
 
 ## Features
 
-- Client(App)
-  - 충전소 조회 (지도)
-    - 충전소 실시간 검색
-    - 지도 확대/축소/현위치
-    - 충전소 리스트
-        - 거리순 정렬
-    - 충전소 조회
-        - 충전소 간단 정보
-        - 충전소 상세 정보
-            - 충전기 실시간 사용 정보
-            - 충전기 사용 통계
-            - 충전소 사용 통계
-    - 충전소 필터링
-        - 주차비 여부
-        - 운영기관 필터링
-    - 충전소 새로 고침
-  - 즐겨찾기로 등록 된 충전소 조회
-  - (제작중)
-- Server(App)
+. [Client (Android/iOS Application)]
+├── 충전소 조회 (지도)
+│   ├── 충전소 실시간 검색
+│   ├── 지도 확대/축소/현위치
+│   ├── 충전소 리스트
+│   │   ├── 충전소 상태별 색상 표시
+│   │   └── 거리순 정렬
+│   ├── 충전소 조회
+│   │   ├── 충전소 간단 정보
+│   │   └── 충전소 상세 정보
+│   │        ├── 충전기 실시간 사용 정보
+│   │        ├── 충전기 사용 통계
+│   │        └── 충전소 사용 통계
+│   ├── 충전소 필터링
+│   │   ├── 주차비 여부
+│   │   └── 운영기관 필터링
+│   ├── 충전소 새로 고침
+│   └── 즐겨찾기로 등록 된 충전소 조회
+├── 계정
+│   ├── 회원가입
+│   └── 로그인/로그아웃
+├── 충전소 전국단위 검색
+├── 충전 일정 관리
+└── 나의 자동차 설정
+- [Server (Node.js Application)]
     - App 사용에 필요한 RESTful API 형태로 구현
-- Server(Data)
+- [Data Manager V2 ( Node.js Application )]
   - KECO로 부터 충전기 데이터 실시간 수신
   - KECO로 부터 수신 받은 데이터를 충전소와 충전기로 분리
   - 충전소와 충전기 데이터를 새 데이터로 overwrite (벌크형태로 저장/관리하여 속도 개선)
@@ -180,9 +200,23 @@ Expo는 Android나 iOS에 설치 후 스마트폰에서 직접 실행이 가능�
     분명 코드가 잘 들어갔고, 아무리 생각해도 문제가 없음에도 불구하고 오류가 발생하면 위 명령어로 실행하는 방법이 있습니다.
 
 
-## Documentation
+## References
 
--
+- [React Native](https://reactnative.dev/)
+- [EXPO](https://expo.dev/)
+- [React Native Navigation](https://reactnavigation.org/)
+- [Native Base](https://nativebase.io/)
+- [React Native Maps](https://github.com/react-native-maps/react-native-maps)
+- [React](https://reactjs.org/)
+- [Node.js](https://nodejs.org/en/)
+- [Express.js](https://expressjs.com/)
+- [Mongo DB](https://www.mongodb.com/)
+- [mongoose](https://mongoosejs.com/)
+- [한국환경공단(KECO)에서 제공하는 충전소API](https://www.data.go.kr/data/15013115/standard.do)
+
+
+## Documentation
+- TBD
 
 ## License
 
