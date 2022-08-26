@@ -61,6 +61,7 @@
     │   ├── models
     │   └── routes
     └── data-manager [Data Manager V2 ( Node.js Application )]
+        ├── legacy(stations-data-generator) [deprecated]
         └── src
             ├── api
             ├── controller
