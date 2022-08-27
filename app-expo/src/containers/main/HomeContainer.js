@@ -153,13 +153,13 @@ const HomeContainer = (props) => {
                         {
                             bookmarked.map((bookmark) =>
                                 <PressableButton
-                                    key={bookmark}
+                                    key={bookmark.statId}
                                     icon={<Image
                                         style={{ resizeMode: 'center', width: '80%', height: '80%' }}
                                         source={require('../../../assets/home-charging-station.png')}
                                     />}
-                                    onPress={() => console.log('ㅇㅇ')}
-                                    title={bookmark}
+                                    onPress={() => console.log(JSON.stringify(bookmark))}
+                                    title={bookmark.statNm}
                                 />
                             )
                         }

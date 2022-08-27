@@ -44,6 +44,17 @@ router.post('/keco/find/regionStations', function (req, res, next) {
   });
 });
 
+router.post('/keco/find/manyStations', function (req, res, next) {
+  // console.log(req.body.data);
+  Station.find({ statId: { "$in": req.body.data } }).then((response) => {
+    // console.log(response)
+    res.json(response)
+  }).catch((err) => {
+    console.log(err);
+    next(err)
+  });
+});
+
 router.post('/keco/find/chargers', function (req, res, next) {
   // console.log(req.body.data);
   Charger.find({

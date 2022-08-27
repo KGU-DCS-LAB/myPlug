@@ -13,7 +13,10 @@ export const getUserFavoriteStations = async (user) => {
         for (let i = 0; i < result[0].length; i++) {
             favorites.push(result[0][i].statId)
         }
-        return favorites
+        const response2 = await axios.post(config.ip + ':5000/stationsRouter/keco/find/manyStations', {
+            data: favorites
+        })
+        return response2.data;
     } catch (err) {
         console.log("Error >>", err);
         return []
