@@ -158,7 +158,9 @@ const HomeContainer = (props) => {
                                         style={{ resizeMode: 'center', width: '80%', height: '80%' }}
                                         source={require('../../../assets/home-charging-station.png')}
                                     />}
-                                    onPress={() => console.log(JSON.stringify(bookmark))}
+                                    onPress={() => props.navigation.navigate('EvCharger',{
+                                        station:bookmark
+                                    })}
                                     title={bookmark.statNm}
                                 />
                             )

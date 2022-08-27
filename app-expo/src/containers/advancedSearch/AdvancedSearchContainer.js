@@ -8,7 +8,7 @@ import AdvancedScrollView from "../../components/advancedSearch/AdvancedScrollVi
 import AdvancedButton from "../../components/advancedSearch/AdvancedButton";
 
 
-const AdvancedSearch = () => {
+const AdvancedSearch = (props) => {
     const [selectedType, setSelectedType] = useState({ zcode: [], kind: [], kindDetail: [] });
     const [searchedStations, setSearchedStations] = useState([]);
     const [showList, setShowList] = useState(false);
@@ -48,6 +48,7 @@ const AdvancedSearch = () => {
                     selectedType={selectedType}
                     selectType={selectType}
                     cancelSelect={cancelSelect}
+                    navigation={props.navigation}
                 />
 
                 <AdvancedButton

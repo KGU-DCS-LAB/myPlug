@@ -5,7 +5,7 @@ import StationCard from "../ev_charger_map/cards/StationCard";
 import LoadingSpinner from "../Loading/LoadingSpinner";
 import OptionCard from "./card/OptionCard";
 
-const AdvancedScrollView = ({ showList, searchedStations, selectedType, selectType, cancelSelect }) => {
+const AdvancedScrollView = ({ showList, searchedStations, selectedType, selectType, cancelSelect, navigation }) => {
     return (
         <ScrollView>
             {showList ?
@@ -16,38 +16,44 @@ const AdvancedScrollView = ({ showList, searchedStations, selectedType, selectTy
                     :
                     searchedStations.length < 0 ?
                         <><Text>검색된 충전소가 없습니다.</Text></>
-                        : 
+                        :
                         <>
-                        <WhatISelected selectedType={selectedType} />
-                        {searchedStations.map((station) => (
-                            <StationCard key={station.statId} station={station} onPress={() => console.log(station.statNm)} /> //props.focusToStation(station)
-                        ))}
+                            <WhatISelected selectedType={selectedType} />
+                            {searchedStations.map((station) => (
+                                <StationCard
+                                    key={station.statId}
+                                    station={station}
+                                    onPress={() => navigation.navigate('EvCharger',{
+                                        station:station
+                                    })}
+                                /> //props.focusToStation(station)
+                            ))}
                         </>
 
                 :
                 <>
-                    <OptionCard 
-                        header={'지역코드'} 
-                        dataNm={'zcode'} 
+                    <OptionCard
+                        header={'지역코드'}
+                        dataNm={'zcode'}
                         data={STATIONS.zCode}
                         selectedType={selectedType}
                         selectType={selectType}
-                        cancelSelect={cancelSelect} 
+                        cancelSelect={cancelSelect}
                     />
 
                     <Divider my="2" />
-                    
-                    <OptionCard 
-                        header={'충전소 구분 코드'} 
-                        dataNm={'kind'} 
+
+                    <OptionCard
+                        header={'충전소 구분 코드'}
+                        dataNm={'kind'}
                         data={STATIONS.getKind}
                         selectedType={selectedType}
                         selectType={selectType}
-                        cancelSelect={cancelSelect} 
+                        cancelSelect={cancelSelect}
                     />
 
                     <Divider my="2" />
-                    
+
                     <Heading size="sm">충전소 구분 상세 코드</Heading>
                     {
                         selectedType["kind"].map((kind) =>
@@ -71,17 +77,17 @@ const AdvancedScrollView = ({ showList, searchedStations, selectedType, selectTy
     )
 }
 
-const WhatISelected = ({selectedType}) => {
+const WhatISelected = ({ selectedType }) => {
     return (
         <Text>
             {selectedType.zcode.length !== 0 ? <Text>{selectedType.zcode.map((z) => STATIONS.zCode.find((type) => type.value === z).label + '  ')}</Text> : null}
-            
+
             {selectedType.zcode.length !== 0 && selectedType.kind.length !== 0 ? <Text>{">"}  </Text> : null}
 
             {selectedType["kind"].map((kind, index) =>
                 <Text key={kind}>
                     {STATIONS.getKind.find((type) => type.value === kind).label + '  '}
-                    {STATIONS.getKindDetail[kind].length !== 0 ? <Text>{">"}  </Text> : null }
+                    {STATIONS.getKindDetail[kind].length !== 0 ? <Text>{">"}  </Text> : null}
                     <Text>
                         {selectedType["kindDetail"].map((item) =>
                             STATIONS.getKindDetail[kind].findIndex((type) => type.value === item) !== -1 ?

@@ -18,6 +18,7 @@ import * as API from "../../api/API";
 import * as STATIONS from '../../api/STATIONS';
 import { mapStyles } from "../../api/GOOGLEMAP";
 import ThemeModal from "../../components/ev_charger_map/modals/ThemeModal";
+import { useNavigationState } from "@react-navigation/native";
 
 const EvChargerContainer = (props) => {
 
@@ -47,6 +48,7 @@ const EvChargerContainer = (props) => {
 
     let controller;
     const mapRef = useRef(); // 지도 조작에 사용되는 기능
+    const new_routes = useNavigationState(state => state.routes);
 
     // Get current location information 
     useEffect(() => {
@@ -63,15 +65,26 @@ const EvChargerContainer = (props) => {
                     console.log('Permission to access location was denied');
                     return;  //권한 거부 시 그대로 종료
                 }
-
                 let location = await Location.getCurrentPositionAsync({}); //현 위치 수신
-                let initLocation = {
-                    longitude: location.coords.longitude,
-                    latitude: location.coords.latitude,
-                    latitudeDelta: 0.007,
-                    longitudeDelta: 0.007,
+                let initLocation = null;
+                const idx = new_routes.findIndex(r => r.name === "EvCharger")
+                if(new_routes[idx].params===undefined){ // 아무런 전달 인자가 없다면
+                    initLocation = {
+                        longitude: location.coords.longitude,
+                        latitude: location.coords.latitude,
+                        latitudeDelta: 0.007,
+                        longitudeDelta: 0.007,
+                    }
                 }
-                // console.log(location);
+                else{ // 외부에서 같이 전달된 인자가 있다면
+                    console.log(new_routes[idx].params.station);
+                    initLocation = {
+                        longitude: Number(new_routes[idx].params.station.lng),
+                        latitude: Number(new_routes[idx].params.station.lat),
+                        latitudeDelta: 0.007,
+                        longitudeDelta: 0.007,
+                    }
+                }
                 await setLocationAndGetStations(initLocation);
                 setLoaded(true);
                 // 실시간으로 위치 변화 감지 (권한 거부 시 아예 동작하지 않음 / 델타 값 관련 버그가 있어서 일단 주석 처리. 동작 자체는 아무 이상 없음)
@@ -87,7 +100,6 @@ const EvChargerContainer = (props) => {
             setCancel(true);
         }
     }, []);
-
 
     const setLocationAndGetStations = async (region) => {
         setMapLocation(region);
@@ -143,7 +155,6 @@ const EvChargerContainer = (props) => {
                             />
 
                             <StationListModal
-                                location={mapLocation}
                                 stations={stations}
                                 stationListModalVisible={stationListModalVisible}
                                 setStationListModalVisible={setStationListModalVisible}
@@ -177,7 +188,7 @@ const EvChargerContainer = (props) => {
                             <MapView
                                 ref={mapRef}
                                 initialRegion={
-                                    { //현 위치를 state가 관리하도록 함
+                                    { //초기 위치를 state가 관리하도록 함
                                         latitude: mapLocation.latitude,
                                         longitude: mapLocation.longitude,
                                         latitudeDelta: mapLocation.latitudeDelta,
@@ -188,14 +199,6 @@ const EvChargerContainer = (props) => {
                                 provider={PROVIDER_GOOGLE} // Apple 지도가 뜨지 않도록 방지함
                                 showsUserLocation={true}
                                 showsMyLocationButton={false} // 현위치를 맵에서 직접 관리하지 않도록 제한함 (Stagger에서 처리)
-                                // region={
-                                // { //현 위치를 state가 관리하도록 함
-                                //     latitude: mapLocation.latitude,
-                                //     longitude: mapLocation.longitude,
-                                //     latitudeDelta: mapLocation.latitudeDelta,
-                                //     longitudeDelta: mapLocation.longitudeDelta,
-                                // }
-                                // }
                                 onRegionChange={region => {
 
                                 }}
@@ -203,7 +206,10 @@ const EvChargerContainer = (props) => {
                                     setLocationAndGetStations(region);
                                 }}
                                 onMapReady={() => {
-                                    // updateMapStyle()
+                                    const idx = new_routes.findIndex(r => r.name === "EvCharger")
+                                    if(new_routes[idx].params!==undefined){
+                                        focusToStation(new_routes[idx].params.station);
+                                    }
                                 }}
                                 clusterColor="yellowgreen"
                                 customMapStyle={mapStytle}
