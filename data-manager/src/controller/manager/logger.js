@@ -45,7 +45,12 @@ const addStat3LogJSON = (date, logId) => {
     const temp = 'logs.'+day+'.'+hour;
     const doc = {
         'updateOne': {
-            'filter': { _id: { $eq: logId } },
+            'filter': {
+                $and: [
+                    { _id: { $eq: logId } },
+                    { week: { $eq: date.week } },
+                ],
+            },
             'update': {
                 $set:{
                     [temp]:1,
@@ -92,22 +97,22 @@ const defaultTimeTable = {
 }
 
 const addDefaultLogs = async (page, logs) => {
-    console.log('>> Logs ' + page + ' 기본 로그 데이터 추가 중 ...')
+    console.log('>> Logs [신규] ' + page + ' 기본 로그 데이터 추가 중 ...')
     await StationLogs.bulkWrite(logs).then(bulkWriteOpResult => {
-        console.log('>> Logs ' + page + ' BULK update OK : ' + logs.length);
+        console.log('>> Logs [신규] ' + page + ' BULK update OK : ' + logs.length);
     }).catch(err => {
-        console.log('>> Logs ' + page + ' BULK update error');
+        console.log('>> Logs [신규] ' + page + ' BULK update error');
         console.log(JSON.stringify(err));
     });
     return null;
 }
 
 const updateStat3Logs = async (page, logs) => {
-    console.log('>> Logs Stat3 ' + page + ' 사용중인 충전기 로그 업데이트 중 ...')
+    console.log('>> Logs [사용중] ' + page + ' 사용중인 충전기 로그 업데이트 중 ...')
     await StationLogs.bulkWrite(logs).then(bulkWriteOpResult => {
-        console.log('>> Logs Stat3 ' + page + ' BULK update OK : ' + logs.length);
+        console.log('>> Logs [사용중] ' + page + ' BULK update OK : ' + logs.length);
     }).catch(err => {
-        console.log('>> Logs Stat3 ' + page + ' BULK update error');
+        console.log('>> Logs [사용중] ' + page + ' BULK update error');
         console.log(JSON.stringify(err));
     });
     return null;

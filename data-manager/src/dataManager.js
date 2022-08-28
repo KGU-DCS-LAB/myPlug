@@ -14,11 +14,21 @@ export const run = async () => {
         .then(() => console.log('MongoDB Connected!!'))
         .catch(err => console.log(err));
     let count = 0;
-    while(true){
+    while (true) { //반복 수집
         count++;
-        console.log('['+count+'번 째 시도]');   
+        console.log('[' + count + '번 째 시도]');
         await work();
+        delay(60).then(() => console.log('대기 끝')); //대기시간 60초
     }
+}
+
+/**
+ * 대기 시간을 주는 함수
+ * @param {number} seconds 
+ * @returns 
+ */
+function delay(seconds) {
+    return new Promise(resolve => setTimeout(resolve, seconds * 1000));
 }
 
 const work = async () => {
@@ -26,6 +36,7 @@ const work = async () => {
     const date = await makeDateJSON(new Date());
     await receiver.init(date); //데이터 수집 시작
     let end = new Date();  // 시간 측정 종료
+    console.log('데이터 수집 작업 종료')
     console.log('작업에 걸린 시간 : ' + (end - start) + 'ms');
     return null;
 }
