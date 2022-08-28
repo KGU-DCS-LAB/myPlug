@@ -16,9 +16,8 @@ export const run = async () => {
     let count = 0;
     while (true) { //반복 수집
         count++;
-        console.log('[' + count + '번 째 시도]');
-        await work();
-        delay(60).then(() => console.log('대기 끝')); //대기시간 60초
+        await work(count);
+        await delay(60).then(() => console.log('대기 끝')); //대기시간 60초
     }
 }
 
@@ -31,7 +30,8 @@ function delay(seconds) {
     return new Promise(resolve => setTimeout(resolve, seconds * 1000));
 }
 
-const work = async () => {
+const work = async (count) => {
+    console.log('[' + count + '번 째 수집]');
     let start = new Date();  // 시간 측정 시작
     const date = await makeDateJSON(new Date());
     await receiver.init(date); //데이터 수집 시작
