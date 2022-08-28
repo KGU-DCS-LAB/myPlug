@@ -3,8 +3,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Button, Center, Divider, Flex, HStack, ScrollView, VStack } from "native-base";
 import { useEffect, useState } from "react";
 import SelectBusiNm from "./filterModal/SelectBusiNm";
-import * as API from "../../../api/API";
-import * as STATIONS from '../../../api/STATIONS';
+import * as API from "../../../app/api/API";
+import * as STATIONS from '../../../app/api/STATIONS';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import OptionCard from "../../advancedSearch/card/OptionCard";
 

@@ -1,8 +1,8 @@
 import { Box, Button, Divider, Heading, HStack, ScrollView, View } from "native-base"
 import { useState } from "react";
 import { StyleSheet } from "react-native";
-import * as STATIONS from '../../api/STATIONS';
-import * as API from "../../api/API";
+import * as STATIONS from '../../app/api/STATIONS';
+import * as API from "../../app/api/API";
 import StationCard from "../../components/ev_charger_map/cards/StationCard";
 import AdvancedScrollView from "../../components/advancedSearch/AdvancedScrollView";
 import AdvancedButton from "../../components/advancedSearch/AdvancedButton";

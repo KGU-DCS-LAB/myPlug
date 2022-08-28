@@ -1,7 +1,7 @@
 import { Button, HStack, VStack } from "native-base";
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
-import { mapStyles } from "../../../api/GOOGLEMAP";
+import { mapStyles } from "../../../app/api/GOOGLEMAP";
 
 const ThemeModal = (props) => {
 

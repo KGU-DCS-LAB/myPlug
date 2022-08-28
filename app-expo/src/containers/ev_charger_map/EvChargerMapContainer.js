@@ -13,10 +13,10 @@ import { MaterialIcons } from '@expo/vector-icons';
 import StationListModal from "../../components/ev_charger_map/modals/StationListModal";
 import StationSmallModal from "../../components/ev_charger_map/modals/StationSmallModal";
 import StationBigModal from "../../components/ev_charger_map/modals/StationBigModal";
-import { sortStations, getDistance } from '../../api/STATIONS';
-import * as API from "../../api/API";
-import * as STATIONS from '../../api/STATIONS';
-import { mapStyles } from "../../api/GOOGLEMAP";
+import { sortStations, getDistance } from '../../app/api/STATIONS';
+import * as API from "../../app/api/API";
+import * as STATIONS from '../../app/api/STATIONS';
+import { mapStyles } from "../../app/api/GOOGLEMAP";
 import ThemeModal from "../../components/ev_charger_map/modals/ThemeModal";
 import { useNavigationState } from "@react-navigation/native";
 

@@ -7,7 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ChargerCard from "../cards/ChargerCard";
 import LogTable from "../LogTable";
 import FindFavorites from "../FindFavorites";
-import { sortStations } from "../../../api/STATIONS";
+import { sortStations } from "../../../app/api/STATIONS";
 import StationCard from "../cards/StationCard";
 
 

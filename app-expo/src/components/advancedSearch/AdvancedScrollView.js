@@ -1,6 +1,6 @@
 import { Button, Divider, Heading, ScrollView, Text, View } from "native-base";
 import { StyleSheet } from "react-native";
-import * as STATIONS from "../../api/STATIONS";
+import * as STATIONS from "../../app/api/STATIONS";
 import StationCard from "../ev_charger_map/cards/StationCard";
 import LoadingSpinner from "../Loading/LoadingSpinner";
 import OptionCard from "./card/OptionCard";

@@ -1,7 +1,7 @@
 import { Avatar, Box, Divider, HStack, Pressable, Spacer, Text, VStack } from "native-base"
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 import LogTable from "../LogTable";
-import * as STATIONS from '../../../api/STATIONS';
+import * as STATIONS from '../../../app/api/STATIONS';
 
 export default (props) => {
 

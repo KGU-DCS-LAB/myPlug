@@ -1,7 +1,7 @@
-import markerGreen from '../../assets/ev-green.png';
-import markerYellow from '../../assets/ev-yellow.png';
-import markerRed from '../../assets/ev-red.png';
-import markerGray from '../../assets/ev-gray.png';
+import markerGreen from '../../../assets/ev-green.png';
+import markerYellow from '../../../assets/ev-yellow.png';
+import markerRed from '../../../assets/ev-red.png';
+import markerGray from '../../../assets/ev-gray.png';
 
 export const sortStations = (location, stations) => {
     let temp = []

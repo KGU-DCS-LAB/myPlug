@@ -8,7 +8,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { config } from '../../../config';
 import axios from 'axios';
 import { MasonaryLayout } from '../../components/layout/MansonaryLayout';
-import { getUserFavoriteStations } from '../../api/API';
+import { getUserFavoriteStations } from '../../app/api/API';
 import FilterModal from '../../components/ev_charger_map/modals/FilterModal';
 
 const HomeContainer = (props) => {
