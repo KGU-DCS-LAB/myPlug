@@ -1,5 +1,6 @@
 import { Box, Heading, HStack, Text, View } from "native-base"
 import { ScrollView, StyleSheet } from "react-native";
+import TimeTable from "./TimeTable";
 
 export default () => {
     return (
@@ -7,9 +8,7 @@ export default () => {
             <Heading style={styles.heading}>충전 일정 관리</Heading>
             <Box bg={"white"}>
                 <ScrollView>
-                    <Text>ㅇㅇ</Text>
-                    <Text>ㅇㅇ</Text>
-                    <Text>ㅇㅇ</Text>
+                    <TimeTable/>
                 </ScrollView>
             </Box>
         </View>
