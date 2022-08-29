@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
  * 데이터 작업을 지시하는 함수
  * */
 export const run = async () => {
-    //  Mongoose Connection (여기서만 해주면 전역 설정 됨)
+    //  Mongoose Connection (여기서만 해주면 전역 설정 됨 / 1회)
     await mongoose
         .connect(`mongodb+srv://gabrielyoon7:0000@gabrielyoon7.aq0fu.mongodb.net/myplug?retryWrites=true&w=majority`, {})
         .then(() => console.log('MongoDB Connected!!'))
@@ -35,9 +35,7 @@ const work = async (count) => {
     let start = new Date();  // 시간 측정 시작
     const date = await makeDateJSON(new Date());
     await receiver.init(date); //데이터 수집 시작
-    let end = new Date();  // 시간 측정 종료
     console.log('데이터 수집 작업 종료')
-    console.log('작업에 걸린 시간 : ' + (end - start) + 'ms');
     return null;
 }
 
