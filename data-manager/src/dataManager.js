@@ -3,6 +3,7 @@ import * as saver from './controller/manager/saver.js'
 import * as logger from './controller/manager/logger.js'
 // Using ES6 imports
 import mongoose from 'mongoose';
+import colors from 'colors';
 
 /**
  * 데이터 작업을 지시하는 함수
@@ -31,7 +32,7 @@ function delay(seconds) {
 }
 
 const work = async (count) => {
-    console.log('[' + count + '번 째 수집]');
+    console.log(`[ ${count} 번 째 수집]`.bgGray);
     let start = new Date();  // 시간 측정 시작
     const date = await makeDateJSON(new Date());
     await receiver.init(date); //데이터 수집 시작
