@@ -44,8 +44,7 @@ export const init = async (dateJSON) => {
  * @returns 
  */
 const getChargerInfoByZcode = async (z, dateJSON) => {
-    // let raw_data = [];
-    console.log(z.code, z.region);
+    // console.log(z.code, z.region);
     let totalCount = 10000; // 실행 시 업데이트 되는 부분... 최초 실행 시 업데이트 되며, 전체 갯수를 의미함.
     let numOfRows = 9999; //한번에 최대 몇개 데이터를 처리할건지 결정하는 부분. (max : 9999)
     let page = 1;	// 페이지 초기값

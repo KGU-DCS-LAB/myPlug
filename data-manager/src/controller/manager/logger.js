@@ -1,9 +1,8 @@
 import { StationLogs } from "../../models/StationLogs.js";
 
-
 export const init = async (region, date, raw_data, page) => {
     let logsForBulk = []
-    console.log("[" + page + "] 로그 저장 시작");
+    console.log(`[logger] ${page} 로그 저장 시작`);
     console.log(page, date, raw_data.length)
     let logs = await StationLogs.find({
         $and: [
@@ -12,8 +11,8 @@ export const init = async (region, date, raw_data, page) => {
             { statId: { "$in": raw_data.map((data)=>data.statId) } }
         ]
     }, '_id')
-    console.log('raw data size : ' + raw_data.length)
-    console.log('prev logs size ' + page + ' : ' + logs.length)
+    console.log(`[logger] ${page} raw data size : ${raw_data.length}`)
+    console.log(`[logger] ${page} prev logs size : ${logs.length}`)
     raw_data.map((raw) => {
         const index = logs.findIndex((item) => {
             return (item._id == raw.statId+raw.chgerId)
@@ -22,11 +21,12 @@ export const init = async (region, date, raw_data, page) => {
             logsForBulk.push(addDefaultLogJSON(region, date, raw));
         }
     })
-    console.log('next logs size ' + page + ' : ' + logsForBulk.length)
+    console.log(`[logger] ${page} next logs size : ${logsForBulk.length}`)
 
+    // 신규 충전기에 대한 기본 로그 데이터를 추가해준다.
     await addDefaultLogs(page, logsForBulk);
     
-    // 여기서 시간별 업데이트가 필요함 (제작중)
+    // 사용중인 충전기들은 요일/시간별로 로그를 업데이트 해준다.
     logsForBulk = [];
     raw_data.filter((data)=>data.stat==3).map((data)=>{
         logsForBulk.push(addStat3LogJSON(date, data.statId + '' + data.chgerId));
@@ -97,9 +97,9 @@ const defaultTimeTable = {
 }
 
 const addDefaultLogs = async (page, logs) => {
-    console.log('>> Logs [신규] ' + page + ' 기본 로그 데이터 추가 중 ...')
+    console.log(`[logger] [신규] ${page} 기본 로그 데이터 추가 중 ...`.yellow)
     await StationLogs.bulkWrite(logs).then(bulkWriteOpResult => {
-        console.log('>> Logs [신규] ' + page + ' BULK update OK : ' + logs.length);
+        console.log(`[logger] [신규] ${page} MongoDB BULK update OK : ${logs.length}`.green);
     }).catch(err => {
         console.log('>> Logs [신규] ' + page + ' BULK update error');
         console.log(JSON.stringify(err));
@@ -108,9 +108,9 @@ const addDefaultLogs = async (page, logs) => {
 }
 
 const updateStat3Logs = async (page, logs) => {
-    console.log('>> Logs [사용중] ' + page + ' 사용중인 충전기 로그 업데이트 중 ...')
+    console.log(`[logger] [사용중] ${page} ' 사용중인 충전기 로그 업데이트 중 ...`.yellow)
     await StationLogs.bulkWrite(logs).then(bulkWriteOpResult => {
-        console.log('>> Logs [사용중] ' + page + ' BULK update OK : ' + logs.length);
+        console.log(`[logger] [사용중] ${page} MongoDB BULK update OK : ${logs.length}`.green);
     }).catch(err => {
         console.log('>> Logs [사용중] ' + page + ' BULK update error');
         console.log(JSON.stringify(err));
