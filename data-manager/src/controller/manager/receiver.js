@@ -71,7 +71,7 @@ const getChargerInfoByZcode = async (z, dateJSON) => {
             raw_data.push(...item);
             totalCount = header.totalCount;
             maxPage = parseInt(totalCount / numOfRows) + 1;
-            console.log(`[receiver] 데이터 수신 완료 [${z.region}] | page [${page}/${maxPage}] | count [${(page * numOfRows > totalCount ? totalCount : page * numOfRows)}/${totalCount}]`.yellow.bgGreen.bold);
+            console.log(`[receiver] [${z.region} ${page}/${maxPage}] 데이터 수신 완료 | count [${(page * numOfRows > totalCount ? totalCount : page * numOfRows)}/${totalCount}]`.yellow.bgGreen.bold);
             /**
              * 받은 데이터를 저장하기 시작함 (node.js 속도 향상을 위해 지역별이 아닌 페이지 단위로 저장 요청을 수행한다. 이렇게 되면 1번에 최대 9999개까지만 작업해서 속도 개선이 가능함.)
              * */

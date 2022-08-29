@@ -81,38 +81,42 @@ export const init = async (region, date, raw_data, page) => {
 
     let stations = []
     let chargers = []
-    console.log("[" + page + "] 데이터 저장");
     addRegions();
+    console.log(`[saver] ${page} 충전소/충전기 데이터 정제 시작`);
     await raw_data.map((raw) => {
         if (!stationIdSet.has(raw.statId)) {
             stations.push(addStationJSON(date.date, raw));
         }
         chargers.push(addChargerJSON(date.date, raw));
     })
-
+    console.log(`[saver] ${page} 작업 준비가 완료된 충전소/충전기/로그 데이터 저장 시작!`);
     // 이 아래 코드들은 await을 걸어두지 않았기 떄문에 거의 동시에 진행한다. --> 다시 await 걸어둠
-    await Promise.all([updateStations(page, stations), updateChargers(page, chargers), logger.init(region, date, raw_data, page)]);
+    await Promise.all([
+        updateStations(page, stations), 
+        updateChargers(page, chargers), 
+        logger.init(region, date, raw_data, page)
+    ]);
     addStatus(page);
     return null;
 }
 
 const updateStations = async (page, stations) => {
-    console.log('>> Station ' + page + ' 정보 업데이트 중 ...')
+    console.log(`[saver] [Stations] ${page} 정보 업데이트 중 ...`.yellow)
     await Station.bulkWrite(stations).then(bulkWriteOpResult => {
-        console.log('>> Station ' + page + ' BULK update OK : ' + stations.length);
+        console.log(`[saver] [Stations] ${page} MongoDB BULK update OK : ${stations.length}`.green);
     }).catch(err => {
-        console.log('>> Station ' + page + ' BULK update error');
+        console.log(`>> Stations ${page} BULK update error`.red);
         console.log(JSON.stringify(err));
     });
     return null;
 }
 
 const updateChargers = async (page, chargers) => {
-    console.log('>> Charger ' + page + ' 정보 업데이트 중 ...')
+    console.log(`[saver] [Chargers] ${page} 정보 업데이트 중 ...`.yellow)
     await Charger.bulkWrite(chargers).then(bulkWriteOpResult => {
-        console.log('>> Charger ' + page + ' BULK update OK : ' + chargers.length);
+        console.log(`[saver] [Chargers] ${page} MongoDB BULK update OK : ${chargers.length}`.green);
     }).catch(err => {
-        console.log('>> Charger ' + page + ' BULK update error');
+        console.log(`>> Chargers ${page} BULK update error`.red);
         console.log(JSON.stringify(err));
     });
     return null;
