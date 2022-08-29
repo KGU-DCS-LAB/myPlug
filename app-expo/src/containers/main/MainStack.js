@@ -13,6 +13,7 @@ import ButtonsLayoutExample from '../example/ButtonsLayoutExample';
 import MyCarContainer from '../my_car/MyCarContainer';
 import AdvancedSearch from '../advancedSearch/AdvancedSearchContainer';
 import GoogleMapExample from '../example/GoogleMapExample';
+import CheckBoxExample from '../example/CheckBoxExample';
 
 const MainContainer = () => {
 
@@ -63,7 +64,8 @@ const MainContainer = () => {
             // <ModalExample navigation={navigation} />
             // <CollapseExample navigation={navigation} />
             // <ButtonsLayoutExample navigation={navigation} />
-            <GoogleMapExample navigation={navigation} />
+            // <GoogleMapExample navigation={navigation} />
+            <CheckBoxExample navigation={navigation} />
         )
     }
 
