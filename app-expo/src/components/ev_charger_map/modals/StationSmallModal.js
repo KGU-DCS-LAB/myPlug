@@ -182,11 +182,9 @@ const StationSmallModal = (props) => {
                                 </Pressable>
                                 <Pressable
                                     onPress={() => {
-                                        // props.setBigModalVisible(!props.bigModalVisible);
                                         props.setBigModalOpen(true);
-
+                                        // props.navigation.navigate("EvChargerStaionInfo")
                                     }}
-
                                 >
                                     <Box
                                         height="30"

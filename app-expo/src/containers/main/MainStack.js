@@ -1,6 +1,4 @@
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
-// import HomeView from "../../views/main/HomeView";
 import EvChargerContainer from "../ev_charger_map/EvChargerMapContainer";
 import HomeContainer from "./HomeContainer";
 import LoginContainer from '../user/LoginContainer';
@@ -14,6 +12,7 @@ import MyCarContainer from '../my_car/MyCarContainer';
 import AdvancedSearch from '../advancedSearch/AdvancedSearchContainer';
 import GoogleMapExample from '../example/GoogleMapExample';
 import CheckBoxExample from '../example/CheckBoxExample';
+import StationInfoView from '../ev_charger_map/view/StationInfoView';
 
 const MainContainer = () => {
 
@@ -26,6 +25,12 @@ const MainContainer = () => {
     const EvChargerScreen = ({ navigation }) => {
         return (
             <EvChargerContainer navigation={navigation} />
+        );
+    }
+
+    const EvChargerStaionInfoScreen = ({ navigation }) => {
+        return (
+            <StationInfoView navigation={navigation} />
         );
     }
 
@@ -87,6 +92,13 @@ const MainContainer = () => {
                 component={EvChargerScreen}
                 options={{
                     cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+                }}
+            />
+            <Stack.Screen
+                name='EvChargerStaionInfo'
+                component={EvChargerStaionInfoScreen}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
                 }}
             />
             <Stack.Screen

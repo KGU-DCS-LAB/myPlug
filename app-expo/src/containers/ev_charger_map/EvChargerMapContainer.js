@@ -168,6 +168,7 @@ const EvChargerContainer = (props) => {
                             />
 
                             <StationSmallModal
+                                navigation={props.navigation}
                                 isSmallModalOpen={isSmallModalOpen}
                                 setSmallModalOpen={setSmallModalOpen}
                                 selectedStation={selectedStation}
