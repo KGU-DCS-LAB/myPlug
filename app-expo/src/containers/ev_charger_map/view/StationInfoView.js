@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigationState } from "@react-navigation/native";
 import { Box, Center, Divider, Heading, HStack, ScrollView, Spacer, Text, View } from "native-base";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable } from "react-native";
 import { sortStations } from "../../../app/api/STATIONS";
 import ChargerCard from "../../../components/ev_charger_map/cards/ChargerCard";
@@ -10,7 +10,7 @@ import FindFavorites from "../../../components/ev_charger_map/FindFavorites";
 import LogTable from "../../../components/ev_charger_map/LogTable";
 import LoadingSpinner from "../../../components/Loading/LoadingSpinner";
 
-export default (props) => {
+const StationInfoView = (props) => {
 
     const new_routes = useNavigationState(state => state.routes);
     const idx = new_routes?.findIndex(r => r.name === "EvChargerStaionInfo");
@@ -158,3 +158,5 @@ export default (props) => {
         </>
     )
 }
+
+export default React.memo(StationInfoView);

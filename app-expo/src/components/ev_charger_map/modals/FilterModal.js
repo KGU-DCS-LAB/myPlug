@@ -142,28 +142,29 @@ const FilterModal = (props) => {
                                     <SelectBusiNm busiNm={busiNm} selectedType={selectedType} cancelSelect={cancelSelect} selectType={selectType} />
                                 </View>
                             </ScrollView>
-                            {props.type === 'getFiltering' ?
+                            <HStack space={5}>
                                 <Pressable
                                     style={[styles.button, styles.buttonClose]}
-                                    onPress={() => dataFiltering()}
+                                    onPress={() => props.setFilterModalVisible(false)}
                                 >
-                                    <Text style={styles.textStyle}>검색</Text>
+                                    <Text style={styles.textStyle}>닫 기</Text>
                                 </Pressable>
-                                :
-                                <Pressable
-                                    style={[styles.button, styles.buttonClose]}
-                                    onPress={() => saveFiltering()}
-                                >
-                                    <Text style={styles.textStyle}>저장</Text>
-                                </Pressable>
-                            }
-
-                            <Pressable
-                                style={[styles.button, styles.buttonClose]}
-                                onPress={() => props.setFilterModalVisible(false)}
-                            >
-                                <Text style={styles.textStyle}>Hide Modal</Text>
-                            </Pressable>
+                                {props.type === 'getFiltering' ?
+                                    <Pressable
+                                        style={[styles.button, styles.buttonClose]}
+                                        onPress={() => dataFiltering()}
+                                    >
+                                        <Text style={styles.textStyle}>검 색</Text>
+                                    </Pressable>
+                                    :
+                                    <Pressable
+                                        style={[styles.button, styles.buttonClose]}
+                                        onPress={() => saveFiltering()}
+                                    >
+                                        <Text style={styles.textStyle}>저 장</Text>
+                                    </Pressable>
+                                }
+                            </HStack>
                         </View>
                     </View>
                 </Modal>

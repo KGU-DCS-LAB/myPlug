@@ -2,11 +2,13 @@ import { Avatar, Box, Divider, HStack, Pressable, Spacer, Text, VStack } from "n
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 import LogTable from "../LogTable";
 import * as STATIONS from '../../../app/api/STATIONS';
+import React from "react";
 
-export default (props) => {
+const ChargerCard = (props) => {
 
 
     const logStatistic = (stationLog) => {
+        console.log('나 동작함')
         const day = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
         const defaultTimeLine = { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0 }
 
@@ -92,12 +94,13 @@ export default (props) => {
                 <CollapseBody>
                     <LogTable stationLog={logStatistic(props.stationLog)} />
                     <Divider />
-                    {/* <Text>{JSON.stringify(props.stationLog)}</Text> */}
                 </CollapseBody>
             </Collapse>
         </Box>
     )
 }
+
+export default React.memo(ChargerCard);
 
 
 const getMilliseconds = (t) => {
@@ -111,10 +114,6 @@ const getMilliseconds = (t) => {
     const minute = t.slice(10, 12);
     const second = t.slice(12, 14);
     const date = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second
-    // console.log(t)
-    // console.log(date)
-    // console.log((Date.parse(date)))
-    // console.log(new Date(year,month-1,day,hour,minute,second).getTime())
     return (Number(new Date(year, month - 1, day, hour, minute, second).getTime()))
 }
 
