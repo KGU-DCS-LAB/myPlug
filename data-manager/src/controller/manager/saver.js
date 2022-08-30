@@ -96,6 +96,7 @@ export const init = async (region, date, raw_data, page) => {
         updateChargers(page, chargers), 
         logger.init(region, date, raw_data, page)
     ]);
+    console.log(`${page} 작업 완료`.bgGreen);
     addStatus(page);
     return null;
 }

@@ -97,22 +97,22 @@ const defaultTimeTable = {
 }
 
 const addDefaultLogs = async (page, logs) => {
-    console.log(`[logger] [신규] ${page} 기본 로그 데이터 추가 중 ...`.yellow)
+    console.log(`[logger] [신규 충전소 기본 로그 추가] ${page} 기본 로그 데이터 추가 중 ...`.yellow)
     await StationLogs.bulkWrite(logs).then(bulkWriteOpResult => {
-        console.log(`[logger] [신규] ${page} MongoDB BULK update OK : ${logs.length}`.green);
+        console.log(`[logger] [신규 충전소 기본 로그 추가] ${page} MongoDB BULK update OK : ${logs.length}`.green);
     }).catch(err => {
-        console.log('>> Logs [신규] ' + page + ' BULK update error');
+        console.log('>> Logs [신규 충전소 기본 로그 추가] ' + page + ' BULK update error');
         console.log(JSON.stringify(err));
     });
     return null;
 }
 
 const updateStat3Logs = async (page, logs) => {
-    console.log(`[logger] [사용중] ${page} ' 사용중인 충전기 로그 업데이트 중 ...`.yellow)
+    console.log(`[logger] [사용중인 충전소 로그 업데이트] ${page} ' 사용중인 충전기 로그 업데이트 중 ...`.yellow)
     await StationLogs.bulkWrite(logs).then(bulkWriteOpResult => {
-        console.log(`[logger] [사용중] ${page} MongoDB BULK update OK : ${logs.length}`.green);
+        console.log(`[logger] [사용중인 충전소 로그 업데이트] ${page} MongoDB BULK update OK : ${logs.length}`.green);
     }).catch(err => {
-        console.log('>> Logs [사용중] ' + page + ' BULK update error');
+        console.log('>> Logs [사용중인 충전소 로그 업데이트] ' + page + ' BULK update error');
         console.log(JSON.stringify(err));
     });
     return null;

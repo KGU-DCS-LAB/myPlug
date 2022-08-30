@@ -7,7 +7,7 @@ export const addStatus = (result) => {
     console.log('******************************');
     console.log('완료된 작업 명단')
     // console.log('완료된 작업 ('+logs.length+'/'+maxRegions+')');
-    console.log(logs);
+    logs.forEach((log)=>console.log(log.blue));
     console.log('******************************');
 }
 
