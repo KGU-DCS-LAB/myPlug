@@ -182,8 +182,14 @@ const StationSmallModal = (props) => {
                                 </Pressable>
                                 <Pressable
                                     onPress={() => {
-                                        props.setBigModalOpen(true);
-                                        // props.navigation.navigate("EvChargerStaionInfo")
+                                        // props.setBigModalOpen(true);
+                                        props.navigation.navigate("EvChargerStaionInfo", {
+                                            selectedStation: props.selectedStation,
+                                            selectedChargers: props.selectedChargers,
+                                            stations: props.stations,
+                                            stationLogs: props.stationLogs,
+                                            // focusToStation: props.focusToStation
+                                        })
                                     }}
                                 >
                                     <Box

@@ -5,9 +5,9 @@ import markerGray from '../../../assets/ev-gray.png';
 
 export const sortStations = (location, stations) => {
     let temp = []
-    stations.map((station) => temp.push({
+    stations?.map((station) => temp.push({
         ...station,
-        ['distance']: getDistance(location.latitude, location.longitude, station.lat, station.lng)
+        ['distance']: getDistance(location?.latitude, location?.longitude, station?.lat, station?.lng)
     }))
     let sortedList = temp.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
     return sortedList;

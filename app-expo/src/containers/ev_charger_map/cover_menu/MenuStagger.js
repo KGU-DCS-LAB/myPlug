@@ -132,7 +132,7 @@ const MenuStagger = (props) => {
                             />
                         }
                         onPress={
-                            () => props.navigation.navigate('Home')
+                            () => props.navigation.goBack()
                         }
                     />
                 </Stagger>

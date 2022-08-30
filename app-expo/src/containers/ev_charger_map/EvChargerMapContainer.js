@@ -171,12 +171,15 @@ const EvChargerContainer = (props) => {
                                 navigation={props.navigation}
                                 isSmallModalOpen={isSmallModalOpen}
                                 setSmallModalOpen={setSmallModalOpen}
-                                selectedStation={selectedStation}
                                 setBigModalOpen={setBigModalOpen}
+                                selectedStation={selectedStation}
                                 selectedChargers={selectedChargers}
+                                stations={stations}
+                                stationLogs={stationLogs}
+                                focusToStation={focusToStation}
                             />
 
-                            <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
+                            {/* <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
                                 isBigModalOpen={isBigModalOpen}
                                 setBigModalOpen={setBigModalOpen}
                                 selectedStation={selectedStation}
@@ -184,7 +187,7 @@ const EvChargerContainer = (props) => {
                                 stationLogs={stationLogs}
                                 stations={stations}
                                 focusToStation={focusToStation}
-                            />
+                            /> */}
 
                             <MapView
                                 ref={mapRef}
