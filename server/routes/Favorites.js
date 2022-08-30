@@ -33,6 +33,7 @@ router.post('/saveMore', function(req, res) {
 });
 
 router.post('/findOwn', function(req, res, next) {
+    console.log(req.body.user_id)
     Favorite.find().where('user_id').equals(req.body.user_id)
     .then( (favorite) => {
         // console.log(favorite);

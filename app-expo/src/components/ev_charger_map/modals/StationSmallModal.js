@@ -159,7 +159,6 @@ const StationSmallModal = (props) => {
                             <HStack>
                                 <Pressable
                                     onPress={() => {
-                                        // props.setBigModalVisible(!props.bigModalVisible);
                                         props.setSmallModalOpen(false);
                                     }}
 
@@ -182,13 +181,11 @@ const StationSmallModal = (props) => {
                                 </Pressable>
                                 <Pressable
                                     onPress={() => {
-                                        // props.setBigModalOpen(true);
                                         props.navigation.navigate("EvChargerStaionInfo", {
                                             selectedStation: props.selectedStation,
                                             selectedChargers: props.selectedChargers,
                                             stations: props.stations,
                                             stationLogs: props.stationLogs,
-                                            // focusToStation: props.focusToStation
                                         })
                                     }}
                                 >

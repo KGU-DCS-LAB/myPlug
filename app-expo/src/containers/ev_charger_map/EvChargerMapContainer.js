@@ -12,7 +12,6 @@ import { Image } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import StationListModal from "../../components/ev_charger_map/modals/StationListModal";
 import StationSmallModal from "../../components/ev_charger_map/modals/StationSmallModal";
-import StationBigModal from "../../components/ev_charger_map/modals/StationBigModal";
 import { sortStations, getDistance } from '../../app/api/STATIONS';
 import * as API from "../../app/api/API";
 import * as STATIONS from '../../app/api/STATIONS';
@@ -44,7 +43,6 @@ const EvChargerContainer = (props) => {
     const [stationListModalVisible, setStationListModalVisible] = useState(false); // 충전소 목록 모달 온오프
     const [isThemeModalOpen, setThemeModalOpen] = useState(false);
     const [isSmallModalOpen, setSmallModalOpen] = useState(false);
-    const [isBigModalOpen, setBigModalOpen] = useState(false);
 
     let controller;
     const mapRef = useRef(); // 지도 조작에 사용되는 기능
@@ -127,7 +125,6 @@ const EvChargerContainer = (props) => {
         mapRef.current.animateToRegion(stationLocation); // 지도 이동을 도와주는 메소드
         setStationListModalVisible(false)
         setSmallModalOpen(true);
-        setBigModalOpen(false);
         setLocationAndGetStations(stationLocation);
         let temp_chargers = chargers.filter((charger) => charger.statId == station.statId)
         if (temp_chargers.length == 0) {
@@ -171,23 +168,12 @@ const EvChargerContainer = (props) => {
                                 navigation={props.navigation}
                                 isSmallModalOpen={isSmallModalOpen}
                                 setSmallModalOpen={setSmallModalOpen}
-                                setBigModalOpen={setBigModalOpen}
                                 selectedStation={selectedStation}
                                 selectedChargers={selectedChargers}
                                 stations={stations}
                                 stationLogs={stationLogs}
                                 focusToStation={focusToStation}
                             />
-
-                            {/* <StationBigModal //작은 모달에서 상세보기 클릭 시 큰 모달 띄우기 용
-                                isBigModalOpen={isBigModalOpen}
-                                setBigModalOpen={setBigModalOpen}
-                                selectedStation={selectedStation}
-                                selectedChargers={selectedChargers}
-                                stationLogs={stationLogs}
-                                stations={stations}
-                                focusToStation={focusToStation}
-                            /> */}
 
                             <MapView
                                 ref={mapRef}

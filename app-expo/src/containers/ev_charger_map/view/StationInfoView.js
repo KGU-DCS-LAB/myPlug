@@ -19,45 +19,6 @@ export default (props) => {
     const stations = new_routes[idx]?.params.stations;
     const stationLogs = new_routes[idx]?.params.stationLogs;
 
-    const [didCancel, setCancel] = useState(false); // clean up 용
-    const [isLoaded, setLoaded] = useState(false);
-
-
-    const [userId, setUserId] = useState(null);
-    // const [selectedStation, setSelectedStation] = useState([]);
-    // const [selectedChargers, setSelectedChargers] = useState([]);
-    // const [stations, setStations] = useState([]);
-    // const [stationLogs, setStationLogs] = useState([]);
-
-
-    useEffect(() => {
-        setCancel(false);
-        if (!didCancel) {
-            // const idx = new_routes.findIndex(r => r.name === "EvChargerStaionInfo");
-            // // console.log(new_routes[idx].params);
-            // setSelectedStation(new_routes[idx].params.selectedStation);
-            // setSelectedChargers(new_routes[idx].params.selectedChargers);
-            // setStations(new_routes[idx].params.stations);
-            // setStationLogs(new_routes[idx].params.stationLogs);
-            try {
-                AsyncStorage.getItem('userInfo')
-                    .then(value => {
-                        if (value != null) {
-                            const UserInfo = JSON.parse(value);
-                            setUserId(UserInfo[0].user_id);
-                        }
-                    }
-                    )
-            } catch (error) {
-                console.log(error);
-            }
-            setLoaded(true);
-        }
-        return () => {
-            setCancel(true);
-        }
-    }, []);
-
     const findStationsLog = (chgerId) => {
         return stationLogs?.filter(item => item.chgerId === chgerId);
     }
@@ -94,105 +55,100 @@ export default (props) => {
     return (
         <>
             {
-                // isLoaded ?
-                    <Box
-                        style={{ flex: 1 }}
-                        p={5}
-                    >
-                        <View>
-                            <Heading size="lg">{selectedStation?.statNm + " (" + selectedStation?.statId + ")"}</Heading>
-                        </View>
-                        <ScrollView>
-                            <Text fontSize="lg">{selectedStation?.addr}</Text>
-                            <Text fontSize="md">{selectedStation?.location != "null" && selectedStation?.location}</Text>
-                            <Divider mt={5} />
+                <Box
+                    style={{ flex: 1 }}
+                    p={5}
+                >
+                    <View>
+                        <Heading size="lg">{selectedStation?.statNm + " (" + selectedStation?.statId + ")"}</Heading>
+                    </View>
+                    <ScrollView>
+                        <Text fontSize="lg">{selectedStation?.addr}</Text>
+                        <Text fontSize="md">{selectedStation?.location != "null" && selectedStation?.location}</Text>
+                        <Divider mt={5} />
 
-                            <Text fontSize="lg">이용가능시간</Text>
-                            <Text fontSize="md">{selectedStation?.useTime}</Text>
-                            <Divider />
+                        <Text fontSize="lg">이용가능시간</Text>
+                        <Text fontSize="md">{selectedStation?.useTime}</Text>
+                        <Divider />
 
-                            <Text fontSize="lg">운영기관명</Text>
-                            <Text fontSize="md">{"[" + selectedStation?.busiId + "] " + selectedStation?.bnm + " (" + selectedStation?.busiNm + ")"}</Text>
-                            <Divider />
+                        <Text fontSize="lg">운영기관명</Text>
+                        <Text fontSize="md">{"[" + selectedStation?.busiId + "] " + selectedStation?.bnm + " (" + selectedStation?.busiNm + ")"}</Text>
+                        <Divider />
 
-                            <Text fontSize="lg">운영기관 연락처</Text>
-                            <Text fontSize="md">{selectedStation?.busiCall}</Text>
-                            <Divider />
+                        <Text fontSize="lg">운영기관 연락처</Text>
+                        <Text fontSize="md">{selectedStation?.busiCall}</Text>
+                        <Divider />
 
-                            <Text fontSize="lg">주차료</Text>
-                            <Text fontSize="md">{selectedStation?.parkingFree == "Y" ? "무료" : "유료"}</Text>
-                            <Divider />
+                        <Text fontSize="lg">주차료</Text>
+                        <Text fontSize="md">{selectedStation?.parkingFree == "Y" ? "무료" : "유료"}</Text>
+                        <Divider />
 
-                            {
-                                selectedStation?.note != null &&
-                                <>
-                                    <Text fontSize="lg">충전소 안내</Text>
-                                    <Text fontSize="md">{selectedStation?.note}</Text>
-                                    <Divider />
-                                </>
-                            }
+                        {
+                            selectedStation?.note != null &&
+                            <>
+                                <Text fontSize="lg">충전소 안내</Text>
+                                <Text fontSize="md">{selectedStation?.note}</Text>
+                                <Divider />
+                            </>
+                        }
 
-                            <Text fontSize="lg">이용자 제한</Text>
-                            <Text fontSize="md">{selectedStation?.limitYn == "Y" ? ("이용 제한 (" + selectedStation?.limitDetail + ")") : "제한없음"}</Text>
-                            <Divider />
+                        <Text fontSize="lg">이용자 제한</Text>
+                        <Text fontSize="md">{selectedStation?.limitYn == "Y" ? ("이용 제한 (" + selectedStation?.limitDetail + ")") : "제한없음"}</Text>
+                        <Divider />
 
-                            <Heading size="md" mt={5}>충전소 사용 분석</Heading>
-                            <LogTable stationLog={logStatistic(stationLogs)} />
+                        <Heading size="md" mt={5}>충전소 사용 분석</Heading>
+                        <LogTable stationLog={logStatistic(stationLogs)} />
 
-                            <Divider mt={5} />
+                        <Divider mt={5} />
 
-                            <Heading size="md" mt={5}>충전기 목록</Heading>
-                            {selectedChargers?.map((charger) => (
-                                <ChargerCard key={charger._id} charger={charger} stationLog={findStationsLog(charger.chgerId)} />
-                            ))}
-                            <Spacer />
-                            <Divider mt={5} />
-
-                            <Heading size="md" mt={5}>가까운 충전소 조회</Heading>
-                            {
-                                sortStations({ latitude: selectedStation?.lat, longitude: selectedStation?.lng }, stations)
-                                    .filter((station) => station.distance <= 300)
-                                    .map((station) => (
-                                        <StationCard
-                                            key={station.statId}
-                                            station={station}
-                                        // onPress={() => focusToStation(station)}
-                                        />
-                                    ))
-                            }
-                            <Box mt={5} />
-
-                        </ScrollView>
+                        <Heading size="md" mt={5}>충전기 목록</Heading>
+                        {selectedChargers?.map((charger) => (
+                            <ChargerCard key={charger._id} charger={charger} stationLog={findStationsLog(charger.chgerId)} />
+                        ))}
                         <Spacer />
-                        <Center>
-                            <HStack>
-                                <Pressable
-                                    onPress={() => props.navigation.goBack()}
+                        <Divider mt={5} />
 
+                        <Heading size="md" mt={5}>가까운 충전소 조회</Heading>
+                        {
+                            sortStations({ latitude: selectedStation?.lat, longitude: selectedStation?.lng }, stations)
+                                .filter((station) => station.distance <= 300)
+                                .map((station) => (
+                                    <StationCard
+                                        key={station.statId}
+                                        station={station}
+                                    // onPress={() => focusToStation(station)}
+                                    />
+                                ))
+                        }
+                        <Box mt={5} />
+
+                    </ScrollView>
+                    <Spacer />
+                    <Center>
+                        <HStack>
+                            <Pressable
+                                onPress={() => props.navigation.goBack()}
+
+                            >
+                                <Box
+                                    height="35"
+                                    width="150"
+                                    borderWidth="1"
+                                    borderColor="coolGray.300"
+                                    shadow="3"
+                                    bg="red.300"
+                                    px="5"
+                                    rounded="8"
                                 >
-                                    <Box
-                                        height="35"
-                                        width="150"
-                                        borderWidth="1"
-                                        borderColor="coolGray.300"
-                                        shadow="3"
-                                        bg="red.300"
-                                        px="5"
-                                        rounded="8"
-                                    >
-                                        <Center>
-                                            <Heading size="md">닫 기</Heading>
-                                        </Center>
-                                    </Box>
-                                </Pressable>
-                                <FindFavorites user_id={userId} statId={selectedStation?.statId} />
-                            </HStack>
-                        </Center>
-                    </Box>
-                    // :
-                    // <>
-                    //     <LoadingSpinner description="주변 충전소를 함께 찾고 있어요 ..." />
-                    // </>
+                                    <Center>
+                                        <Heading size="md">닫 기</Heading>
+                                    </Center>
+                                </Box>
+                            </Pressable>
+                            <FindFavorites statId={selectedStation?.statId} />
+                        </HStack>
+                    </Center>
+                </Box>
             }
         </>
     )

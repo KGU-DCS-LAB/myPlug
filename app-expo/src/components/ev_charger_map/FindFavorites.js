@@ -5,25 +5,39 @@ import { config } from '../../../config';
 import axios from 'axios';
 import { useIsFocused } from '@react-navigation/native';
 import { Box, Center, Heading, HStack, Pressable } from 'native-base';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const FindFavorites = ({ user_id, statId }) => {
+const FindFavorites = ({ statId }) => {
     const [star, setStar] = useState('star-border');
     const isFocused = useIsFocused();
     const [firstRecord, setFirstRecord] = useState(true);
     const [didCancel, setCancel] = useState(false); // clean up 용
-
+    const [userId, setUserId] = useState(null);
 
     useEffect(() => {
         setCancel(false);
         if (!didCancel) {
-            getFavorites();
+            try {
+                AsyncStorage.getItem('userInfo')
+                    .then(value => {
+                        if (value != null) {
+                            const UserInfo = JSON.parse(value);
+                            setUserId(UserInfo[0].user_id);
+                            getFavorites(UserInfo[0].user_id);
+                        }
+                    }
+                    )
+            } catch (error) {
+                console.log(error);
+            }
+            // getFavorites(UserInfo[0].user_id);
         }
         return () => {
             setCancel(true);
         }
     }, [isFocused, statId]);
 
-    const getFavorites = () => {
+    const getFavorites = (user_id) => {
         let result = []
         axios.post(config.ip + ':5000/favoritesRouter/findOwn', {
             user_id: user_id
@@ -105,7 +119,7 @@ const FindFavorites = ({ user_id, statId }) => {
     return (
         <>
             {
-                user_id != 'unknown' &&
+                userId &&
                 <Pressable
                     onPress={() => addToFavorites()}
 
