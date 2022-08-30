@@ -61,7 +61,7 @@ const FindFavorites = ({ statId }) => {
         })
     }
 
-    const addToFavorites = () => {
+    const addToFavorites = (user_id) => {
         if (star == 'star') {
             //즐겨찾기 취소
             axios.post(config.ip + ':5000/favoritesRouter/favoirteDelete', {
@@ -121,7 +121,7 @@ const FindFavorites = ({ statId }) => {
             {
                 userId &&
                 <Pressable
-                    onPress={() => addToFavorites()}
+                    onPress={() => addToFavorites(userId)}
 
                 >
                     <Box
