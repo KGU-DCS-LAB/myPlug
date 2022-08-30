@@ -3,17 +3,16 @@ import { config } from "../../../config";
 
 export const getUserFavoriteStations = async (user) => {
     try {
-        const response = await axios.post(config.ip + ':5000/favoritesRouter/findOwn', {
+        const response = await axios.post(`${config.ip}:5000/favoritesRouter/findOwn`, {
             user_id: user.user_id
         })
-        // console.log("response >>", response.data)
         let result = []
         let favorites = [];
         result.push(response.data[0].station)
         for (let i = 0; i < result[0].length; i++) {
             favorites.push(result[0][i].statId)
         }
-        const response2 = await axios.post(config.ip + ':5000/stationsRouter/keco/find/manyStations', {
+        const response2 = await axios.post(`${config.ip}:5000/stationsRouter/keco/find/manyStations`, {
             data: favorites
         })
         return response2.data;
@@ -25,7 +24,7 @@ export const getUserFavoriteStations = async (user) => {
 
 export const getRegionData = async (location) => {
     try {
-        const response = await axios.post(config.ip + ':5000/stationsRouter/keco/find/regionStations', {
+        const response = await axios.post(`${config.ip}:5000/stationsRouter/keco/find/regionStations`, {
             // cancelToken: source.current.token,
             data: { // 현재 화면 모서리의 좌표 값을 전송함. 같은 축이여도 숫자가 작을 수록 값이 작음 (ex. x1<x2,  y1<y2)
                 x1: location.longitude - (location.longitudeDelta / 2),
@@ -44,10 +43,9 @@ export const getRegionData = async (location) => {
 
 export const getChargersByManyStation = async (statIds) => {
     try {
-        const response = await axios.post(config.ip + ':5000/stationsRouter/keco/find/manyChargers', {
+        const response = await axios.post(`${config.ip}:5000/stationsRouter/keco/find/manyChargers`, {
             data: statIds
         })
-        // console.log("response >>", response.data)
         return response.data
     } catch (err) {
         console.log("Error >>", err);
@@ -57,7 +55,7 @@ export const getChargersByManyStation = async (statIds) => {
 
 export const getChargersByOneStation = async (statId) => {
     try {
-        const response = await axios.post(config.ip + ':5000/stationsRouter/keco/find/chargers', {
+        const response = await axios.post(`${config.ip}:5000/stationsRouter/keco/find/chargers`, {
             data: statId
         })
         // console.log("response >>", response.data)
@@ -70,7 +68,7 @@ export const getChargersByOneStation = async (statId) => {
 
 export const getChargerTypeByKey = async (key) => {
     try {
-        const response = await axios.get(config.ip + ':5000/stationsRouter/keco/filteredCharger/' + key)
+        const response = await axios.get(`${config.ip}:5000/stationsRouter/keco/filteredCharger/${key}`)
         // console.log("response >>", response.data)
         return response.data
     } catch (err) {
@@ -81,7 +79,7 @@ export const getChargerTypeByKey = async (key) => {
 
 export const getBusiNmByKey = async (key) => {
     try {
-        const response = await axios.get(config.ip + ':5000/stationsRouter/keco/filteredStations/' + key)
+        const response = await axios.get(`${config.ip}:5000/stationsRouter/keco/filteredStations/${key}`)
         // console.log("response >>", response.data)
         return response.data
     } catch (err) {
@@ -92,7 +90,7 @@ export const getBusiNmByKey = async (key) => {
 
 export const getStationLogsByStatId = async (statId) => {
     try {
-        const response = await axios.post(config.ip + ':5000/stationsRouter/keco/find/stationLogs', {
+        const response = await axios.post(`${config.ip}:5000/stationsRouter/keco/find/stationLogs`, {
             data: statId
         })
         // console.log("response >>", response.data)
@@ -105,7 +103,7 @@ export const getStationLogsByStatId = async (statId) => {
 
 export const getFilteredData = async (location, selectedType) => {
     try {
-        const response = await axios.post(config.ip + ':5000/stationsRouter/filterStations', {
+        const response = await axios.post(`${config.ip}:5000/stationsRouter/filterStations`, {
             data: {
                 x1: location.longitude - (location.longitudeDelta / 2),
                 x2: location.longitude + (location.longitudeDelta / 2),
@@ -124,7 +122,7 @@ export const getFilteredData = async (location, selectedType) => {
 
 export const saveFilterData = async (userId, selectedType) => {
     try {
-        const response = await axios.post(config.ip + ':5000/usersRouter/saveFilterData', {
+        const response = await axios.post(`${config.ip}:5000/usersRouter/saveFilterData`, {
             data: {
                 user_id: userId,
                 types: selectedType
@@ -139,10 +137,9 @@ export const saveFilterData = async (userId, selectedType) => {
 
 export const getStationsByTheme = async (selectedType) => {
     try {
-        const response = await axios.post(config.ip + ':5000/stationsRouter/findStation', {
+        const response = await axios.post(`${config.ip}:5000/stationsRouter/findStation`, {
             data: selectedType
         })
-        // console.log("response >>", response.data)
         return response.data
     } catch (err) {
         console.log("Error >>", err);
