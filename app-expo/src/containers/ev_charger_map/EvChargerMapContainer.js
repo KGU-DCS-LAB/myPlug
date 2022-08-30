@@ -58,6 +58,21 @@ const EvChargerContainer = (props) => {
 
         if (!didCancel) {
             (async () => {
+                const idx = new_routes.findIndex(r => r.name === "EvCharger")
+                if(new_routes[idx].params!==undefined){ // 외부에서 같이 전달된 인자가 있다면
+                    console.log('외부에서 stations과 함께 실행 요청');
+                    initLocation = {
+                        longitude: Number(new_routes[idx].params.station.lng),
+                        latitude: Number(new_routes[idx].params.station.lat),
+                        latitudeDelta: 0.007,
+                        longitudeDelta: 0.007,
+                    }
+                    Promise.all([
+                        focusToStation(new_routes[idx].params.station),
+                        setLocationAndGetStations(initLocation),
+                    ]);
+                    setLoaded(true);
+                }
                 let { status } = await Location.requestForegroundPermissionsAsync(); //GPS 사용 권한 물어봄
                 if (status !== 'granted') {
                     console.log('Permission to access location was denied');
@@ -65,7 +80,7 @@ const EvChargerContainer = (props) => {
                 }
                 let location = await Location.getCurrentPositionAsync({}); //현 위치 수신
                 let initLocation = null;
-                const idx = new_routes.findIndex(r => r.name === "EvCharger")
+                
                 if(new_routes[idx].params===undefined){ // 아무런 전달 인자가 없다면
                     initLocation = {
                         longitude: location.coords.longitude,
@@ -73,18 +88,20 @@ const EvChargerContainer = (props) => {
                         latitudeDelta: 0.007,
                         longitudeDelta: 0.007,
                     }
+                    await setLocationAndGetStations(initLocation);
+                    setLoaded(true);
                 }
-                else{ // 외부에서 같이 전달된 인자가 있다면
-                    console.log(new_routes[idx].params.station);
-                    initLocation = {
-                        longitude: Number(new_routes[idx].params.station.lng),
-                        latitude: Number(new_routes[idx].params.station.lat),
-                        latitudeDelta: 0.007,
-                        longitudeDelta: 0.007,
-                    }
-                }
-                await setLocationAndGetStations(initLocation);
-                setLoaded(true);
+                // else{ // 외부에서 같이 전달된 인자가 있다면
+                //     console.log(new_routes[idx].params.station);
+                //     initLocation = {
+                //         longitude: Number(new_routes[idx].params.station.lng),
+                //         latitude: Number(new_routes[idx].params.station.lat),
+                //         latitudeDelta: 0.007,
+                //         longitudeDelta: 0.007,
+                //     }
+                // }
+                
+                
                 // 실시간으로 위치 변화 감지 (권한 거부 시 아예 동작하지 않음 / 델타 값 관련 버그가 있어서 일단 주석 처리. 동작 자체는 아무 이상 없음)
                 Location.watchPositionAsync({ accuracy: Location.Accuracy.Balanced, timeInterval: 100, distanceInterval: 1 },
                     position => {
@@ -122,7 +139,7 @@ const EvChargerContainer = (props) => {
             latitudeDelta: 0.007,
             longitudeDelta: 0.007,
         }
-        mapRef.current.animateToRegion(stationLocation); // 지도 이동을 도와주는 메소드
+        mapRef?.current?.animateToRegion(stationLocation); // 지도 이동을 도와주는 메소드
         setStationListModalVisible(false)
         setSmallModalOpen(true);
         setLocationAndGetStations(stationLocation);
@@ -196,10 +213,10 @@ const EvChargerContainer = (props) => {
                                     setLocationAndGetStations(region);
                                 }}
                                 onMapReady={() => {
-                                    const idx = new_routes.findIndex(r => r.name === "EvCharger")
-                                    if(new_routes[idx].params!==undefined){
-                                        focusToStation(new_routes[idx].params.station);
-                                    }
+                                    // const idx = new_routes.findIndex(r => r.name === "EvCharger")
+                                    // if(new_routes[idx].params!==undefined){
+                                    //     focusToStation(new_routes[idx].params.station);
+                                    // }
                                 }}
                                 clusterColor="yellowgreen"
                                 customMapStyle={mapStytle}
