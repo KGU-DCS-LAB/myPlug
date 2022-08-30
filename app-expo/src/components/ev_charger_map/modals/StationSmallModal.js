@@ -169,13 +169,13 @@ const StationSmallModal = (props) => {
                                         borderWidth="1"
                                         borderColor="coolGray.300"
                                         shadow="3"
-                                        bg="red.300"
+                                        bg="red.500"
                                         px="5"
                                         mx="2"
                                         rounded="8"
                                     >
                                         <Center>
-                                            <Heading size="md">닫 기</Heading>
+                                            <Heading size="md" color={"white"} py={1}>닫 기</Heading>
                                         </Center>
                                     </Box>
                                 </Pressable>
@@ -189,21 +189,29 @@ const StationSmallModal = (props) => {
                                         })
                                     }}
                                 >
-                                    <Box
-                                        height="35"
-                                        width="150"
-                                        borderWidth="1"
-                                        borderColor="coolGray.300"
-                                        shadow="3"
-                                        bg="green.300"
-                                        px="5"
-                                        mx="2"
-                                        rounded="8"
-                                    >
-                                        <Center>
-                                            <Heading size="md">상세보기</Heading>
-                                        </Center>
-                                    </Box>
+                                    {({
+                                        isHovered,
+                                        isFocused,
+                                        isPressed
+                                    }) => {
+                                        return (
+                                            <Box
+                                                height="35"
+                                                width="150"
+                                                borderWidth="1"
+                                                borderColor="coolGray.300"
+                                                shadow="3"
+                                                bg="green.500"
+                                                px="5"
+                                                mx="2"
+                                                rounded="8"
+                                            >
+                                                <Center>
+                                                    <Heading size="md" color={"white"} py={1}>상세보기</Heading>
+                                                </Center>
+                                            </Box>
+                                        )
+                                    }}
                                 </Pressable>
                             </HStack>
                         </Center>

@@ -1,8 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigationState } from "@react-navigation/native";
-import { Box, Center, Divider, Heading, HStack, Spacer, Text, View } from "native-base";
+import { Box, Center, Divider, Heading, HStack, ScrollView, Spacer, Text, View } from "native-base";
 import { useEffect, useState } from "react";
-import { Pressable, ScrollView } from "react-native";
+import { Pressable } from "react-native";
 import { sortStations } from "../../../app/api/STATIONS";
 import ChargerCard from "../../../components/ev_charger_map/cards/ChargerCard";
 import StationCard from "../../../components/ev_charger_map/cards/StationCard";
@@ -62,7 +62,10 @@ export default (props) => {
                     <View>
                         <Heading size="lg">{selectedStation?.statNm + " (" + selectedStation?.statId + ")"}</Heading>
                     </View>
-                    <ScrollView>
+                    <ScrollView
+                        borderBottomColor={"gray.300"}
+                        borderBottomWidth={2}
+                    >
                         <Text fontSize="lg">{selectedStation?.addr}</Text>
                         <Text fontSize="md">{selectedStation?.location != "null" && selectedStation?.location}</Text>
                         <Divider mt={5} />
@@ -125,7 +128,9 @@ export default (props) => {
                     </ScrollView>
                     <Spacer />
                     <Center>
-                        <HStack>
+                        <HStack
+                            mt="2"
+                        >
                             <Pressable
                                 onPress={() => props.navigation.goBack()}
 
@@ -136,12 +141,12 @@ export default (props) => {
                                     borderWidth="1"
                                     borderColor="coolGray.300"
                                     shadow="3"
-                                    bg="red.300"
+                                    bg="red.500"
                                     px="5"
                                     rounded="8"
                                 >
                                     <Center>
-                                        <Heading size="md">닫 기</Heading>
+                                        <Heading size="md" color={"white"} py={1}>닫 기</Heading>
                                     </Center>
                                 </Box>
                             </Pressable>

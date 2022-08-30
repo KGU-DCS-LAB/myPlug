@@ -130,14 +130,15 @@ const FindFavorites = ({ statId }) => {
                         borderWidth="1"
                         borderColor="coolGray.300"
                         shadow="3"
-                        bg="yellow.300"
+                        bg="yellow.500"
                         px="5"
                         mx="2"
                         rounded="8"
                     >
                         <Center>
                             <HStack>
-                                <Heading size="md">즐겨찾기</Heading><MaterialIcons name={star} size={24} color={"black"} />
+                                <Heading size="md" color={"white"} py={1}>즐겨찾기</Heading>
+                                <Box py={1}><MaterialIcons name={star} size={24} color={"white"}/></Box>
                             </HStack>
                         </Center>
                     </Box>
