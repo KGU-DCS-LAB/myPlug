@@ -10,9 +10,17 @@ const FindFavorites = ({ user_id, statId }) => {
     const [star, setStar] = useState('star-border');
     const isFocused = useIsFocused();
     const [firstRecord, setFirstRecord] = useState(true);
+    const [didCancel, setCancel] = useState(false); // clean up 용
+
 
     useEffect(() => {
-        getFavorites();
+        setCancel(false);
+        if (!didCancel) {
+            getFavorites();
+        }
+        return () => {
+            setCancel(true);
+        }
     }, [isFocused, statId]);
 
     const getFavorites = () => {
@@ -20,7 +28,6 @@ const FindFavorites = ({ user_id, statId }) => {
         axios.post(config.ip + ':5000/favoritesRouter/findOwn', {
             user_id: user_id
         }).then((response) => {
-            // console.log(response.data);
             if (response.data.length == 0) {
                 setFirstRecord(true)
             } else {
@@ -104,7 +111,7 @@ const FindFavorites = ({ user_id, statId }) => {
 
                 >
                     <Box
-                        height="30"
+                        height="35"
                         width="150"
                         borderWidth="1"
                         borderColor="coolGray.300"

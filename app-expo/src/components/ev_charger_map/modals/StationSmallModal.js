@@ -165,7 +165,7 @@ const StationSmallModal = (props) => {
 
                                 >
                                     <Box
-                                        height="30"
+                                        height="35"
                                         width="150"
                                         borderWidth="1"
                                         borderColor="coolGray.300"
@@ -193,7 +193,7 @@ const StationSmallModal = (props) => {
                                     }}
                                 >
                                     <Box
-                                        height="30"
+                                        height="35"
                                         width="150"
                                         borderWidth="1"
                                         borderColor="coolGray.300"

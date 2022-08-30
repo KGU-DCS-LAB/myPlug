@@ -94,7 +94,7 @@ export default (props) => {
     return (
         <>
             {
-                isLoaded ?
+                // isLoaded ?
                     <Box
                         style={{ flex: 1 }}
                         p={5}
@@ -171,7 +171,7 @@ export default (props) => {
 
                                 >
                                     <Box
-                                        height="30"
+                                        height="35"
                                         width="150"
                                         borderWidth="1"
                                         borderColor="coolGray.300"
@@ -189,10 +189,10 @@ export default (props) => {
                             </HStack>
                         </Center>
                     </Box>
-                    :
-                    <>
-                        <LoadingSpinner description="주변 충전소를 함께 찾고 있어요 ..." />
-                    </>
+                    // :
+                    // <>
+                    //     <LoadingSpinner description="주변 충전소를 함께 찾고 있어요 ..." />
+                    // </>
             }
         </>
     )
