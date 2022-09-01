@@ -218,7 +218,7 @@ router.get("/keco/filteredStations/:key", (req, res) => {
 
 // 충전소 검색
 router.get("/search/:key", async (req, res) => {
-  // console.log(req);
+  console.log(req.params.key);
   let result = await Station.find({
     "$or": [
       {

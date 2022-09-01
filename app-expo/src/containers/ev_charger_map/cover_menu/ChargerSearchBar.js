@@ -1,5 +1,5 @@
 import { Box, Text } from "native-base";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import SearchBar from "react-native-dynamic-search-bar";
 import { FlatList, TouchableOpacity } from 'react-native';
 import { config } from '../../../../config'
@@ -8,19 +8,35 @@ import MapView from "react-native-map-clustering";
 
 const ChargerSearchBar = (props) => {
 
+    let currentRequest = useRef(null);
+    let requestIndex = useRef(0);
+
     const [text, setText] = useState('');
     const [stations, setStations] = useState([]);
 
     const filterList = async (text) => {
         console.log(text)
+        if (currentRequest.current) {
+            currentRequest.current.abort();
+        }
+        currentRequest.current = new AbortController();
+        const index = ++requestIndex.current;
+
         let key = text;
         if (key) {
-            let result = await fetch(config.ip + `:5000/stationsRouter/search/${key}`);
-            result = await result.json();
-            if (result) {
-                // console.log(result);
-                setStations(result)
-            }
+            fetch(config.ip + `:5000/stationsRouter/search/${key}`, {
+                signal: currentRequest.current.signal,
+            }).then(async result => {
+                results = await result.json();
+                console.log('length : ' + results.length);
+                setStations(results)
+            }).then(() => {
+                console.log('index : ' + index)
+            }).catch(error => {
+                if (error.name === 'AbortError') return;
+
+                console.error(error);
+            });
         } else {
             setStations([])
         }
@@ -32,10 +48,10 @@ const ChargerSearchBar = (props) => {
     const renderItem = ({ item }) => (
         <TouchableOpacity onPress={() => props.focusToStation(item)}>
             <Box
-             borderBottomWidth="1"
-             borderColor="coolGray.200"
-             p={1}
-             >
+                borderBottomWidth="1"
+                borderColor="coolGray.200"
+                p={1}
+            >
                 <Text fontSize="md">{item.statNm}</Text>
             </Box>
         </TouchableOpacity>

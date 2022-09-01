@@ -109,13 +109,13 @@ const EvChargerContainer = (props) => {
     const setLocationAndGetStations = async (region) => {
         setMapLocation(region);
         if (region.latitudeDelta < 0.13 && region.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
-            console.log('prev : '+controller.current)
+            // console.log('prev : '+controller.current)
             if(controller.current){
-                console.log('abort!');
+                // console.log('abort!');
                 controller.current.abort();
             }
             controller.current = new AbortController();
-            console.log('next : '+controller.current)
+            // console.log('next : '+controller.current)
             const signal = controller.current.signal; // 이후 API로 넘겨줘서 취소 토큰 대용으로 사용할 예정
             // const receivedStationData = await API.getRegionData(region)
             const receivedStationData = await API.getRegionData2(signal, region)
