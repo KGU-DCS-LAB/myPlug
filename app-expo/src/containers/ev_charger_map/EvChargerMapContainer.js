@@ -133,6 +133,7 @@ const EvChargerContainer = (props) => {
     }
 
     const focusToStation = async (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
+        console.log(JSON.stringify(station))
         const stationLocation = {
             longitude: Number(station.lng),
             latitude: Number(station.lat),

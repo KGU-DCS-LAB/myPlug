@@ -119,7 +119,9 @@ const StationInfoView = (props) => {
                                     <StationCard
                                         key={station.statId}
                                         station={station}
-                                    // onPress={() => focusToStation(station)}
+                                        onPress={() => props.navigation.navigate('EvCharger',{ //useEffect가 []으로 잡혀있어서 아무런 효과를 일으키지 못하고 있는 문제가 있음
+                                            station:station
+                                        })}
                                     />
                                 ))
                         }
