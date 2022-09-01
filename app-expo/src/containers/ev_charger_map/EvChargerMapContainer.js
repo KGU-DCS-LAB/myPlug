@@ -44,7 +44,7 @@ const EvChargerContainer = (props) => {
     const [isThemeModalOpen, setThemeModalOpen] = useState(false);
     const [isSmallModalOpen, setSmallModalOpen] = useState(false);
 
-    let controller;
+    let controller = useRef();
     const mapRef = useRef(); // 지도 조작에 사용되는 기능
     const new_routes = useNavigationState(state => state.routes);
 
@@ -91,16 +91,6 @@ const EvChargerContainer = (props) => {
                     await setLocationAndGetStations(initLocation);
                     setLoaded(true);
                 }
-                // else{ // 외부에서 같이 전달된 인자가 있다면
-                //     console.log(new_routes[idx].params.station);
-                //     initLocation = {
-                //         longitude: Number(new_routes[idx].params.station.lng),
-                //         latitude: Number(new_routes[idx].params.station.lat),
-                //         latitudeDelta: 0.007,
-                //         longitudeDelta: 0.007,
-                //     }
-                // }
-                
                 
                 // 실시간으로 위치 변화 감지 (권한 거부 시 아예 동작하지 않음 / 델타 값 관련 버그가 있어서 일단 주석 처리. 동작 자체는 아무 이상 없음)
                 Location.watchPositionAsync({ accuracy: Location.Accuracy.Balanced, timeInterval: 100, distanceInterval: 1 },
@@ -119,9 +109,16 @@ const EvChargerContainer = (props) => {
     const setLocationAndGetStations = async (region) => {
         setMapLocation(region);
         if (region.latitudeDelta < 0.13 && region.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
-            controller = new AbortController();
-            const signal = controller.signal; // 이후 API로 넘겨줘서 취소 토큰 대용으로 사용할 예정
-            const receivedStationData = await API.getRegionData(region)
+            console.log('prev : '+controller.current)
+            if(controller.current){
+                console.log('abort!');
+                controller.current.abort();
+            }
+            controller.current = new AbortController();
+            console.log('next : '+controller.current)
+            const signal = controller.current.signal; // 이후 API로 넘겨줘서 취소 토큰 대용으로 사용할 예정
+            // const receivedStationData = await API.getRegionData(region)
+            const receivedStationData = await API.getRegionData2(signal, region)
             const receivedChargerData = await API.getChargersByManyStation(receivedStationData.map((station) => station.statId))
             setStations(STATIONS.countChargers(sortStations(userLocation, receivedStationData), receivedChargerData));
             setChargers(receivedChargerData)
@@ -133,7 +130,7 @@ const EvChargerContainer = (props) => {
     }
 
     const focusToStation = async (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
-        console.log(JSON.stringify(station))
+        // console.log(JSON.stringify(station))
         const stationLocation = {
             longitude: Number(station.lng),
             latitude: Number(station.lat),
