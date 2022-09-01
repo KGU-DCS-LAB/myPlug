@@ -145,6 +145,7 @@ React Native를 사용하여 작성한 충전소 지도 앱 입니다. 스마트
 
 ![App Screenshot](app-expo/screenshots/gif/main.gif)
 ![App Screenshot](app-expo/screenshots/gif/map.gif)
+![App Screenshot](app-expo/screenshots/gif/favorite.gif)
 ![App Screenshot](app-expo/screenshots/gif/search.gif)
 ![App Screenshot](app-expo/screenshots/gif/location.gif)
 ![App Screenshot](app-expo/screenshots/gif/modalSmall.gif)
