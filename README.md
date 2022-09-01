@@ -130,16 +130,17 @@ React Native를 사용하여 작성한 충전소 지도 앱 입니다. 스마트
 
 ## Demo and Screenshots
 
-![App Screenshot](app-expo/screenshots/main.gif)
-![App Screenshot](app-expo/screenshots/map.gif)
-![App Screenshot](app-expo/screenshots/search.gif)
-![App Screenshot](app-expo/screenshots/location.gif)
-![App Screenshot](app-expo/screenshots/modalSmall.gif)
-![App Screenshot](app-expo/screenshots/modalBig.gif)
-![App Screenshot](app-expo/screenshots/list.gif)
-![App Screenshot](app-expo/screenshots/filter.gif)
+![App Screenshot](app-expo/screenshots/gif/main.gif)
+![App Screenshot](app-expo/screenshots/gif/map.gif)
+![App Screenshot](app-expo/screenshots/gif/search.gif)
+![App Screenshot](app-expo/screenshots/gif/location.gif)
+![App Screenshot](app-expo/screenshots/gif/modalSmall.gif)
+![App Screenshot](app-expo/screenshots/gif/modalBig.gif)
+![App Screenshot](app-expo/screenshots/gif/list.gif)
+![App Screenshot](app-expo/screenshots/gif/filter.gif)
+![App Screenshot](app-expo/screenshots/gif/theme.gif)
 
-![Web Screenshot](app-expo/screenshots/data.gif)
+![Web Screenshot](app-expo/screenshots/gif/data.gif)
 
 
 ## Environment Variables
