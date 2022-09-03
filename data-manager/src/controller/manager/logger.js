@@ -8,16 +8,16 @@ export const init = async (region, date, raw_data, page) => {
         $and: [
             { week: { $eq: date.week } },
             { region: { $eq: region } },
-            { statId: { "$in": raw_data.map((data)=>data.statId) } }
+            { statId: { "$in": raw_data.map((data) => data.statId) } }
         ]
     }, '_id')
     console.log(`[logger] ${page} raw data size : ${raw_data.length}`)
     console.log(`[logger] ${page} prev logs size : ${logs.length}`)
     raw_data.map((raw) => {
         const index = logs.findIndex((item) => {
-            return (item._id == raw.statId+raw.chgerId)
+            return (item._id == date.week + '' + raw.statId + '' + raw.chgerId)
         })
-        if (index===-1) {
+        if (index === -1) {
             logsForBulk.push(addDefaultLogJSON(region, date, raw));
         }
     })
@@ -25,24 +25,30 @@ export const init = async (region, date, raw_data, page) => {
 
     // 신규 충전기에 대한 기본 로그 데이터를 추가해준다.
     await addDefaultLogs(page, logsForBulk);
-    
+
     // 사용중인 충전기들은 요일/시간별로 로그를 업데이트 해준다.
     logsForBulk = [];
-    raw_data.filter((data)=>data.stat==3).map((data)=>{
-        logsForBulk.push(addStat3LogJSON(date, data.statId + '' + data.chgerId));
+    raw_data.filter((data) => data.stat == 3).map((data) => {
+        logsForBulk.push(addStat3LogJSON(date, date.week + '' + data.statId + '' + data.chgerId));
     })
-    console.log(page+' 사용중인 충전기 수 : '+ logsForBulk.length);
+    console.log(page + ' 사용중인 충전기 수 : ' + logsForBulk.length);
     await updateStat3Logs(page, logsForBulk);
-    
+
     return null;
 }
 
+/**
+ * 사용중인 충전기 업데이트
+ * @param {*} date 
+ * @param {*} logId 
+ * @returns 
+ */
 const addStat3LogJSON = (date, logId) => {
     // https://github.com/Automattic/mongoose/issues/9268 여기 참고해서 다시 도전해보기 --> 해결
     // console.log(logId);
     const day = date.day;
     const hour = date.hour;
-    const temp = 'logs.'+day+'.'+hour;
+    const temp = 'logs.' + day + '.' + hour;
     const doc = {
         'updateOne': {
             'filter': {
@@ -52,8 +58,8 @@ const addStat3LogJSON = (date, logId) => {
                 ],
             },
             'update': {
-                $set:{
-                    [temp]:1,
+                $set: {
+                    [temp]: 1,
                 }
             },
         }
@@ -61,12 +67,19 @@ const addStat3LogJSON = (date, logId) => {
     return doc;
 }
 
+/**
+ * 처음 발견한 충전기에 대한 기본 로그 추가
+ * @param {*} region 
+ * @param {*} date 
+ * @param {*} raw 
+ * @returns 
+ */
 const addDefaultLogJSON = (region, date, raw) => {
     const upsertDoc = {
         'updateOne': {
-            'filter': { _id: { $eq: raw.statId + '' + raw.chgerId } },
+            'filter': { _id: { $eq: date.week + '' + raw.statId + '' + raw.chgerId } },
             'update': {
-                "_id": raw.statId + '' + raw.chgerId,
+                "_id": date.week + '' + raw.statId + '' + raw.chgerId,
                 "statId": raw.statId,
                 "chgerId": raw.chgerId,
                 "week": date.week,
