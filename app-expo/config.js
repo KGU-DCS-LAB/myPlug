@@ -7,6 +7,9 @@
 	ip 숫자만 수정하고 형식 수정하지 마세요
 
 */
+
+// https://blog.logrocket.com/react-native-maps-introduction/ 
+
 export const config = {
 	ip:"http://192.168.0.11",
 };

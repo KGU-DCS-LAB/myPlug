@@ -69,8 +69,8 @@ const MainContainer = () => {
             // <ModalExample navigation={navigation} />
             // <CollapseExample navigation={navigation} />
             // <ButtonsLayoutExample navigation={navigation} />
-            // <GoogleMapExample navigation={navigation} />
-            <CheckBoxExample navigation={navigation} />
+            <GoogleMapExample navigation={navigation} />
+            // <CheckBoxExample navigation={navigation} />
         )
     }
 
