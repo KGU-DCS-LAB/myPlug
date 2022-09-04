@@ -6,16 +6,11 @@ import { config } from '../../../config'
 import axios from 'axios';
 import { Box, Center, HStack, Spacer, Text, View } from "native-base";
 import LoadingSpinner from "../../components/Loading/LoadingSpinner";
-import FilterModal from "../../components/ev_charger_map/modals/FilterModal";
 import { Image } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
-import StationListModal from "../../components/ev_charger_map/modals/StationListModal";
-import StationSmallModal from "../../components/ev_charger_map/modals/StationSmallModal";
 import { sortStations, getDistance } from '../../app/api/STATIONS';
 import * as API from "../../app/api/API";
 import * as STATIONS from '../../app/api/STATIONS';
-import { mapStyles } from "../../app/api/GOOGLEMAP";
-import ThemeModal from "../../components/ev_charger_map/modals/ThemeModal";
 import { useNavigationState } from "@react-navigation/native";
 
 const GoogleMapExample = (props) => {
@@ -38,20 +33,11 @@ const GoogleMapExample = (props) => {
   const [selectedStation, setSelectedStation] = useState(null); //마커 선택 시 모달에 띄워줄 데이터
   const [selectedChargers, setSelectedChargers] = useState([]); // 서버로 부터 받아온 특정 충전소의 충전기 리스트
 
-  const [filterModalVisible, setFilterModalVisible] = useState(false); // 필터 모달 온오프
-  const [stationListModalVisible, setStationListModalVisible] = useState(false); // 충전소 목록 모달 온오프
-  const [isThemeModalOpen, setThemeModalOpen] = useState(false);
-  const [isSmallModalOpen, setSmallModalOpen] = useState(false);
-
   const mapRef = useRef(); // 지도 조작에 사용되는 기능
 
   // Get current location information 
   useEffect(() => {
     setCancel(false);
-    const now = new Date().getHours();
-    if (now < 7 || now >= 19) {
-      setMapStyle(mapStyles('aubergine'));
-    }
 
     if (!didCancel) {
       (async () => {
@@ -142,17 +128,8 @@ const GoogleMapExample = (props) => {
                 provider={PROVIDER_GOOGLE} // Apple 지도가 뜨지 않도록 방지함
                 showsUserLocation={true}
                 showsMyLocationButton={false} // 현위치를 맵에서 직접 관리하지 않도록 제한함 (Stagger에서 처리)
-                onRegionChange={region => {
-
-                }}
                 onRegionChangeComplete={(region) => { //손가락이 지도에서 떨어지는 순간 처리할 일 + 굳이 손가락을 대지 않아도 위치 변경 시 이것을 통해 동작하기도 하는 것을 발견함.
                   setLocationAndGetStations(region);
-                }}
-                onMapReady={() => {
-                  // const idx = new_routes.findIndex(r => r.name === "EvCharger")
-                  // if(new_routes[idx].params!==undefined){
-                  //     focusToStation(new_routes[idx].params.station);
-                  // }
                 }}
                 clusterColor="yellowgreen"
                 customMapStyle={mapStytle}
@@ -179,8 +156,8 @@ const GoogleMapExample = (props) => {
 
               </MapView>
               {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
-              {/* <HStack><Text>{mapLocation.latitude}</Text><Spacer /><Text>{mapLocation.longitude}</Text></HStack>
-                            <HStack><Text>{mapLocation.latitudeDelta}</Text><Spacer /><Text>{mapLocation.longitudeDelta}</Text></HStack> */}
+              <HStack><Text>{mapLocation.latitude}</Text><Spacer /><Text>{mapLocation.longitude}</Text></HStack>
+              <HStack><Text>{mapLocation.latitudeDelta}</Text><Spacer /><Text>{mapLocation.longitudeDelta}</Text></HStack>
               {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
 
             </View>
