@@ -24,14 +24,6 @@ const GoogleMapExample = (props) => {
 
   const [didCancel, setCancel] = useState(false); // clean up 용
   const [isLoaded, setLoaded] = useState(false); // GPS 로딩 여부 검사용
-  const [mapStytle, setMapStyle] = useState([]);
-
-  const [stations, setStations] = useState([]); //서버로 부터 받아온 충전소 데이터 리스트
-  const [chargers, setChargers] = useState([]); //서버로 부터 받아온 충전소 데이터들의 충전기 데이터 리스트
-  const [stationLogs, setStationLogs] = useState([]); //서버로 부터 받아온 특정 충전소의 충전 분석 로그
-
-  const [selectedStation, setSelectedStation] = useState(null); //마커 선택 시 모달에 띄워줄 데이터
-  const [selectedChargers, setSelectedChargers] = useState([]); // 서버로 부터 받아온 특정 충전소의 충전기 리스트
 
   const mapRef = useRef(); // 지도 조작에 사용되는 기능
 
@@ -71,16 +63,13 @@ const GoogleMapExample = (props) => {
   }, []);
 
   const setLocationAndGetStations = async (region) => {
+    console.log(region)
     setMapLocation(region);
     if (region.latitudeDelta < 0.13 && region.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
-      const receivedStationData = await API.getRegionData(region)
-      const receivedChargerData = await API.getChargersByManyStation(receivedStationData.map((station) => station.statId))
-      setStations(STATIONS.countChargers(sortStations(userLocation, receivedStationData), receivedChargerData));
-      setChargers(receivedChargerData)
+
     }
     else { // 델타 값이 너무 크면 값을 그냥 비워버림
-      setStations([]);
-      setChargers([]);
+
     }
   }
 
@@ -93,16 +82,7 @@ const GoogleMapExample = (props) => {
       longitudeDelta: 0.007,
     }
     mapRef?.current?.animateToRegion(stationLocation); // 지도 이동을 도와주는 메소드
-    setStationListModalVisible(false)
-    setSmallModalOpen(true);
     setLocationAndGetStations(stationLocation);
-    let temp_chargers = chargers.filter((charger) => charger.statId == station.statId)
-    if (temp_chargers.length == 0) {
-      temp_chargers = await API.getChargersByOneStation(station.statId) //선택한 충전소 id에 속한 충전기를 요청
-    }
-    setSelectedChargers(temp_chargers) //선택한 충전소 id에 속한 충전기를 요청
-    setSelectedStation(STATIONS.countChargers(sortStations(userLocation, [{ ...station }]), temp_chargers)[0]);
-    setStationLogs(await API.getStationLogsByStatId(station.statId)); //선택한 충전소id에 속한 충전기록을 요청 
   }
 
   return (
@@ -132,27 +112,8 @@ const GoogleMapExample = (props) => {
                   setLocationAndGetStations(region);
                 }}
                 clusterColor="yellowgreen"
-                customMapStyle={mapStytle}
                 maxZoom={13}
               >
-
-                {
-                  stations.length > 0 && //사이즈가 0 이상일때맏 마커 찍는 시도함 (오류 방지)
-                  stations.map((marker, index) => (
-                    <Marker
-                      key={index}
-                      coordinate={{
-                        latitude: Number(marker.lat),
-                        longitude: Number(marker.lng)
-                      }}
-                      onPress={
-                        () => {
-                          focusToStation(marker)
-                        }}
-                      image={STATIONS.markerImage(marker)}
-                    />
-                  ))
-                }
 
               </MapView>
               {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
