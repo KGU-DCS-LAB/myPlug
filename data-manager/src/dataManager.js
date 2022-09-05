@@ -18,7 +18,7 @@ export const run = async () => {
     while (true) { //반복 수집
         count++;
         await work(count);
-        await delay(60).then(() => console.log('대기 끝')); //대기시간 60초
+        await delay(10*60).then(() => console.log('대기 끝')); //대기시간 n*60초
     }
 }
 
