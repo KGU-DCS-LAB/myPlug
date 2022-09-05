@@ -1,47 +1,46 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import * as API from "../../api/API";
 
 const initialState = {
-  value: 0,
   status: 'idle',
+  stations: [],
 };
 
+export const getStationsAsync = createAsyncThunk(
+  'example/fetchCount',
+  async (region) => {
+    const response = await API.getRegionData(region);
+    // The value we return becomes the `fulfilled` action payload
+    return response;
+  }
+);
 
 export const exampleSlice = createSlice({
   name: 'example',
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    increment: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 1;
+    getStations: async (state, action) => {
+      console.log(action)
+      // state.stations=await API.getRegionData(action.payload)
     },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-    // Use the PayloadAction type to declare the contents of `action.payload`
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getStationsAsync.pending, (state) => {
+        // console.log(state.status)
+        state.status = 'loading';
+      })
+      .addCase(getStationsAsync.fulfilled, (state, action) => {
+        // console.log(state.status)
+        // console.log(state.stations.length)
+        state.status = 'idle';
+        state.stations = action.payload;
+      });
   },
 });
 
-export const { increment, decrement, incrementByAmount } = exampleSlice.actions;
-
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectCount = (state) => state.counter.value;
-
-// We can also write thunks by hand, which may contain both sync and async logic.
-// Here's an example of conditionally dispatching actions based on current state.
-export const incrementIfOdd = (amount) => (dispatch, getState) => {
-  const currentValue = selectCount(getState());
-  if (currentValue % 2 === 1) {
-    dispatch(incrementByAmount(amount));
-  }
-};
+export const { getStations } = exampleSlice.actions;
+export const selectStations = (state) => state.example.stations;
+export const selectStatus = (state) => state.example.status;
 
 export default exampleSlice.reducer;

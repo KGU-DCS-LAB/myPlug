@@ -12,6 +12,8 @@ import { sortStations, getDistance } from '../../app/api/STATIONS';
 import * as API from "../../app/api/API";
 import * as STATIONS from '../../app/api/STATIONS';
 import { useNavigationState } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { getStationsAsync, selectStations, selectStatus } from "../../app/redux/example/exampleSlice";
 
 const GoogleMapExample = (props) => {
 
@@ -25,7 +27,11 @@ const GoogleMapExample = (props) => {
   const [didCancel, setCancel] = useState(false); // clean up 용
   const [isLoaded, setLoaded] = useState(false); // GPS 로딩 여부 검사용
 
+  const stations = useSelector(selectStations);
+  const status = useSelector(selectStatus);
+
   const mapRef = useRef(); // 지도 조작에 사용되는 기능
+  const dispatch = useDispatch();
 
   // Get current location information 
   useEffect(() => {
@@ -63,10 +69,10 @@ const GoogleMapExample = (props) => {
   }, []);
 
   const setLocationAndGetStations = async (region) => {
-    console.log(region)
+    // console.log(region)
     setMapLocation(region);
     if (region.latitudeDelta < 0.13 && region.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
-
+      dispatch(getStationsAsync(region));
     }
     else { // 델타 값이 너무 크면 값을 그냥 비워버림
 
@@ -114,11 +120,27 @@ const GoogleMapExample = (props) => {
                 clusterColor="yellowgreen"
                 maxZoom={13}
               >
-
+                {
+                  stations && //사이즈가 0 이상일때맏 마커 찍는 시도함 (오류 방지)
+                  stations.map((marker, index) => (
+                    <Marker
+                      key={index}
+                      coordinate={{
+                        latitude: Number(marker.lat),
+                        longitude: Number(marker.lng)
+                      }}
+                      onPress={
+                        () => {
+                          console.log(JSON.stringify(marker))
+                        }}
+                    />
+                  ))
+                }
               </MapView>
               {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
               <HStack><Text>{mapLocation.latitude}</Text><Spacer /><Text>{mapLocation.longitude}</Text></HStack>
               <HStack><Text>{mapLocation.latitudeDelta}</Text><Spacer /><Text>{mapLocation.longitudeDelta}</Text></HStack>
+              <HStack><Text>{status}</Text></HStack>
               {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
 
             </View>
