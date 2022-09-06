@@ -4,7 +4,7 @@ import MapView from "react-native-map-clustering";
 import * as Location from 'expo-location';
 import { config } from '../../../config'
 import axios from 'axios';
-import { Box, Center, HStack, Spacer, Text, View } from "native-base";
+import { Box, Button, Center, HStack, Spacer, Text, View } from "native-base";
 import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 import { Image } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
@@ -14,6 +14,7 @@ import * as STATIONS from '../../app/api/STATIONS';
 import { useNavigationState } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getStationsAsync, selectStations, selectStatus } from "../../app/redux/example/exampleSlice";
+import GoogleMapStationListModal from "./GoogleMapStationListModal";
 
 const GoogleMapExample = (props) => {
 
@@ -26,6 +27,8 @@ const GoogleMapExample = (props) => {
 
   const [didCancel, setCancel] = useState(false); // clean up 용
   const [isLoaded, setLoaded] = useState(false); // GPS 로딩 여부 검사용
+
+  const [stationListModalVisible, setStationListModalVisible] = useState(false); // 충전소 목록 모달 온오프
 
   const stations = useSelector(selectStations);
   const status = useSelector(selectStatus);
@@ -98,7 +101,10 @@ const GoogleMapExample = (props) => {
           ?
           <>
             <View style={{ flex: 1 }}>
-
+              <GoogleMapStationListModal
+                stationListModalVisible={stationListModalVisible}
+                setStationListModalVisible={setStationListModalVisible}
+              />
 
               <MapView
                 ref={mapRef}
@@ -137,6 +143,7 @@ const GoogleMapExample = (props) => {
                   ))
                 }
               </MapView>
+              <Center><Button onPress={()=>setStationListModalVisible(true)}>ㅇㅇ</Button></Center>
               {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
               <HStack><Text>{mapLocation.latitude}</Text><Spacer /><Text>{mapLocation.longitude}</Text></HStack>
               <HStack><Text>{mapLocation.latitudeDelta}</Text><Spacer /><Text>{mapLocation.longitudeDelta}</Text></HStack>
