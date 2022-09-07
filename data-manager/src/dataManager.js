@@ -4,6 +4,7 @@ import * as logger from './controller/manager/logger.js'
 // Using ES6 imports
 import mongoose from 'mongoose';
 import colors from 'colors';
+import { getStatus } from './api/STATUS.js';
 
 /**
  * 데이터 작업을 지시하는 함수
@@ -36,7 +37,8 @@ const work = async (count) => {
     let start = new Date();  // 시간 측정 시작
     const date = await makeDateJSON(new Date());
     await receiver.init(date); //데이터 수집 시작
-    console.log('데이터 수집 작업 종료')
+    await updateVersion(date);
+    console.log(`[ ${count} 번 째 데이터 수집 작업 종료]`)
     return null;
 }
 
@@ -66,10 +68,9 @@ const makeDateJSON = (date) => {
  * @param {int} stationsCount 
  * @param {int} chargersCount 
  */
-const updateVersion = (date, rawDataCount, stationsCount, chargersCount) => {
-    console.log(rawDataCount)
-    console.log(stationsCount)
-    console.log(chargersCount)
+const updateVersion = (date) => {
+    console.log(date);
+    console.log(getStatus());
 }
 
 /**

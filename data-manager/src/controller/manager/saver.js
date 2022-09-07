@@ -1,7 +1,7 @@
 import { Station } from '../../models/Station.js'
 import { Charger } from '../../models/Charger.js'
 import * as logger from './logger.js'
-import { addRegions, addStatus } from '../../api/STATUS.js';
+import { addStatus } from '../../api/STATUS.js';
 
 /**
  * 수신받은 raw data를 저장하는 함수
@@ -79,9 +79,8 @@ export const init = async (region, date, raw_data, page) => {
         return upsertDoc;
     }
 
-    let stations = []
-    let chargers = []
-    addRegions();
+    let stations = [];
+    let chargers = [];
     console.log(`[saver] ${page} 충전소/충전기 데이터 정제 시작`);
     await raw_data.map((raw) => {
         if (!stationIdSet.has(raw.statId)) {
@@ -97,7 +96,11 @@ export const init = async (region, date, raw_data, page) => {
         logger.init(region, date, raw_data, page)
     ]);
     console.log(`${page} 작업 완료`.bgGreen);
-    addStatus(page);
+    addStatus({
+        page:page,
+        stationsCount:stations.length,
+        chargersCount:chargers.length,
+    });
     return null;
 }
 
