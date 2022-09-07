@@ -10,12 +10,14 @@ import axios from 'axios';
 import { MasonaryLayout } from '../../components/layout/MansonaryLayout';
 import { getUserFavoriteStations } from '../../app/api/API';
 import FilterModal from '../../components/ev_charger_map/modals/FilterModal';
+import { setFilterModalVisible } from '../../app/redux/map/mapSlice';
+import { useDispatch } from 'react-redux';
 
 const HomeContainer = (props) => {
+    const dispatch = useDispatch();
     const isFocused = useIsFocused();
     const [user, setUser] = useState(null);
     const [bookmarked, setBookmarked] = useState([]);
-    const [filterModalVisible, setFilterModalVisible] = useState(false)
 
     const userCheck = async () => {
         if (await AsyncStorage.getItem('userInfo') != null) {
@@ -109,7 +111,7 @@ const HomeContainer = (props) => {
                                         style={{ resizeMode: 'center', width: '80%', height: '80%' }}
                                         source={require('../../../assets/home-filter.png')}
                                     />}
-                                    onPress={() => setFilterModalVisible(true)}
+                                    onPress={() => dispatch(setFilterModalVisible(true))}
                                     title="나만의 필터링"
                                 />
                                 : <Fragment key={2} />
@@ -170,8 +172,6 @@ const HomeContainer = (props) => {
             </Box>
 
             <FilterModal
-                filterModalVisible={filterModalVisible}
-                setFilterModalVisible={setFilterModalVisible}
                 type={'saveFilter'}
             />
         </>

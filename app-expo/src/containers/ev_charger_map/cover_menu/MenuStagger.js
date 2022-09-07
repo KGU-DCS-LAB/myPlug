@@ -1,7 +1,7 @@
 import { Box, Center, Fab, HStack, Icon, IconButton, Spacer, Stagger, useDisclose } from "native-base";
 import { AntDesign, MaterialCommunityIcons, MaterialIcons, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { setStationListModalVisible } from "../../../app/redux/map/mapSlice";
+import { setFilterModalVisible, setStationListModalVisible } from "../../../app/redux/map/mapSlice";
 
 const MenuStagger = (props) => {
 
@@ -113,7 +113,7 @@ const MenuStagger = (props) => {
                             />
                         }
                         onPress={
-                            () => props.setFilterModalVisible(true)
+                            () => dispatch(setFilterModalVisible(true))
                         }
                     />
                     <IconButton

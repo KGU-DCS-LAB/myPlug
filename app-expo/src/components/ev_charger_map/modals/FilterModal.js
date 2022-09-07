@@ -7,8 +7,13 @@ import * as API from "../../../app/api/API";
 import * as STATIONS from '../../../app/api/STATIONS';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import OptionCard from "../../advancedSearch/card/OptionCard";
+import { selectFilterModalVisible, setFilterModalVisible } from "../../../app/redux/map/mapSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const FilterModal = (props) => {
+
+    const dispatch = useDispatch();
+    const filterModalVisible = useSelector(selectFilterModalVisible);
 
     const [busiNm, setBusiNm] = useState([]); // 서버로 부터 받아온 충전소 회사 리스트
     const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [], output: [], stat: [], limitYn: [], method: [] });
@@ -38,13 +43,13 @@ const FilterModal = (props) => {
         const receivedStationData = await API.getFilteredData(props.mapLocation, selectedType)
         const receivedChargerData = await API.getChargersByManyStation(receivedStationData.map((station) => station.statId))
         props.setChargingStations(STATIONS.countChargers(STATIONS.sortStations(props.userLocation, receivedStationData), receivedChargerData));
-        props.setFilterModalVisible(false);
+        dispatch(setFilterModalVisible(false));
     }
 
     const saveFiltering = async () => {
         const userInfo = await API.saveFilterData(user.user_id, selectedType);
         await AsyncStorage.setItem('userInfo', JSON.stringify([userInfo]), () => { console.log('유저 정보 재저장') });
-        props.setFilterModalVisible(false);
+        dispatch(setFilterModalVisible(false));
     }
 
     const selectType = (type, selected) => {
@@ -65,9 +70,9 @@ const FilterModal = (props) => {
                 <Modal
                     animationType="slide"
                     transparent={true}
-                    visible={props.filterModalVisible}
+                    visible={filterModalVisible}
                     onRequestClose={() => {
-                        props.setFilterModalVisible(!props.filterModalVisible);
+                        dispatch(setFilterModalVisible(false));
                     }}
                 >
                     <View style={styles.flexEndView}>
@@ -76,7 +81,7 @@ const FilterModal = (props) => {
                                 onPressOut={(e) => {
                                     if (e.nativeEvent.locationY > 20) {
                                         console.log(e.nativeEvent.locationY)
-                                        props.setFilterModalVisible(false)
+                                        dispatch(setFilterModalVisible(false))
                                     }
                                 }}>
                                 <View style={styles.modalCloseIcon}>
@@ -146,7 +151,7 @@ const FilterModal = (props) => {
                             <HStack space={5}>
                                 <Pressable
                                     style={[styles.button, styles.buttonClose]}
-                                    onPress={() => props.setFilterModalVisible(false)}
+                                    onPress={() => dispatch(setFilterModalVisible(false))}
                                 >
                                     <Text style={styles.textStyle}>닫 기</Text>
                                 </Pressable>

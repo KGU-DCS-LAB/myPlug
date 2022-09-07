@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Circle, Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MapView from "react-native-map-clustering";
 import * as Location from 'expo-location';
 import { config } from '../../../config'
@@ -40,8 +40,6 @@ const EvChargerContainer = (props) => {
 
     const [selectedStation, setSelectedStation] = useState(null); //마커 선택 시 모달에 띄워줄 데이터
     const [selectedChargers, setSelectedChargers] = useState([]); // 서버로 부터 받아온 특정 충전소의 충전기 리스트
-
-    const [filterModalVisible, setFilterModalVisible] = useState(false); // 필터 모달 온오프
 
     let controller = useRef();
     const mapRef = useRef(); // 지도 조작에 사용되는 기능
@@ -160,8 +158,6 @@ const EvChargerContainer = (props) => {
                         <View style={{ flex: 1 }}>
                             <FilterModal
                                 setChargingStations={setStations}
-                                filterModalVisible={filterModalVisible}
-                                setFilterModalVisible={setFilterModalVisible}
                                 mapLocation={mapLocation}
                                 userLocation={userLocation}
                                 type={'getFiltering'}
@@ -247,7 +243,6 @@ const EvChargerContainer = (props) => {
                             focusToStation={focusToStation}
                             mapLocation={mapLocation}
                             setLocationAndGetStations={setLocationAndGetStations}
-                            setFilterModalVisible={setFilterModalVisible}
                         />
                     </>
                     :
