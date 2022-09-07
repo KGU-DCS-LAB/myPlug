@@ -51,7 +51,7 @@ const CoverMenu = (props) => {
                 <MenuStagger
                     navigation={props.navigation}
                     setFilterModalVisible={props.setFilterModalVisible}
-                    setStationListModalVisible={props.setStationListModalVisible}
+                    // setStationListModalVisible={props.setStationListModalVisible}
                     mapLocation={props.mapLocation}
                     setLocationAndGetStations={props.setLocationAndGetStations}
                 />

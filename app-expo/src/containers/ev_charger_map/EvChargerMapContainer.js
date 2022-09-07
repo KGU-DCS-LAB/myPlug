@@ -18,6 +18,8 @@ import * as STATIONS from '../../app/api/STATIONS';
 import { mapStyles } from "../../app/api/GOOGLEMAP";
 import ThemeModal from "../../components/ev_charger_map/modals/ThemeModal";
 import { useNavigationState } from "@react-navigation/native";
+import { setStationListModalVisible } from "../../app/redux/map/mapSlice";
+import { useDispatch } from "react-redux";
 
 const EvChargerContainer = (props) => {
 
@@ -40,13 +42,15 @@ const EvChargerContainer = (props) => {
     const [selectedChargers, setSelectedChargers] = useState([]); // 서버로 부터 받아온 특정 충전소의 충전기 리스트
 
     const [filterModalVisible, setFilterModalVisible] = useState(false); // 필터 모달 온오프
-    const [stationListModalVisible, setStationListModalVisible] = useState(false); // 충전소 목록 모달 온오프
+    // const [stationListModalVisible, setStationListModalVisible] = useState(false); // 충전소 목록 모달 온오프
     const [isThemeModalOpen, setThemeModalOpen] = useState(false);
     const [isSmallModalOpen, setSmallModalOpen] = useState(false);
 
     let controller = useRef();
     const mapRef = useRef(); // 지도 조작에 사용되는 기능
     const new_routes = useNavigationState(state => state.routes);
+    
+    const dispatch = useDispatch();
 
     // Get current location information 
     useEffect(() => {
@@ -138,7 +142,7 @@ const EvChargerContainer = (props) => {
             longitudeDelta: 0.007,
         }
         mapRef?.current?.animateToRegion(stationLocation); // 지도 이동을 도와주는 메소드
-        setStationListModalVisible(false)
+        dispatch(setStationListModalVisible(false))
         setSmallModalOpen(true);
         setLocationAndGetStations(stationLocation);
         let temp_chargers = chargers.filter((charger) => charger.statId == station.statId)
@@ -168,8 +172,8 @@ const EvChargerContainer = (props) => {
 
                             <StationListModal
                                 stations={stations}
-                                stationListModalVisible={stationListModalVisible}
-                                setStationListModalVisible={setStationListModalVisible}
+                                // stationListModalVisible={stationListModalVisible}
+                                // setStationListModalVisible={setStationListModalVisible}
                                 focusToStation={focusToStation}
                             />
 
@@ -255,7 +259,7 @@ const EvChargerContainer = (props) => {
                             isSmallModalOpen={isSmallModalOpen}
                             setThemeModalOpen={setThemeModalOpen}
                             setFilterModalVisible={setFilterModalVisible}
-                            setStationListModalVisible={setStationListModalVisible}
+                            // setStationListModalVisible={setStationListModalVisible}
                         />
                     </>
                     :
