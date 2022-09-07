@@ -9,14 +9,19 @@ import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from '@react-navigation/native';
 import * as STATIONS from '../../../app/api/STATIONS';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectSmallModalVisible, setSmallModalVisible } from '../../../app/redux/map/mapSlice';
 
 var screen = Dimensions.get('window')
 
 const StationSmallModal = (props) => {
 
     const show = useRef()
-
     const isFocused = useIsFocused();
+
+    const dispatch = useDispatch();
+    const smallModalVisible = useSelector(selectSmallModalVisible);
+
     const [favorites, setFavorites] = useState([]);
 
     return (
@@ -28,8 +33,8 @@ const StationSmallModal = (props) => {
                     position='center'
                     backdrop={false}
                     ref={show}
-                    isOpen={props.isSmallModalOpen}
-                    onClosed={() => props.setSmallModalOpen(false)}
+                    isOpen={smallModalVisible}
+                    onClosed={() => dispatch(setSmallModalVisible(false))}
                     position={"bottom"}
                     entry={"bottom"}
                     animationDuration={100}
@@ -159,7 +164,7 @@ const StationSmallModal = (props) => {
                             <HStack>
                                 <Pressable
                                     onPress={() => {
-                                        props.setSmallModalOpen(false);
+                                        dispatch(setSmallModalVisible(false));
                                     }}
 
                                 >

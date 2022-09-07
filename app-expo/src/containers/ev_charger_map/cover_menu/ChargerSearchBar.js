@@ -5,6 +5,8 @@ import { FlatList, TouchableOpacity } from 'react-native';
 import { config } from '../../../../config'
 import { Marker } from "react-native-maps";
 import MapView from "react-native-map-clustering";
+import { selectSmallModalVisible } from "../../../app/redux/map/mapSlice";
+import { useSelector } from "react-redux";
 
 const ChargerSearchBar = (props) => {
 
@@ -13,6 +15,9 @@ const ChargerSearchBar = (props) => {
 
     const [text, setText] = useState('');
     const [stations, setStations] = useState([]);
+
+    const smallModalVisible = useSelector(selectSmallModalVisible);
+
 
     const filterList = async (text) => {
         console.log(text)
@@ -27,7 +32,7 @@ const ChargerSearchBar = (props) => {
             fetch(config.ip + `:5000/stationsRouter/search/${key}`, {
                 signal: currentRequest.current.signal,
             }).then(async result => {
-                results = await result.json();
+                const results = await result.json();
                 console.log('length : ' + results.length);
                 setStations(results)
             }).then(() => {
@@ -61,7 +66,7 @@ const ChargerSearchBar = (props) => {
         <>
             {
                 text.length > 0 &&
-                !props.isSmallModalOpen &&
+                !smallModalVisible &&
                 <Box
                     style={{ width: 250, position: 'absolute', top: 40 }}
                     bg="white"

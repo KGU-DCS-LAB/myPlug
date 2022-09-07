@@ -7,6 +7,7 @@ const initialState = {
   // chargers: [],
   stationListModalVisible:false,
   themeModalVisible:false,
+  smallModalVisible:false,
 };
 
 export const mapSlice = createSlice({
@@ -19,15 +20,20 @@ export const mapSlice = createSlice({
     setThemeModalVisible:(state, action)=>{
       state.themeModalVisible=action.payload
     },
+    setSmallModalVisible:(state, action)=>{
+      state.smallModalVisible=action.payload
+    },
   },
 });
 
 export const { 
   setStationListModalVisible,
-  setThemeModalVisible 
+  setThemeModalVisible,
+  setSmallModalVisible
 } = mapSlice.actions;
 
 export const selectStationListModalVisible = (state) => state.map.stationListModalVisible;
 export const selectThemeModalVisible = (state) => state.map.themeModalVisible;
+export const selectSmallModalVisible = (state) => state.map.smallModalVisible;
 
 export default mapSlice.reducer;
