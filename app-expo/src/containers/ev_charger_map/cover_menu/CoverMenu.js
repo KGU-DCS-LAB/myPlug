@@ -7,7 +7,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 const CoverMenu = (props) => {
 
-
     return (
         <>
             <Center style={{ position: 'absolute', left: 20, top: 30, height: 30 }} >

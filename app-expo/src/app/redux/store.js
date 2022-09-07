@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-// import counterReducer from '../features/counter/counterSlice';
 import exampleReducer from './example/exampleSlice.js';
+import mapReducer from './map/mapSlice.js';
 
 export const store = configureStore({
   reducer: {
-    // counter: counterReducer,
+    map : mapReducer,
     example: exampleReducer,
   },
 });
