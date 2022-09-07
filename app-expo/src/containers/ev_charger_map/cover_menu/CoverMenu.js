@@ -4,8 +4,12 @@ import ChargerSearchBar from "./ChargerSearchBar";
 import LocationController from "./LocationController";
 import MenuStagger from "./MenuStagger";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import { setThemeModalVisible } from "../../../app/redux/map/mapSlice";
 
 const CoverMenu = (props) => {
+
+    const dispatch = useDispatch();
 
     return (
         <>
@@ -36,7 +40,7 @@ const CoverMenu = (props) => {
                         />
                     }
                     onPress={
-                        () => props.setThemeModalOpen(true)
+                        () => dispatch(setThemeModalVisible(true))
                     }
                 />
             </Center>

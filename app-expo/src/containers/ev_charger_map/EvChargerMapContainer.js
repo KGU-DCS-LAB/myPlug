@@ -43,7 +43,7 @@ const EvChargerContainer = (props) => {
 
     const [filterModalVisible, setFilterModalVisible] = useState(false); // 필터 모달 온오프
     // const [stationListModalVisible, setStationListModalVisible] = useState(false); // 충전소 목록 모달 온오프
-    const [isThemeModalOpen, setThemeModalOpen] = useState(false);
+    // const [isThemeModalOpen, setThemeModalOpen] = useState(false);
     const [isSmallModalOpen, setSmallModalOpen] = useState(false);
 
     let controller = useRef();
@@ -179,8 +179,8 @@ const EvChargerContainer = (props) => {
 
                             <ThemeModal
                                 setMapStyle={setMapStyle}
-                                isThemeModalOpen={isThemeModalOpen}
-                                setThemeModalOpen={setThemeModalOpen}
+                                // isThemeModalOpen={isThemeModalOpen}
+                                // setThemeModalOpen={setThemeModalOpen}
                             />
 
                             <StationSmallModal
@@ -257,7 +257,7 @@ const EvChargerContainer = (props) => {
                             mapLocation={mapLocation}
                             setLocationAndGetStations={setLocationAndGetStations}
                             isSmallModalOpen={isSmallModalOpen}
-                            setThemeModalOpen={setThemeModalOpen}
+                            // setThemeModalOpen={setThemeModalOpen}
                             setFilterModalVisible={setFilterModalVisible}
                             // setStationListModalVisible={setStationListModalVisible}
                         />

@@ -1,18 +1,23 @@
 import { Button, HStack, VStack } from "native-base";
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { mapStyles } from "../../../app/api/GOOGLEMAP";
+import { selectThemeModalVisible, setThemeModalVisible } from "../../../app/redux/map/mapSlice";
 
 const ThemeModal = (props) => {
+
+    const dispatch = useDispatch();
+    const themeModalVisible = useSelector(selectThemeModalVisible);
 
     return (
         <Modal
             animationType="fade"
             transparent={true}
-            visible={props.isThemeModalOpen}
+            visible={themeModalVisible}
             onRequestClose={() => {
                 Alert.alert("Modal has been closed.");
-                props.setThemeModalOpen(false);
+                dispatch(setThemeModalVisible(false));
             }}
         >
             <View style={styles.centeredView}>
@@ -31,7 +36,7 @@ const ThemeModal = (props) => {
                     </VStack>
                     <Pressable
                         style={[styles.button, styles.buttonClose]}
-                        onPress={() => props.setThemeModalOpen(false)}
+                        onPress={() => dispatch(setThemeModalVisible(false))}
                     >
                         <Text style={styles.textStyle}>Hide Modal</Text>
                     </Pressable>
