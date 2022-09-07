@@ -3,7 +3,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Box, Button, Center, Flex, Heading, HStack, ScrollView, Spacer, Text, VStack } from "native-base";
 import { useState } from "react";
 import StationCard from "../cards/StationCard";
-import { selectStationListModalVisible } from "../../../app/redux/map/mapSlice";
+import { selectStationListModalVisible, setStationListModalVisible } from "../../../app/redux/map/mapSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const StationListModal = (props) => {
@@ -20,7 +20,7 @@ const StationListModal = (props) => {
                     transparent={true}
                     visible={stationListModalVisible}
                     onRequestClose={() => {
-                        props.setStationListModalVisible(!stationListModalVisible);
+                        dispatch(setStationListModalVisible(false));
                     }}
                 >
                     <View style={styles.flexEndView}>
@@ -46,7 +46,7 @@ const StationListModal = (props) => {
                                 <Box my={3}>
                                     <Pressable
                                         style={[styles.button, styles.buttonClose]}
-                                        onPress={() => props.setStationListModalVisible(!stationListModalVisible)}
+                                        onPress={() => dispatch(setStationListModalVisible(false))}
                                     >
                                         <Text style={styles.textStyle}>닫기</Text>
                                     </Pressable>
