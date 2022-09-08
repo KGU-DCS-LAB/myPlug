@@ -3,6 +3,13 @@ import * as API from "../../api/API";
 
 const initialState = {
   status: 'idle',
+  mapLocation:null,
+  userLocation:{
+    latitude: 37.3012,
+    longitude: 127.0355,
+    latitudeDelta: 0.007,
+    longitudeDelta: 0.007
+  },
   // stations: [],
   // chargers: [],
   stationListModalVisible: false,
@@ -15,6 +22,9 @@ export const mapSlice = createSlice({
   name: 'map',
   initialState,
   reducers: {
+    setMapLocation: (state, action) => {
+      state.mapLocation = action.payload
+    },
     setStationListModalVisible: (state, action) => {
       state.stationListModalVisible = action.payload
     },
@@ -31,12 +41,14 @@ export const mapSlice = createSlice({
 });
 
 export const {
+  setMapLocation,
   setStationListModalVisible,
   setThemeModalVisible,
   setSmallModalVisible,
   setFilterModalVisible
 } = mapSlice.actions;
 
+export const selectMapLocation = (state) => state.map.mapLocation;
 export const selectStationListModalVisible = (state) => state.map.stationListModalVisible;
 export const selectThemeModalVisible = (state) => state.map.themeModalVisible;
 export const selectSmallModalVisible = (state) => state.map.smallModalVisible;
