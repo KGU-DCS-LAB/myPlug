@@ -17,33 +17,6 @@ router.get('/keco/find/stations', function (req, res, next) {
   });
 });
 
-router.post('/keco/find/regionStations', function (req, res, next) {
-  const x1 = req.body.data.x1;
-  const x2 = req.body.data.x2;
-  const y1 = req.body.data.y1;
-  const y2 = req.body.data.y2;
-  console.log(req.body);
-  // console.log(x1, x2);
-  // console.log(y1, y2);
-  Station.find({
-
-    $and: [
-      { lng: { $gte: x1 } },
-      { lng: { $lte: x2 } },
-      { lat: { $gte: y1 } },
-      { lat: { $lte: y2 } },
-    ]
-
-  }).then((stations) => {
-    // console.log(stations);
-    // console.log(stations.length)
-    res.json(stations)
-  }).catch((err) => {
-    console.log(err);
-    next(err)
-  });
-});
-
 router.post('/keco/find/regionData', function (req, res, next) {
   const x1 = req.body.data.x1;
   const x2 = req.body.data.x2;

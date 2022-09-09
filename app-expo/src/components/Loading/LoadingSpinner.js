@@ -7,6 +7,8 @@ export default (props) => {
     <View style={styles.container}>
       <ActivityIndicator size="large" />
       <Center><Text>{props.description}</Text></Center>
+      <Center><Text>{props.isLoaded+''}</Text></Center>
+      <Center><Text>{props.mapLocation+''}</Text></Center>
     </View>
   )
 }

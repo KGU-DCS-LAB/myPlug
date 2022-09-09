@@ -18,7 +18,7 @@ import * as STATIONS from '../../app/api/STATIONS';
 import { mapStyles } from "../../app/api/GOOGLEMAP";
 import ThemeModal from "../../components/ev_charger_map/modals/ThemeModal";
 import { useNavigationState } from "@react-navigation/native";
-import { selectMapLocation, selectUserLocation, setMapLocation, setSmallModalVisible, setStationListModalVisible, setUserLocation } from "../../app/redux/map/mapSlice";
+import { getStationsAndChargers, selectChargers, selectMapLocation, selectStations, selectUserLocation, setMapLocation, setSmallModalVisible, setStationListModalVisible, setUserLocation } from "../../app/redux/map/mapSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const EvChargerContainer = (props) => {
@@ -30,14 +30,13 @@ const EvChargerContainer = (props) => {
     const [isLoaded, setLoaded] = useState(false); // GPS 로딩 여부 검사용
     const [mapStytle, setMapStyle] = useState([]);
 
-    const [stations, setStations] = useState([]); //서버로 부터 받아온 충전소 데이터 리스트
-    const [chargers, setChargers] = useState([]); //서버로 부터 받아온 충전소 데이터들의 충전기 데이터 리스트
-    const [stationLogs, setStationLogs] = useState([]); //서버로 부터 받아온 특정 충전소의 충전 분석 로그
+    const stations = useSelector(selectStations);
+    const chargers = useSelector(selectChargers);
 
+    const [stationLogs, setStationLogs] = useState([]); //서버로 부터 받아온 특정 충전소의 충전 분석 로그
     const [selectedStation, setSelectedStation] = useState(null); //마커 선택 시 모달에 띄워줄 데이터
     const [selectedChargers, setSelectedChargers] = useState([]); // 서버로 부터 받아온 특정 충전소의 충전기 리스트
 
-    let controller = useRef();
     const mapRef = useRef(); // 지도 조작에 사용되는 기능
     const new_routes = useNavigationState(state => state.routes);
 
@@ -83,7 +82,7 @@ const EvChargerContainer = (props) => {
                         latitudeDelta: 0.007,
                         longitudeDelta: 0.007,
                     }
-                    await setLocationAndGetStations(initLocation);
+                    setLocationAndGetStations(initLocation);
                     setLoaded(true);
                 }
 
@@ -103,23 +102,7 @@ const EvChargerContainer = (props) => {
 
     const setLocationAndGetStations = async (region) => {
         dispatch(setMapLocation(region));
-        if (region.latitudeDelta < 0.13 && region.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
-            // // console.log('prev : '+controller.current)
-            // if (controller.current) {
-            //     // console.log('abort!');
-            //     controller.current.abort();
-            // }
-            // controller.current = new AbortController();
-            // // console.log('next : '+controller.current)
-            // const signal = controller.current.signal; // 이후 API로 넘겨줘서 취소 토큰 대용으로 사용할 예정
-            const [receivedStationData,receivedChargerData] = await API.getRegionData(region)
-            setStations(STATIONS.countChargers(sortStations(userLocation, receivedStationData), receivedChargerData));
-            setChargers(receivedChargerData)
-        }
-        else { // 델타 값이 너무 크면 값을 그냥 비워버림
-            setStations([]);
-            setChargers([]);
-        }
+        dispatch(getStationsAndChargers(region));
     }
 
     const focusToStation = async (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
@@ -241,7 +224,7 @@ const EvChargerContainer = (props) => {
                     </>
                     :
                     <>
-                        <LoadingSpinner description="디바이스가 어디에 있는지 찾고 있어요..." />
+                        <LoadingSpinner description="디바이스가 어디에 있는지 찾고 있어요..." isLoaded={isLoaded} mapLocation={mapLocation} />
                     </>
             }
         </>

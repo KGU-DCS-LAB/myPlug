@@ -14,7 +14,7 @@
 // https://blog.logrocket.com/react-native-maps-introduction/ 
 
 export const config = {
-	ip:"http://172.20.10.8",
+	ip:"http://192.168.58.48",
 };
 
 
