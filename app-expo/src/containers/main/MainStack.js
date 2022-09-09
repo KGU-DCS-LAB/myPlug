@@ -28,7 +28,7 @@ const MainContainer = () => {
         );
     }
 
-    const EvChargerStaionInfoScreen = ({ navigation }) => {
+    const EvChargerStationInfoScreen = ({ navigation }) => {
         return (
             <StationInfoView navigation={navigation} />
         );
@@ -95,8 +95,8 @@ const MainContainer = () => {
                 }}
             />
             <Stack.Screen
-                name='EvChargerStaionInfo'
-                component={EvChargerStaionInfoScreen}
+                name='EvChargerStationInfo'
+                component={EvChargerStationInfoScreen}
                 options={{
                     cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
                 }}

@@ -18,7 +18,7 @@ import * as STATIONS from '../../app/api/STATIONS';
 import { mapStyles } from "../../app/api/GOOGLEMAP";
 import ThemeModal from "../../components/ev_charger_map/modals/ThemeModal";
 import { useNavigationState } from "@react-navigation/native";
-import { getStationsAndChargers, selectChargers, selectMapLocation, selectStations, selectUserLocation, setMapLocation, setSmallModalVisible, setStationListModalVisible, setUserLocation } from "../../app/redux/map/mapSlice";
+import { setStationsAndChargers, selectChargers, selectMapLocation, selectStations, selectUserLocation, setMapLocation, setSmallModalVisible, setStationListModalVisible, setUserLocation, setSelectedLogs, selectSelectedLogs } from "../../app/redux/map/mapSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const EvChargerContainer = (props) => {
@@ -33,7 +33,8 @@ const EvChargerContainer = (props) => {
     const stations = useSelector(selectStations);
     const chargers = useSelector(selectChargers);
 
-    const [stationLogs, setStationLogs] = useState([]); //서버로 부터 받아온 특정 충전소의 충전 분석 로그
+    const selectedLogs = useSelector(selectSelectedLogs);
+    // const [stationLogs, setStationLogs] = useState([]); //서버로 부터 받아온 특정 충전소의 충전 분석 로그
     const [selectedStation, setSelectedStation] = useState(null); //마커 선택 시 모달에 띄워줄 데이터
     const [selectedChargers, setSelectedChargers] = useState([]); // 서버로 부터 받아온 특정 충전소의 충전기 리스트
 
@@ -102,7 +103,7 @@ const EvChargerContainer = (props) => {
 
     const setLocationAndGetStations = async (region) => {
         dispatch(setMapLocation(region));
-        dispatch(getStationsAndChargers(region));
+        dispatch(setStationsAndChargers(region));
     }
 
     const focusToStation = async (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
@@ -114,8 +115,8 @@ const EvChargerContainer = (props) => {
             longitudeDelta: 0.007,
         }
         mapRef?.current?.animateToRegion(stationLocation); // 지도 이동을 도와주는 메소드
-        dispatch(setStationListModalVisible(false))
-        dispatch(setSmallModalVisible(true))
+        dispatch(setStationListModalVisible(false));
+        dispatch(setSmallModalVisible(true));
         setLocationAndGetStations(stationLocation);
         let temp_chargers = chargers.filter((charger) => charger.statId == station.statId)
         if (temp_chargers.length == 0) {
@@ -123,7 +124,8 @@ const EvChargerContainer = (props) => {
         }
         setSelectedChargers(temp_chargers) //선택한 충전소 id에 속한 충전기를 요청
         setSelectedStation(STATIONS.countChargers(sortStations(userLocation, [{ ...station }]), temp_chargers)[0]);
-        setStationLogs(await API.getStationLogsByStatId(station.statId)); //선택한 충전소id에 속한 충전기록을 요청 
+        // setStationLogs(await API.getStationLogsByStatId(station.statId)); //선택한 충전소id에 속한 충전기록을 요청 
+        dispatch(setSelectedLogs(station.statId));
     }
 
     return (
@@ -153,8 +155,6 @@ const EvChargerContainer = (props) => {
                                 navigation={props.navigation}
                                 selectedStation={selectedStation}
                                 selectedChargers={selectedChargers}
-                                stations={stations}
-                                stationLogs={stationLogs}
                                 focusToStation={focusToStation}
                             />
 

@@ -3,7 +3,9 @@ import { useNavigationState } from "@react-navigation/native";
 import { Box, Center, Divider, Heading, HStack, ScrollView, Spacer, Text, View } from "native-base";
 import React, { useEffect, useState } from "react";
 import { Pressable } from "react-native";
+import { useSelector } from "react-redux";
 import { sortStations } from "../../../app/api/STATIONS";
+import { selectSelectedLogs, selectStations } from "../../../app/redux/map/mapSlice";
 import ChargerCard from "../../../components/ev_charger_map/cards/ChargerCard";
 import StationCard from "../../../components/ev_charger_map/cards/StationCard";
 import FindFavorites from "../../../components/ev_charger_map/FindFavorites";
@@ -13,11 +15,11 @@ import LoadingSpinner from "../../../components/Loading/LoadingSpinner";
 const StationInfoView = (props) => {
 
     const new_routes = useNavigationState(state => state.routes);
-    const idx = new_routes?.findIndex(r => r.name === "EvChargerStaionInfo");
+    const idx = new_routes?.findIndex(r => r.name === "EvChargerStationInfo");
     const selectedStation = new_routes[idx]?.params.selectedStation;
     const selectedChargers = new_routes[idx]?.params.selectedChargers;
-    const stations = new_routes[idx]?.params.stations;
-    const stationLogs = new_routes[idx]?.params.stationLogs;
+    const stations = useSelector(selectStations);
+    const stationLogs = useSelector(selectSelectedLogs);
 
     const findStationsLog = (chgerId) => {
         return stationLogs?.filter(item => item.chgerId === chgerId);

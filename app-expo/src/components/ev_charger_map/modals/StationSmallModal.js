@@ -186,11 +186,11 @@ const StationSmallModal = (props) => {
                                 </Pressable>
                                 <Pressable
                                     onPress={() => {
-                                        props.navigation.navigate("EvChargerStaionInfo", {
+                                        props.navigation.navigate("EvChargerStationInfo", {
                                             selectedStation: props.selectedStation,
                                             selectedChargers: props.selectedChargers,
-                                            stations: props.stations,
-                                            stationLogs: props.stationLogs,
+                                            // stations: props.stations,
+                                            // stationLogs: props.stationLogs,
                                         })
                                     }}
                                 >
