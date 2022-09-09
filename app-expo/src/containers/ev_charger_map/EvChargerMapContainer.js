@@ -18,7 +18,7 @@ import * as STATIONS from '../../app/api/STATIONS';
 import { mapStyles } from "../../app/api/GOOGLEMAP";
 import ThemeModal from "../../components/ev_charger_map/modals/ThemeModal";
 import { useNavigationState } from "@react-navigation/native";
-import { setStationsAndChargers, selectChargers, selectMapLocation, selectStations, selectUserLocation, setMapLocation, setSmallModalVisible, setStationListModalVisible, setUserLocation, setSelectedLogs, selectSelectedLogs } from "../../app/redux/map/mapSlice";
+import { setStationsAndChargers, selectChargers, selectMapLocation, selectStations, selectUserLocation, setMapLocation, setSmallModalVisible, setStationListModalVisible, setUserLocation, setSelectedLogs, selectSelectedLogs, selectSelectedChargers, setSelectedChargers, setSelectedStationInfo, selectSelectedStation, setStatusLoading } from "../../app/redux/map/mapSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const EvChargerContainer = (props) => {
@@ -33,13 +33,12 @@ const EvChargerContainer = (props) => {
     const stations = useSelector(selectStations);
     const chargers = useSelector(selectChargers);
 
-    const selectedLogs = useSelector(selectSelectedLogs);
-    // const [stationLogs, setStationLogs] = useState([]); //서버로 부터 받아온 특정 충전소의 충전 분석 로그
-    const [selectedStation, setSelectedStation] = useState(null); //마커 선택 시 모달에 띄워줄 데이터
-    const [selectedChargers, setSelectedChargers] = useState([]); // 서버로 부터 받아온 특정 충전소의 충전기 리스트
-
     const mapRef = useRef(); // 지도 조작에 사용되는 기능
     const new_routes = useNavigationState(state => state.routes);
+
+    const selectedStation = useSelector(selectSelectedStation);
+    const selectedChargers = useSelector(selectSelectedChargers);
+    const selectedLogs = useSelector(selectSelectedLogs);
 
     const dispatch = useDispatch();
 
@@ -115,17 +114,11 @@ const EvChargerContainer = (props) => {
             longitudeDelta: 0.007,
         }
         mapRef?.current?.animateToRegion(stationLocation); // 지도 이동을 도와주는 메소드
+        dispatch(setStatusLoading());
         dispatch(setStationListModalVisible(false));
         dispatch(setSmallModalVisible(true));
         setLocationAndGetStations(stationLocation);
-        let temp_chargers = chargers.filter((charger) => charger.statId == station.statId)
-        if (temp_chargers.length == 0) {
-            temp_chargers = await API.getChargersByOneStation(station.statId) //선택한 충전소 id에 속한 충전기를 요청
-        }
-        setSelectedChargers(temp_chargers) //선택한 충전소 id에 속한 충전기를 요청
-        setSelectedStation(STATIONS.countChargers(sortStations(userLocation, [{ ...station }]), temp_chargers)[0]);
-        // setStationLogs(await API.getStationLogsByStatId(station.statId)); //선택한 충전소id에 속한 충전기록을 요청 
-        dispatch(setSelectedLogs(station.statId));
+        dispatch(setSelectedStationInfo(station.statId));
     }
 
     return (
@@ -153,8 +146,6 @@ const EvChargerContainer = (props) => {
 
                             <StationSmallModal
                                 navigation={props.navigation}
-                                selectedStation={selectedStation}
-                                selectedChargers={selectedChargers}
                                 focusToStation={focusToStation}
                             />
 
@@ -211,6 +202,7 @@ const EvChargerContainer = (props) => {
                             {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
                             {/* <HStack><Text>{mapLocation.latitude}</Text><Spacer /><Text>{mapLocation.longitude}</Text></HStack>
                             <HStack><Text>{mapLocation.latitudeDelta}</Text><Spacer /><Text>{mapLocation.longitudeDelta}</Text></HStack> */}
+                            {/* <HStack><Text>{JSON.stringify(selectedStation)}</Text></HStack> */}
                             {/* 테스트 로그를 쉽게 확인하기 위한 처리 */}
 
                         </View>
@@ -224,7 +216,7 @@ const EvChargerContainer = (props) => {
                     </>
                     :
                     <>
-                        <LoadingSpinner description="디바이스가 어디에 있는지 찾고 있어요..." isLoaded={isLoaded} mapLocation={mapLocation} />
+                        <LoadingSpinner description="디바이스가 어디에 있는지 찾고 있어요..." />
                     </>
             }
         </>

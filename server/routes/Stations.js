@@ -64,12 +64,10 @@ router.post('/keco/find/manyStations', function (req, res, next) {
   });
 });
 
-router.post('/keco/find/chargers', function (req, res, next) {
-  // console.log(req.body.data);
-  Charger.find({
+router.post('/keco/find/station', function (req, res, next) {
+  Station.find({
     statId: req.body.data
   }).then((response) => {
-    // console.log(response)
     res.json(response)
   }).catch((err) => {
     console.log(err);
@@ -77,10 +75,10 @@ router.post('/keco/find/chargers', function (req, res, next) {
   });
 });
 
-router.post('/keco/find/manyChargers', function (req, res, next) {
-  // console.log(req.body.data);
-  Charger.find({ statId: { "$in": req.body.data } }).then((response) => {
-    // console.log(response)
+router.post('/keco/find/chargers', function (req, res, next) {
+  Charger.find({
+    statId: req.body.data
+  }).then((response) => {
     res.json(response)
   }).catch((err) => {
     console.log(err);
@@ -94,6 +92,17 @@ router.post('/keco/find/stationLogs', function (req, res, next) {
     statId: req.body.data
   }).then((response) => {
     console.log(response)
+    res.json(response)
+  }).catch((err) => {
+    console.log(err);
+    next(err)
+  });
+});
+
+router.post('/keco/find/manyChargers', function (req, res, next) {
+  // console.log(req.body.data);
+  Charger.find({ statId: { "$in": req.body.data } }).then((response) => {
+    // console.log(response)
     res.json(response)
   }).catch((err) => {
     console.log(err);

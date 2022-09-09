@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Pressable } from "react-native";
 import { useSelector } from "react-redux";
 import { sortStations } from "../../../app/api/STATIONS";
-import { selectSelectedLogs, selectStations } from "../../../app/redux/map/mapSlice";
+import { selectSelectedChargers, selectSelectedLogs, selectSelectedStation, selectStations } from "../../../app/redux/map/mapSlice";
 import ChargerCard from "../../../components/ev_charger_map/cards/ChargerCard";
 import StationCard from "../../../components/ev_charger_map/cards/StationCard";
 import FindFavorites from "../../../components/ev_charger_map/FindFavorites";
@@ -14,10 +14,12 @@ import LoadingSpinner from "../../../components/Loading/LoadingSpinner";
 
 const StationInfoView = (props) => {
 
-    const new_routes = useNavigationState(state => state.routes);
-    const idx = new_routes?.findIndex(r => r.name === "EvChargerStationInfo");
-    const selectedStation = new_routes[idx]?.params.selectedStation;
-    const selectedChargers = new_routes[idx]?.params.selectedChargers;
+    // const new_routes = useNavigationState(state => state.routes);
+    // const idx = new_routes?.findIndex(r => r.name === "EvChargerStationInfo");
+    // const selectedStation = new_routes[idx]?.params.selectedStation;
+    // const selectedChargers = new_routes[idx]?.params.selectedChargers;
+    const selectedStation = useSelector(selectSelectedStation);
+    const selectedChargers = useSelector(selectSelectedChargers);
     const stations = useSelector(selectStations);
     const stationLogs = useSelector(selectSelectedLogs);
 

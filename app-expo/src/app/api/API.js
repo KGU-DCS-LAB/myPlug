@@ -53,9 +53,35 @@ export const getChargersByManyStation = async (statIds) => {
     }
 }
 
+export const getOneStation = async (statId) => {
+    try {
+        const response = await axios.post(`${config.ip}:5000/stationsRouter/keco/find/station`, {
+            data: statId
+        })
+        // console.log("response >>", response.data)
+        return response.data
+    } catch (err) {
+        console.log("Error >>", err);
+        return []
+    }
+}
+
 export const getChargersByOneStation = async (statId) => {
     try {
         const response = await axios.post(`${config.ip}:5000/stationsRouter/keco/find/chargers`, {
+            data: statId
+        })
+        // console.log("response >>", response.data)
+        return response.data
+    } catch (err) {
+        console.log("Error >>", err);
+        return []
+    }
+}
+
+export const getStationLogsByStatId = async (statId) => {
+    try {
+        const response = await axios.post(`${config.ip}:5000/stationsRouter/keco/find/stationLogs`, {
             data: statId
         })
         // console.log("response >>", response.data)
@@ -80,19 +106,6 @@ export const getChargerTypeByKey = async (key) => {
 export const getBusiNmByKey = async (key) => {
     try {
         const response = await axios.get(`${config.ip}:5000/stationsRouter/keco/filteredStations/${key}`)
-        // console.log("response >>", response.data)
-        return response.data
-    } catch (err) {
-        console.log("Error >>", err);
-        return []
-    }
-}
-
-export const getStationLogsByStatId = async (statId) => {
-    try {
-        const response = await axios.post(`${config.ip}:5000/stationsRouter/keco/find/stationLogs`, {
-            data: statId
-        })
         // console.log("response >>", response.data)
         return response.data
     } catch (err) {
