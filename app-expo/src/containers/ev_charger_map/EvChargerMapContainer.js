@@ -36,9 +36,9 @@ const EvChargerContainer = (props) => {
     const mapRef = useRef(); // 지도 조작에 사용되는 기능
     const new_routes = useNavigationState(state => state.routes);
 
-    const selectedStation = useSelector(selectSelectedStation);
-    const selectedChargers = useSelector(selectSelectedChargers);
-    const selectedLogs = useSelector(selectSelectedLogs);
+    // const selectedStation = useSelector(selectSelectedStation);
+    // const selectedChargers = useSelector(selectSelectedChargers);
+    // const selectedLogs = useSelector(selectSelectedLogs);
 
     const dispatch = useDispatch();
 
