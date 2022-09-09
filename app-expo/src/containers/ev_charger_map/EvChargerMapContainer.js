@@ -18,19 +18,13 @@ import * as STATIONS from '../../app/api/STATIONS';
 import { mapStyles } from "../../app/api/GOOGLEMAP";
 import ThemeModal from "../../components/ev_charger_map/modals/ThemeModal";
 import { useNavigationState } from "@react-navigation/native";
-import { selectMapLocation, setMapLocation, setSmallModalVisible, setStationListModalVisible } from "../../app/redux/map/mapSlice";
+import { selectMapLocation, selectUserLocation, setMapLocation, setSmallModalVisible, setStationListModalVisible, setUserLocation } from "../../app/redux/map/mapSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const EvChargerContainer = (props) => {
 
-    // const [mapLocation, setMapLocation] = useState(null); // 지도 중심 위치 (지도 view 이동용)
-
-    const mapLocation = useSelector(selectMapLocation);
-
-    const [userLocation, setUserLocation] = useState({
-        latitude: 37.3012,
-        longitude: 127.0355,
-    }); // 실제 사용자 위치 (거리 계산용)
+    const mapLocation = useSelector(selectMapLocation); // 현재 지도의 중심 위치
+    const userLocation = useSelector(selectUserLocation); // 사용자의 실제 위치
 
     const [didCancel, setCancel] = useState(false); // clean up 용
     const [isLoaded, setLoaded] = useState(false); // GPS 로딩 여부 검사용
@@ -96,7 +90,7 @@ const EvChargerContainer = (props) => {
                 // 실시간으로 위치 변화 감지 (권한 거부 시 아예 동작하지 않음 / 델타 값 관련 버그가 있어서 일단 주석 처리. 동작 자체는 아무 이상 없음)
                 Location.watchPositionAsync({ accuracy: Location.Accuracy.Balanced, timeInterval: 100, distanceInterval: 1 },
                     position => {
-                        setUserLocation({ longitude: position.coords.longitude, latitude: position.coords.latitude });
+                        dispatch(setUserLocation({ longitude: position.coords.longitude, latitude: position.coords.latitude }));
                     }
                 );
 
@@ -165,10 +159,10 @@ const EvChargerContainer = (props) => {
                                 type={'getFiltering'}
                             /> */}
 
-                            {/* <StationListModal
+                            <StationListModal
                                 stations={stations}
                                 focusToStation={focusToStation}
-                            /> */}
+                            />
 
                             <ThemeModal
                                 setMapStyle={setMapStyle}
