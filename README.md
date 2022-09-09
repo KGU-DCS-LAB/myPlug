@@ -1,6 +1,9 @@
 
 # 나만의 플러그 : myPlug
 
+[![ㅇㅇ](https://img.shields.io/badge/Google-Android-success)]()
+[![ㅇㅇ](https://img.shields.io/badge/Apple-iOS-lightgray)]()
+
 ### 전기차 충전소 조회 및 추천 애플리케이션
 
     Android / iOS
@@ -21,6 +24,7 @@
 
 
 [![ㅇㅇ](https://img.shields.io/badge/App-React%20Native-blue)](https://reactnative.dev/)
+[![ㅇㅇ](https://img.shields.io/badge/App-Redux-blueviolet)](https://ko.redux.js.org/introduction/getting-started/)
 [![ㅇㅇ](https://img.shields.io/badge/App-Native%20Base-9cf)](https://nativebase.io/)
 [![ㅇㅇ](https://img.shields.io/badge/App-React%20Native%20Navigation-blueviolet)](https://reactnavigation.org/)
 [![ㅇㅇ](https://img.shields.io/badge/App-Expo-lightgray)](https://expo.dev/client)
@@ -55,10 +59,12 @@
     .
     ├── app-expo [Client (Android/iOS Application)]
     │   └── src
-    │       ├── api
+    │       ├── app
+    │       │   ├── api
+    │       │   ├── hooks
+    │       │   └── redux
     │       ├── components
-    │       ├── containers
-    │       └── hooks
+    │       └── containers
     ├── server [Server (Node.js Application)]
     │   ├── models
     │   └── routes
@@ -227,6 +233,7 @@ Expo는 Android나 iOS에 설치 후 스마트폰에서 직접 실행이 가능�
 ## References
 
 - [React Native](https://reactnative.dev/)
+- [Redux](https://ko.redux.js.org/introduction/getting-started/)
 - [EXPO](https://expo.dev/)
 - [React Native Navigation](https://reactnavigation.org/)
 - [Native Base](https://nativebase.io/)

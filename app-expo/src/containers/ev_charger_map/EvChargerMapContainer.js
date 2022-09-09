@@ -104,17 +104,15 @@ const EvChargerContainer = (props) => {
     const setLocationAndGetStations = async (region) => {
         dispatch(setMapLocation(region));
         if (region.latitudeDelta < 0.13 && region.longitudeDelta < 0.13) { //단, 델타 값이 적당히 작은 상태에서만 서버로 요청
-            // console.log('prev : '+controller.current)
-            if (controller.current) {
-                // console.log('abort!');
-                controller.current.abort();
-            }
-            controller.current = new AbortController();
-            // console.log('next : '+controller.current)
-            const signal = controller.current.signal; // 이후 API로 넘겨줘서 취소 토큰 대용으로 사용할 예정
-            // const receivedStationData = await API.getRegionData(region)
-            const receivedStationData = await API.getRegionData2(signal, region)
-            const receivedChargerData = await API.getChargersByManyStation(receivedStationData.map((station) => station.statId))
+            // // console.log('prev : '+controller.current)
+            // if (controller.current) {
+            //     // console.log('abort!');
+            //     controller.current.abort();
+            // }
+            // controller.current = new AbortController();
+            // // console.log('next : '+controller.current)
+            // const signal = controller.current.signal; // 이후 API로 넘겨줘서 취소 토큰 대용으로 사용할 예정
+            const [receivedStationData,receivedChargerData] = await API.getRegionData(region)
             setStations(STATIONS.countChargers(sortStations(userLocation, receivedStationData), receivedChargerData));
             setChargers(receivedChargerData)
         }
@@ -168,14 +166,14 @@ const EvChargerContainer = (props) => {
                                 setMapStyle={setMapStyle}
                             />
 
-                            {/* <StationSmallModal
+                            <StationSmallModal
                                 navigation={props.navigation}
                                 selectedStation={selectedStation}
                                 selectedChargers={selectedChargers}
                                 stations={stations}
                                 stationLogs={stationLogs}
                                 focusToStation={focusToStation}
-                            /> */}
+                            />
 
                             <MapView
                                 ref={mapRef}
