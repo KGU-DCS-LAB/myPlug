@@ -114,11 +114,11 @@ const EvChargerContainer = (props) => {
             longitudeDelta: 0.007,
         }
         mapRef?.current?.animateToRegion(stationLocation); // 지도 이동을 도와주는 메소드
-        dispatch(setStatusLoading());
-        dispatch(setStationListModalVisible(false));
-        dispatch(setSmallModalVisible(true));
+        // dispatch(setStatusLoading());
         setLocationAndGetStations(stationLocation);
         dispatch(setSelectedStationInfo(station.statId));
+        dispatch(setStationListModalVisible(false));
+        dispatch(setSmallModalVisible(true));
     }
 
     return (

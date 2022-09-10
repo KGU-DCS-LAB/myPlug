@@ -9,9 +9,9 @@ const initialState = {
   userLocation: null, // 사용자의 실제 위치
   stations: [], //서버로 부터 받아온 충전소 데이터 리스트
   chargers: [], //서버로 부터 받아온 충전소 데이터들의 충전기 데이터 리스트
-  selectedLogs: [], //서버로 부터 받아온 특정 충전소의 충전 분석 로그
-  selectedStation: null,  //마커 선택 시 모달에 띄워줄 데이터
+  selectedStation: null,  //마커 선택 시 모달에 띄워줄 충전소 데이터
   selectedChargers: [],  // 서버로 부터 받아온 특정 충전소의 충전기 리스트
+  selectedLogs: [], //서버로 부터 받아온 특정 충전소의 충전 분석 로그
   stationListModalVisible: false,
   themeModalVisible: false,
   smallModalVisible: false,
@@ -50,6 +50,9 @@ export const mapSlice = createSlice({
     setStatusLoading: (state) => {
       state.mapLocation = 'loading';
     },
+    setStatusIdle: (state) => {
+      state.mapLocation = 'idle';
+    },
     setMapLocation: (state, action) => {
       state.mapLocation = action.payload
     },
@@ -61,6 +64,12 @@ export const mapSlice = createSlice({
     },
     setChargers: (state, action) => {
       state.chargers = action.payload
+    },
+    setSelectedStation: (state, action) => {
+      state.selectedStation = action.payload
+    },
+    setSelectedChargers: (state, action) => {
+      state.selectedChargers = action.payload
     },
     setSelectedLogs: (state, action) => {
       state.selectedLogs = action.payload
@@ -84,7 +93,6 @@ export const mapSlice = createSlice({
       //   state.status = 'loading';
       // })
       .addCase(setStationsAndChargers.fulfilled, (state, action) => {
-        state.status = 'idle';
         state.stations = STATIONS.countChargers(STATIONS.sortStations(state.userLocation, action.payload[0]), action.payload[1]);
         state.chargers = action.payload[1];
       })
@@ -107,6 +115,9 @@ export const {
   setUserLocation,
   setStations,
   setChargers,
+  setSelectedStation,
+  setSelectedChargers,
+  setSelectedLogs,
   setStationListModalVisible,
   setThemeModalVisible,
   setSmallModalVisible,
@@ -119,11 +130,20 @@ export const selectUserLocation = (state) => state.map.userLocation;
 export const selectStations = (state) => state.map.stations;
 export const selectChargers = (state) => state.map.chargers;
 export const selectSelectedLogs = (state) => state.map.selectedLogs;
-export const selectSelectedChargers = (state) => state.map.selectChargers;
+export const selectSelectedChargers = (state) => state.map.selectedChargers;
 export const selectSelectedStation = (state) => state.map.selectedStation;
 export const selectStationListModalVisible = (state) => state.map.stationListModalVisible;
 export const selectThemeModalVisible = (state) => state.map.themeModalVisible;
 export const selectSmallModalVisible = (state) => state.map.smallModalVisible;
 export const selectFilterModalVisible = (state) => state.map.filterModalVisible;
+
+// We can also write thunks by hand, which may contain both sync and async logic.
+// Here's an example of conditionally dispatching actions based on current state.
+export const incrementIfOdd = (amount) => (dispatch, getState) => {
+  const currentValue = selectCount(getState());
+  if (currentValue % 2 === 1) {
+    dispatch(incrementByAmount(amount));
+  }
+};
 
 export default mapSlice.reducer;

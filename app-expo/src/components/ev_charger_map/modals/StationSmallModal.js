@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 // import { Text, View, Dimensions, StyleSheet, ScrollView } from 'react-native'
 import { Alert, Dimensions, Pressable, ScrollView, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { Badge, Box, Button, Center, Divider, Heading, HStack, Spacer, Text, VStack } from "native-base";
@@ -26,9 +26,12 @@ const StationSmallModal = (props) => {
 
     const selectedStation = useSelector(selectSelectedStation);
     const selectedChargers = useSelector(selectSelectedChargers);
-    const selectedLogs = useSelector(selectSelectedLogs);
 
     const [favorites, setFavorites] = useState([]);
+
+    // useEffect(()=>{
+
+    // },[selectedStation,selectedChargers]);
 
     return (
         <>
@@ -238,7 +241,7 @@ const StationSmallModal = (props) => {
     )
 }
 
-export default StationSmallModal;
+export default React.memo(StationSmallModal);
 
 
 
