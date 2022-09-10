@@ -3,13 +3,14 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Box, Button, Center, Flex, Heading, HStack, ScrollView, Spacer, Text, VStack } from "native-base";
 import { useState } from "react";
 import StationCard from "../cards/StationCard";
-import { selectStationListModalVisible, setStationListModalVisible } from "../../../app/redux/map/mapSlice";
+import { selectStationListModalVisible, selectStations, setStationListModalVisible } from "../../../app/redux/map/mapSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const StationListModal = (props) => {
 
     const dispatch = useDispatch();
     const stationListModalVisible = useSelector(selectStationListModalVisible);
+    const stations = useSelector(selectStations);
 
     return (
         <>
@@ -31,14 +32,14 @@ const StationListModal = (props) => {
                                     <Spacer />
                                     {/* <Text>X</Text> */}
                                 </HStack>
-                                <Text>{props.stations.length}개의 충전소를 로드했습니다.</Text>
+                                <Text>{stations.length}개의 충전소를 로드했습니다.</Text>
                                 <ScrollView>
                                     {
-                                        props.stations.length < 0
+                                        stations.length < 0
                                             ?
                                             <><Text>근처에 충전소가 없습니다.</Text></>
                                             :
-                                            props.stations.map((station) => (
+                                            stations.map((station) => (
                                                 <StationCard key={station.statId} station={station} onPress={()=>props.focusToStation(station)}/>
                                             ))
                                     }

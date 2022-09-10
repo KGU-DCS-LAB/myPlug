@@ -38,8 +38,17 @@ export const setSelectedStationInfo = createAsyncThunk(
     // The value we return becomes the `fulfilled` action payload
     const station = await API.getOneStation(statId);
     const chargers = await API.getChargersByOneStation(statId);
+    // const logs = await API.getStationLogsByStatId(statId);
+    return [station, chargers];
+  }
+);
+
+export const setSelectedLogs = createAsyncThunk(
+  'map/setSelectedLogs',
+  async (statId) => {
+    // The value we return becomes the `fulfilled` action payload
     const logs = await API.getStationLogsByStatId(statId);
-    return [station, chargers, logs];
+    return logs;
   }
 );
 
@@ -47,6 +56,7 @@ export const mapSlice = createSlice({
   name: 'map',
   initialState,
   reducers: {
+    reset: (state) => state = initialState,
     setStatusLoading: (state) => {
       state.mapLocation = 'loading';
     },
@@ -70,9 +80,6 @@ export const mapSlice = createSlice({
     },
     setSelectedChargers: (state, action) => {
       state.selectedChargers = action.payload
-    },
-    setSelectedLogs: (state, action) => {
-      state.selectedLogs = action.payload
     },
     setStationListModalVisible: (state, action) => {
       state.stationListModalVisible = action.payload
@@ -103,14 +110,17 @@ export const mapSlice = createSlice({
         const temp = STATIONS.countChargers(STATIONS.sortStations(state.userLocation, action.payload[0]), action.payload[1]);
         state.selectedStation = temp[0];
         state.selectedChargers = action.payload[1];
-        state.selectedLogs = action.payload[2];
         state.status = 'idle';
+      })
+      .addCase(setSelectedLogs.fulfilled, (state, action) => {
+        state.selectedLogs = action.payload;
       })
       ;
   },
 });
 
 export const {
+  reset,
   setStatusLoading,
   setMapLocation,
   setUserLocation,
@@ -118,7 +128,6 @@ export const {
   setChargers,
   setSelectedStation,
   setSelectedChargers,
-  setSelectedLogs,
   setStationListModalVisible,
   setThemeModalVisible,
   setSmallModalVisible,

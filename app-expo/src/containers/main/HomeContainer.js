@@ -10,7 +10,7 @@ import axios from 'axios';
 import { MasonaryLayout } from '../../components/layout/MansonaryLayout';
 import { getUserFavoriteStations } from '../../app/api/API';
 import FilterModal from '../../components/ev_charger_map/modals/FilterModal';
-import { setFilterModalVisible } from '../../app/redux/map/mapSlice';
+import { setFilterModalVisible,setSelectedStation } from '../../app/redux/map/mapSlice';
 import { useDispatch } from 'react-redux';
 
 const HomeContainer = (props) => {
@@ -160,9 +160,10 @@ const HomeContainer = (props) => {
                                         style={{ resizeMode: 'center', width: '80%', height: '80%' }}
                                         source={require('../../../assets/home-charging-station.png')}
                                     />}
-                                    onPress={() => props.navigation.navigate('EvCharger',{
-                                        station:bookmark
-                                    })}
+                                    onPress={() => {
+                                        dispatch(setSelectedStation(bookmark))
+                                        props.navigation.navigate('EvCharger')
+                                    }}
                                     title={bookmark.statNm}
                                 />
                             )

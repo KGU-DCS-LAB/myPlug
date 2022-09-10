@@ -22,7 +22,7 @@ router.post('/keco/find/regionData', function (req, res, next) {
   const x2 = req.body.data.x2;
   const y1 = req.body.data.y1;
   const y2 = req.body.data.y2;
-  console.log(req.body);
+  // console.log(req.body);
   Station.find({
     $and: [
       { lng: { $gte: x1 } },
@@ -33,11 +33,11 @@ router.post('/keco/find/regionData', function (req, res, next) {
 
   }).then((stations) => {
     // console.log(stations);
-    console.log(stations.length)
+    // console.log(stations.length)
     if (stations.length > 0) {
       Charger.find({ statId: { "$in": stations.map((station) => station.statId) } })
         .then((chargers) => {
-          console.log(chargers.length);
+          // console.log(chargers.length);
           res.json([stations, chargers]); // 충전소와, 그에 해당하는 충전기들을 한번에 보내준다. (개선판)
         }).catch((err) => {
           console.log(err);
@@ -87,7 +87,7 @@ router.post('/keco/find/chargers', function (req, res, next) {
 });
 
 router.post('/keco/find/stationLogs', function (req, res, next) {
-  console.log(req.body.data);
+  // console.log(req.body.data);
   StationLogs.find({
     statId: req.body.data
   }).then((response) => {

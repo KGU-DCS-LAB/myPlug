@@ -7,13 +7,17 @@ import * as API from "../../../app/api/API";
 import * as STATIONS from '../../../app/api/STATIONS';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import OptionCard from "../../advancedSearch/card/OptionCard";
-import { selectFilterModalVisible, setFilterModalVisible } from "../../../app/redux/map/mapSlice";
+import { selectFilterModalVisible, selectMapLocation, selectUserLocation, setFilterModalVisible, setStations } from "../../../app/redux/map/mapSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const FilterModal = (props) => {
 
     const dispatch = useDispatch();
     const filterModalVisible = useSelector(selectFilterModalVisible);
+
+    const mapLocation = useSelector(selectMapLocation); // 현재 지도의 중심 위치
+    const userLocation = useSelector(selectUserLocation); // 사용자의 실제 위치
+
 
     const [busiNm, setBusiNm] = useState([]); // 서버로 부터 받아온 충전소 회사 리스트
     const [selectedType, setSelectedType] = useState({ chgerType: [], parkingFree: [], busiNm: [], output: [], stat: [], limitYn: [], method: [] });
@@ -40,9 +44,9 @@ const FilterModal = (props) => {
 
     const dataFiltering = async () => {
         console.log('ㅇㅇ')
-        const receivedStationData = await API.getFilteredData(props.mapLocation, selectedType)
+        const receivedStationData = await API.getFilteredData(mapLocation, selectedType)
         const receivedChargerData = await API.getChargersByManyStation(receivedStationData.map((station) => station.statId))
-        props.setChargingStations(STATIONS.countChargers(STATIONS.sortStations(props.userLocation, receivedStationData), receivedChargerData));
+        dispatch(setStations(STATIONS.countChargers(STATIONS.sortStations(userLocation, receivedStationData), receivedChargerData)));
         dispatch(setFilterModalVisible(false));
     }
 

@@ -18,7 +18,7 @@ import * as STATIONS from '../../app/api/STATIONS';
 import { mapStyles } from "../../app/api/GOOGLEMAP";
 import ThemeModal from "../../components/ev_charger_map/modals/ThemeModal";
 import { useNavigationState } from "@react-navigation/native";
-import { setStationsAndChargers, selectChargers, selectMapLocation, selectStations, selectUserLocation, setMapLocation, setSmallModalVisible, setStationListModalVisible, setUserLocation, setSelectedLogs, selectSelectedLogs, selectSelectedChargers, setSelectedChargers, setSelectedStationInfo, selectSelectedStation, setStatusLoading } from "../../app/redux/map/mapSlice";
+import { setStationsAndChargers, selectChargers, selectMapLocation, selectStations, selectUserLocation, setMapLocation, setSmallModalVisible, setStationListModalVisible, setUserLocation, setSelectedLogs, selectSelectedLogs, selectSelectedChargers, setSelectedChargers, setSelectedStationInfo, selectSelectedStation, setStatusLoading, reset } from "../../app/redux/map/mapSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const EvChargerContainer = (props) => {
@@ -36,7 +36,7 @@ const EvChargerContainer = (props) => {
     const mapRef = useRef(); // 지도 조작에 사용되는 기능
     const new_routes = useNavigationState(state => state.routes);
 
-    // const selectedStation = useSelector(selectSelectedStation);
+    const selectedStation = useSelector(selectSelectedStation);
     // const selectedChargers = useSelector(selectSelectedChargers);
     // const selectedLogs = useSelector(selectSelectedLogs);
 
@@ -52,39 +52,27 @@ const EvChargerContainer = (props) => {
 
         if (!didCancel) {
             (async () => {
-                const idx = new_routes.findIndex(r => r.name === "EvCharger")
-                if (new_routes[idx].params !== undefined) { // 외부에서 같이 전달된 인자가 있다면
-                    console.log('외부에서 stations과 함께 실행 요청');
-                    initLocation = {
-                        longitude: Number(new_routes[idx].params.station.lng),
-                        latitude: Number(new_routes[idx].params.station.lat),
-                        latitudeDelta: 0.007,
-                        longitudeDelta: 0.007,
-                    }
-                    Promise.all([
-                        focusToStation(new_routes[idx].params.station),
-                        setLocationAndGetStations(initLocation),
-                    ]);
-                    setLoaded(true);
-                }
                 let { status } = await Location.requestForegroundPermissionsAsync(); //GPS 사용 권한 물어봄
                 if (status !== 'granted') {
                     console.log('Permission to access location was denied');
                     return;  //권한 거부 시 그대로 종료
                 }
                 let location = await Location.getCurrentPositionAsync({}); //현 위치 수신
-                let initLocation = null;
-
-                if (new_routes[idx].params === undefined) { // 아무런 전달 인자가 없다면
-                    initLocation = {
+                if (selectedStation == null) {
+                    console.log('단순히 지도 메뉴 진입했을 때')
+                    setLocationAndGetStations({
                         longitude: location.coords.longitude,
                         latitude: location.coords.latitude,
                         latitudeDelta: 0.007,
                         longitudeDelta: 0.007,
-                    }
-                    setLocationAndGetStations(initLocation);
-                    setLoaded(true);
+                    });
                 }
+                else {
+                    console.log('외부에서 특정 충전소를 열고 싶은 경우')
+                    setLocationAndGetStations(selectedStation);
+                    focusToStation(selectedStation);
+                }
+                setLoaded(true);
 
                 // 실시간으로 위치 변화 감지 (권한 거부 시 아예 동작하지 않음 / 델타 값 관련 버그가 있어서 일단 주석 처리. 동작 자체는 아무 이상 없음)
                 Location.watchPositionAsync({ accuracy: Location.Accuracy.Balanced, timeInterval: 100, distanceInterval: 1 },
@@ -96,7 +84,9 @@ const EvChargerContainer = (props) => {
             })();
         }
         return () => {
+            console.log('clean up!')
             setCancel(true);
+            dispatch(reset());
         }
     }, []);
 
@@ -114,11 +104,10 @@ const EvChargerContainer = (props) => {
             longitudeDelta: 0.007,
         }
         mapRef?.current?.animateToRegion(stationLocation); // 지도 이동을 도와주는 메소드
-        // dispatch(setStatusLoading());
-        setLocationAndGetStations(stationLocation);
-        dispatch(setSelectedStationInfo(station.statId));
         dispatch(setStationListModalVisible(false));
         dispatch(setSmallModalVisible(true));
+        setLocationAndGetStations(stationLocation);
+        dispatch(setSelectedStationInfo(station.statId));
     }
 
     return (
@@ -128,15 +117,11 @@ const EvChargerContainer = (props) => {
                     ?
                     <>
                         <View style={{ flex: 1 }}>
-                            {/* <FilterModal
-                                setChargingStations={setStations}
-                                mapLocation={mapLocation}
-                                userLocation={userLocation}
+                            <FilterModal
                                 type={'getFiltering'}
-                            /> */}
+                            />
 
                             <StationListModal
-                                stations={stations}
                                 focusToStation={focusToStation}
                             />
 
@@ -144,6 +129,8 @@ const EvChargerContainer = (props) => {
                                 setMapStyle={setMapStyle}
                             />
 
+
+                            {/* 현재 redux 사용 이후, 약간 느려진 느낌이 있어서 고전 방식(prop으로 넘겨주는 것)으로 돌아 갈 가능성도 있음. */}
                             <StationSmallModal
                                 navigation={props.navigation}
                                 focusToStation={focusToStation}
@@ -209,9 +196,9 @@ const EvChargerContainer = (props) => {
                         <CoverMenu
                             mapRef={mapRef}
                             navigation={props.navigation}
-                        // focusToStation={focusToStation}
-                        // mapLocation={mapLocation}
-                        // setLocationAndGetStations={setLocationAndGetStations}
+                            focusToStation={focusToStation}
+                            mapLocation={mapLocation}
+                            setLocationAndGetStations={setLocationAndGetStations}
                         />
                     </>
                     :

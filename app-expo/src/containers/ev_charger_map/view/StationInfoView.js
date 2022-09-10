@@ -3,9 +3,9 @@ import { useNavigationState } from "@react-navigation/native";
 import { Box, Center, Divider, Heading, HStack, ScrollView, Spacer, Text, View } from "native-base";
 import React, { useEffect, useState } from "react";
 import { Pressable } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { sortStations } from "../../../app/api/STATIONS";
-import { selectSelectedChargers, selectSelectedLogs, selectSelectedStation, selectStations } from "../../../app/redux/map/mapSlice";
+import { selectSelectedChargers, selectSelectedLogs, selectSelectedStation, selectStations, setSelectedLogs } from "../../../app/redux/map/mapSlice";
 import ChargerCard from "../../../components/ev_charger_map/cards/ChargerCard";
 import StationCard from "../../../components/ev_charger_map/cards/StationCard";
 import FindFavorites from "../../../components/ev_charger_map/FindFavorites";
@@ -14,14 +14,16 @@ import LoadingSpinner from "../../../components/Loading/LoadingSpinner";
 
 const StationInfoView = (props) => {
 
-    // const new_routes = useNavigationState(state => state.routes);
-    // const idx = new_routes?.findIndex(r => r.name === "EvChargerStationInfo");
-    // const selectedStation = new_routes[idx]?.params.selectedStation;
-    // const selectedChargers = new_routes[idx]?.params.selectedChargers;
     const selectedStation = useSelector(selectSelectedStation);
     const selectedChargers = useSelector(selectSelectedChargers);
     const stations = useSelector(selectStations);
     const stationLogs = useSelector(selectSelectedLogs);
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        // 로그쪽은 계산하느라 로딩이 굉장히 느리므로 로딩 화면 넣으면 좋겠음 (ex. 분석중)
+        dispatch(setSelectedLogs(selectedStation.statId));
+    },[]);
 
     const findStationsLog = (chgerId) => {
         return stationLogs?.filter(item => item.chgerId === chgerId);
