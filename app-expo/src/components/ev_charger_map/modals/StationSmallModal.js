@@ -29,10 +29,6 @@ const StationSmallModal = (props) => {
 
     const [favorites, setFavorites] = useState([]);
 
-    // useEffect(()=>{
-
-    // },[selectedStation,selectedChargers]);
-
     return (
         <>
             {

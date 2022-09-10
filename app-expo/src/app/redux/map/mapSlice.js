@@ -100,7 +100,8 @@ export const mapSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(setSelectedStationInfo.fulfilled, (state, action) => {
-        state.selectedStation = STATIONS.countChargers([action.payload[0]], action.payload[1])[0][0];
+        const temp = STATIONS.countChargers(STATIONS.sortStations(state.userLocation, action.payload[0]), action.payload[1]);
+        state.selectedStation = temp[0];
         state.selectedChargers = action.payload[1];
         state.selectedLogs = action.payload[2];
         state.status = 'idle';
