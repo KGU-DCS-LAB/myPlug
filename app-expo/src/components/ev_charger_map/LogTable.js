@@ -5,13 +5,13 @@ const LogTable = (props) => {
 
     const day = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
     const koreanDay = {
-        'mon':'월',
-        'tue':'화',
-        'wed':'수', 
-        'thu':'목',
-        'fri':'금', 
-        'sat':'토', 
-        'sun':'일'
+        'mon': '월',
+        'tue': '화',
+        'wed': '수',
+        'thu': '목',
+        'fri': '금',
+        'sat': '토',
+        'sun': '일'
     };
 
     const TimeHeader = () => {
@@ -33,10 +33,22 @@ const LogTable = (props) => {
         let render = [];
         let logOfDay = props.stationLog[day.day];
         for (let i = 0; i < 24; i++) {
-            if(logOfDay[i+""]===0){
+            if (logOfDay[i + ""] === 0) {
+                render.push(<Center h="5" w="5" bg="primary.50" rounded="md" shadow={3} key={i} />)
+            }
+            else if (logOfDay[i + ""] === 1) {
+                render.push(<Center h="5" w="5" bg="primary.100" rounded="md" shadow={3} key={i} />)
+            }
+            else if (logOfDay[i + ""] === 2) {
+                render.push(<Center h="5" w="5" bg="primary.200" rounded="md" shadow={3} key={i} />)
+            }
+            else if (logOfDay[i + ""] === 3) {
                 render.push(<Center h="5" w="5" bg="primary.300" rounded="md" shadow={3} key={i} />)
             }
-            else{
+            else if (logOfDay[i + ""] === 4) {
+                render.push(<Center h="5" w="5" bg="primary.500" rounded="md" shadow={3} key={i} />)
+            }
+            else {
                 render.push(<Center h="5" w="5" bg="primary.700" rounded="md" shadow={3} key={i} />)
             }
         }
@@ -55,7 +67,7 @@ const LogTable = (props) => {
             <VStack space={1} alignItems="center" mb={2}>
                 <TimeHeader />
                 {day.map((d) => (
-                    <TimeLine key={d} day={d}/>
+                    <TimeLine key={d} day={d} />
                 ))}
             </VStack>
         </ScrollView>

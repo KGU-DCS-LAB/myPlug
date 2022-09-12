@@ -38,7 +38,6 @@ const StationInfoView = (props) => {
             for (let i = 0; i < day.length; i++) {
                 for (let j = 0; j < 24; j++) {
                     if (parseInt(newLog[day[i]][j + ""]) > 0) {
-                        // console.log(day[i], j)
                         logStat = {
                             ...logStat,
                             [day[i]]: {
@@ -46,8 +45,6 @@ const StationInfoView = (props) => {
                                 [j]: parseInt(logStat[day[i]][j + ""]) + parseInt(newLog[day[i]][j + ""])
                             }
                         }
-
-                        //여기서 왜 logStat의 특정 요일만 업데이트 되는 것이 아닌, 전체 요일이 바뀌는지 모르겠음
                     }
                 }
             }
