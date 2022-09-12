@@ -5,7 +5,7 @@ import LocationController from "./LocationController";
 import MenuStagger from "./MenuStagger";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-import { setThemeModalVisible } from "../../../app/redux/map/mapSlice";
+import { setThemeModalVisible } from "../../../app/redux/modal/modalSlice";
 
 const CoverMenu = (props) => {
 

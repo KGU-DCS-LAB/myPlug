@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { mapStyles } from "../../../app/api/GOOGLEMAP";
-import { selectThemeModalVisible, setThemeModalVisible } from "../../../app/redux/map/mapSlice";
+import { selectThemeModalVisible } from "../../../app/redux/modal/modalSlice";
 
 const ThemeModal = (props) => {
 

@@ -5,8 +5,8 @@ import { FlatList, TouchableOpacity } from 'react-native';
 import { config } from '../../../../config'
 import { Marker } from "react-native-maps";
 import MapView from "react-native-map-clustering";
-import { selectSmallModalVisible } from "../../../app/redux/map/mapSlice";
 import { useSelector } from "react-redux";
+import { selectSmallModalVisible } from "../../../app/redux/modal/modalSlice";
 
 const ChargerSearchBar = (props) => {
 

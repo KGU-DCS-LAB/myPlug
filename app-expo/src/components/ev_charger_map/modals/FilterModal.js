@@ -7,8 +7,9 @@ import * as API from "../../../app/api/API";
 import * as STATIONS from '../../../app/api/STATIONS';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import OptionCard from "../../advancedSearch/card/OptionCard";
-import { selectFilterModalVisible, selectMapLocation, selectUserLocation, setFilterModalVisible, setStations } from "../../../app/redux/map/mapSlice";
+import { selectMapLocation, selectUserLocation, setStations } from "../../../app/redux/map/mapSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { selectFilterModalVisible, setFilterModalVisible } from "../../../app/redux/modal/modalSlice";
 
 const FilterModal = (props) => {
 
@@ -95,6 +96,7 @@ const FilterModal = (props) => {
 
                             <ScrollView>
                                 <View style={styles.wrapper}>
+                                    <Text>{filterModalVisible}</Text>
                                     <OptionCard
                                         header={'무료 주차'}
                                         dataNm={'parkingFree'}

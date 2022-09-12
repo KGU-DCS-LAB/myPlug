@@ -12,10 +12,6 @@ const initialState = {
   selectedStation: null,  //마커 선택 시 모달에 띄워줄 충전소 데이터
   selectedChargers: [],  // 서버로 부터 받아온 특정 충전소의 충전기 리스트
   selectedLogs: [], //서버로 부터 받아온 특정 충전소의 충전 분석 로그
-  stationListModalVisible: false,
-  themeModalVisible: false,
-  smallModalVisible: false,
-  filterModalVisible: false,
 };
 
 export const setStationsAndChargers = createAsyncThunk(
@@ -81,18 +77,6 @@ export const mapSlice = createSlice({
     setSelectedChargers: (state, action) => {
       state.selectedChargers = action.payload
     },
-    setStationListModalVisible: (state, action) => {
-      state.stationListModalVisible = action.payload
-    },
-    setThemeModalVisible: (state, action) => {
-      state.themeModalVisible = action.payload
-    },
-    setSmallModalVisible: (state, action) => {
-      state.smallModalVisible = action.payload
-    },
-    setFilterModalVisible: (state, action) => {
-      state.filterModalVisible = action.payload
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -128,10 +112,6 @@ export const {
   setChargers,
   setSelectedStation,
   setSelectedChargers,
-  setStationListModalVisible,
-  setThemeModalVisible,
-  setSmallModalVisible,
-  setFilterModalVisible
 } = mapSlice.actions;
 
 export const selectStatus = (state) => state.map.status;
@@ -142,10 +122,6 @@ export const selectChargers = (state) => state.map.chargers;
 export const selectSelectedLogs = (state) => state.map.selectedLogs;
 export const selectSelectedChargers = (state) => state.map.selectedChargers;
 export const selectSelectedStation = (state) => state.map.selectedStation;
-export const selectStationListModalVisible = (state) => state.map.stationListModalVisible;
-export const selectThemeModalVisible = (state) => state.map.themeModalVisible;
-export const selectSmallModalVisible = (state) => state.map.smallModalVisible;
-export const selectFilterModalVisible = (state) => state.map.filterModalVisible;
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.

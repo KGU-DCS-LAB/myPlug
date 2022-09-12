@@ -18,8 +18,9 @@ import * as STATIONS from '../../app/api/STATIONS';
 import { mapStyles } from "../../app/api/GOOGLEMAP";
 import ThemeModal from "../../components/ev_charger_map/modals/ThemeModal";
 import { useNavigationState } from "@react-navigation/native";
-import { setStationsAndChargers, selectChargers, selectMapLocation, selectStations, selectUserLocation, setMapLocation, setSmallModalVisible, setStationListModalVisible, setUserLocation, setSelectedLogs, selectSelectedLogs, selectSelectedChargers, setSelectedChargers, setSelectedStationInfo, selectSelectedStation, setStatusLoading, reset } from "../../app/redux/map/mapSlice";
+import { setStationsAndChargers, selectChargers, selectMapLocation, selectStations, selectUserLocation, setMapLocation, setUserLocation, setSelectedLogs, selectSelectedLogs, selectSelectedChargers, setSelectedChargers, setSelectedStationInfo, selectSelectedStation, setStatusLoading, reset } from "../../app/redux/map/mapSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { setSmallModalVisible, setStationListModalVisible } from "../../app/redux/modal/modalSlice";
 
 const EvChargerContainer = (props) => {
 

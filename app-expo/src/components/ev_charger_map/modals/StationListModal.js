@@ -3,8 +3,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Box, Button, Center, Flex, Heading, HStack, ScrollView, Spacer, Text, VStack } from "native-base";
 import { useState } from "react";
 import StationCard from "../cards/StationCard";
-import { selectStationListModalVisible, selectStations, setStationListModalVisible } from "../../../app/redux/map/mapSlice";
+import { selectStations } from "../../../app/redux/map/mapSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { selectStationListModalVisible, setStationListModalVisible } from "../../../app/redux/modal/modalSlice";
 
 const StationListModal = (props) => {
 

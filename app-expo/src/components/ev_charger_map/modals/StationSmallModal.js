@@ -10,8 +10,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from '@react-navigation/native';
 import * as STATIONS from '../../../app/api/STATIONS';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSelectedChargers, selectSelectedLogs, selectSelectedStation, selectSmallModalVisible, selectStatus, setSmallModalVisible } from '../../../app/redux/map/mapSlice';
+import { selectSelectedChargers, selectSelectedLogs, selectSelectedStation, selectStatus } from '../../../app/redux/map/mapSlice';
 import LoadingSpinner from '../../Loading/LoadingSpinner';
+import { selectSmallModalVisible, setSmallModalVisible } from '../../../app/redux/modal/modalSlice';
 
 var screen = Dimensions.get('window')
 

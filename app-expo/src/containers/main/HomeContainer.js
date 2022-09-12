@@ -10,8 +10,9 @@ import axios from 'axios';
 import { MasonaryLayout } from '../../components/layout/MansonaryLayout';
 import { getUserFavoriteStations } from '../../app/api/API';
 import FilterModal from '../../components/ev_charger_map/modals/FilterModal';
-import { setFilterModalVisible,setSelectedStation } from '../../app/redux/map/mapSlice';
+import { setSelectedStation } from '../../app/redux/map/mapSlice';
 import { useDispatch } from 'react-redux';
+import { setFilterModalVisible } from '../../app/redux/modal/modalSlice';
 
 const HomeContainer = (props) => {
     const dispatch = useDispatch();
