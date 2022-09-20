@@ -104,45 +104,33 @@ const HomeContainer = (props) => {
                             onPress={() => props.navigation.navigate('AdvancedSearch')}
                             title="충전소 상세 검색"
                         />
-                        {
-                            user ?
-                                <PressableButton
-                                    key={2}
-                                    icon={<Image
-                                        style={{ resizeMode: 'center', width: '80%', height: '80%' }}
-                                        source={require('../../../assets/home-filter.png')}
-                                    />}
-                                    onPress={() => dispatch(setFilterModalVisible(true))}
-                                    title="나만의 필터링"
-                                />
-                                : <Fragment key={2} />
-                        }
-                        {
-                            user ?
-                                <PressableButton
-                                    key={3}
-                                    icon={<Image
-                                        style={{ resizeMode: 'center', width: '80%', height: '80%' }}
-                                        source={require('../../../assets/home-schedule.png')}
-                                    />}
-                                    onPress={() => props.navigation.navigate('Schedule')}
-                                    title="충전 일정 관리"
-                                />
-                                : <Fragment key={3} />
-                        }
-                        {
-                            user ?
-                                <PressableButton
-                                    key={4}
-                                    icon={<Image
-                                        style={{ resizeMode: 'center', width: '80%', height: '80%' }}
-                                        source={require('../../../assets/home-car.png')}
-                                    />}
-                                    onPress={() => props.navigation.navigate('MyCar')}
-                                    title="나의 자동차"
-                                />
-                                : <Fragment key={4} />
-                        }
+                        <PressableButton
+                            key={2}
+                            icon={<Image
+                                style={{ resizeMode: 'center', width: '80%', height: '80%' }}
+                                source={require('../../../assets/home-filter.png')}
+                            />}
+                            onPress={() => user ? dispatch(setFilterModalVisible(true)) : console.log('로그인 안됨')}
+                            title="나만의 필터링"
+                        />
+                        <PressableButton
+                            key={3}
+                            icon={<Image
+                                style={{ resizeMode: 'center', width: '80%', height: '80%' }}
+                                source={require('../../../assets/home-schedule.png')}
+                            />}
+                            onPress={() => user ? props.navigation.navigate('Schedule') : console.log('로그인 안됨')}
+                            title="충전 일정 관리"
+                        />
+                        <PressableButton
+                            key={4}
+                            icon={<Image
+                                style={{ resizeMode: 'center', width: '80%', height: '80%' }}
+                                source={require('../../../assets/home-car.png')}
+                            />}
+                            onPress={() => user ? props.navigation.navigate('MyCar') : console.log('로그인 안됨')}
+                            title="나의 자동차"
+                        />
 
                         <PressableButton
                             key={5}
