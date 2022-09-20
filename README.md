@@ -94,7 +94,7 @@ React Native를 사용하여 작성한 충전소 지도 앱 입니다. 스마트
 
 ## Features
 
-    . [Client (Android/iOS Application)]
+    . [Client (Android/iOS Expo Application)]
     ├── 충전소 조회 (지도)
     │   ├── 충전소 실시간 검색
     │   ├── 지도 확대/축소/현위치
