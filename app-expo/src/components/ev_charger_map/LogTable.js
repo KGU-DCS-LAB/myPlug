@@ -2,7 +2,7 @@ import { Center, HStack, ScrollView, Text, VStack } from "native-base"
 import React from "react";
 
 const LogTable = (props) => {
-
+    const maxCount = props.maxCount ? props.maxCount : 1;
     const day = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
     const koreanDay = {
         'mon': '월',
@@ -33,19 +33,19 @@ const LogTable = (props) => {
         let render = [];
         let logOfDay = props.stationLog[day.day];
         for (let i = 0; i < 24; i++) {
-            if (logOfDay[i + ""] === 0) {
+            if (parseInt(logOfDay[i + ""] / maxCount) === 0) {
                 render.push(<Center h="5" w="5" bg="primary.50" rounded="md" shadow={3} key={i} />)
             }
-            else if (logOfDay[i + ""] === 1) {
+            else if (parseInt(logOfDay[i + ""]/maxCount) === 1) {
                 render.push(<Center h="5" w="5" bg="primary.100" rounded="md" shadow={3} key={i} />)
             }
-            else if (logOfDay[i + ""] === 2) {
+            else if (parseInt(logOfDay[i + ""]/maxCount) === 2) {
                 render.push(<Center h="5" w="5" bg="primary.200" rounded="md" shadow={3} key={i} />)
             }
-            else if (logOfDay[i + ""] === 3) {
+            else if (parseInt(logOfDay[i + ""]/maxCount) === 3) {
                 render.push(<Center h="5" w="5" bg="primary.300" rounded="md" shadow={3} key={i} />)
             }
-            else if (logOfDay[i + ""] === 4) {
+            else if (parseInt(logOfDay[i + ""]/maxCount) === 4) {
                 render.push(<Center h="5" w="5" bg="primary.500" rounded="md" shadow={3} key={i} />)
             }
             else {
@@ -64,6 +64,7 @@ const LogTable = (props) => {
 
     return (
         <ScrollView horizontal={true}>
+            <Text>{maxCount}</Text>
             <VStack space={1} alignItems="center" mb={2}>
                 <TimeHeader />
                 {day.map((d) => (

@@ -103,7 +103,7 @@ const StationInfoView = (props) => {
                         <Divider />
 
                         <Heading size="md" mt={5}>충전소 사용 분석</Heading>
-                        <LogTable stationLog={logStatistic(stationLogs)} />
+                        <LogTable maxCount={selectedChargers.length} stationLog={logStatistic(stationLogs)} />
 
                         <Divider mt={5} />
 
