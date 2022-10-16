@@ -4,12 +4,12 @@ import markerRed from '../../../assets/ev-red.png';
 import markerGray from '../../../assets/ev-gray.png';
 
 export const sortStations = (location, stations) => {
-    let temp = []
-    stations?.map((station) => temp.push({
+    const temp = [];
+    stations?.map((station) => temp[temp.length]={
         ...station,
         ['distance']: getDistance(location?.latitude, location?.longitude, station?.lat, station?.lng)
-    }))
-    let sortedList = temp.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
+    })
+    const sortedList = temp.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
     return sortedList;
 }
 

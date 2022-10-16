@@ -15,9 +15,9 @@ const LogTable = (props) => {
     };
 
     const TimeHeader = () => {
-        let render = [];
+        const render = [];
         for (let index = 0; index < 24; index++) {
-            render.push(<Center h="5" w="5" key={index}><Text>{index}</Text></Center>);
+            render[render.length] = <Center h="5" w="5" key={index}><Text>{index}</Text></Center>;
         }
         return (
             <Center>
@@ -30,27 +30,30 @@ const LogTable = (props) => {
     }
 
     const TimeLine = (day) => {
-        let render = [];
-        let logOfDay = props.stationLog[day.day];
+        const render = [];
+        const logOfDay = props.stationLog[day.day];
         for (let i = 0; i < 24; i++) {
-            if (parseInt(logOfDay[i + ""] / maxCount) === 0) {
-                render.push(<Center h="5" w="5" bg="primary.50" rounded="md" shadow={3} key={i} />)
+            const level = parseInt(logOfDay[i + ""] / maxCount);
+            let num = 0;
+            if (level === 0) {
+                num = 50;
             }
-            else if (parseInt(logOfDay[i + ""]/maxCount) === 1) {
-                render.push(<Center h="5" w="5" bg="primary.100" rounded="md" shadow={3} key={i} />)
+            else if (level === 1) {
+                num = 100;
             }
-            else if (parseInt(logOfDay[i + ""]/maxCount) === 2) {
-                render.push(<Center h="5" w="5" bg="primary.200" rounded="md" shadow={3} key={i} />)
+            else if (level === 2) {
+                num = 200;
             }
-            else if (parseInt(logOfDay[i + ""]/maxCount) === 3) {
-                render.push(<Center h="5" w="5" bg="primary.300" rounded="md" shadow={3} key={i} />)
+            else if (level === 3) {
+                num = 300;
             }
-            else if (parseInt(logOfDay[i + ""]/maxCount) === 4) {
-                render.push(<Center h="5" w="5" bg="primary.500" rounded="md" shadow={3} key={i} />)
+            else if (level === 4) {
+                num = 500;
             }
             else {
-                render.push(<Center h="5" w="5" bg="primary.700" rounded="md" shadow={3} key={i} />)
+                num = 700;
             }
+            render[render.length] = <Center h="5" w="5" bg={"primary." + num} rounded="md" shadow={3} key={i} />;
         }
         return (
             <Center>
