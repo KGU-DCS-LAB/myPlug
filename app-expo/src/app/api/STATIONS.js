@@ -49,20 +49,25 @@ export const countChargers = (stations, chargers) => {
         const status5 = findChargersCount(stationsChargers, 5);
         const status9 = findChargersCount(stationsChargers, 9);
         // (1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
-        let marker = null
+        let color = null;
+        let description = 'null';
         if (status3 + status2 == 0) { //정상적인 충전기가 하나도 없는 충전소
-            marker = "gray";
+            color = "gray";
+            description = '확인중';
         }
         else if (status2 == 0) { //가용 충전기가 없는 충전소
-            marker = "red";
+            color = "red";
+            description = '불가';
         }
         else if (status3 >= status2) { //사용중인 충전기가 50% 이상인 충전소
-            marker = "yellow";
+            color = "yellow";
+            description = '혼잡';
         }
         else { //이외
-            marker = "green";
+            color = "green";
+            description = '원활';
         }
-        newStations.push({
+        newStations[newStations.length] = { // push보다 이 방법이 더 빠르다고 합니다.
             ...station,
             status: {
                 status1: status1,
@@ -71,9 +76,10 @@ export const countChargers = (stations, chargers) => {
                 status4: status4,
                 status5: status5,
                 status9: status9,
-                marker: marker,
+                markerColor: color,
+                description: description,
             }
-        })
+        }
     })
     return newStations;
 }
@@ -318,7 +324,7 @@ export const markerImage = (station) => {
     }
 }
 
-export const zCode  = [
+export const zCode = [
     {
         value: '11',
         label: '서울특별시'

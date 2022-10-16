@@ -11,8 +11,8 @@ export default (props) => {
                 p={1}
                 alignItems="center" space={3}
             >
-                <Avatar bg={station.status.marker + ".500"}>
-                    ㅇㅇ
+                <Avatar bg={station.status.markerColor + ".500"}>
+                    {station.status.description}
                 </Avatar>
                 <VStack>
                     <Heading fontSize="md">{station.statNm}</Heading>
