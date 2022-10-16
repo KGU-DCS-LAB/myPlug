@@ -62,7 +62,7 @@ const ChargerCard = (props) => {
                                             (
                                                 props.charger.stat == "3" ?
                                                     // 마지막 충전 종료일시 - 마지막 충전 시작일시 
-                                                    secondsToHms((getMilliseconds(props.charger.lastTedt) - getMilliseconds(props.charger.lastTsdt)) / 1000) + " 째 충전중"
+                                                    secondsToHms((new Date() - getMilliseconds(props.charger.lastTsdt)) / 1000) + " 째 충전중"
                                                     :
                                                     // 상태 갱신 일시
                                                     secondsToHms((new Date() - getMilliseconds(props.charger.statUpdDt)) / 1000) + " 전에 마지막으로 사용"
@@ -92,6 +92,7 @@ const ChargerCard = (props) => {
                     </Box>
                 </CollapseHeader>
                 <CollapseBody>
+                    {/* <Text>{JSON.stringify(props.charger)}</Text> */}
                     <LogTable stationLog={logStatistic(props.stationLog)} />
                     <Divider />
                 </CollapseBody>

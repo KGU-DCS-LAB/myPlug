@@ -20,10 +20,10 @@ const StationInfoView = (props) => {
     const stationLogs = useSelector(selectSelectedLogs);
     const dispatch = useDispatch();
 
-    useEffect(()=>{
+    useEffect(() => {
         // 로그쪽은 계산하느라 로딩이 굉장히 느리므로 로딩 화면 넣으면 좋겠음 (ex. 분석중)
         dispatch(setSelectedLogs(selectedStation.statId));
-    },[]);
+    }, []);
 
     const findStationsLog = (chgerId) => {
         return stationLogs?.filter(item => item.chgerId === chgerId);
@@ -73,33 +73,37 @@ const StationInfoView = (props) => {
                         <Text fontSize="md">{selectedStation?.location != "null" && selectedStation?.location}</Text>
                         <Divider mt={5} />
 
-                        <Text fontSize="lg">이용가능시간</Text>
+                        <Heading size="md">이용가능시간</Heading>
                         <Text fontSize="md">{selectedStation?.useTime}</Text>
                         <Divider />
 
-                        <Text fontSize="lg">운영기관명</Text>
+                        <Heading size="md">운영기관명</Heading>
                         <Text fontSize="md">{"[" + selectedStation?.busiId + "] " + selectedStation?.bnm + " (" + selectedStation?.busiNm + ")"}</Text>
                         <Divider />
 
-                        <Text fontSize="lg">운영기관 연락처</Text>
+                        <Heading size="md">운영기관 연락처</Heading>
                         <Text fontSize="md">{selectedStation?.busiCall}</Text>
                         <Divider />
 
-                        <Text fontSize="lg">주차료</Text>
+                        <Heading size="md">주차료</Heading>
                         <Text fontSize="md">{selectedStation?.parkingFree == "Y" ? "무료" : "유료"}</Text>
                         <Divider />
 
                         {
                             selectedStation?.note != null &&
                             <>
-                                <Text fontSize="lg">충전소 안내</Text>
+                                <Heading size="md">충전소 안내</Heading>
                                 <Text fontSize="md">{selectedStation?.note}</Text>
                                 <Divider />
                             </>
                         }
 
-                        <Text fontSize="lg">이용자 제한</Text>
+                        <Heading size="md">이용자 제한</Heading>
                         <Text fontSize="md">{selectedStation?.limitYn == "Y" ? ("이용 제한 (" + selectedStation?.limitDetail + ")") : "제한없음"}</Text>
+                        <Divider />
+
+                        <Heading size="md">마지막 업데이트 일시</Heading>
+                        <Text fontSize="md">{selectedStation?.date}</Text>
                         <Divider />
 
                         <Heading size="md" mt={5}>충전소 사용 분석</Heading>
@@ -122,8 +126,8 @@ const StationInfoView = (props) => {
                                     <StationCard
                                         key={station.statId}
                                         station={station}
-                                        onPress={() => props.navigation.navigate('EvCharger',{ //useEffect가 []으로 잡혀있어서 아무런 효과를 일으키지 못하고 있는 문제가 있음
-                                            station:station
+                                        onPress={() => props.navigation.navigate('EvCharger', { //useEffect가 []으로 잡혀있어서 아무런 효과를 일으키지 못하고 있는 문제가 있음
+                                            station: station
                                         })}
                                     />
                                 ))
