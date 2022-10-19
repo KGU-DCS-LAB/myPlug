@@ -12,14 +12,15 @@ import { getStatus } from './api/STATUS.js';
 export const run = async () => {
     //  Mongoose Connection (여기서만 해주면 전역 설정 됨 / 1회)
     await mongoose
-        .connect(`mongodb+srv://gabrielyoon7:0000@gabrielyoon7.aq0fu.mongodb.net/myplug?retryWrites=true&w=majority`, {})
+        // .connect(`mongodb+srv://gabrielyoon7:0000@gabrielyoon7.aq0fu.mongodb.net/myplug?retryWrites=true&w=majority`, {})
+        .connect(`mongodb://localhost:27017/myplug`, {})
         .then(() => console.log('MongoDB Connected!!'))
         .catch(err => console.log(err));
     let count = 0;
     while (true) { //반복 수집
         count++;
         await work(count);
-        await delay(10*60).then(() => console.log('대기 끝')); //대기시간 n*60초
+        await delay(10 * 60).then(() => console.log('대기 끝')); //대기시간 n*60초
     }
 }
 
