@@ -21,7 +21,9 @@ app.use(bodyParser.json());
 const mongoose = require('mongoose')
 // console.log(dbpw.mongodbpw);
 
-mongoose.connect(`mongodb+srv://gabrielyoon7:0000@gabrielyoon7.aq0fu.mongodb.net/myplug?retryWrites=true&w=majority`, {})
+mongoose
+// .connect(`mongodb+srv://gabrielyoon7:0000@gabrielyoon7.aq0fu.mongodb.net/myplug?retryWrites=true&w=majority`, {})
+.connect(`mongodb://localhost:27017/myplug`, {})
 
 .then(() => console.log('MongoDB Connected!!'))
 .catch(err => console.log(err))
