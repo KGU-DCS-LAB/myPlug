@@ -1,11 +1,14 @@
 import { Button, Divider, Heading, ScrollView, Text, View } from "native-base";
 import { StyleSheet } from "react-native";
+import { useDispatch } from "react-redux";
 import * as STATIONS from "../../app/api/STATIONS";
+import { setSelectedStationInfo } from "../../app/redux/map/mapSlice";
 import StationCard from "../ev_charger_map/cards/StationCard";
 import LoadingSpinner from "../Loading/LoadingSpinner";
 import OptionCard from "./card/OptionCard";
 
 const AdvancedScrollView = ({ showList, searchedStations, selectedType, selectType, cancelSelect, navigation }) => {
+    const dispatch = useDispatch();
     return (
         <ScrollView>
             {showList ?
@@ -23,9 +26,13 @@ const AdvancedScrollView = ({ showList, searchedStations, selectedType, selectTy
                                 <StationCard
                                     key={station.statId}
                                     station={station}
-                                    onPress={() => navigation.navigate('EvCharger',{
-                                        station:station
-                                    })}
+                                    // onPress={() => navigation.navigate('EvCharger',{
+                                    //     station:station
+                                    // })}
+                                    onPress={() => {
+                                        dispatch(setSelectedStationInfo(station.statId))
+                                        navigation.navigate('EvCharger');
+                                    }}
                                 /> //props.focusToStation(station)
                             ))}
                         </>

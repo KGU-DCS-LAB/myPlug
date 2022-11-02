@@ -5,10 +5,13 @@ import { FlatList, TouchableOpacity } from 'react-native';
 import { config } from '../../../../config'
 import { Marker } from "react-native-maps";
 import MapView from "react-native-map-clustering";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectSmallModalVisible } from "../../../app/redux/modal/modalSlice";
+import { setSelectedStationInfo } from "../../../app/redux/map/mapSlice";
 
 const ChargerSearchBar = (props) => {
+
+    const dispatch = useDispatch();
 
     let currentRequest = useRef(null);
     let requestIndex = useRef(0);
@@ -51,7 +54,10 @@ const ChargerSearchBar = (props) => {
     }
 
     const renderItem = ({ item }) => (
-        <TouchableOpacity onPress={() => props.focusToStation(item)}>
+        <TouchableOpacity
+            //  onPress={() => props.focusToStation(item)}
+            onPress={() => dispatch(setSelectedStationInfo(item.statId))}
+        >
             <Box
                 borderBottomWidth="1"
                 borderColor="coolGray.200"

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Pressable } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { sortStations } from "../../../app/api/STATIONS";
-import { selectSelectedChargers, selectSelectedLogs, selectSelectedStation, selectStations, setSelectedLogs } from "../../../app/redux/map/mapSlice";
+import { selectSelectedChargers, selectSelectedLogs, selectSelectedStation, selectStations, setSelectedLogs, setSelectedStationInfo } from "../../../app/redux/map/mapSlice";
 import ChargerCard from "../../../components/ev_charger_map/cards/ChargerCard";
 import StationCard from "../../../components/ev_charger_map/cards/StationCard";
 import FindFavorites from "../../../components/ev_charger_map/FindFavorites";
@@ -126,9 +126,13 @@ const StationInfoView = (props) => {
                                     <StationCard
                                         key={station.statId}
                                         station={station}
-                                        onPress={() => props.navigation.navigate('EvCharger', { //useEffect가 []으로 잡혀있어서 아무런 효과를 일으키지 못하고 있는 문제가 있음
-                                            station: station
-                                        })}
+                                        onPress={() => {
+                                            props.navigation.navigate('EvCharger');
+                                            dispatch(setSelectedStationInfo(station.statId));
+                                        }}
+                                        // onPress={() => props.navigation.navigate('EvCharger', { //useEffect가 []으로 잡혀있어서 아무런 효과를 일으키지 못하고 있는 문제가 있음
+                                        //     station: station
+                                        // })}
                                     />
                                 ))
                         }

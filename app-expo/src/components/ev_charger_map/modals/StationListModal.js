@@ -3,7 +3,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Box, Button, Center, Flex, Heading, HStack, ScrollView, Spacer, Text, VStack } from "native-base";
 import { useState } from "react";
 import StationCard from "../cards/StationCard";
-import { selectStations } from "../../../app/redux/map/mapSlice";
+import { selectStations, setSelectedStationInfo } from "../../../app/redux/map/mapSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectStationListModalVisible, setStationListModalVisible } from "../../../app/redux/modal/modalSlice";
 
@@ -41,7 +41,12 @@ const StationListModal = (props) => {
                                             <><Text>근처에 충전소가 없습니다.</Text></>
                                             :
                                             stations.map((station) => (
-                                                <StationCard key={station.statId} station={station} onPress={()=>props.focusToStation(station)}/>
+                                                <StationCard
+                                                    key={station.statId}
+                                                    station={station}
+                                                    // onPress={() => props.focusToStation(station)}
+                                                    onPress={() => dispatch(setSelectedStationInfo(station.statId))}
+                                                />
                                             ))
                                     }
                                 </ScrollView>

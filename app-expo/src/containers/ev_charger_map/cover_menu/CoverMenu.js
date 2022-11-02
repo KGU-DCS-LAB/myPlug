@@ -15,7 +15,7 @@ const CoverMenu = (props) => {
         <>
             <Center style={{ position: 'absolute', left: 20, top: 30, height: 30 }} >
                 <ChargerSearchBar
-                    focusToStation={props.focusToStation}
+                    // focusToStation={props.focusToStation}
                 />
             </Center>
             <Center style={{ position: 'absolute', right: 20, top: 30, height: 30 }} >

@@ -53,13 +53,14 @@ const EvChargerContainer = (props) => {
 
         if (!didCancel) {
             (async () => {
+                console.log(`일단 지도가 켜진다${JSON.stringify(selectedStation)}`)
                 let { status } = await Location.requestForegroundPermissionsAsync(); //GPS 사용 권한 물어봄
                 if (status !== 'granted') {
                     console.log('Permission to access location was denied');
                     return;  //권한 거부 시 그대로 종료
                 }
                 let location = await Location.getCurrentPositionAsync({}); //현 위치 수신
-                if (selectedStation == null) {
+                if (selectedStation === null) {
                     console.log('단순히 지도 메뉴 진입했을 때')
                     setLocationAndGetStations({
                         longitude: location.coords.longitude,
@@ -70,8 +71,8 @@ const EvChargerContainer = (props) => {
                 }
                 else {
                     console.log('외부에서 특정 충전소를 열고 싶은 경우')
-                    setLocationAndGetStations(selectedStation);
-                    focusToStation(selectedStation);
+                    // setLocationAndGetStations(selectedStation);
+                    // focusToStation(selectedStation);
                 }
                 setLoaded(true);
 
@@ -91,24 +92,41 @@ const EvChargerContainer = (props) => {
         }
     }, []);
 
+    useEffect(() => {
+        console.log('어어')
+        if (selectedStation != null) {
+            console.log(`selectedStation : ${JSON.stringify(selectedStation)}`)
+            const stationLocation = {
+                longitude: Number(selectedStation.lng),
+                latitude: Number(selectedStation.lat),
+                latitudeDelta: 0.007,
+                longitudeDelta: 0.007,
+            }
+            mapRef?.current?.animateToRegion(stationLocation); // 지도 이동을 도와주는 메소드
+            dispatch(setStationListModalVisible(false));
+            dispatch(setSmallModalVisible(true));
+            setLocationAndGetStations(stationLocation);
+        }
+    }, [selectedStation]);
+
     const setLocationAndGetStations = async (region) => {
         dispatch(setMapLocation(region));
         dispatch(setStationsAndChargers(region));
     }
 
     const focusToStation = async (station) => { // 검색하거나 선택된 충전소를 관리해주기 위한 통합 메소드
-        // console.log(JSON.stringify(station))
-        const stationLocation = {
-            longitude: Number(station.lng),
-            latitude: Number(station.lat),
-            latitudeDelta: 0.007,
-            longitudeDelta: 0.007,
-        }
-        mapRef?.current?.animateToRegion(stationLocation); // 지도 이동을 도와주는 메소드
-        dispatch(setStationListModalVisible(false));
-        dispatch(setSmallModalVisible(true));
-        setLocationAndGetStations(stationLocation);
-        dispatch(setSelectedStationInfo(station.statId));
+        // // console.log(JSON.stringify(station))
+        // const stationLocation = {
+        //     longitude: Number(station.lng),
+        //     latitude: Number(station.lat),
+        //     latitudeDelta: 0.007,
+        //     longitudeDelta: 0.007,
+        // }
+        // mapRef?.current?.animateToRegion(stationLocation); // 지도 이동을 도와주는 메소드
+        // dispatch(setStationListModalVisible(false));
+        // dispatch(setSmallModalVisible(true));
+        // setLocationAndGetStations(stationLocation);
+        // dispatch(setSelectedStationInfo(station.statId));
     }
 
     return (
@@ -123,7 +141,7 @@ const EvChargerContainer = (props) => {
                             />
 
                             <StationListModal
-                                focusToStation={focusToStation}
+                            // focusToStation={focusToStation}
                             />
 
                             <ThemeModal
@@ -134,7 +152,7 @@ const EvChargerContainer = (props) => {
                             {/* 현재 redux 사용 이후, 약간 느려진 느낌이 있어서 고전 방식(prop으로 넘겨주는 것)으로 돌아 갈 가능성도 있음. */}
                             <StationSmallModal
                                 navigation={props.navigation}
-                                focusToStation={focusToStation}
+                            // focusToStation={focusToStation}
                             />
 
                             <MapView
@@ -179,7 +197,8 @@ const EvChargerContainer = (props) => {
                                             }}
                                             onPress={
                                                 () => {
-                                                    focusToStation(marker)
+                                                    // focusToStation(marker);
+                                                    dispatch(setSelectedStationInfo(marker.statId));
                                                 }}
                                             image={STATIONS.markerImage(marker)}
                                         />
@@ -197,7 +216,7 @@ const EvChargerContainer = (props) => {
                         <CoverMenu
                             mapRef={mapRef}
                             navigation={props.navigation}
-                            focusToStation={focusToStation}
+                            // focusToStation={focusToStation}
                             mapLocation={mapLocation}
                             setLocationAndGetStations={setLocationAndGetStations}
                         />
