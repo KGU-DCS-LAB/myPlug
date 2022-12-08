@@ -1,5 +1,5 @@
 
-# 나만의 플러그 : myPlug
+# 🔋 나만의 플러그 : myPlug
 
 [![ㅇㅇ](https://img.shields.io/badge/Google-Android-success)]()
 [![ㅇㅇ](https://img.shields.io/badge/Apple-iOS-lightgray)]()
@@ -8,9 +8,9 @@
 
     Android / iOS
 
-![App Screenshot](app-expo/screenshots/jpg/map.jpg)
+![App Screenshot](docs/screenshots/jpg/map.jpg)
 
-## Authors
+## 👤 Authors
 - [@gabrielyoon7 (윤주현, Gabriel Ju Hyun Yoon)](https://github.com/gabrielyoon7)
 - [@gykim0923 (김가영)](https://github.com/gykim0923)
 - [@SeonaePark (박선애)](https://github.com/SeonaePark)
@@ -18,7 +18,7 @@
 - [@yeonsu00 (김연수)](https://github.com/yeonsu00)
 
 
-## Tech Stack
+## ⚙️ Tech
 
 **Client ( Android/iOS Application )** 
 
@@ -52,7 +52,7 @@
 [![ㅇㅇ](https://img.shields.io/badge/API-KECO-blue)](https://www.data.go.kr/data/15013115/standard.do)
 
 
-## Project Structure
+## 📂 Project Structure
 
 프로젝트 구조는 다음과 같습니다.
 
@@ -92,7 +92,7 @@ React Native를 사용하여 작성한 충전소 지도 앱 입니다. 스마트
 ~~[한국환경공단(KECO)에서 제공하는 충전소API](https://www.data.go.kr/data/15013115/standard.do)를 사용하여 데이터를 수신 및 가공해주는 Java 애플리케이션입니다.~~
 
 
-## Features
+## ✅ Features
 
     . [Client (Android/iOS Expo Application)]
     ├── 충전소 조회 (지도)
@@ -147,23 +147,23 @@ React Native를 사용하여 작성한 충전소 지도 앱 입니다. 스마트
     ├── 오래된 충전기 사용 통계는 자동 삭제
     └── 이 모든 과정을 주기적으로 자동 반복 처리
 
-## Demo and Screenshots
+## 🧩 Demo and Screenshots
 
-![App Screenshot](app-expo/screenshots/gif/main.gif)
-![App Screenshot](app-expo/screenshots/gif/map.gif)
-![App Screenshot](app-expo/screenshots/gif/favorite.gif)
-![App Screenshot](app-expo/screenshots/gif/search.gif)
-![App Screenshot](app-expo/screenshots/gif/location.gif)
-![App Screenshot](app-expo/screenshots/gif/modalSmall.gif)
-![App Screenshot](app-expo/screenshots/gif/modalBig.gif)
-![App Screenshot](app-expo/screenshots/gif/list.gif)
-![App Screenshot](app-expo/screenshots/gif/filter.gif)
-![App Screenshot](app-expo/screenshots/gif/theme.gif)
+![App Screenshot](docs/screenshots/gif/main.gif)
+![App Screenshot](docs/screenshots/gif/map.gif)
+![App Screenshot](docs/screenshots/gif/favorite.gif)
+![App Screenshot](docs/screenshots/gif/search.gif)
+![App Screenshot](docs/screenshots/gif/location.gif)
+![App Screenshot](docs/screenshots/gif/modalSmall.gif)
+![App Screenshot](docs/screenshots/gif/modalBig.gif)
+![App Screenshot](docs/screenshots/gif/list.gif)
+![App Screenshot](docs/screenshots/gif/filter.gif)
+![App Screenshot](docs/screenshots/gif/theme.gif)
 
-![Web Screenshot](app-expo/screenshots/gif/data.gif)
+![Web Screenshot](docs/screenshots/gif/data.gif)
 
 
-## Environment Variables
+## ✨ Environment Variables
 
 이 프로젝트 중 앱을 구동하기 위해서는 config.js 파일을 수정해줘야 합니다.
 현재 PC의 내부 ip를 적습니다. (반드시 앱 구동 전에 실시되어야 합니다.)
@@ -175,7 +175,10 @@ export const config = {
 };
 ```
 
-## Run Locally
+단, 로컬 환경에서 동작하지 않을 목적이라면 수정하실 필요가 없습니다.
+
+
+## ✨ Run Locally
 
 클론
 
@@ -183,7 +186,7 @@ export const config = {
   git clone https://github.com/KGU-DCS-LAB/myPlug
 ```
 
-## Installation
+## ✨ Installation
 
 이 프로젝트를 설치하기 위해...
 
@@ -210,7 +213,7 @@ package.json에 있는 npm 설치 이력을 토대로 본인 컴퓨터에 패키
     강제로 설치하는 명령어도 있습니다.
 
 각각의 폴더에서 npm 설치 작업을 진행하여야 합니다.
-## Deployment
+## ✨ Deployment
 
 이 프로젝트를 실행하기 위해...
 
@@ -230,7 +233,7 @@ Expo는 Android나 iOS에 설치 후 스마트폰에서 직접 실행이 가능�
     분명 코드가 잘 들어갔고, 아무리 생각해도 문제가 없음에도 불구하고 오류가 발생하면 위 명령어로 실행하는 방법이 있습니다.
 
 
-## References
+## 🔎 References
 
 - [React Native](https://reactnative.dev/)
 - [Redux](https://ko.redux.js.org/introduction/getting-started/)
@@ -246,14 +249,20 @@ Expo는 Android나 iOS에 설치 후 스마트폰에서 직접 실행이 가능�
 - [한국환경공단(KECO)에서 제공하는 충전소API](https://www.data.go.kr/data/15013115/standard.do)
 
 
-## Documentation
+## 📄 Documentation
+
+- [한국정보기술학회 2022 추계종합학술대회 및 일반.대학생논문경진대회](https://ki-it.or.kr/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD/11591766)
+
+    - 🏅은상 [실시간 전기자동차 충전소 사용 로그 수집 시스템](docs/pdf/%EC%8B%A4%EC%8B%9C%EA%B0%84%20%EC%A0%84%EA%B8%B0%EC%9E%90%EB%8F%99%EC%B0%A8%20%EC%B6%A9%EC%A0%84%EC%86%8C%20%EC%82%AC%EC%9A%A9%20%EB%A1%9C%EA%B7%B8%20%EC%88%98%EC%A7%91%20%EC%8B%9C%EC%8A%A4%ED%85%9C.pdf) 
+
+
+    - 🏅동상 [전기자동차 충전소 사용 통계 정보의 사용자 친화적 질의가 가능한 다능한 앱](docs/pdf/%EC%A0%84%EA%B8%B0%EC%9E%90%EB%8F%99%EC%B0%A8%20%EC%B6%A9%EC%A0%84%EC%86%8C%20%EC%82%AC%EC%9A%A9%20%ED%86%B5%EA%B3%84%20%EC%A0%95%EB%B3%B4%EC%9D%98%20%EC%82%AC%EC%9A%A9%EC%9E%90%20%EC%B9%9C%ED%99%94%EC%A0%81%20%EC%A7%88%EC%9D%98%EA%B0%80%20%EA%B0%80%EB%8A%A5%ED%95%9C%20%EB%8B%A4%EB%8A%A5%ED%95%9C%20%EC%95%B1.pdf)
+
+## 🔒 License
+
 - TBD
 
-## License
-
-TBD
-
-## Support
+## 🔥 Support
 
 For support, email gabrielyoon7@gmail.com.
 
