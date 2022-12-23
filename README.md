@@ -271,4 +271,4 @@ For support, email gabrielyoon7@gmail.com.
 
 - React 버전의 웹 페이지 및 새로운 데이터 수집기 제작
   - [MyPlug with React](https://github.com/gabrielyoon7/myplug-web)
-  - [새로운 데이터 ](https://github.com/gabrielyoon7/myplug-data)
+  - [새로운 데이터 수집기](https://github.com/gabrielyoon7/myplug-data)
