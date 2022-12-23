@@ -266,3 +266,9 @@ Expo는 Android나 iOS에 설치 후 스마트폰에서 직접 실행이 가능�
 
 For support, email gabrielyoon7@gmail.com.
 
+
+## 📣 Roadmap
+
+- React 버전의 웹 페이지 및 새로운 데이터 수집기 제작
+  - [MyPlug with React](https://github.com/gabrielyoon7/myplug-web)
+  - [새로운 데이터 ](https://github.com/gabrielyoon7/myplug-data)
